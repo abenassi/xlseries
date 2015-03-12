@@ -1,4 +1,5 @@
 import pandas as pd
+from openpyxl import load_workbook
 
 
 def infer_freq(av_seconds):
@@ -25,9 +26,23 @@ def infer_freq(av_seconds):
     return freq
 
 
-def get_dataframe(xl_file):
+def get_data_frames(xl_file):
 
-    df = pd.read_excel(xl_file)
+    dfs = []
+
+    wb = load_workbook(filename=xl_file, use_iterators=True)
+    ws_names = wb.get_sheet_names()
+
+    for ws_name in ws_names:
+        df = get_data_frame(xl_file, sheetname=ws_name)
+        dfs.append(df)
+
+    return dfs
+
+
+def get_data_frame(xl_file, sheetname=0):
+
+    df = pd.read_excel(xl_file, sheetname)
 
     # adopt a datetime index (first excel col)
     df = df.set_index(df.columns[0])

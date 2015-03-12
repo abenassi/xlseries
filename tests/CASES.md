@@ -59,11 +59,3 @@ This list of excel file cases is ordered, approximately, by difficulty in its ti
 ## Case 7
 
 * Progressive aggregation identifiable with strings indentation
-
-## Case 8
-
-* Multiple sheets compose the same data series
-* Name of the same data series changes between sheets
-* Some data series are not compatible between sheets (they are different data series)
-* Progressive aggregation identifiable with indentation, bold, changes in capitalization, cell borders and index numbers inside the strings
-* Different missing strings

@@ -26,7 +26,7 @@ class UtilsTest(unittest.TestCase):
     def test_get_dataframe(self):
 
         base_dir = os.path.join(os.path.dirname(__file__), "cases")
-        path = os.path.join(base_dir, "case1_df.xlsx")
+        path = os.path.join(base_dir, "test_case1_df.xlsx")
         df = get_dataframe(path)
 
         self.assertEqual(type(df), pd.DataFrame)

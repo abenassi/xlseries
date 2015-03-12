@@ -10,26 +10,34 @@ Tests for `xlseries` module.
 
 import unittest
 import os
-from xlseries.utils import get_dataframe
+from xlseries.utils import get_data_frames
 from pandas.util.testing import assert_frame_equal
-from xlseries import xlseries
+from xlseries import XlSeries
 
 
-def load_data_frame(path):
+def load_data_frames(path):
     """Call test with a data frame loaded from case xl file.
 
     Args:
         path: Relative path where the df xl file is located."""
 
     def test_decorator(fn):
-        base_path = os.path.join(os.path.dirname(__file__), path)
-        file_name = fn.__name__ + "_df.xlsx"
-        file_path = os.path.join(base_path, file_name)
 
-        df = get_dataframe(file_path)
+        base_path = os.path.join(os.path.dirname(__file__), path)
+
+        # load expected data frame
+        exp_file_name = fn.__name__ + "_exp.xlsx"
+        exp_file_path = os.path.join(base_path, exp_file_name)
+        exp_dfs = get_data_frames(exp_file_path)
+
+        # get result data frame from xlseries for the test xl file
+        test_file_name = fn.__name__ + ".xlsx"
+        test_file_path = os.path.join(base_path, test_file_name)
+        xl_series = XlSeries(test_file_path)
+        test_dfs = xl_series.get_data_frames()
 
         def test_decorated(self):
-            fn(self, df)
+            fn(self, test_dfs, exp_dfs)
 
         return test_decorated
     return test_decorator
@@ -55,33 +63,41 @@ def compare_data_frames(df1, df2):
 
 class TestXlseries(unittest.TestCase):
 
-    @load_data_frame("cases")
-    def test_case1(self, df):
+    @load_data_frames("cases")
+    def test_case1(self, test_dfs, exp_dfs):
+        for test_df, exp_df in zip(test_dfs, exp_dfs):
+            self.assertTrue(compare_data_frames(test_df, exp_df))
 
-        df2 = get_dataframe(
-            r"C:\Users\Beni\Documents\Projects\xlseries\tests\cases\test_case1_df.xlsx")
-        self.assertTrue(compare_data_frames(df, df2))
+    @load_data_frames("cases")
+    def test_case2(self, test_dfs, exp_dfs):
+        # TODO: rework get_data_frames to deal with missing days
+        for test_df, exp_df in zip(test_dfs, exp_dfs):
+            self.assertTrue(compare_data_frames(test_df, exp_df))
 
-    def test_case2(self):
-        pass
+    @load_data_frames("cases")
+    def test_case3(self, test_dfs, exp_dfs):
+        for test_df, exp_df in zip(test_dfs, exp_dfs):
+            self.assertTrue(compare_data_frames(test_df, exp_df))
 
-    def test_case3(self):
-        pass
+    @load_data_frames("cases")
+    def test_case4(self, test_dfs, exp_dfs):
+        for test_df, exp_df in zip(test_dfs, exp_dfs):
+            self.assertTrue(compare_data_frames(test_df, exp_df))
 
-    def test_case4(self):
-        pass
+    @load_data_frames("cases")
+    def test_case5(self, test_dfs, exp_dfs):
+        for test_df, exp_df in zip(test_dfs, exp_dfs):
+            self.assertTrue(compare_data_frames(test_df, exp_df))
 
-    def test_case5(self):
-        pass
+    @load_data_frames("cases")
+    def test_case6(self, test_dfs, exp_dfs):
+        for test_df, exp_df in zip(test_dfs, exp_dfs):
+            self.assertTrue(compare_data_frames(test_df, exp_df))
 
-    def test_case6(self):
-        pass
-
-    def test_case7(self):
-        pass
-
-    def test_case8(self):
-        pass
+    @load_data_frames("cases")
+    def test_case7(self, test_dfs, exp_dfs):
+        for test_df, exp_df in zip(test_dfs, exp_dfs):
+            self.assertTrue(compare_data_frames(test_df, exp_df))
 
 
 if __name__ == '__main__':
