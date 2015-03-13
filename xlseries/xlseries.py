@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from openpyxl import load_workbook
-from xlseries import strategies
-from xlseries import evaluation
+import strategies
+import evaluation
 
 
 class XlSeries(object):

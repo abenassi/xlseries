@@ -1,5 +1,8 @@
 .PHONY: clean-pyc clean-build docs clean
 
+init:
+	pip install -r requirements.txt
+
 help:
 	@echo "clean - remove all build, test, coverage and Python artifacts"
 	@echo "clean-build - remove build artifacts"
@@ -38,7 +41,7 @@ lint:
 	flake8 xlseries tests
 
 test:
-	python setup.py test
+	nosetests tests
 
 test-all:
 	tox
