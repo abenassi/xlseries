@@ -35,6 +35,7 @@ def load_data_frames(path):
         test_file_path = os.path.join(base_path, test_file_name)
         xl_series = XlSeries(test_file_path)
         test_dfs = xl_series.get_data_frames()
+        # test_dfs = exp_dfs
 
         def test_decorated(self):
             fn(self, test_dfs, exp_dfs)
@@ -53,8 +54,15 @@ def compare_data_frames(df1, df2):
 
     try:
         # returns None when data frames are equal
-        # TODO: add more comparing criteria!!!
-        assert_frame_equal(df1, df2)
+        assert_frame_equal(df1, df2,
+                           check_dtype=True,
+                           check_index_type=True,
+                           check_column_type=True,
+                           check_frame_type=True,
+                           check_less_precise=True,
+                           check_names=True,
+                           by_blocks=True,
+                           check_exact=True)
         return True
 
     except:
@@ -69,32 +77,38 @@ class TestXlseries(unittest.TestCase):
             self.assertTrue(compare_data_frames(test_df, exp_df))
 
     @load_data_frames("cases")
+    # @unittest.skip("skip")
     def test_case2(self, test_dfs, exp_dfs):
         # TODO: rework get_data_frames to deal with missing days
         for test_df, exp_df in zip(test_dfs, exp_dfs):
             self.assertTrue(compare_data_frames(test_df, exp_df))
 
     @load_data_frames("cases")
+    # @unittest.skip("skip")
     def test_case3(self, test_dfs, exp_dfs):
         for test_df, exp_df in zip(test_dfs, exp_dfs):
             self.assertTrue(compare_data_frames(test_df, exp_df))
 
     @load_data_frames("cases")
+    # @unittest.skip("skip")
     def test_case4(self, test_dfs, exp_dfs):
         for test_df, exp_df in zip(test_dfs, exp_dfs):
             self.assertTrue(compare_data_frames(test_df, exp_df))
 
     @load_data_frames("cases")
+    # @unittest.skip("skip")
     def test_case5(self, test_dfs, exp_dfs):
         for test_df, exp_df in zip(test_dfs, exp_dfs):
             self.assertTrue(compare_data_frames(test_df, exp_df))
 
     @load_data_frames("cases")
+    # @unittest.skip("skip")
     def test_case6(self, test_dfs, exp_dfs):
         for test_df, exp_df in zip(test_dfs, exp_dfs):
             self.assertTrue(compare_data_frames(test_df, exp_df))
 
     @load_data_frames("cases")
+    # @unittest.skip("skip")
     def test_case7(self, test_dfs, exp_dfs):
         for test_df, exp_df in zip(test_dfs, exp_dfs):
             self.assertTrue(compare_data_frames(test_df, exp_df))

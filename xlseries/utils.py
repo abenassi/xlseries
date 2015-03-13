@@ -2,26 +2,32 @@ import pandas as pd
 from openpyxl import load_workbook
 
 
-def infer_freq(av_seconds):
+def approx_equal(a, b, tolerance):
+    return abs(a - b) < tolerance * a
 
-    if av_seconds < 60:
+
+def infer_freq(av_seconds, tolerance=0.1):
+
+    if approx_equal(1, av_seconds, tolerance):
         freq = 'S'
-    elif av_seconds < 3600:  # 60*60
+    elif approx_equal(60, av_seconds, tolerance):
         freq = 'T'
-    elif av_seconds < 86400:  # 1*24*60*60
+    elif approx_equal(3600, av_seconds, tolerance):
         freq = 'H'
-    elif av_seconds < 604800:  # 7*24*60*60
+    elif approx_equal(86400, av_seconds, tolerance):
         freq = 'D'
-    elif av_seconds < 2419200:  # 28*24*60*60
+    elif approx_equal(604800, av_seconds, tolerance):
         freq = 'W'
-    elif av_seconds < 7776000:  # 90*24*60*60
+    elif approx_equal(2419200, av_seconds, tolerance):
         freq = 'M'
-    elif av_seconds < 15552000:  # 180*24*60*60
+    elif approx_equal(7776000, av_seconds, tolerance):
         freq = 'Q'
-    elif av_seconds < 31536000:  # 365*24*60*60
-        freq = Exception("Can't handle semesters!")
-    else:
+    elif approx_equal(15552000, av_seconds, tolerance):
+        raise Exception("Can't handle semesters!")
+    elif approx_equal(31536000, av_seconds, tolerance):
         freq = 'Y'
+    else:
+        raise Exception("Average seconds don't match any frequency.")
 
     return freq
 
