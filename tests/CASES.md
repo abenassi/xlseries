@@ -22,7 +22,7 @@ This list of excel file cases is ordered, approximately, by difficulty in its ti
 * Daily frequency (always - not multi-frequency)
 * Data doesn't start in row 2
 * Headers for data and time field
-* Secondary interrupted series
+* Secondary interrupted series (monthly)
 * No footnotes
 
 ## Case 3

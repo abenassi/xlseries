@@ -13,6 +13,7 @@ import os
 from xlseries.utils import get_data_frames
 from pandas.util.testing import assert_frame_equal
 from xlseries import XlSeries
+from utils import compare_data_frames
 
 
 def load_data_frames(path):
@@ -42,31 +43,6 @@ def load_data_frames(path):
 
         return test_decorated
     return test_decorator
-
-
-def compare_data_frames(df1, df2):
-    """Wrapper to compare two data frames using assert_frame_equal.
-
-    Args:
-        df1: First data frame to compare.
-        df2: Second data frame to compare.
-    """
-
-    try:
-        # returns None when data frames are equal
-        assert_frame_equal(df1, df2,
-                           check_dtype=True,
-                           check_index_type=True,
-                           check_column_type=True,
-                           check_frame_type=True,
-                           check_less_precise=True,
-                           check_names=True,
-                           by_blocks=True,
-                           check_exact=True)
-        return True
-
-    except:
-        return False
 
 
 class TestXlseries(unittest.TestCase):

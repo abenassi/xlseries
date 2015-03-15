@@ -1,6 +1,8 @@
 Excel file input parameters
 ====
 
+Characteristics of the excel files that must be taken into account when build the strategies to deal with the input file and that could be parametrized.
+
 ## Basic ones
 
 ### General

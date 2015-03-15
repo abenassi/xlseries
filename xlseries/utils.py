@@ -1,12 +1,32 @@
 import pandas as pd
+import numpy as np
 from openpyxl import load_workbook
 
 
 def approx_equal(a, b, tolerance):
-    return abs(a - b) < tolerance * a
+    """Check if a and b can be considered approximately equal."""
+
+    RV = False
+
+    if np.isnan(a) and np.isnan(b):
+        RV = True
+
+    elif (not a) and (not b):
+        RV = True
+
+    elif a and (a != np.nan) and b and (b != np.nan):
+        if abs(a - b) < tolerance * a:
+            RV = True
+        else:
+            RV = False
+    else:
+        RV = False
+
+    return RV
 
 
 def infer_freq(av_seconds, tolerance=0.1):
+    """Infer frequency of a time data series."""
 
     if approx_equal(1, av_seconds, tolerance):
         freq = 'S'
@@ -33,6 +53,7 @@ def infer_freq(av_seconds, tolerance=0.1):
 
 
 def get_data_frames(xl_file):
+    """Parse a well formatted excel file into pandas data frames."""
 
     dfs = []
 
@@ -47,6 +68,7 @@ def get_data_frames(xl_file):
 
 
 def get_data_frame(xl_file, sheetname=0):
+    """Parse a well formatted excel sheet into a pandas data frame."""
 
     df = pd.read_excel(xl_file, sheetname)
 

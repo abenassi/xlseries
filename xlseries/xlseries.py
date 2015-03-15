@@ -1,4 +1,13 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
+"""
+xlseries
+----------------------------------
+
+Main module to parse time data series inside excel files into Pandas
+DataFrames. This is the only module that the user should use.
+"""
 
 from openpyxl import load_workbook
 import strategies
@@ -9,11 +18,11 @@ class XlSeries(object):
 
     """Time data series parser for excel files."""
 
-    def __init__(self, xl_name):
+    def __init__(self, xl_name, ):
         self.wb = load_workbook(xl_name)
 
     # PUBLIC
-    def get_data_frames(self, all_results=True):
+    def get_data_frames(self, all_results=True, input_params=None):
         """Returns pandas data frames of time series found in the xl file.
 
         Args:
@@ -23,12 +32,15 @@ class XlSeries(object):
 
         results = []
 
-        for strategy in strategies.main.get_strategies():
-            if strategy.accepts(self.wb):
+        for strategy in strategies.get_strategies():
 
-                result = strategy(self.wb).get_data_frames()
-                eval_result = evaluation.evaluate(result)
-                results.append((eval_result, result))
+            if strategy.accepts(self.wb):
+                strategy_obj = strategy(self.wb, input_params)
+                strategy_results = strategy_obj.get_data_frames()
+
+                for result in strategy_results:
+                    eval_result = evaluation.evaluate(result)
+                    results.append((eval_result, result))
 
         sorted_results = sorted(results, key=lambda x: x[0])
 
