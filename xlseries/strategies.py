@@ -49,49 +49,79 @@ class ParameterDiscovery(BaseStrategy):
         # First you should discover the parameters
         # ...
 
-        # When you know the parameters, is simple
+        # When you know the parameters, is simple (is simple?)
+
         ws = self.wb.active
-        period_range = self._get_period_range(ws)
-        columns = []
-        data = []
-        for header_coord in self.params.headers_coord:
+
+        # build period ranges
+        period_ranges = self._get_period_ranges(ws)
+
+        # build frames dict based on amount of frequencies
+        frames_input_dict = {}
+        for freq in self.params.frequency:
+            frames_input_dict[freq] = {"columns": [], "data": []}
+
+        # get name and data of each data series
+        for header_coord, freq, ini_row, end_row in \
+            zip(self.params.headers_coord, self.params.frequency,
+                self.params.data_starts, self.params.data_ends):
+
+            columns = frames_input_dict[freq]["columns"]
+            data = frames_input_dict[freq]["data"]
 
             name = self._get_name(ws, header_coord)
             columns.append(name)
 
-            values = self._get_values(ws, header_coord)
+            values = self._get_values(ws, header_coord, ini_row, end_row)
             data.append(values)
-            # print "Got here"
 
-        np_data = np.array(data).transpose()
+        # build data frames
+        dfs = []
+        for period_range in period_ranges:
+            columns = frames_input_dict[period_range.freqstr]["columns"]
+            data = frames_input_dict[period_range.freqstr]["data"]
+            np_data = np.array(data).transpose()
 
-        df = pd.DataFrame(index=period_range,
-                          columns=columns,
-                          data=np_data)
+            df = pd.DataFrame(index=period_range,
+                              columns=columns,
+                              data=np_data)
 
-        dfs = [df]
+            dfs.append(df)
 
         return dfs
 
-    def _get_period_range(self, ws):
-        ini_row = self.params.data_starts
-        header_coord = self.params.time_header_coord
-        col = column_index_from_string(ws[header_coord].column)
-        end_row = self.params.data_ends
+    def _get_period_ranges(self, ws):
 
-        period_range = pd.period_range(ws.cell(row=ini_row, column=col).value,
-                                       ws.cell(row=end_row, column=col).value,
-                                       freq=self.params.frequency)
+        period_ranges = []
+
+        for freq, ini_row, header_coord, end_row, time_alignement in \
+            zip(self.params.frequency, self.params.data_starts,
+                self.params.time_header_coord, self.params.data_ends,
+                self.params.time_alignement):
+
+            pr = self._get_period_range(ws, freq, ini_row, header_coord,
+                                        end_row, time_alignement)
+            period_ranges.append(pr)
+
+        return period_ranges
+
+    def _get_period_range(self, ws, freq, ini_row, header_coord, end_row,
+                          time_alignement):
+        col = column_index_from_string(ws[header_coord].column)
+        period_range = pd.period_range(ws.cell(row=ini_row + time_alignement,
+                                               column=col).value,
+                                       ws.cell(row=end_row + time_alignement,
+                                               column=col).value,
+                                       freq=freq)
 
         return period_range
 
     def _get_name(self, ws, header_coord):
         return ws[header_coord].value
 
-    def _get_values(self, ws, header_coord):
-        ini_row = self.params.data_starts
+    def _get_values(self, ws, header_coord, ini_row, end_row):
+        # TODO: Rework this method to manage interrupted series
         col = column_index_from_string(ws[header_coord].column)
-        end_row = self.params.data_ends
 
         values = []
         i_row = ini_row

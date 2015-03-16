@@ -12,10 +12,11 @@ import unittest
 import os
 from openpyxl import load_workbook
 import datetime
+import pandas as pd
 
 from xlseries.utils import get_data_frames
 from xlseries import XlSeries
-from utils import compare_data_frames
+from utils import compare_data_frames, compare_period_ranges
 from xlseries.strategies import ParameterDiscovery
 from xlseries.parameters import Parameters
 
@@ -76,10 +77,12 @@ def parse_test_name(fn_name):
     return "_".join(fn_name.split("_")[:2])
 
 
+# @unittest.skip("skip")
 class ParameterDiscoveryTestCase(unittest.TestCase):
 
-    @load_wb_and_data_frame("cases")
-    @load_params("cases")
+    # @load_wb_and_data_frame("cases")
+    # @load_params("cases")
+    @unittest.skip("skip")
     def test_case1_with_params(self, test_wb, exp_dfs, params):
         """Test the strategy with case1 and providing parameters."""
 
@@ -92,6 +95,7 @@ class ParameterDiscoveryTestCase(unittest.TestCase):
 
     @load_wb_and_data_frame("cases")
     @load_params("cases")
+    # @unittest.skip("skip")
     def test_case2_with_params(self, test_wb, exp_dfs, params):
         """Test the strategy with case2 and providing parameters."""
 
@@ -102,8 +106,9 @@ class ParameterDiscoveryTestCase(unittest.TestCase):
         for test_df, exp_df in zip(test_dfs, exp_dfs):
             self.assertTrue(compare_data_frames(test_df, exp_df))
 
-    @load_wb_and_data_frame("cases")
-    @load_params("cases")
+    # @load_wb_and_data_frame("cases")
+    # @load_params("cases")
+    @unittest.skip("skip")
     def test_case3_with_params(self, test_wb, exp_dfs, params):
         """Test the strategy with case3 and providing parameters."""
 
@@ -113,6 +118,26 @@ class ParameterDiscoveryTestCase(unittest.TestCase):
 
         for test_df, exp_df in zip(test_dfs, exp_dfs):
             self.assertTrue(compare_data_frames(test_df, exp_df))
+
+
+class PeriodRangeTestCase(unittest.TestCase):
+
+    def setUp(self):
+        test_wb = load_workbook("cases/test_case2.xlsx")
+        params = Parameters("cases/test_case2_params.json")
+        self.strategy_obj = ParameterDiscovery(test_wb, params)
+
+    def test_get_period_ranges(self):
+        ws = self.strategy_obj.wb.active
+
+        pr_d = pd.period_range("20020304", "20140410", freq="D")
+        pr_m = pd.period_range("20020301", "20130301", freq="M")
+
+        period_ranges = self.strategy_obj._get_period_ranges(ws)
+        print period_ranges
+
+        self.assertTrue(compare_period_ranges(pr_d, period_ranges[0]))
+        self.assertTrue(compare_period_ranges(pr_m, period_ranges[1]))
 
 
 if __name__ == '__main__':

@@ -63,6 +63,26 @@ def _check_values(cols, df1, df2):
     return RV
 
 
+def compare_period_ranges(pr1, pr2):
+    """Compare two period ranges.
+
+    Args:
+        pr1: First period range to compare.
+        pr2: Second period range to compare.
+    """
+
+    try:
+        assert pr1.freq == pr2.freq, "Different frequency"
+        assert pr1[0] == pr2[0], "Different initial date"
+        assert pr1[-1] == pr2[-1], "Different final date"
+
+        return True
+
+    except Exception as inst:
+        print inst
+        return False
+
+
 def compare_data_frames_pandas(df1, df2):
     """Wrapper to compare two data frames using assert_frame_equal.
 
