@@ -24,6 +24,7 @@ This list of excel file cases is ordered, approximately, by difficulty in its ti
 * Headers for data and time field
 * Secondary interrupted series (monthly)
 * No footnotes
+* Time-stamp mistakes: need to clean data before using it
 
 ## Case 3
 

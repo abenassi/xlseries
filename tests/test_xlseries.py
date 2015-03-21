@@ -9,6 +9,7 @@ Tests for `xlseries` module.
 """
 
 import unittest
+import nose
 import os
 from xlseries.utils import get_data_frames
 from pandas.util.testing import assert_frame_equal
@@ -91,4 +92,4 @@ class TestXlseries(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    nose.run(defaultTest=__name__)

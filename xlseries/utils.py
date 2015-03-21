@@ -3,26 +3,72 @@ import numpy as np
 from openpyxl import load_workbook
 
 
+def compare_cells(wb1, wb2):
+    """Compare two excels based on row iteration."""
+
+    # compare each cell of each worksheet
+    for ws1, ws2 in zip(wb1.worksheets, wb2.worksheets):
+        for row1, row2 in zip(ws1.iter_rows(), ws2.iter_rows()):
+            for cell1, cell2 in zip(row1, row2):
+
+                msg = "".join([_safe_str(cell1.value), " != ",
+                               _safe_str(cell2.value), "row: ", str(cell1.row),
+                               "column: ", str(cell1.column)])
+
+                try:
+                    value1 = float(cell1.value)
+                    value2 = float(cell2.value)
+                except:
+                    value1 = cell1.value
+                    value2 = cell2.value
+
+                if type(value1) == float and type(value2) == float:
+                    assert approx_equal(cell1.value, cell2.value, 0.00001), msg
+                else:
+                    assert cell1.value == cell2.value, msg
+    return True
+
+
+def _safe_str(value):
+
+    if not value:
+        RV = str(value)
+
+    elif type(value) == str or type(value) == unicode:
+        RV = value.encode("utf-8")
+
+    else:
+        RV = str(value)
+
+    return RV
+
+
 def approx_equal(a, b, tolerance):
     """Check if a and b can be considered approximately equal."""
 
     RV = False
 
-    if np.isnan(a) and np.isnan(b):
+    if (not a) and (not b):
         RV = True
 
-    elif (not a) and (not b):
+    elif np.isnan(a) and np.isnan(b):
+        # print a, type(a), "not approx_equal to", b, type(b)
         RV = True
 
     elif a and (a != np.nan) and b and (b != np.nan):
-        if abs(a - b) < tolerance * a:
-            RV = True
-        else:
-            RV = False
+        RV = _approx_equal(a, b, tolerance)
+
     else:
-        RV = False
+        RV = a == b
 
     return RV
+
+
+def _approx_equal(a, b, tolerance):
+    if abs(a - b) < tolerance * a:
+        return True
+    else:
+        return False
 
 
 def infer_freq(av_seconds, tolerance=0.1):
