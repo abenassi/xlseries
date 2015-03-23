@@ -51,8 +51,32 @@ class Parameters(object):
         return pprint.pformat(self.__dict__)
 
     def __getitem__(self, item):
-        return self.__getattribute__(item)
 
+        if type(item) == int:
+            return self.get_series_params(item)
+
+        else:
+            return self.__getattribute__(item)
+
+    def __iter__(self):
+        for param in self.__dict__:
+            yield param
+
+    def __setitem__(self, param_name, param_value):
+        self.__dict__[param_name] = param_value
+
+    # PUBLIC
+    def get_series_params(self, i_series):
+        """Returns parameters for only one series."""
+
+        series_params = Parameters()
+
+        for param_name in series_params:
+            series_params[param_name] = self[param_name][i_series]
+
+        return series_params
+
+    # PRIVATE
     @classmethod
     def _load_parameters(cls, json_params_file):
         """Load json file parameters into a dictionary."""
@@ -105,7 +129,7 @@ class Parameters(object):
     def _apply_to_all(cls, param, num_series):
         """Creates list from single parameter repeating it for every series."""
 
-        if not type(param) == list:
+        if not type(param) == list and num_series > 1:
             param_list = [param for i in range(num_series)]
 
         else:

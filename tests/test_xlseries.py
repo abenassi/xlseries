@@ -12,9 +12,8 @@ import unittest
 import nose
 import os
 from xlseries.utils import get_data_frames
-from pandas.util.testing import assert_frame_equal
 from xlseries import XlSeries
-from utils import compare_data_frames
+from xlseries.utils import compare_data_frames
 
 
 def load_data_frames(path):

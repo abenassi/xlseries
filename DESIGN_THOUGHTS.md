@@ -5,3 +5,7 @@ Design thoughts about the package
 
 * **How extremely similar tests should be written?**. test_xlseries.py has the same kind of test just repeated over and over again.
 * **How to structure the strategies in a hierarchy of levels of abstraction?**. There is more than one level in which strategies operate. The higher level of abstraction delegates many tasks into other subsets of strategies.
+* **Trade off between explicit parameters and scope control vs. readability and convenience of passing too many parameters between functions**. What should be the threshold to pass an object instead of several parameters? Should I create more specific objects than Parameters?
+* **Check convenience of granularity in clean data methods**. Should they all be already in the main methods? Is it convenient to have them separated?
+* **When should something in a strategy be an instance data member or some argument passed to a function?**. OOP vs. functional programming?
+* **What to do with some functions that are shared by different kinds of strategies?**. Provisionally, I have put some time related functions encapsulated as time_utils
