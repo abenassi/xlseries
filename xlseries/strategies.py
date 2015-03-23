@@ -82,15 +82,12 @@ class ParameterDiscovery(BaseStrategy):
     def _get_data(self, ws):
         """Parse data using parameters and return it in data frames."""
 
-        # 1. Build period ranges
-        period_ranges = self._get_period_ranges(ws)
-
-        # 2. Build frames dict based on amount of frequencies
+        # 1. Build frames dict based on amount of frequencies
         frames_input_dict = {}
         for freq in self.params.frequency:
             frames_input_dict[freq] = {"columns": [], "data": []}
 
-        # 3. Get name and data of each data series
+        # 2. Get name and values of each data series
         for i_series in xrange(len(self.params.headers_coord)):
 
             # iterate strategies looking for someone that accepts it
@@ -110,13 +107,12 @@ class ParameterDiscovery(BaseStrategy):
             frames_input_dict[params["frequency"]]["columns"].append(name)
             frames_input_dict[params["frequency"]]["data"].append(values)
 
-
-        # 4. Build data frames
+        # 3. Build data frames
         dfs = []
-        for period_range in period_ranges:
+        for period_range in self._get_period_ranges(ws):
             columns = frames_input_dict[period_range.freqstr]["columns"]
+
             data = frames_input_dict[period_range.freqstr]["data"]
-            # print period_range.freqstr
             np_data = np.array(data).transpose()
 
             df = pd.DataFrame(index=period_range,

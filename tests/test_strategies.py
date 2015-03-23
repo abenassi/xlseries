@@ -110,9 +110,9 @@ class ParameterDiscoveryTestCase(unittest.TestCase):
 
             self.assertTrue(compare_data_frames(test_df, exp_df))
 
-    # @load_wb_and_data_frame("cases")
-    # @load_params("cases")
-    @unittest.skip("skip")
+    @load_wb_and_data_frame("cases")
+    @load_params("cases")
+    # @unittest.skip("skip")
     def test_case3_with_params(self, test_wb, exp_dfs, params):
         """Test the strategy with case3 and providing parameters."""
 
