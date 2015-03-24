@@ -35,25 +35,6 @@ class BaseCleanTiStrategy(object):
 
     # PRIVATE
     @classmethod
-    def _parse_time(cls, value, time_format):
-
-        # time format is correct
-        if type(value) == time_format:
-            time_value = value
-
-        # fix strings time formats
-        elif type(value) == str or type(value) == unicode:
-            str_value = value.replace(".", "-").replace("/", "-")
-            str_format = "%d-%m-%y"
-            time_value = datetime.datetime.strptime(str_value, str_format)
-
-        # no time could be parsed from the value
-        else:
-            time_value = None
-
-        return time_value
-
-    @classmethod
     def _correct_progression(cls, last_time_value, curr_time_value,
                              freq, missings, missing_value):
 
@@ -137,14 +118,14 @@ class BaseCleanTiStrategy(object):
         return None
 
 
-class CleanSimpleTi(BaseCleanTiStrategy):
+class BaseCleanSingleColumnTi(BaseCleanTiStrategy):
 
-    """Clean simple time indexes in a format very close to a datetime obj."""
+    """Clean time indexes that use a single column."""
 
     # PRIVATE INTERFACE METHODS
     @classmethod
     def _accepts(cls, ws, params):
-        return True
+        return not params["time_multicolumn"]
 
     @classmethod
     def _clean_time_index(cls, ws, params):
@@ -156,14 +137,12 @@ class CleanSimpleTi(BaseCleanTiStrategy):
         col = column_index_from_string(ws[p["time_header_coord"]].column)
 
         # iterate series time index values
-        i_row = p["data_starts"]
         last_time = None
-        while i_row <= p["data_ends"]:
+        for i_row in xrange(p["data_starts"], p["data_ends"] + 1):
             curr_time = ws.cell(row=i_row, column=col).value
 
             # clean curr time value, in case of format errors or no time values
-            curr_time = cls._parse_time(
-                curr_time, p["time_format"])
+            curr_time = cls._parse_time(curr_time, p["time_format"], last_time)
 
             if curr_time:
 
@@ -188,9 +167,65 @@ class CleanSimpleTi(BaseCleanTiStrategy):
                 if not new_time:
                     last_time = curr_time
 
-            i_row += 1
-
         return status_index
+
+
+class CleanSimpleTi(BaseCleanSingleColumnTi):
+
+    """Clean simple time indexes in a format very close to a datetime obj."""
+
+    # PRIVATE INTERFACE METHODS
+    @classmethod
+    def _accepts(cls, ws, params):
+        return not params["time_multicolumn"] and not params["time_composed"]
+
+    @classmethod
+    def _parse_time(cls, value, time_format, *args, **kwargs):
+
+        # time format is correct
+        if type(value) == time_format:
+            time_value = value
+
+        # fix strings time formats
+        elif type(value) == str or type(value) == unicode:
+            str_value = value.replace(".", "-").replace("/", "-")
+            str_format = "%d-%m-%y"
+            time_value = datetime.datetime.strptime(str_value, str_format)
+
+        # no time could be parsed from the value
+        else:
+            time_value = None
+
+        return time_value
+
+
+class CleanComposedTi(BaseCleanTiStrategy):
+
+    """Clean simple time indexes in a format very close to a datetime obj."""
+
+    # PRIVATE INTERFACE METHODS
+    @classmethod
+    def _accepts(cls, ws, params):
+        return not params["time_multicolumn"] and params["time_composed"]
+
+    @classmethod
+    def _parse_time(cls, value, time_format, last_time, *args, **kwargs):
+
+        # time format is correct
+        if type(value) == time_format:
+            time_value = value
+
+        # fix strings time formats
+        elif type(value) == str or type(value) == unicode:
+            str_value = value.replace(".", "-").replace("/", "-")
+            str_format = "%d-%m-%y"
+            time_value = datetime.datetime.strptime(str_value, str_format)
+
+        # no time could be parsed from the value
+        else:
+            time_value = None
+
+        return time_value
 
 
 def get_strategies_names():

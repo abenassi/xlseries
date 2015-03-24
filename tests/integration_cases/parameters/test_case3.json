@@ -13,7 +13,8 @@
  "series_names": "None",
  "time_composed": "True",
  "time_alignment": 0,
- "time_format": "one_cell_string",
+ "time_multicolumn": "False",
+ "time_format": "str",
  "time_header": "True",
  "time_header_coord": "A4",
  "time_header_next_to_data": "False"}

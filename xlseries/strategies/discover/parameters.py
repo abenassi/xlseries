@@ -37,6 +37,8 @@ class Parameters(object):
         self.progressive_aggregation = None
 
         # time
+        self.time_alignment = None
+        self.time_multicolumn = None
         self.time_header = None
         self.time_header_coord = None
         self.time_header_next_to_data = None

@@ -13,8 +13,8 @@ import nose
 import datetime
 from openpyxl import load_workbook
 
-from xlseries.clean_ti_strategies import CleanSimpleTi
-from xlseries.utils import compare_cells
+from xlseries.strategies.clean.time_index import CleanSimpleTi, CleanComposedTi
+from xlseries.utils.general import compare_cells
 
 
 # @unittest.skip("skip")
@@ -51,24 +51,55 @@ class CleanSimpleTiTestCase(unittest.TestCase):
 
     def test_clean_time_index(self):
 
-        wb = load_workbook("cases/test_case2.xlsx")
+        wb = load_workbook("original/test_case2.xlsx")
         ws = wb.active
 
         clean_ci = {"time_alignment": 0,
                     "time_format": datetime.datetime,
                     "time_header_coord": "C4",
-                    "ini_row": 5,
-                    "end_row": 2993,
+                    "data_starts": 5,
+                    "data_ends": 2993,
                     "frequency": "D",
                     "missings": True,
                     "missing_value": "Implicit"}
 
         self.strategy._clean_time_index(ws, clean_ci)
 
-        wb_exp = load_workbook("cases/test_case2_clean_index.xlsx")
+        wb_exp = load_workbook("expected/test_case2.xlsx")
 
-        wb.save("test_case2_after_cleaning_index.xlsx")
+        # wb.save("test_case2_after_cleaning_index.xlsx")
         self.assertTrue(compare_cells(wb, wb_exp))
+
+
+class CleanComposedTiTest(unittest.TestCase):
+
+    def setUp(self):
+        self.strategy = CleanComposedTi
+
+    def test_parse_time(self):
+
+        # parameters
+        last_time = None
+        values = ["'1986    1º trim.",
+                  "'            2º trim.",
+                  "'            3º trim.",
+                  "'            4º trim."]
+        time_format = str
+
+        # results
+        new_values = []
+        for value in values:
+            new_values.append(self.strategy._parse_time(value, time_format,
+                                                        last_time))
+            last_time = value
+
+        # expected results
+        exp_values = [datetime.datetime(1986, 1, 1),
+                      datetime.datetime(1986, 4, 1),
+                      datetime.datetime(1986, 7, 1),
+                      datetime.datetime(1986, 10, 1)]
+
+        self.assertEqual(new_values, exp_values)
 
 
 if __name__ == '__main__':

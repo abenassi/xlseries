@@ -53,7 +53,7 @@ class ParameterDiscoveryTestCase(unittest.TestCase):
     # @unittest.skip("skip")
     def test_case2_with_params(self, test_wb, exp_dfs, params):
         """Test the strategy with case2 and providing parameters."""
-
+        # print params
         # get dfs from the strategy
         strategy_obj = ParameterDiscovery(test_wb, params)
         test_dfs = strategy_obj.get_data_frames()
@@ -70,7 +70,7 @@ class ParameterDiscoveryTestCase(unittest.TestCase):
     @load_file("expected/", parse_t_name, ".xlsx", get_data_frames, "exp_dfs")
     @load_file("original/", parse_t_name, ".xlsx", load_workbook, "test_wb")
     @change_working_dir(PACKAGE_NAME, REL_WORKING_DIR)
-    @unittest.skip("skip")
+    # @unittest.skip("skip")
     def test_case3_with_params(self, test_wb, exp_dfs, params):
         """Test the strategy with case3 and providing parameters."""
 

@@ -13,6 +13,7 @@
  "series_names": "None",
  "time_composed": "False",
  "time_alignment": 0,
+ "time_multicolumn": "False",
  "time_format": "datetime.datetime",
  "time_header": "False",
  "time_header_coord": "A1",
