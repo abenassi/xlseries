@@ -1,7 +1,67 @@
+import os
 import pandas as pd
 import numpy as np
 from openpyxl import load_workbook
 from pandas.util.testing import assert_frame_equal
+
+
+def load_file(rel_dir="./", fn_name_parser=str, file_format=".txt",
+              load_obj=open, kw_arg="file_name", ini_str="", end_str=""):
+    """Call a function loading a file of the same name."""
+
+    def fn_decorator(fn):
+        relative_path = rel_dir + fn_name_parser(fn.__name__) + file_format
+        file_loaded = load_obj(relative_path)
+
+        def fn_decorated(*args, **kwargs):
+            kwargs[kw_arg] = file_loaded
+            fn(*args, **kwargs)
+
+        fn_decorated.__name__ = fn.__name__
+        return fn_decorated
+    return fn_decorator
+
+
+def get_package_dir(package_name, inside_path):
+    """Get the directory of a package given an inside path.
+
+    Recursively get parent directories until package_name is reached.
+
+    Args:
+        package_name: Name of the package to retrieve directory.
+        inside_path: A path inside the package.
+    """
+
+    if os.path.split(inside_path)[1] == package_name and \
+            os.path.basename(os.path.split(inside_path)[0]) != package_name:
+        return inside_path
+
+    else:
+        return get_package_dir(package_name, os.path.split(inside_path)[0])
+
+
+def change_working_dir(package_name, rel_working_dir):
+    """Decorate a function setting a new working directory.
+
+    Working directory will be an absolute path inside the current package to
+    match the relative working directory provided.
+
+    Args:
+        package_name: Name of the package that will provide root for all the
+            absolute paths.
+        rel_working_dir: Relative path the one containing package_name.
+    """
+
+    def test_decorator(fn):
+        package_dir = get_package_dir(package_name, __file__)
+        os.chdir(os.path.join(package_dir, rel_working_dir))
+
+        def test_decorated(*args, **kwargs):
+            fn(*args, **kwargs)
+
+        test_decorated.__name__ = fn.__name__
+        return test_decorated
+    return test_decorator
 
 
 def compare_cells(wb1, wb2):

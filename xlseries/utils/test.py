@@ -1,5 +1,5 @@
 from pandas.util.testing import assert_frame_equal
-from xlseries.utils import approx_equal
+from xlseries.utils.general import approx_equal
 
 
 def compare_data_frames(df1, df2):

@@ -11,7 +11,7 @@ Tests for `time_utils` module.
 import datetime
 import unittest
 import nose
-from xlseries.time_utils import increment_time
+from xlseries.utils.time import increment_time
 
 
 class TimeUtilsTest(unittest.TestCase):

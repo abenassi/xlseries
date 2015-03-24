@@ -9,3 +9,6 @@ Design thoughts about the package
 * **Check convenience of granularity in clean data methods**. Should they all be already in the main methods? Is it convenient to have them separated?
 * **When should something in a strategy be an instance data member or some argument passed to a function?**. OOP vs. functional programming?
 * **What to do with some functions that are shared by different kinds of strategies?**. Provisionally, I have put some time related functions encapsulated as time_utils
+* **Should this file be in docs?**. Is this a "doc"?
+* **Organizing kinds of test files**. "Specific" is an appropriate for this?
+* **How to wrap different decorators in a single one?**. How convenient is to have multiple decorators upon a test method?

@@ -15,7 +15,7 @@ import datetime
 import inspect
 from pprint import pprint
 from openpyxl.cell import column_index_from_string
-from time_utils import increment_time
+from xlseries.utils.time import increment_time
 
 
 class BaseCleanTiStrategy(object):

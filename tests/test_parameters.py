@@ -17,8 +17,8 @@ This module tests the parameters object.
 class ParametersTest(unittest.TestCase):
 
     def setUp(self):
-        self.params = Parameters("./parameters/test_params.json")
-        self.params_exp = Parameters("./parameters/test_params_exp.json")
+        self.params = Parameters("./test_parameters/test_params.json")
+        self.params_exp = Parameters("./test_parameters/test_params_exp.json")
 
     def tearDown(self):
         del self.params

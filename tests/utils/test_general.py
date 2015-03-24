@@ -12,7 +12,8 @@ import unittest
 import nose
 import os
 import pandas as pd
-from xlseries.utils import get_data_frame, infer_freq
+from xlseries.utils.general import get_data_frame, infer_freq
+from xlseries.utils.general import load_file
 
 
 class UtilsTest(unittest.TestCase):
@@ -25,8 +26,8 @@ class UtilsTest(unittest.TestCase):
 
     def test_get_dataframe(self):
 
-        base_dir = os.path.join(os.path.dirname(__file__), "cases")
-        path = os.path.join(base_dir, "test_case1_exp.xlsx")
+        base_dir = os.path.join(os.path.dirname(__file__), "expected/")
+        path = os.path.join(base_dir, "test_case1.xlsx")
         df = get_data_frame(path)
 
         self.assertEqual(type(df), pd.DataFrame)

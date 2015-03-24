@@ -16,9 +16,9 @@ import pandas as pd
 import numpy as np
 from openpyxl.cell import column_index_from_string
 
-from parameters import Parameters
-import clean_ti_strategies
-import get_data_strategies
+from xlseries.parameters import Parameters
+import xlseries.strategies.clean.time_index as clean_ti_strategies
+import xlseries.strategies.get.data as get_data_strategies
 
 
 class BaseStrategy(object):
