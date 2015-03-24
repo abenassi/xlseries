@@ -17,7 +17,7 @@ from xlseries.utils.general import get_data_frames, change_working_dir
 from xlseries.utils.general import load_file
 from xlseries.utils.test import compare_data_frames, compare_period_ranges
 from xlseries.strategies.strategies import ParameterDiscovery
-from xlseries.parameters import Parameters
+from xlseries.strategies.discover.parameters import Parameters
 
 REL_WORKING_DIR = r"tests\integration_cases"
 PACKAGE_NAME = "xlseries"

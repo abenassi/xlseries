@@ -4,7 +4,7 @@
 import unittest
 import nose
 import json
-from xlseries.parameters import Parameters
+from xlseries.strategies.discover.parameters import Parameters
 
 """
 test_parameters
@@ -17,8 +17,8 @@ This module tests the parameters object.
 class ParametersTest(unittest.TestCase):
 
     def setUp(self):
-        self.params = Parameters("./test_parameters/test_params.json")
-        self.params_exp = Parameters("./test_parameters/test_params_exp.json")
+        self.params = Parameters("./original/test_params.json")
+        self.params_exp = Parameters("./expected/test_params.json")
 
     def tearDown(self):
         del self.params
