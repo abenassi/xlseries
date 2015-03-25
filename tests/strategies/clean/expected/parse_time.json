@@ -1,0 +1,56 @@
+{
+    "test_case3": ["datetime.datetime(1986, 1, 1)",
+                   "datetime.datetime(1986, 4, 1)",
+                   "datetime.datetime(1986, 7, 1)",
+                   "datetime.datetime(1986, 10, 1)"
+                   ],
+
+    "test_case4": ["datetime.datetime(2007, 4, 1)",
+                   "datetime.datetime(2007, 7, 1)",
+                   "datetime.datetime(2007, 10, 1)",
+                   "datetime.datetime(2008, 1, 1)"
+                   ],
+
+    "test_case5": ["datetime.datetime(1991, 1, 1)",
+                   "datetime.datetime(1991, 2, 1)",
+                   "datetime.datetime(1991, 3, 1)",
+                   "datetime.datetime(1991, 4, 1)",
+                   "datetime.datetime(1991, 5, 1)",
+                   "datetime.datetime(1991, 6, 1)",
+                   "datetime.datetime(1991, 7, 1)",
+                   "datetime.datetime(1991, 8, 1)",
+                   "datetime.datetime(1991, 9, 1)",
+                   "datetime.datetime(1991, 10, 1)",
+                   "datetime.datetime(1991, 11, 1)",
+                   "datetime.datetime(1991, 12, 1)"
+                   ],
+
+    "test_case5b": ["datetime.datetime(1991, 1, 1)",
+                    "datetime.datetime(1991, 2, 1)",
+                    "datetime.datetime(1991, 3, 1)",
+                    "datetime.datetime(1991, 4, 1)",
+                    "datetime.datetime(1991, 5, 1)",
+                    "datetime.datetime(1991, 6, 1)",
+                    "datetime.datetime(1991, 7, 1)",
+                    "datetime.datetime(1991, 8, 1)",
+                    "datetime.datetime(1991, 9, 1)",
+                    "datetime.datetime(1991, 10, 1)",
+                    "datetime.datetime(1991, 11, 1)",
+                    "datetime.datetime(1991, 12, 1)"
+                    ],
+
+    "test_case6": ["None",
+                   "datetime.datetime(2004, 1, 1)",
+                   "datetime.datetime(2004, 4, 1)",
+                   "datetime.datetime(2004, 7, 1)",
+                   "datetime.datetime(2004, 10, 1)"
+                   ],
+
+    "test_case6b": ["None",
+                    "datetime.datetime(2008, 1, 1)",
+                    "datetime.datetime(2008, 4, 1)",
+                    "datetime.datetime(2008, 7, 1)",
+                    "datetime.datetime(2008, 10, 1)"
+                    ]
+
+}

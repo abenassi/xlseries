@@ -3,10 +3,12 @@ import pandas as pd
 import numpy as np
 from openpyxl import load_workbook
 from pandas.util.testing import assert_frame_equal
+import json
+import datetime
 
 
 def load_file(rel_dir="./", fn_name_parser=str, file_format=".txt",
-              load_obj=open, kw_arg="file_name", ini_str="", end_str=""):
+              load_obj=open, kw_arg="file_name"):
     """Call a function loading a file of the same name."""
 
     def fn_decorator(fn):
@@ -15,6 +17,28 @@ def load_file(rel_dir="./", fn_name_parser=str, file_format=".txt",
 
         def fn_decorated(*args, **kwargs):
             kwargs[kw_arg] = file_loaded
+            fn(*args, **kwargs)
+
+        fn_decorated.__name__ = fn.__name__
+        return fn_decorated
+    return fn_decorator
+
+
+def load_json_vals(rel_dir="./", fn_name_parser=str, kw_arg="values",
+                     json_file_name="values", evaluate=False):
+    """Call a function loading values from json using fn name as a key."""
+
+    def fn_decorator(fn):
+        relative_path = rel_dir + json_file_name + ".json"
+        with open(relative_path) as f:
+            file_loaded = json.load(f)
+        values = file_loaded[fn_name_parser(fn.__name__)]
+
+        if evaluate:
+            values = [eval(value) for value in values]
+
+        def fn_decorated(*args, **kwargs):
+            kwargs[kw_arg] = values
             fn(*args, **kwargs)
 
         fn_decorated.__name__ = fn.__name__
