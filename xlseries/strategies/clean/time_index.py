@@ -15,7 +15,9 @@ import datetime
 import inspect
 from pprint import pprint
 from openpyxl.cell import column_index_from_string
+
 from xlseries.utils.time import increment_time
+import xlseries.strategies.clean.parse_time as parse_time_strategies
 
 
 class BaseCleanTiStrategy(object):
@@ -117,8 +119,20 @@ class BaseCleanTiStrategy(object):
 
         return None
 
+    @classmethod
+    def _parse_time(cls, curr_time, last_time, params):
 
-class BaseCleanSingleColumnTi(BaseCleanTiStrategy):
+        for strategy in parse_time_strategies.get_strategies():
+            if strategy.accepts(curr_time, last_time, params):
+                strategy_obj = strategy()
+                time_value = strategy_obj.parse_time(curr_time, last_time,
+                                                     params)
+                break
+
+        return time_value
+
+
+class CleanSingleColumnTi(BaseCleanTiStrategy):
 
     """Clean time indexes that use a single column."""
 
@@ -142,7 +156,7 @@ class BaseCleanSingleColumnTi(BaseCleanTiStrategy):
             curr_time = ws.cell(row=i_row, column=col).value
 
             # clean curr time value, in case of format errors or no time values
-            curr_time = cls._parse_time(curr_time, p["time_format"], last_time)
+            curr_time = cls._parse_time(curr_time, last_time, params)
 
             if curr_time:
 
@@ -168,64 +182,6 @@ class BaseCleanSingleColumnTi(BaseCleanTiStrategy):
                     last_time = curr_time
 
         return status_index
-
-
-class CleanSimpleTi(BaseCleanSingleColumnTi):
-
-    """Clean simple time indexes in a format very close to a datetime obj."""
-
-    # PRIVATE INTERFACE METHODS
-    @classmethod
-    def _accepts(cls, ws, params):
-        return not params["time_multicolumn"] and not params["time_composed"]
-
-    @classmethod
-    def _parse_time(cls, value, time_format, *args, **kwargs):
-
-        # time format is correct
-        if type(value) == time_format:
-            time_value = value
-
-        # fix strings time formats
-        elif type(value) == str or type(value) == unicode:
-            str_value = value.replace(".", "-").replace("/", "-")
-            str_format = "%d-%m-%y"
-            time_value = datetime.datetime.strptime(str_value, str_format)
-
-        # no time could be parsed from the value
-        else:
-            time_value = None
-
-        return time_value
-
-
-class CleanComposedTi(BaseCleanTiStrategy):
-
-    """Clean simple time indexes in a format very close to a datetime obj."""
-
-    # PRIVATE INTERFACE METHODS
-    @classmethod
-    def _accepts(cls, ws, params):
-        return not params["time_multicolumn"] and params["time_composed"]
-
-    @classmethod
-    def _parse_time(cls, value, time_format, last_time, *args, **kwargs):
-
-        # time format is correct
-        if type(value) == time_format:
-            time_value = value
-
-        # fix strings time formats
-        elif type(value) == str or type(value) == unicode:
-            str_value = value.replace(".", "-").replace("/", "-")
-            str_format = "%d-%m-%y"
-            time_value = datetime.datetime.strptime(str_value, str_format)
-
-        # no time could be parsed from the value
-        else:
-            time_value = None
-
-        return time_value
 
 
 def get_strategies_names():
