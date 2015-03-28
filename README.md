@@ -1,4 +1,3 @@
-===============================
 Excel Time Series Scraper
 ===============================
 
@@ -18,19 +17,19 @@ Up to this moment the package can handle cases 1 and 2 with parameters. Once the
 
 The ultimate goal would be that for **any** given excel file the user can obtain pandas data frames with all the time data series available doing no more than this:
 
-'''python
+´´´python
 from xlseries import XlSeries
 series = XlSeries("xl_file_name")
 dfs = series.get_data_frames()
-'''
+´´´
 
 An intermediate step will be that the user can write a json file with some parameters of the excel file and the data series:
 
-'''python
+´´´python
 from xlseries import XlSeries
 series = XlSeries("xl_file_name", "json_parameters_file_name")
 dfs = series.get_data_frames()
-'''
+´´´
 
 # Problem context (or why this package is a good idea)
 
