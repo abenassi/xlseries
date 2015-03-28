@@ -15,7 +15,7 @@ from openpyxl import load_workbook
 import json
 import os
 
-from xlseries.strategies.clean.parse_time import ParseComposedTime
+from xlseries.strategies.clean.parse_time import ParseComposedQuarterTime1
 from xlseries.utils.general import compare_cells, load_json_vals
 from xlseries.strategies.discover.parameters import Parameters
 from xlseries.utils.general import change_working_dir
@@ -70,17 +70,17 @@ def load_case_name(fn_name_parser, kw_arg):
 class ParseComposedTimeTest(unittest.TestCase):
 
     def setUp(self):
-        self.strategy = ParseComposedTime
+        self.strategy = ParseComposedQuarterTime1
 
     def parse_time_values(self, values, params):
 
-        time_format = str
         last_time = None
 
         new_values = []
         for value in values:
-            new_values.append(self.strategy._parse_time(value, last_time,
-                                                        time_format))
+            new_time = self.strategy._parse_time(value, last_time, params)
+            new_values.append(new_time)
+            last_time = new_time
 
         return new_values
 
@@ -90,7 +90,7 @@ class ParseComposedTimeTest(unittest.TestCase):
     @load_parameters()
     def test_parse_time_case3(self, case, values, exp_vals, params):
         """Parse a list of time values using _parse_time method."""
-
+        # print case, values, exp_vals
         new_values = self.parse_time_values(values, params)
 
         msg = " ".join([str(case), ":", str(new_values),

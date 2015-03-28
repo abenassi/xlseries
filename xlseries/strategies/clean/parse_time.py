@@ -12,6 +12,7 @@ import sys
 import inspect
 from pprint import pprint
 import datetime
+import parsley
 
 
 class BaseParseTimeStrategy(object):
@@ -27,8 +28,34 @@ class BaseParseTimeStrategy(object):
     def parse_time(cls, curr_time, last_time, params):
         return cls._parse_time(curr_time, last_time, params)
 
+    @classmethod
+    def _parse_time(cls, curr_time, last_time, params):
+
+        # time format is correct
+        if type(curr_time) == params["time_format"]:
+            time_value = curr_time
+
+        # fix strings time formats
+        elif type(curr_time) == str or type(curr_time) == unicode:
+            grammar = cls.make_parsley_grammar()
+            result = grammar(curr_time).date()
+
+            # take new date elements found with the grammar
+            year = result[0] or last_time.year
+            month = result[1] or last_time.month
+            day = result[2] or last_time.day
+
+            time_value = datetime.datetime(year, month, day)
+
+        # no time could be parsed from the value
+        else:
+            time_value = None
+
+        return time_value
+
 
 class ParseSimpleTime(BaseParseTimeStrategy):
+
     """Parse dates in datetime or very easy time string to parse."""
 
     @classmethod
@@ -55,58 +82,52 @@ class ParseSimpleTime(BaseParseTimeStrategy):
         return time_value
 
 
-class ParseComposedTime(BaseParseTimeStrategy):
-    """Parse dates from strings composed by substrings with date info."""
+class BaseComposedQuarter(BaseParseTimeStrategy):
+
+    """Parse dates from strings composed by substrings with date info.
+    Only for quarterly series."""
 
     @classmethod
     def _accepts(cls, curr_time, last_time, params):
+        # print params
         return not params["time_multicolumn"] and params["time_composed"]
 
-    @classmethod
-    def _parse_time(cls, curr_time, last_time, params):
+    @staticmethod
+    def _quarter_num_to_month(quarter_number):
 
-        # time format is correct
-        if type(curr_time) == params["time_format"]:
-            time_value = curr_time
-
-        # fix strings time formats
-        elif type(curr_time) == str or type(curr_time) == unicode:
-
-
-
-
-            str_value = curr_time.replace(".", "-").replace("/", "-")
-            str_format = "%d-%m-%y"
-            time_value = datetime.datetime.strptime(str_value, str_format)
-
-
-
-
-
-            
-
-        # no time could be parsed from the value
+        if int(quarter_number) == 1:
+            month = 1
+        elif int(quarter_number) == 2:
+            month = 4
+        elif int(quarter_number) == 3:
+            month = 7
         else:
-            time_value = None
+            month = 10
 
-        return time_value
-
-
+        return month
 
 
+class ParseComposedQuarterTime1(BaseComposedQuarter):
 
+    """Parse quarterly dates from strings composed by substrings with date
+    info."""
 
+    @classmethod
+    def _accepts(cls, curr_time, last_time, params):
+        print params
+        return not params["time_multicolumn"] and params["time_composed"] and \
+            params["frequency"] == "Q"
 
+    @classmethod
+    def make_parsley_grammar(cls):
+        return parsley.makeGrammar("""
+                not_digit = anything:x ?(x not in "0123456789")
 
+                year = not_digit* <digit{4}>:y ws -> int(y)
+                q_number = not_digit* digit:q_num not_digit* -> int(q_num)
 
-
-
-
-
-
-
-
-
+                date = year?:y q_number:q_num -> (y, q_to_m(q_num), 1)
+                """, {"q_to_m": cls._quarter_num_to_month})
 
 
 def get_strategies_names():

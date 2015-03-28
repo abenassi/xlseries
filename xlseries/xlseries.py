@@ -18,7 +18,7 @@ class XlSeries(object):
 
     """Time data series parser for excel files."""
 
-    def __init__(self, xl_name, ):
+    def __init__(self, xl_name):
         self.wb = load_workbook(xl_name)
 
     # PUBLIC
