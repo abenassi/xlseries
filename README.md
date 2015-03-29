@@ -3,6 +3,8 @@ Excel Time Series Scraper
 
 Python package to scrape time data series from excel files.
 
+[TOC]
+
 ## Development status
 
 This package is still in an early development stage, it can't be reliably used for the moment. The design may still be object of radical changes.
@@ -62,6 +64,27 @@ Some of the best institutions that collect and organize data are:
 * Updating previously used data with new values requires download and process data again almost duplicating previous work.
 * Data series may have several mistakes sometimes. Methodological notes are not always very clarifying and there is no interactive way to share concerns about data with the community that uses it.
 * Data is sometimes really hidden. There is no easy or centralized way of searching quickly through the entire corpus of existent public data.
+
+## Contributions
+
+All contributions are very welcome!
+
+I aim to keep the design of this package strongly modularized and decoupled to allow working in different parts of the problem in an isolated way with respect of other parts of the system.
+
+A non-exhaustive list of ways you can contribute:
+
+* Bring more test cases that posses parsing challenges not covered by the current test cases. You can add a test case following the example of the other test cases. These can be *integration test cases* (an entire excel worksheet taken from the real world) or *unit test cases* like a new type of time string to parse that is not covered by current time-like strings used as test cases.
+* Work in the [parse_time strategies](https://github.com/abenassi/xlseries/blob/master/xlseries/strategies/clean/parse_time.py). These strategies are the most important part of how time indexes are parsed into something that has a datetime.datetime type. You can add more parsers to cover existing cases, improve the ones that already exist giving them more generality or adding new test cases to then implement the parser strategies for them.
+* Start building strategies to [clean](https://github.com/abenassi/xlseries/tree/master/xlseries/strategies/clean) values before processing them.
+* Start building meta-heuristics to (1) evaluate and compare alternative outputs for the same spreadsheet (pandas data frames) and ranking them by *quality* and (2) build evaluators to determine if a pandas data frame is to be considered a well scraped time data series or not.
+* Start working in the still virgin area of *discovering the parameters*. The package still need a list of [parameters](https://github.com/abenassi/xlseries/blob/master/xlseries/strategies/discover/parameters.py) to process the excel files. Many approaches will have to be researched to start building strategies for discovering the parameters of an excel file with time data series:
+    - Every parameter has a new module with a bunch of possible strategies to discover it.
+    - Machine learning that takes low level input parameters (size of sheet, types of cell values, cell values formatting, etc.) and output the discovered higher level parameter.
+    - Trying random parameters and examining the output of the package as a way to discover the correct parameter.
+* Start writing the docs.
+* Propose different high level designs / rework modules to decouple steps of the algorithms used or to modularize better parts of the system.
+
+For all contributions, we intend to follow the [Google Ptyhon Style Guide](https://google-styleguide.googlecode.com/svn/trunk/pyguide.html)
 
 
 
