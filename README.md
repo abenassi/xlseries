@@ -1,9 +1,24 @@
+
 Excel Time Series Scraper
 ===============================
 
 Python package to scrape time data series from excel files.
 
-[TOC]
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Excel Time Series Scraper
+](#excel-time-series-scraper)
+  - [Development status](#development-status)
+    - [Test cases](#test-cases)
+    - [Progress](#progress)
+  - [Problem context (or why this package is a good idea)](#problem-context-or-why-this-package-is-a-good-idea)
+    - [International organisms](#international-organisms)
+    - [Some common problems using data in third world-countries (and in others too!)](#some-common-problems-using-data-in-third-world-countries-and-in-others-too)
+  - [Contributions](#contributions)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Development status
 

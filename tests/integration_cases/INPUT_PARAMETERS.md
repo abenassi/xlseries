@@ -1,7 +1,24 @@
+
 Excel file input parameters
 ====
 
 Characteristics of the excel files that must be taken into account when build the strategies to deal with the input file and that could be parametrized.
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Excel file input parameters
+](#excel-file-input-parameters)
+  - [Basic ones](#basic-ones)
+    - [General](#general)
+    - [Series name](#series-name)
+    - [Data](#data)
+    - [Time-stamp](#time-stamp)
+  - [Possibly useful ones](#possibly-useful-ones)
+  - [More indirect possible parameters](#more-indirect-possible-parameters)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Basic ones
 

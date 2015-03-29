@@ -1,7 +1,25 @@
+
 Excel file test cases
 ====
 
 This list of excel file cases is ordered, approximately, by difficulty in its time data series extraction. Each case has notes regarding the particular issues of extracting data series for that file in a differential way with respect to the previous one (only new issues are noted, because they mark new things to deal with).
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Excel file test cases
+](#excel-file-test-cases)
+- [Cases](#cases)
+  - [Case 1](#case-1)
+  - [Case 2](#case-2)
+  - [Case 3](#case-3)
+  - [Case 4](#case-4)
+  - [Case 5](#case-5)
+  - [Case 6](#case-6)
+  - [Case 7](#case-7)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Cases
 
