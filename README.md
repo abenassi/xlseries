@@ -8,15 +8,14 @@ Python package to scrape time data series from excel files.
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Excel Time Series Scraper
-](#excel-time-series-scraper)
-  - [Development status](#development-status)
-    - [Test cases](#test-cases)
-    - [Progress](#progress)
-  - [Problem context (or why this package is a good idea)](#problem-context-or-why-this-package-is-a-good-idea)
-    - [International organisms](#international-organisms)
-    - [Some common problems using data in third world-countries (and in others too!)](#some-common-problems-using-data-in-third-world-countries-and-in-others-too)
-  - [Contributions](#contributions)
+- [Development status](#development-status)
+  - [Test cases](#test-cases)
+  - [Progress](#progress)
+  - [Parameters](#parameters)
+- [Problem context (or why this package is a good idea)](#problem-context-or-why-this-package-is-a-good-idea)
+  - [International organisms](#international-organisms)
+  - [Some common problems using data in third world-countries (and in others too!)](#some-common-problems-using-data-in-third-world-countries-and-in-others-too)
+- [Contributions](#contributions)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -47,6 +46,37 @@ from xlseries import XlSeries
 series = XlSeries("xl_file_name", "json_parameters_file_name")
 dfs = series.get_data_frames()
 ```
+
+### Parameters
+
+Each time data series has it's own list of parameters. Only one [parameters object](https://github.com/abenassi/xlseries/blob/master/xlseries/strategies/discover/parameters.py) has to be passed to XlSeries to scrape an excel spreadsheet.
+
+If many series are to be scraped, parameters for each series should be written in python lists, but only if they differ between series ([see an example](https://github.com/abenassi/xlseries/blob/master/tests/strategies/discover/original/test_params.json)). It is not necessary to write parameters that repeat themselves in all the series (like the alignment, which is usually common to all the series in the spreadsheet).
+
+This list of parameters can still change any time, adding, removing or modifying some of them when the understanding of the problem grows.
+
+*List of parameters*
+
+* **alignment**: "Vertical", "Horizontal" - *Alignment of the series in the spreadsheet.*
+* **series_names**: "Real GDP" - *Names of the series (this is not necessary if headers_coord is provided).*
+* **headers_coord**: "B4" - *Excel coordinates for a series header.*
+* **composed_headers**: "True", "False" - *Indicates if the name of a series need to be composed from more than one cell.*
+* **data_starts**: 4 - *The index of row or column where data starts.*
+* **data_ends**: 254 - *The index of row or column where data ends.*
+* **continuity**: "True", "False" - *Indicates if a data series is interrupted by strings that are not data.*
+* **blank_rows**: "True", "False" - *Indicates if a data series is interrupted by blank rows.*
+* **multifrequency**: "True", "False" - *Indicates if a data series is interrupted by a secondary data series which is a regular aggregation of the main one in another time frequency.*
+* **missings**: "True", "False" - *Indicates the presence of missing values in data.*
+* **missing_value**: "", ".", "NA", "None", "Implicit" - *State the value that should be taken as "missing". "Implicit" is a special missing value that means that there are missing values not showed in the spreadsheet (time index is not continuous, typically in day frequency when weekends are not taken into account).*
+* **progressive_aggregation**: "True", "False" - *Indicates if a data series is a subtotal that aggregates with other data series being the total sum of another series present in the spreadsheet.*
+* **time_alignment**: 0, -1, +1 - *0: Time index run parallel to data, -1: Time value is right before data value cell, +1: Time value is right after data value cell.*
+* **time_multicolumn**: "True", "False" - *Indicates if a data series has a time index expressed in multiple columns that must be composed.*
+* **time_header**: "Date" - *Name of the time header (this is not necessary if time_header_coord is provided).*
+* **time_header_coord**: "A3" - *Excel coordinates for a time index header.*
+* **time_header_next_to_data**: "True", "False" - *Indicates that time header is next to data (nothing else in between).*
+* **time_format**: "datetime.datetime", "string" - *Indicates if date is in a date type or if it's a string.*
+* **time_composed**: "True", "False" - *Indicates if a data series has a time index that has to be composed (not a straight forward date string) because some information about current date is taken from previous cells. Typically when year is only stated a the first quarter while the other three have only the quarter number.*
+* **frequency**: "Y", "Q", "M", "W", "D", "H", "T", "S" - *Indicates the time frequency of the series. It uses pretty much the same strings as datetime.datetime uses.*
 
 ## Problem context (or why this package is a good idea)
 
