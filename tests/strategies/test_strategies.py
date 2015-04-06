@@ -38,7 +38,7 @@ class ParameterDiscoveryTestCase(unittest.TestCase):
     # @unittest.skip("skip")
     def test_case1_with_params(self, test_wb, exp_dfs, params):
         """Test the strategy with case1 and providing parameters."""
-
+        print "here"
         # get dfs from the strategy
         strategy_obj = ParameterDiscovery(test_wb, params)
         test_dfs = strategy_obj.get_data_frames()
@@ -57,6 +57,7 @@ class ParameterDiscoveryTestCase(unittest.TestCase):
         # get dfs from the strategy
         strategy_obj = ParameterDiscovery(test_wb, params)
         test_dfs = strategy_obj.get_data_frames()
+        # print test_dfs
 
         for test_df, exp_df in zip(test_dfs, exp_dfs):
 
@@ -94,7 +95,7 @@ class PeriodRangeTestCase(unittest.TestCase):
         ws = strategy_obj.wb.active
 
         pr_d = pd.period_range("20020304", "20140410", freq="D")
-        pr_m = pd.period_range("20020301", "20130301", freq="M")
+        pr_m = pd.period_range("20020301", "20140301", freq="M")
 
         period_ranges = strategy_obj._get_period_ranges(ws)
 

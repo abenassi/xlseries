@@ -11,20 +11,21 @@ cotaining time data series.
 
 import sys
 import copy
-import datetime
+import arrow
 import inspect
 from pprint import pprint
 from openpyxl.cell import column_index_from_string
 
 from xlseries.utils.time import increment_time
 import xlseries.strategies.clean.parse_time as parse_time_strategies
+from xlseries.strategies.clean.parse_time import ParseSimpleTime
 
 
 class BaseCleanTiStrategy(object):
 
     """BaseCleanTiStrategy class for all time index cleaning strategies."""
 
-    MAX_IMPL = 7
+    MAX_IMPL = 20
 
     # PUBLIC INTERFACE
     @classmethod
@@ -40,7 +41,13 @@ class BaseCleanTiStrategy(object):
     def _correct_progression(cls, last_time_value, curr_time_value,
                              freq, missings, missing_value):
 
+
         exp_time_value = increment_time(last_time_value, 1, freq)
+        assert type(exp_time_value) == arrow.Arrow
+        assert type(last_time_value) == arrow.Arrow or not last_time_value
+        assert type(curr_time_value) == arrow.Arrow
+        # print last_time_value, curr_time_value, exp_time_value, curr_time_value == exp_time_value, missing_value
+
         if not exp_time_value:
             msg = "No expected time value could be calcualted from " + \
                 str(last_time_value) + " " + str(freq)
@@ -48,6 +55,7 @@ class BaseCleanTiStrategy(object):
 
         # everything is ok!
         if exp_time_value == curr_time_value:
+            # print "ok!!"
             return curr_time_value
 
         # going back
@@ -101,17 +109,17 @@ class BaseCleanTiStrategy(object):
     @classmethod
     def _forth_time_value_typo(cls, curr_time_value, max_forth_time_value):
 
-        day_typo = datetime.datetime(year=curr_time_value.year,
-                                     month=curr_time_value.month,
-                                     day=max_forth_time_value.day)
+        day_typo = arrow.get(year=curr_time_value.year,
+                             month=curr_time_value.month,
+                             day=max_forth_time_value.day)
 
-        month_typo = datetime.datetime(year=curr_time_value.year,
-                                       month=max_forth_time_value.month,
-                                       day=curr_time_value.day)
+        month_typo = arrow.get(year=curr_time_value.year,
+                               month=max_forth_time_value.month,
+                               day=curr_time_value.day)
 
-        year_typo = datetime.datetime(year=max_forth_time_value.year,
-                                      month=curr_time_value.month,
-                                      day=curr_time_value.day)
+        year_typo = arrow.get(year=max_forth_time_value.year,
+                              month=curr_time_value.month,
+                              day=curr_time_value.day)
 
         for possible_typo in [day_typo, month_typo, year_typo]:
             if possible_typo < max_forth_time_value:
@@ -121,14 +129,20 @@ class BaseCleanTiStrategy(object):
 
     @classmethod
     def _parse_time(cls, curr_time, last_time, params):
+        # print "here!"
+        # print params
+        time_value = None
 
-        for strategy in parse_time_strategies.get_strategies():
-            if strategy.accepts(curr_time, last_time, params):
-                strategy_obj = strategy()
-                time_value = strategy_obj.parse_time(curr_time, last_time,
-                                                     params)
-                break
-
+        if curr_time:
+            for strategy in parse_time_strategies.get_strategies():
+                if strategy.accepts(curr_time, last_time, params):
+                    # print strategy, "was accepted!"
+                    time_value = strategy.parse_time(curr_time, last_time,
+                                                         params)
+                    break
+        # time_value = ParseSimpleTime.parse_time(curr_time, last_time,
+        #                                         params)
+        # print time_value
         return time_value
 
 
@@ -144,21 +158,26 @@ class CleanSingleColumnTi(BaseCleanTiStrategy):
     @classmethod
     def _clean_time_index(cls, ws, params):
         """Extract time data series and return them as data frames."""
+        # print "here"
 
         p = params
+        # print p
         status_index = True
 
         col = column_index_from_string(ws[p["time_header_coord"]].column)
 
         # iterate series time index values
         last_time = None
+        # print list(xrange(p["data_starts"], p["data_ends"] + 1))
         for i_row in xrange(p["data_starts"], p["data_ends"] + 1):
             curr_time = ws.cell(row=i_row, column=col).value
 
-            # clean curr time value, in case of format errors or no time values
-            curr_time = cls._parse_time(curr_time, last_time, params)
-
+            # print type(curr_time)
             if curr_time:
+
+                # clean curr time value, in case of format errors or no time values
+                curr_time = cls._parse_time(curr_time, last_time, params)
+                # print "1", curr_time, last_time
 
                 # correct date typos checking a healthy time progression
                 new_time = None
@@ -170,16 +189,21 @@ class CleanSingleColumnTi(BaseCleanTiStrategy):
                                                         p["missing_value"])
 
                     # write the clean value again in the file, if succesful
-                    if new_time and type(new_time) == p["time_format"]:
-                        ws.cell(row=i_row, column=col).value = new_time
-                        last_time = copy.deepcopy(new_time)
+                    if new_time and type(new_time) == arrow.Arrow:
+                        ws.cell(row=i_row, column=col).value = new_time.datetime
+                        last_time = new_time
+                        # print ws.cell(row=i_row, column=col).value
 
                     # value needs to be corected, attempt was unsuccesful
                     else:
                         status_index = False
 
+                elif curr_time and not last_time:
+                    ws.cell(row=i_row, column=col).value = curr_time.datetime
+
                 if not new_time:
                     last_time = curr_time
+
 
         return status_index
 

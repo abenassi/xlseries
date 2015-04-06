@@ -11,7 +11,7 @@ This module contains strategies to get data from a spreadsheet.
 import sys
 import inspect
 from pprint import pprint
-import datetime
+import arrow
 import numpy as np
 from openpyxl.cell import column_index_from_string
 
@@ -140,15 +140,10 @@ class GetSingleFrequencyData(BaseGetDataStrategy):
         new_values = []
         i_value = 0
         i_row = ini_row
-        ini_time_value = ws.cell(row=i_row, column=col).value
+        ini_time_value = arrow.get(ws.cell(row=i_row, column=col).value)
         exp_time_value = ini_time_value
         while i_row <= end_row:
-            obs_time_value = ws.cell(row=i_row, column=col).value
-            if i_row == 2322:
-                print obs_time_value, exp_time_value
-
-            if type(obs_time_value) != datetime.datetime:
-                print "row", i_row, "col", col, obs_time_value
+            obs_time_value = arrow.get(ws.cell(row=i_row, column=col).value)
 
             # fill time holes in the series with missing data
             while exp_time_value < obs_time_value:

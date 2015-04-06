@@ -10,16 +10,15 @@ Tests for `clean_ti_strategies` module.
 
 import unittest
 import nose
+import arrow
 import datetime
 from openpyxl import load_workbook
-import json
 import os
 
 from xlseries.strategies.clean.time_index import CleanSingleColumnTi
-from xlseries.utils.general import compare_cells, load_json_vals
 from xlseries.utils.general import get_package_dir
 from xlseries.strategies.discover.parameters import Parameters
-
+from xlseries.utils.general import compare_cells
 
 
 def load_parameters(case):
@@ -32,43 +31,44 @@ def load_parameters(case):
 
     return params
 
+
 # @unittest.skip("skip")
-
-
 class CleanSingleColumnTiTest(unittest.TestCase):
 
-    def setUp(self):
-
-        self.strategy = CleanSingleColumnTi
-
+    # @unittest.skip("skip")
     def test_correct_progression(self):
 
-        last_time_value = datetime.datetime(2011, 7, 5)
-        curr_time_value = datetime.datetime(2011, 5, 6)
+        last_time_value = arrow.get(2011, 7, 5)
+        curr_time_value = arrow.get(2011, 5, 6)
         freq = "D"
         missings = True
         missing_value = "Implicit"
 
-        new_time_value = self.strategy._correct_progression(last_time_value,
-                                                            curr_time_value,
-                                                            freq, missings,
-                                                            missing_value)
-        exp_time_value = datetime.datetime(2011, 7, 6)
+        new_time_value = CleanSingleColumnTi._correct_progression(
+            last_time_value,
+            curr_time_value,
+            freq, missings,
+            missing_value)
+        exp_time_value = arrow.get(2011, 7, 6)
 
         self.assertEqual(new_time_value, exp_time_value)
 
+    # @unittest.skip("skip")
     def test_parse_time(self):
 
         value = "17-12.09"
         last_time = None
 
-        params = load_parameters("test_case2")
+        params = load_parameters("test_case1")
+        # print repr(params[0])
 
-        new_time_value = self.strategy._parse_time(value, last_time, params[0])
-        exp_time_value = datetime.datetime(2009, 12, 17)
+        new_time_value = CleanSingleColumnTi._parse_time(value, last_time,
+                                                         params[0])
+        exp_time_value = arrow.get(2009, 12, 17)
 
         self.assertEqual(new_time_value, exp_time_value)
 
+    # @unittest.skip("skip")
     def test_clean_time_index(self):
 
         wb = load_workbook("original/test_case2.xlsx")
@@ -85,7 +85,7 @@ class CleanSingleColumnTiTest(unittest.TestCase):
                     "time_multicolumn": False,
                     "time_composed": False}
 
-        self.strategy._clean_time_index(ws, clean_ci)
+        CleanSingleColumnTi._clean_time_index(ws, clean_ci)
 
         wb_exp = load_workbook("expected/test_case2.xlsx")
 

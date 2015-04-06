@@ -5,7 +5,7 @@
  "data_ends": 256,
  "data_starts": 2,
  "frequency": "M",
- "headers_coord": ["B1", "C1"],
+ "headers_coord": ["B1", "C1-C2"],
  "missings": "True",
  "missing_value": "None",
  "multifrequency": "False",

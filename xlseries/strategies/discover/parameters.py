@@ -3,12 +3,16 @@
 import json
 import datetime
 import pprint
+import re
+from xlseries.utils.general import xl_coordinates_range
 
 """
 parameters
 ----------------------------------
 
 This module contains the parameters object used by parsing strategies.
+
+TODO: "B8-B28" should be parsed into a list from 8 to 28. Handle cols too.
 """
 
 
@@ -86,6 +90,10 @@ class Parameters(object):
         with open(json_params_file) as f:
             params = json.load(f)
 
+        # convert in lists ranges of headers (eg. "B8-B28")
+        h_c = params["headers_coord"]
+        params["headers_coord"] = cls._unpack_header_ranges(h_c)
+
         # convert strings in python expressions
         for param in params:
             params[param] = cls._eval_param(params[param])
@@ -138,3 +146,21 @@ class Parameters(object):
             param_list = param
 
         return param_list
+
+    @classmethod
+    def _unpack_header_ranges(cls, headers_coord):
+
+        new_list = []
+
+        if type(headers_coord) == list:
+            for elem in headers_coord:
+                new_list.extend(cls._unpack_header_ranges(elem))
+
+        else:
+            if "-" in headers_coord:
+                start, end = headers_coord.upper().split("-")
+                new_list = list(xl_coordinates_range(start, end))
+            else:
+                new_list = [headers_coord.upper()]
+
+        return new_list

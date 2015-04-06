@@ -1,10 +1,29 @@
 import os
 import pandas as pd
 import numpy as np
-from openpyxl import load_workbook
+from openpyxl import load_workbook, Workbook
 from pandas.util.testing import assert_frame_equal
 import json
 import datetime
+import arrow
+
+
+def xl_coordinates_range(start, end=None):
+    """Creates a generator of excel coordinates.
+
+    Args:
+        start: Excel coordinate where range starts (eg. "A5").
+        end: Excel coordinate where range ends (eg. "C7").
+    """
+
+    ws = Workbook().active
+
+    if end:
+        for row in ws[start + ":" + end]:
+            for cell in row:
+                yield cell.coordinate
+    else:
+        yield start
 
 
 def load_file(rel_dir="./", fn_name_parser=str, file_format=".txt",

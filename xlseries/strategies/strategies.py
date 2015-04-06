@@ -56,10 +56,14 @@ class ParameterDiscovery(BaseStrategy):
         self._discover_parameters(ws)
 
         # Second: clean the data
-        self._clean_data(ws)
+        status = self._clean_data(ws)
 
-        # Third: get the data
-        return self._get_data(ws)
+        if status["index"] and status["values"]:
+            # Third: get the data
+            return self._get_data(ws)
+
+        else:
+            return None
 
     # HIGH LEVEL TASKS
     def _discover_parameters(self, ws):
@@ -70,11 +74,14 @@ class ParameterDiscovery(BaseStrategy):
         """Ensure data is clean to be processed with the parameters."""
 
         # 1. Clean time index
+        # print len(self.params.time_header_coord)
+        status_index = False
         for i_series in xrange(len(self.params.time_header_coord)):
             status_index = self._clean_time_index(ws, self.params[i_series])
 
         # 2. Clean data values
-        for i in xrange(len(self.params.headers_coord)):
+        status_values = False
+        for i_series in xrange(len(self.params.headers_coord)):
             status_values = self._clean_values(ws)
 
         return {"index": status_index, "values": status_values}
@@ -110,11 +117,12 @@ class ParameterDiscovery(BaseStrategy):
         # 3. Build data frames
         dfs = []
         for period_range in self._get_period_ranges(ws):
-            columns = frames_input_dict[period_range.freqstr]["columns"]
+            columns = frames_input_dict[period_range.freqstr[0]]["columns"]
 
-            data = frames_input_dict[period_range.freqstr]["data"]
+            data = frames_input_dict[period_range.freqstr[0]]["data"]
             np_data = np.array(data).transpose()
 
+            # print period_range
             df = pd.DataFrame(index=period_range,
                               columns=columns,
                               data=np_data)
@@ -127,6 +135,7 @@ class ParameterDiscovery(BaseStrategy):
     @classmethod
     def _clean_time_index(cls, ws, params):
 
+        status_index = None
         for strategy in clean_ti_strategies.get_strategies():
 
             if strategy.accepts(ws, params):
@@ -138,9 +147,9 @@ class ParameterDiscovery(BaseStrategy):
 
     @classmethod
     def _clean_values(cls, ws):
-        status_data = True
+        status_values = True
 
-        return status_data
+        return status_values
 
     # 3. GET DATA methods
     def _get_period_ranges(self, ws):
@@ -160,12 +169,13 @@ class ParameterDiscovery(BaseStrategy):
 
     def _get_period_range(self, ws, freq, ini_row, header_coord, end_row,
                           time_alignement):
+
         col = column_index_from_string(ws[header_coord].column)
-        period_range = pd.period_range(ws.cell(row=ini_row + time_alignement,
-                                               column=col).value,
-                                       ws.cell(row=end_row + time_alignement,
-                                               column=col).value,
-                                       freq=freq)
+        start = ws.cell(row=ini_row + time_alignement, column=col).value
+        end = ws.cell(row=end_row + time_alignement, column=col).value
+
+        print start, end, freq
+        period_range = pd.period_range(start, end, freq=freq)
 
         return period_range
 

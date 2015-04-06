@@ -13,9 +13,9 @@ import nose
 from openpyxl import load_workbook
 
 from xlseries.utils.general import get_data_frames, approx_equal
-from xlseries.parameters import Parameters
+from xlseries.strategies.discover.parameters import Parameters
 from xlseries.strategies.get.data import GetSingleFrequencyData
-from xlseries.strategies.clean.time_index import CleanSimpleTi
+from xlseries.strategies.clean.time_index import CleanSingleColumnTi
 from xlseries.utils.general import compare_list_values
 
 
@@ -46,7 +46,7 @@ class MissingsTestCase(unittest.TestCase):
         frequency = "D"
         time_header_coord = "C4"
 
-        CleanSimpleTi.clean_time_index(ws, params[0])
+        CleanSingleColumnTi.clean_time_index(ws, params[0])
 
         new_values = strategy._fill_implicit_missings(ws, values, frequency,
                                                       time_header_coord,

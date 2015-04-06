@@ -10,8 +10,8 @@ DataFrames. This is the only module that the user should use.
 """
 
 from openpyxl import load_workbook
-import strategies
 import evaluation
+import strategies
 
 
 class XlSeries(object):
