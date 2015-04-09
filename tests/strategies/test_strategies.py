@@ -32,11 +32,11 @@ def parse_t_name(fn_name):
 # @unittest.skip("skip")
 class ParameterDiscoveryTestCase(unittest.TestCase):
 
-    # @load_file("parameters/", parse_t_name, ".json", Parameters, "params")
-    # @load_file("expected/", parse_t_name, ".xlsx", get_data_frames, "exp_dfs")
-    # @load_file("original/", parse_t_name, ".xlsx", load_workbook, "test_wb")
-    # @change_working_dir(PACKAGE_NAME, REL_WORKING_DIR)
-    @unittest.skip("skip")
+    @load_file("parameters/", parse_t_name, ".json", Parameters, "params")
+    @load_file("expected/", parse_t_name, ".xlsx", get_data_frames, "exp_dfs")
+    @load_file("original/", parse_t_name, ".xlsx", load_workbook, "test_wb")
+    @change_working_dir(PACKAGE_NAME, REL_WORKING_DIR)
+    # @unittest.skip("skip")
     def test_case1_with_params(self, test_wb, exp_dfs, params):
         """Test the strategy with case1 and providing parameters."""
         # print "here"
@@ -47,11 +47,11 @@ class ParameterDiscoveryTestCase(unittest.TestCase):
         for test_df, exp_df in zip(test_dfs, exp_dfs):
             self.assertTrue(compare_data_frames(test_df, exp_df))
 
-    # @load_file("parameters/", parse_t_name, ".json", Parameters, "params")
-    # @load_file("expected/", parse_t_name, ".xlsx", get_data_frames, "exp_dfs")
-    # @load_file("original/", parse_t_name, ".xlsx", load_workbook, "test_wb")
-    # @change_working_dir(PACKAGE_NAME, REL_WORKING_DIR)
-    @unittest.skip("skip")
+    @load_file("parameters/", parse_t_name, ".json", Parameters, "params")
+    @load_file("expected/", parse_t_name, ".xlsx", get_data_frames, "exp_dfs")
+    @load_file("original/", parse_t_name, ".xlsx", load_workbook, "test_wb")
+    @change_working_dir(PACKAGE_NAME, REL_WORKING_DIR)
+    # @unittest.skip("skip")
     def test_case2_with_params(self, test_wb, exp_dfs, params):
         """Test the strategy with case2 and providing parameters."""
         # print params
