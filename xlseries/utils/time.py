@@ -11,6 +11,7 @@ Small useful time related methods.
 import arrow
 import datetime
 
+
 def increment_time(time, num, freq):
     """Return time incremented in "num" times "frequency".
 

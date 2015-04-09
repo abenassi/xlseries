@@ -93,7 +93,7 @@ class GetSingleFrequencyData(BaseGetDataStrategy):
                         new_value = float(value)
                     except:
                         print args_without_values
-                        raise Exception("value non valid")
+                        raise Exception("Value is not valid " + unicode(value))
                 else:
                     new_value = np.nan
             else:
@@ -165,9 +165,9 @@ class GetSingleFrequencyData(BaseGetDataStrategy):
             i_row += 1
             i_value += 1
 
-        with open("record.txt", "wb") as f:
-            for line in record:
-                f.write(str(line) + "\n")
+        # with open("record.txt", "wb") as f:
+        #     for line in record:
+        #         f.write(str(line) + "\n")
 
         return new_values
 
