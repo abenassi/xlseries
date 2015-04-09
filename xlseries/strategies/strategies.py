@@ -21,9 +21,22 @@ import xlseries.strategies.clean.time_index as clean_ti_strategies
 import xlseries.strategies.get.data as get_data_strategies
 
 
+class TimeIndexNotClean(Exception):
+
+    """Raised if time index of a worksheet could not be cleaned."""
+    pass
+
+
 class BaseStrategy(object):
 
-    """BaseStrategy class for all strategies."""
+    """BaseStrategy class for higher level strategies.
+
+    Attributes:
+        wb: An openpyxl workbook loaded with "data_only=True" parameter.
+        input_params: An optional attribute with parameters ready to be used
+            in parsing wb. If not passed, the strategy will have to discover
+            them or adopt a different approach to parse wb.
+    """
 
     def __init__(self, wb, input_params=Parameters()):
         self.wb = wb
@@ -56,14 +69,10 @@ class ParameterDiscovery(BaseStrategy):
         self._discover_parameters(ws)
 
         # Second: clean the data
-        status = self._clean_data(ws)
+        self._clean_data(ws)
 
-        if status["index"] and status["values"]:
-            # Third: get the data
-            return self._get_data(ws)
-
-        else:
-            return None
+        # Third: get the date from a cleaned worksheet
+        return self._get_data(ws)
 
     # HIGH LEVEL TASKS
     def _discover_parameters(self, ws):
@@ -74,17 +83,12 @@ class ParameterDiscovery(BaseStrategy):
         """Ensure data is clean to be processed with the parameters."""
 
         # 1. Clean time index
-        # print len(self.params.time_header_coord)
-        status_index = False
         for i_series in xrange(len(self.params.time_header_coord)):
-            status_index = self._clean_time_index(ws, self.params[i_series])
+            self._clean_time_index(ws, self.params[i_series])
 
         # 2. Clean data values
-        status_values = False
         for i_series in xrange(len(self.params.headers_coord)):
-            status_values = self._clean_values(ws)
-
-        return {"index": status_index, "values": status_values}
+            self._clean_values(ws)
 
     def _get_data(self, ws):
         """Parse data using parameters and return it in data frames."""
@@ -134,16 +138,20 @@ class ParameterDiscovery(BaseStrategy):
     # 2. CLEAN DATA methods
     @classmethod
     def _clean_time_index(cls, ws, params):
+        """This is changing ws..."""
 
-        status_index = None
+        # raise Exception(ws.title + unicode(params) + " accepted!")
+        # raise Exception(clean_ti_strategies.get_strategies())
+
         for strategy in clean_ti_strategies.get_strategies():
-
+            print strategy
             if strategy.accepts(ws, params):
                 strategy_obj = strategy()
-                status_index = strategy_obj.clean_time_index(ws, params)
-                break
+                strategy_obj.clean_time_index(ws, params)
+                return
 
-        return status_index
+        msg = "Time index in '" + ws.title + "'' could not be cleaned."
+        raise TimeIndexNotClean(msg)
 
     @classmethod
     def _clean_values(cls, ws):
@@ -187,7 +195,8 @@ def get_strategies_names():
     list_cls_names = [cls_tuple[0] for cls_tuple in list_cls_tuple]
     list_no_base_cls_names = [cls_name for cls_name in list_cls_names
                               if cls_name[:4] != "Base" and
-                              cls_name != "Parameters"]
+                              cls_name != "Parameters" and
+                              cls_name != "TimeIndexNotClean"]
 
     return list_no_base_cls_names
 

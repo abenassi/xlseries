@@ -7,18 +7,58 @@ clean_ti_strategies
 
 This module contains strategies to parse and clean time indexes in worksheets
 cotaining time data series.
+
+Warning! Do not import other classes directly "from module import Class",
+except if they are custom exceptions.
+Rather import the module in which the Class is defined and use it like
+"module.Class". All the classes defined in this modul namespace are
+automatically taken by "get_strategies" and exposed to the user.
 """
 
-import sys
-import copy
 import arrow
-import inspect
 from pprint import pprint
 from openpyxl.cell import column_index_from_string
 
+from xlseries.strategies.clean.parse_time import NoTimeValue
+import xlseries.utils.strategies_helpers
 from xlseries.utils.time import increment_time
 import xlseries.strategies.clean.parse_time as parse_time_strategies
-from xlseries.strategies.clean.parse_time import ParseSimpleTime
+
+
+# CUSTOM EXCEPTIONS
+class TimeValueGoingBackwards(Exception):
+
+    """Raised when a time value is going backwards.
+
+    The parser observe that a time value is going backwards and
+    existent strategies can't deal with it."""
+    pass
+
+
+class NoExpectedTimeValue(Exception):
+
+    """Raised when no expected time value is provided to compare."""
+    pass
+
+
+class TimeValueGoingForth(Exception):
+
+    """Raised when time value is going forth, when not supposed to.
+
+    The parser observe that a time value is going forth than expected
+    and existent strategies can't deal with it."""
+    pass
+
+
+class TimeParsingError(Exception):
+
+    """Raised when parsing to date data structure is impossible.
+
+    There is no strategy to deal with the time value that is trying to be
+    parsed."""
+    pass
+
+# STRATEGIES
 
 
 class BaseCleanTiStrategy(object):
@@ -41,21 +81,20 @@ class BaseCleanTiStrategy(object):
     def _correct_progression(cls, last_time_value, curr_time_value,
                              freq, missings, missing_value):
 
-
         exp_time_value = increment_time(last_time_value, 1, freq)
         assert type(exp_time_value) == arrow.Arrow
         assert type(last_time_value) == arrow.Arrow or not last_time_value
         assert type(curr_time_value) == arrow.Arrow
-        # print last_time_value, curr_time_value, exp_time_value, curr_time_value == exp_time_value, missing_value
+        # print last_time_value, curr_time_value, exp_time_value,
+        # curr_time_value == exp_time_value, missing_value
 
         if not exp_time_value:
             msg = "No expected time value could be calcualted from " + \
-                str(last_time_value) + " " + str(freq)
-            raise Exception(msg)
+                unicode(last_time_value) + " " + unicode(freq)
+            raise NoExpectedTimeValue(msg)
 
         # everything is ok!
         if exp_time_value == curr_time_value:
-            # print "ok!!"
             return curr_time_value
 
         # going back
@@ -63,20 +102,21 @@ class BaseCleanTiStrategy(object):
             if cls._time_value_typo(curr_time_value, exp_time_value):
                 return exp_time_value
             else:
-                return False
+                msg = "".join(["Current:", unicode(curr_time_value),
+                               "Expected:", unicode(exp_time_value),
+                               "Last:", unicode(last_time_value)])
+                raise TimeValueGoingBackwards(msg)
 
         # going forth with no missings allowed
         going_forth = curr_time_value > last_time_value
         if going_forth and not missings:
-            try:
-                cls._time_value_typo(curr_time_value, exp_time_value)
-            except Exception:
-                print curr_time_value, exp_time_value, last_time_value
-
-                if cls._time_value_typo(curr_time_value, exp_time_value):
-                    return exp_time_value
+            if cls._time_value_typo(curr_time_value, exp_time_value):
+                return exp_time_value
             else:
-                return False
+                msg = "".join(["Current:", unicode(curr_time_value),
+                               "Expected:", unicode(exp_time_value),
+                               "Last:", unicode(last_time_value)])
+                raise TimeValueGoingForth(msg)
 
         # going forth with implicit missings
         max_forth_time_value = increment_time(last_time_value,
@@ -96,6 +136,16 @@ class BaseCleanTiStrategy(object):
 
     @classmethod
     def _time_value_typo(cls, curr_time_value, exp_time_value):
+        """Check if a time value could have a human typo.
+
+        It relies in the idea that if the current time value being
+        parsed is equal in two of the three parameters of a date
+        (day, month and year), the different one is a human typo.
+
+        Args:
+            curr_time_value: Time value to be analyzed for a typo.
+            exp_time_value: Expected time value to compare.
+        """
 
         matches = [(curr_time_value.day == exp_time_value.day),
                    (curr_time_value.month == exp_time_value.month),
@@ -129,21 +179,40 @@ class BaseCleanTiStrategy(object):
 
     @classmethod
     def _parse_time(cls, curr_time, last_time, params):
-        # print "here!"
-        # print params
-        time_value = None
+        """Try to parse any value into a proper date format.
+
+        Iterate a pool of strategies looking one that understands the format of
+        the time value to be parsed and declares to be able to parse it into
+        a date format.
+
+        Args:
+            curr_time: Value to be parsed into a date format.
+            last_time: Last value parsed, as reference for some strategies.
+            params: Parameters of the series being analyzed.
+
+        Returns:
+            An arrow.Arrow object expressing a date.
+        """
 
         if curr_time:
             for strategy in parse_time_strategies.get_strategies():
                 if strategy.accepts(curr_time, last_time, params):
                     # print strategy, "was accepted!"
                     time_value = strategy.parse_time(curr_time, last_time,
-                                                         params)
-                    break
-        # time_value = ParseSimpleTime.parse_time(curr_time, last_time,
-        #                                         params)
-        # print time_value
-        return time_value
+                                                     params)
+
+                    msg = "".join([unicode(time_value), " - ",
+                                   unicode(type(time_value)),
+                                   " is not arrow.Arrow",
+                                   "\nValue parsed: ", unicode(curr_time)])
+                    assert type(time_value) == arrow.Arrow, msg
+
+                    return time_value
+
+        msg = "".join(["No strategy to parse\nCurrent: ", unicode(curr_time),
+                       "\nLast: ", unicode(last_time),
+                       "\nParameters: ", repr(params)])
+        raise TimeParsingError(msg)
 
 
 class CleanSingleColumnTi(BaseCleanTiStrategy):
@@ -158,73 +227,44 @@ class CleanSingleColumnTi(BaseCleanTiStrategy):
     @classmethod
     def _clean_time_index(cls, ws, params):
         """Extract time data series and return them as data frames."""
-        # print "here"
 
         p = params
-        # print p
-        status_index = True
 
+        # the col doesn't change in all the iteration
         col = column_index_from_string(ws[p["time_header_coord"]].column)
 
-        # iterate series time index values
+        # iterate series time index values and clean them
         last_time = None
-        # print list(xrange(p["data_starts"], p["data_ends"] + 1))
-        for i_row in xrange(p["data_starts"], p["data_ends"] + 1):
-            curr_time = ws.cell(row=i_row, column=col).value
+        for row in xrange(p["data_starts"], p["data_ends"] + 1):
 
-            # print type(curr_time)
+            # take the current time value to clean
+            curr_time = ws.cell(row=row, column=col).value
+
+            # only clean if the value is not None
             if curr_time:
 
-                # clean curr time value, in case of format errors or no time values
-                curr_time = cls._parse_time(curr_time, last_time, params)
-                # print "1", curr_time, last_time
+                try:
+                    # convert strings and datetime.datetime's to arrow.Arrow times
+                    curr_time = cls._parse_time(curr_time, last_time, params)
 
-                # correct date typos checking a healthy time progression
-                new_time = None
-                if curr_time and last_time:
-                    new_time = cls._correct_progression(last_time,
-                                                        curr_time,
-                                                        p["frequency"],
-                                                        p["missings"],
-                                                        p["missing_value"])
+                    # correct date typos checking a healthy time progression
+                    if last_time:
+                        curr_time = cls._correct_progression(last_time,
+                                                             curr_time,
+                                                             p["frequency"],
+                                                             p["missings"],
+                                                             p["missing_value"])
 
-                    # write the clean value again in the file, if succesful
-                    if new_time and type(new_time) == arrow.Arrow:
-                        ws.cell(row=i_row, column=col).value = new_time.datetime
-                        last_time = new_time
-                        # print ws.cell(row=i_row, column=col).value
-
-                    # value needs to be corected, attempt was unsuccesful
-                    else:
-                        status_index = False
-
-                elif curr_time and not last_time:
-                    ws.cell(row=i_row, column=col).value = curr_time.datetime
-
-                if not new_time:
+                    ws.cell(row=row, column=col).value = curr_time.datetime
                     last_time = curr_time
 
+                except NoTimeValue:
+                    pass
 
-        return status_index
-
-
-def get_strategies_names():
-    """Returns a list of the parsers names, whith no Base classes."""
-
-    list_cls_tuple = inspect.getmembers(sys.modules[__name__], inspect.isclass)
-    list_cls_names = [cls_tuple[0] for cls_tuple in list_cls_tuple]
-    list_no_base_cls_names = [cls_name for cls_name in list_cls_names
-                              if cls_name[:4] != "Base" and
-                              cls_name != "Parameters"]
-
-    return list_no_base_cls_names
 
 
 def get_strategies():
-    """Returns a list of references to the parsers classes."""
-
-    return [globals()[cls_name] for cls_name in get_strategies_names()]
-
+    return xlseries.utils.strategies_helpers.get_strategies()
 
 if __name__ == '__main__':
-    pprint(sorted(increment_time()))
+    pprint(sorted(xlseries.utils.strategies_helpers.get_strategies_names()))

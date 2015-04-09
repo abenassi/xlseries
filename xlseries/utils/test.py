@@ -1,3 +1,15 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+test
+----------------------------------
+
+Useful methods for testing.
+"""
+
+from __future__ import unicode_literals
+# from __future__ import print_function
 from pandas.util.testing import assert_frame_equal
 from xlseries.utils.general import approx_equal
 
@@ -10,18 +22,23 @@ def compare_data_frames(df1, df2):
         df2: Second data frame to compare.
     """
 
-    try:
-        assert df1.index.size == df2.index.size, "Different index size"
-        assert df1.index.freqstr == df2.index.freqstr, "Different index freq"
-        assert _check_columns(df1.columns, df2.columns), "Different columns"
-        assert _check_index(df1.index, df2.index), "Different index"
-        assert _check_values(df1.columns, df1, df2), "Too different values"
+    msg = "Different index size"
+    assert df1.index.size == df2.index.size, msg
 
-        return True
+    msg = "Different index freq"
+    assert df1.index.freqstr == df2.index.freqstr, msg
 
-    except Exception as inst:
-        print inst
-        return False
+    # msg = "Different columns\n" + repr(df1.columns) + "\n" + repr(df2.columns)
+    msg = "Different columns"
+    assert _check_columns(df1.columns, df2.columns), msg
+
+    msg = "Different index"
+    assert _check_index(df1.index, df2.index), msg
+
+    msg = "Too different values"
+    assert _check_values(df1.columns, df1, df2), msg
+
+    return True
 
 
 def _check_columns(cols1, cols2):
@@ -29,10 +46,13 @@ def _check_columns(cols1, cols2):
 
     for col1 in cols1:
         if col1 not in cols2:
-            return False
+            msg = "".join(["'", col1, "'", "\nnot in\n",
+                           "\n".join(list(cols2))])
+            raise Exception(msg)
 
     for col2 in cols2:
         if col2 not in cols1:
+            # raise Exception(repr(col2) + " not in " + repr(cols1))
             return False
 
     return True

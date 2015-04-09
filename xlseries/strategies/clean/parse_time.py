@@ -16,7 +16,17 @@ import arrow
 import datetime
 import parsley
 
+import xlseries.utils.strategies_helpers
 
+
+# EXCEPTIONS
+class NoTimeValue(Exception):
+
+    """Raised if the value is not a time value."""
+    pass
+
+
+# STRATEGIES
 class BaseParseTimeStrategy(object):
 
     """BaseParseTimeStrategy class for all parse time strategies."""
@@ -24,9 +34,13 @@ class BaseParseTimeStrategy(object):
     # PUBLIC INTERFACE
     @classmethod
     def accepts(cls, curr_time, last_time, params):
-        if type(curr_time) == arrow.Arrow or type(curr_time) == datetime.datetime:
+        if (type(curr_time) == arrow.Arrow or
+                type(curr_time) == datetime.datetime):
             return True
+
         else:
+            if not cls._possible_time_value(curr_time):
+                raise NoTimeValue(curr_time)
             return cls._accepts(curr_time, last_time, params)
 
     @classmethod
@@ -70,6 +84,10 @@ class BaseParseTimeStrategy(object):
     def _dob_year_to_four(dob_year):
         return arrow.Arrow.strptime(dob_year, "%y").year
 
+    @classmethod
+    def _possible_time_value(cls, time_value):
+        return time_value and type(time_value) != float
+
 
 class ParseSimpleTime(BaseParseTimeStrategy):
 
@@ -77,7 +95,8 @@ class ParseSimpleTime(BaseParseTimeStrategy):
 
     @classmethod
     def _accepts(cls, curr_time, last_time, params):
-        return not params["time_multicolumn"] and not params["time_composed"]
+        return (curr_time and not params["time_multicolumn"] and
+                not params["time_composed"])
 
     @classmethod
     def _parse_time(cls, curr_time, last_time, params):
@@ -116,8 +135,9 @@ class BaseComposedQuarter(BaseParseTimeStrategy):
         except:
             match_grammar = False
 
-        return not params["time_multicolumn"] and params["time_composed"] and \
-            params["frequency"] == "Q" and match_grammar
+        return (curr_time and not params["time_multicolumn"] and
+                params["time_composed"] and params["frequency"] == "Q" and
+                match_grammar)
 
     @staticmethod
     def _quarter_num_to_month(quarter_number):
@@ -174,7 +194,7 @@ class ParseComposedQuarterTime2(BaseComposedQuarter):
     info of the structure showed in the example.
 
     >>> orig = [u"2° Trim 07",
-    ...         "3° Trim 07 2",
+    ...         "u' 3 Trim 07 2'",
     ...         "4° Trim 07 ",
     ...         "1° Trim 08 "]
     >>> params = {"time_format": str}
@@ -195,7 +215,7 @@ class ParseComposedQuarterTime2(BaseComposedQuarter):
         return parsley.makeGrammar("""
                 not_digit = anything:x ?(x not in "0123456789 ")
 
-                q = not_digit* digit:q not_digit* ws -> int(q)
+                q = not_digit* ws digit:q not_digit* ws -> int(q)
                 y = (ws | not_digit) <digit{2}>:y (ws | not_digit) -> y
 
                 date = q:q not_digit* y:y anything* -> (dob_year(y), q_to_m(q), 1)
@@ -321,25 +341,10 @@ class ParseComposedMonthTime2(BaseComposedMonth):
                 """, {})
 
 
-def get_strategies_names():
-    """Returns a list of the parsers names, whith no Base classes."""
-
-    list_cls_tuple = inspect.getmembers(sys.modules[__name__], inspect.isclass)
-    list_cls_names = [cls_tuple[0] for cls_tuple in list_cls_tuple]
-    list_no_base_cls_names = [cls_name for cls_name in list_cls_names
-                              if cls_name[:4] != "Base" and
-                              cls_name != "Parameters"]
-
-    return list_no_base_cls_names
-
-
 def get_strategies():
-    """Returns a list of references to the parsers classes."""
-
-    return [globals()[cls_name] for cls_name in get_strategies_names()]
-
+    return xlseries.utils.strategies_helpers.get_strategies()
 
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
-    pprint(sorted(get_strategies_names()))
+    pprint(sorted(xlseries.utils.strategies_helpers.get_strategies_names()))

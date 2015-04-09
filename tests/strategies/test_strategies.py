@@ -8,6 +8,7 @@ test_strategies
 Tests for `strategies` module.
 """
 
+from __future__ import unicode_literals
 import unittest
 import nose
 from openpyxl import load_workbook
@@ -31,14 +32,14 @@ def parse_t_name(fn_name):
 # @unittest.skip("skip")
 class ParameterDiscoveryTestCase(unittest.TestCase):
 
-    @load_file("parameters/", parse_t_name, ".json", Parameters, "params")
-    @load_file("expected/", parse_t_name, ".xlsx", get_data_frames, "exp_dfs")
-    @load_file("original/", parse_t_name, ".xlsx", load_workbook, "test_wb")
-    @change_working_dir(PACKAGE_NAME, REL_WORKING_DIR)
-    # @unittest.skip("skip")
+    # @load_file("parameters/", parse_t_name, ".json", Parameters, "params")
+    # @load_file("expected/", parse_t_name, ".xlsx", get_data_frames, "exp_dfs")
+    # @load_file("original/", parse_t_name, ".xlsx", load_workbook, "test_wb")
+    # @change_working_dir(PACKAGE_NAME, REL_WORKING_DIR)
+    @unittest.skip("skip")
     def test_case1_with_params(self, test_wb, exp_dfs, params):
         """Test the strategy with case1 and providing parameters."""
-        print "here"
+        # print "here"
         # get dfs from the strategy
         strategy_obj = ParameterDiscovery(test_wb, params)
         test_dfs = strategy_obj.get_data_frames()
@@ -46,11 +47,11 @@ class ParameterDiscoveryTestCase(unittest.TestCase):
         for test_df, exp_df in zip(test_dfs, exp_dfs):
             self.assertTrue(compare_data_frames(test_df, exp_df))
 
-    @load_file("parameters/", parse_t_name, ".json", Parameters, "params")
-    @load_file("expected/", parse_t_name, ".xlsx", get_data_frames, "exp_dfs")
-    @load_file("original/", parse_t_name, ".xlsx", load_workbook, "test_wb")
-    @change_working_dir(PACKAGE_NAME, REL_WORKING_DIR)
-    # @unittest.skip("skip")
+    # @load_file("parameters/", parse_t_name, ".json", Parameters, "params")
+    # @load_file("expected/", parse_t_name, ".xlsx", get_data_frames, "exp_dfs")
+    # @load_file("original/", parse_t_name, ".xlsx", load_workbook, "test_wb")
+    # @change_working_dir(PACKAGE_NAME, REL_WORKING_DIR)
+    @unittest.skip("skip")
     def test_case2_with_params(self, test_wb, exp_dfs, params):
         """Test the strategy with case2 and providing parameters."""
         # print params
@@ -82,8 +83,24 @@ class ParameterDiscoveryTestCase(unittest.TestCase):
         for test_df, exp_df in zip(test_dfs, exp_dfs):
             self.assertTrue(compare_data_frames(test_df, exp_df))
 
+    # @load_file("parameters/", parse_t_name, ".json", Parameters, "params")
+    # @load_file("expected/", parse_t_name, ".xlsx", get_data_frames, "exp_dfs")
+    # @load_file("original/", parse_t_name, ".xlsx", load_workbook, "test_wb",
+    #            {"data_only": True})
+    # @change_working_dir(PACKAGE_NAME, REL_WORKING_DIR)
+    @unittest.skip("skip")
+    def test_case4_with_params(self, test_wb, exp_dfs, params):
+        """Test the strategy with case4 and providing parameters."""
 
-# @unittest.skip("skip")
+        # get dfs from the strategy
+        strategy_obj = ParameterDiscovery(test_wb, params)
+        test_dfs = strategy_obj.get_data_frames()
+
+        for test_df, exp_df in zip(test_dfs, exp_dfs):
+            compare_data_frames(test_df, exp_df)
+
+
+@unittest.skip("skip")
 class PeriodRangeTestCase(unittest.TestCase):
 
     @change_working_dir(PACKAGE_NAME, REL_WORKING_DIR)
@@ -104,4 +121,5 @@ class PeriodRangeTestCase(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    # unittest.main()
     nose.run(defaultTest=__name__)
