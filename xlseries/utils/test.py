@@ -9,6 +9,7 @@ Useful methods for testing.
 """
 
 from __future__ import unicode_literals
+
 # from __future__ import print_function
 from pandas.util.testing import assert_frame_equal
 from xlseries.utils.general import approx_equal

@@ -10,8 +10,8 @@ DataFrames. This is the only module that the user should use.
 """
 
 from openpyxl import load_workbook
-import evaluation
-import strategies
+from evaluation import evaluation
+from strategies import strategies
 
 
 class XlSeries(object):
@@ -22,12 +22,15 @@ class XlSeries(object):
         self.wb = load_workbook(xl_name)
 
     # PUBLIC
-    def get_data_frames(self, all_results=True, input_params=None):
+    def get_data_frames(self, all_results=True, params_path=None):
         """Returns pandas data frames of time series found in the xl file.
 
         Args:
             all_results: If True all results are returned ordered by evaluation
-                result. Otherwise only the best result is returned.
+                result. Otherwise only the best result is returned. TODO: This
+                feature is not implemented yet!!
+            params_path: Path to a json file with parameters to parse the
+                excel file.
         """
 
         results = []
@@ -35,8 +38,9 @@ class XlSeries(object):
         for strategy in strategies.get_strategies():
 
             if strategy.accepts(self.wb):
-                strategy_obj = strategy(self.wb, input_params)
+                strategy_obj = strategy(self.wb, params_path)
                 strategy_results = strategy_obj.get_data_frames()
+                # print "strat results", strategy_results
 
                 for result in strategy_results:
                     eval_result = evaluation.evaluate(result)
