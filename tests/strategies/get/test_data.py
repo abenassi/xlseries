@@ -11,12 +11,13 @@ Tests for `get_data_strategies` module.
 import unittest
 import nose
 from openpyxl import load_workbook
+import os
 
 from xlseries.utils.general import get_data_frames, approx_equal
 from xlseries.strategies.discover.parameters import Parameters
 from xlseries.strategies.get.data import GetSingleFrequencyData
 from xlseries.strategies.clean.time_index import CleanSingleColumnTi
-from xlseries.utils.general import compare_list_values
+from xlseries.utils.test import compare_list_values
 
 
 class MissingsTestCase(unittest.TestCase):
@@ -32,8 +33,8 @@ class MissingsTestCase(unittest.TestCase):
         return values
 
     def test_fill_implicit_missings(self):
-        test_wb = load_workbook("original/test_case2.xlsx")
-        params = Parameters("parameters/test_case2.json")
+        test_wb = load_workbook(os.path.join("original", "test_case2.xlsx"))
+        params = Parameters(os.path.join("parameters", "test_case2.json"))
         strategy = GetSingleFrequencyData
 
         ws = test_wb.active
@@ -53,7 +54,7 @@ class MissingsTestCase(unittest.TestCase):
                                                       ini_row,
                                                       end_row)
 
-        exp_dfs = get_data_frames("expected/test_case2.xlsx")
+        exp_dfs = get_data_frames(os.path.join("expected", "test_case2.xlsx"))
         exp_values = [value[0] for value in exp_dfs[0].values]
 
         self.assertEqual(len(new_values), len(exp_values))

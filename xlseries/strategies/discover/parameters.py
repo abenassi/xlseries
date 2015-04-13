@@ -51,7 +51,11 @@ class Parameters(object):
         self.frequency = None
 
         if json_params_file:
-            self.__dict__ = self._load_parameters(json_params_file)
+            if type(json_params_file) == Parameters:
+                self.__dict__ = json_params_file.__dict__
+                # raise Exception(self)
+            else:
+                self.__dict__ = self._load_parameters(json_params_file)
 
     def __repr__(self):
         return pprint.pformat(self.__dict__)

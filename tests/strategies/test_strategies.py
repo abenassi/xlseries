@@ -13,6 +13,7 @@ import unittest
 import nose
 from openpyxl import load_workbook
 import pandas as pd
+import os
 
 from xlseries.utils.general import get_data_frames, change_working_dir
 from xlseries.utils.general import load_file
@@ -20,7 +21,7 @@ from xlseries.utils.test import compare_data_frames, compare_period_ranges
 from xlseries.strategies.strategies import ParameterDiscovery
 from xlseries.strategies.discover.parameters import Parameters
 
-REL_WORKING_DIR = r"tests\integration_cases"
+REL_WORKING_DIR = os.path.join("tests", "integration_cases")
 PACKAGE_NAME = "xlseries"
 
 
@@ -39,7 +40,7 @@ class ParameterDiscoveryTestCase(unittest.TestCase):
     # @unittest.skip("skip")
     def test_case1_with_params(self, test_wb, exp_dfs, params):
         """Test the strategy with case1 and providing parameters."""
-        # print "here"
+
         # get dfs from the strategy
         strategy_obj = ParameterDiscovery(test_wb, params)
         test_dfs = strategy_obj.get_data_frames()

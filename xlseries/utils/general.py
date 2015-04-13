@@ -6,6 +6,9 @@ from pandas.util.testing import assert_frame_equal
 import json
 import datetime
 import arrow
+from functools import wraps
+import imp
+import inspect
 
 
 def xl_coordinates_range(start, end=None):
@@ -21,12 +24,13 @@ def xl_coordinates_range(start, end=None):
     if end:
         for row in ws[start + ":" + end]:
             for cell in row:
-                yield cell.coordinate
+                yield cell.get_coordinate()
     else:
         yield start
 
 
-def load_file(rel_dir="./", fn_name_parser=str, file_format=".txt",
+def load_file(rel_dir=os.path.dirname(__file__),
+              fn_name_parser=str, file_format=".txt",
               load_obj=open, kw_arg="file_name", loader_args={}):
     """Call a function loading a file of the same name."""
 
@@ -34,17 +38,18 @@ def load_file(rel_dir="./", fn_name_parser=str, file_format=".txt",
         relative_path = rel_dir + fn_name_parser(fn.__name__) + file_format
         file_loaded = load_obj(relative_path, **loader_args)
 
+        @wraps(fn)
         def fn_decorated(*args, **kwargs):
             kwargs[kw_arg] = file_loaded
             fn(*args, **kwargs)
 
-        fn_decorated.__name__ = fn.__name__
         return fn_decorated
     return fn_decorator
 
 
-def load_json_vals(rel_dir="./", fn_name_parser=str, kw_arg="values",
-                     json_file_name="values", evaluate=False):
+def load_json_vals(rel_dir=os.path.dirname(__file__),
+                   fn_name_parser=str, kw_arg="values",
+                   json_file_name="values", evaluate=False):
     """Call a function loading values from json using fn name as a key."""
 
     def fn_decorator(fn):
@@ -56,6 +61,7 @@ def load_json_vals(rel_dir="./", fn_name_parser=str, kw_arg="values",
         if evaluate:
             values = [eval(value) for value in values]
 
+        @wraps(fn)
         def fn_decorated(*args, **kwargs):
             kwargs[kw_arg] = values
             fn(*args, **kwargs)
@@ -100,6 +106,7 @@ def change_working_dir(package_name, rel_working_dir):
         old_dir = os.getcwd()
         os.chdir(os.path.join(package_dir, rel_working_dir))
 
+        @wraps(fn)
         def test_decorated(*args, **kwargs):
             fn(*args, **kwargs)
             os.chdir(old_dir)
@@ -109,12 +116,13 @@ def change_working_dir(package_name, rel_working_dir):
     return test_decorator
 
 
+
 def compare_cells(wb1, wb2):
     """Compare two excels based on row iteration."""
 
     # compare each cell of each worksheet
     for ws1, ws2 in zip(wb1.worksheets, wb2.worksheets):
-        for row1, row2 in zip(ws1.iter_rows(), ws2.iter_rows()):
+        for row1, row2 in zip(safe_iter_rows(ws1), safe_iter_rows(ws2)):
             for cell1, cell2 in zip(row1, row2):
 
                 msg = "".join([_safe_str(cell1.value), " != ",
@@ -133,6 +141,15 @@ def compare_cells(wb1, wb2):
                 else:
                     assert cell1.value == cell2.value, msg
     return True
+
+
+def safe_iter_rows(ws):
+    """Iterate rows of a worksheet using or not using iterators."""
+
+    if hasattr(ws, "iter_rows"):
+        return ws.iter_rows()
+    else:
+        return (ws.rows)
 
 
 def _safe_str(value):
@@ -239,8 +256,3 @@ def get_data_frame(xl_file, sheetname=0):
                       columns=df.columns)
 
     return df
-
-
-
-
-

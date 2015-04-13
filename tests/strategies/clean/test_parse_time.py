@@ -25,7 +25,8 @@ from xlseries.strategies.discover.parameters import Parameters
 from xlseries.utils.general import change_working_dir
 from xlseries.utils.general import load_file, get_package_dir
 
-REL_WORKING_DIR = r"tests\integration_cases"
+BASE_DIR = os.path.dirname(__file__)
+REL_WORKING_DIR = os.path.join("tests", "integration_cases")
 PACKAGE_NAME = "xlseries"
 
 
@@ -34,7 +35,7 @@ def load_parameters():
 
     def test_decorator(fn):
         base_path = os.path.join(get_package_dir("xlseries", __file__),
-                                 r"tests\integration_cases\parameters")
+                                 "tests", "integration_cases", "parameters")
         file_name = parse_t_name_without_bis(fn.__name__) + ".json"
         file_path = os.path.join(base_path, file_name)
         params = Parameters(file_path)

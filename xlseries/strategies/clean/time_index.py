@@ -236,6 +236,7 @@ class CleanSingleColumnTi(BaseCleanTiStrategy):
         # iterate series time index values and clean them
         last_time = None
         for row in xrange(p["data_starts"], p["data_ends"] + 1):
+            # raise Exception(row, p["data_starts"], p["data_ends"] + 1)
 
             # take the current time value to clean
             curr_time = ws.cell(row=row, column=col).value
@@ -243,6 +244,7 @@ class CleanSingleColumnTi(BaseCleanTiStrategy):
             # only clean if the value is not None
             if curr_time:
 
+                print curr_time
                 try:
                     # convert strings and datetime.datetime's to arrow.Arrow times
                     curr_time = cls._parse_time(curr_time, last_time, params)

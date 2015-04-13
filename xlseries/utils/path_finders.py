@@ -14,7 +14,7 @@ from xlseries.utils.general import get_package_dir
 
 
 def get_tests_params_dir():
-    """Return the path to integration test parameters."""
+    """Return the path to integration test cases parameters."""
 
     relative_path = os.path.sep.join(["tests",
                                       "integration_cases",
@@ -25,7 +25,7 @@ def get_tests_params_dir():
 
 
 def get_xl_cases_dir():
-    """Return the path to integration excel test cases."""
+    """Return the path to integration excel original test cases."""
 
     relative_path = os.path.sep.join(["tests",
                                       "integration_cases",

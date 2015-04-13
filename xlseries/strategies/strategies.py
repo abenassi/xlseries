@@ -16,6 +16,7 @@ import pandas as pd
 import numpy as np
 from openpyxl.cell import column_index_from_string
 
+import xlseries.utils.strategies_helpers
 from xlseries.strategies.discover.parameters import Parameters
 import xlseries.strategies.clean.time_index as clean_ti_strategies
 import xlseries.strategies.get.data as get_data_strategies
@@ -43,6 +44,7 @@ class BaseStrategy(object):
     def __init__(self, wb, params_path=None):
         self.wb = wb
         self.params = Parameters(params_path)
+        # raise Exception(self.params)
 
     # PUBLIC INTERFACE
     @classmethod
@@ -209,25 +211,8 @@ class ParameterDiscovery(BaseStrategy):
 
         return period_range
 
-
-def get_strategies_names():
-    """Returns a list of the parsers names, whith no Base classes."""
-
-    list_cls_tuple = inspect.getmembers(sys.modules[__name__], inspect.isclass)
-    list_cls_names = [cls_tuple[0] for cls_tuple in list_cls_tuple]
-    list_no_base_cls_names = [cls_name for cls_name in list_cls_names
-                              if cls_name[:4] != "Base" and
-                              cls_name != "Parameters" and
-                              cls_name != "TimeIndexNotClean"]
-
-    return list_no_base_cls_names
-
-
 def get_strategies():
-    """Returns a list of references to the parsers classes."""
-
-    return [globals()[cls_name] for cls_name in get_strategies_names()]
-
+    return xlseries.utils.strategies_helpers.get_strategies()
 
 if __name__ == '__main__':
-    pprint(sorted(get_strategies_names()))
+    pprint(sorted(xlseries.utils.strategies_helpers.get_strategies_names()))

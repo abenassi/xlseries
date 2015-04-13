@@ -24,7 +24,7 @@ from xlseries.utils.general import compare_cells
 def load_parameters(case):
 
     base_path = os.path.join(get_package_dir("xlseries", __file__),
-                             r"tests\integration_cases\parameters")
+                             "tests", "integration_cases", "parameters")
     file_name = case + ".json"
     file_path = os.path.join(base_path, file_name)
     params = Parameters(file_path)
@@ -71,7 +71,7 @@ class CleanSingleColumnTiTest(unittest.TestCase):
     # @unittest.skip("skip")
     def test_clean_time_index(self):
 
-        wb = load_workbook("original/test_case2.xlsx")
+        wb = load_workbook(os.path.join("original", "test_case2.xlsx"))
         ws = wb.active
 
         clean_ci = {"time_alignment": 0,
@@ -87,7 +87,7 @@ class CleanSingleColumnTiTest(unittest.TestCase):
 
         CleanSingleColumnTi._clean_time_index(ws, clean_ci)
 
-        wb_exp = load_workbook("expected/test_case2.xlsx")
+        wb_exp = load_workbook(os.path.join("expected", "test_case2.xlsx"))
 
         # wb.save("test_case2_after_cleaning_index.xlsx")
         self.assertTrue(compare_cells(wb, wb_exp))
