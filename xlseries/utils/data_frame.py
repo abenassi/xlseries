@@ -2,17 +2,54 @@
 # -*- coding: utf-8 -*-
 
 """
-test
+data_frame
 ----------------------------------
 
-Useful methods for testing.
+Auxiliar methods to load and manipulate data frames.
 """
 
 from __future__ import unicode_literals
-
-# from __future__ import print_function
-from pandas.util.testing import assert_frame_equal
+import pandas as pd
+from openpyxl import load_workbook
+from time_manipulation import infer_freq
 from xlseries.utils.general import approx_equal
+
+
+def get_data_frames(xl_file):
+    """Parse a well formatted excel file into pandas data frames."""
+
+    dfs = []
+
+    wb = load_workbook(filename=xl_file, use_iterators=True)
+    ws_names = wb.get_sheet_names()
+
+    for ws_name in ws_names:
+        df = get_data_frame(xl_file, sheetname=ws_name)
+        dfs.append(df)
+
+    return dfs
+
+
+def get_data_frame(xl_file, sheetname=0):
+    """Parse a well formatted excel sheet into a pandas data frame."""
+
+    df = pd.read_excel(xl_file, sheetname)
+
+    # adopt a datetime index (first excel col)
+    df = df.set_index(df.columns[0])
+
+    time_delta = (df.index[-1] - df.index[0]) / df.index.size
+    av_seconds = time_delta.total_seconds()
+    period_range = pd.period_range(df.index[0],
+                                   df.index[-1],
+                                   freq=infer_freq(av_seconds))
+
+    # rebuild data frame using a period range with frequency
+    df = pd.DataFrame(data=df.values,
+                      index=period_range,
+                      columns=df.columns)
+
+    return df
 
 
 def compare_data_frames(df1, df2):
@@ -29,7 +66,6 @@ def compare_data_frames(df1, df2):
     msg = "Different index freq"
     assert df1.index.freqstr == df2.index.freqstr, msg
 
-    # msg = "Different columns\n" + repr(df1.columns) + "\n" + repr(df2.columns)
     msg = "Different columns"
     assert _check_columns(df1.columns, df2.columns), msg
 

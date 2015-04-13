@@ -20,7 +20,8 @@ from xlseries.strategies.clean.parse_time import ParseComposedQuarterTime2
 from xlseries.strategies.clean.parse_time import ParseComposedMonthTime1
 from xlseries.strategies.clean.parse_time import ParseComposedMonthTime2
 from xlseries.strategies.clean.parse_time import ParseSimpleTime
-from xlseries.utils.general import compare_cells, load_json_vals
+from xlseries.utils.general import load_json_vals
+from xlseries.utils.xl_methods import compare_cells
 from xlseries.strategies.discover.parameters import Parameters
 from xlseries.utils.general import change_working_dir
 from xlseries.utils.general import load_file, get_package_dir

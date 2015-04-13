@@ -2,6 +2,7 @@ TODO list for xlseries package
 ====
 
 - [ ] Build test interface to be nicer, specially inside "compare_data_frames" method.
+- [ ] Write tests for discovering parameters.
 - [ ] Explore the possibility of using a package to color error outputs for testing.
 - [ ] Add a high level method in user interface that catches errors raised during the process of parsing an excel file and returns None.
 - [ ] Make the errors in parsing an excel files be custom designed Exceptions instead of using status returns.

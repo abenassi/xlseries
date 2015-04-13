@@ -10,6 +10,7 @@ Small useful time related methods.
 
 import arrow
 import datetime
+from xlseries.utils.general import approx_equal
 
 
 def increment_time(time, num, freq):
@@ -46,3 +47,30 @@ def increment_time(time, num, freq):
         shifted_time = None
 
     return shifted_time
+
+
+def infer_freq(av_seconds, tolerance=0.1):
+    """Infer frequency of a time data series."""
+
+    if approx_equal(1, av_seconds, tolerance):
+        freq = 'S'
+    elif approx_equal(60, av_seconds, tolerance):
+        freq = 'T'
+    elif approx_equal(3600, av_seconds, tolerance):
+        freq = 'H'
+    elif approx_equal(86400, av_seconds, tolerance):
+        freq = 'D'
+    elif approx_equal(604800, av_seconds, tolerance):
+        freq = 'W'
+    elif approx_equal(2419200, av_seconds, tolerance):
+        freq = 'M'
+    elif approx_equal(7776000, av_seconds, tolerance):
+        freq = 'Q'
+    elif approx_equal(15552000, av_seconds, tolerance):
+        raise Exception("Can't handle semesters!")
+    elif approx_equal(31536000, av_seconds, tolerance):
+        freq = 'Y'
+    else:
+        raise Exception("Average seconds don't match any frequency.")
+
+    return freq

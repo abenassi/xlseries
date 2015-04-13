@@ -16,9 +16,9 @@ from openpyxl import load_workbook
 import os
 
 from xlseries.strategies.clean.time_index import CleanSingleColumnTi
-from xlseries.utils.general import get_package_dir
+from xlseries.utils.path_finders import get_package_dir
 from xlseries.strategies.discover.parameters import Parameters
-from xlseries.utils.general import compare_cells
+from xlseries.utils.xl_methods import compare_cells
 
 
 def load_parameters(case):

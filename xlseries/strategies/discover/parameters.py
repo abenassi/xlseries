@@ -4,7 +4,7 @@ import json
 import datetime
 import pprint
 import re
-from xlseries.utils.general import xl_coordinates_range
+from xlseries.utils.xl_methods import xl_coordinates_range
 
 """
 parameters
