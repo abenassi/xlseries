@@ -13,7 +13,16 @@ import numpy as np
 
 
 def approx_equal(a, b, tolerance):
-    """Check if a and b can be considered approximately equal."""
+    """Check if a and b can be considered approximately equal.
+
+    Args:
+        a: A float or int number.
+        b: A float or int number.
+        tolerance: Percentage of discrepancy allowed to be considered equal.
+
+    Returns:
+        True (a == b) or False (a != b)
+    """
 
     RV = False
 
@@ -34,6 +43,7 @@ def approx_equal(a, b, tolerance):
 
 
 def _approx_equal(a, b, tolerance):
+    """Check if difference between two numbers is inside tolerance range."""
     if abs(a - b) < tolerance * a:
         return True
     else:
@@ -41,7 +51,15 @@ def _approx_equal(a, b, tolerance):
 
 
 def compare_list_values(values1, values2):
-    """Check that all values of both lists are approximately equal."""
+    """Check that all values of both lists are approximately equal.
+
+    Args:
+        values1: A list of values.
+        values2: A lista of values.
+
+    Returns:
+        True (values1 elem are approximately equal than values2) or False.
+    """
 
     RV = True
 

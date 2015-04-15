@@ -16,7 +16,15 @@ from xlseries.utils.general import approx_equal
 
 
 def get_data_frames(xl_file):
-    """Parse a well formatted excel file into pandas data frames."""
+    """Parse a well formatted excel file into pandas data frames.
+
+    Args:
+        xl_file: Path to an excel file with data ready to load into pandas
+            data frame format.
+
+    Returns:
+        A list of pandas data frames.
+    """
 
     dfs = []
 
@@ -31,7 +39,15 @@ def get_data_frames(xl_file):
 
 
 def get_data_frame(xl_file, sheetname=0):
-    """Parse a well formatted excel sheet into a pandas data frame."""
+    """Parse a well formatted excel sheet into a pandas data frame.
+
+    Args:
+        xl_file: Path to an excel file with data ready to load into pandas
+            data frame format.
+        sheetname: Name or index of the excel sheet to be loaded.
+
+    Returns:
+        A pandas data frame."""
 
     df = pd.read_excel(xl_file, sheetname)
 
@@ -58,6 +74,9 @@ def compare_data_frames(df1, df2):
     Args:
         df1: First data frame to compare.
         df2: Second data frame to compare.
+
+    Returns:
+        True (everything is the same in df1 and df2) or False.
     """
 
     msg = "Different index size"
@@ -119,7 +138,6 @@ def _check_values(cols, df1, df2):
                 break
 
     return RV
-
 
 
 def compare_period_ranges(pr1, pr2):
