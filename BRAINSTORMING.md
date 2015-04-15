@@ -1,3 +1,25 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Brainstorming some strategies ideas](#brainstorming-some-strategies-ideas)
+  - [ParameterDiscovery](#parameterdiscovery)
+  - [Parse time](#parse-time)
+  - [Parameters: give or discover?](#parameters-give-or-discover)
+    - [`alignment`](#alignment)
+    - [`headers_coord`](#headers_coord)
+    - [`composed_headers`](#composed_headers)
+    - [`data_starts`](#data_starts)
+    - [`data_ends`](#data_ends)
+    - [`continuity` and `blank_rows`](#continuity-and-blank_rows)
+    - [`missings` and `missing_value`](#missings-and-missing_value)
+    - [`multifrequency` and `frequency`](#multifrequency-and-frequency)
+    - [`time_format` and `time_composed` and `time_multicolumn`](#time_format-and-time_composed-and-time_multicolumn)
+    - [`time_header_coord`](#time_header_coord)
+  - [Meta-data scope of the package](#meta-data-scope-of-the-package)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 Brainstorming some strategies ideas
 ====
 
