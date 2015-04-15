@@ -12,24 +12,15 @@ import unittest
 import nose
 import arrow
 import datetime
-from openpyxl import load_workbook
 import os
+from openpyxl import load_workbook
 
 from xlseries.strategies.clean.time_index import CleanSingleColumnTi
-from xlseries.utils.path_finders import get_package_dir
-from xlseries.strategies.discover.parameters import Parameters
 from xlseries.utils.xl_methods import compare_cells
-
-
-def load_parameters(case):
-
-    base_path = os.path.join(get_package_dir("xlseries", __file__),
-                             "tests", "integration_cases", "parameters")
-    file_name = case + ".json"
-    file_path = os.path.join(base_path, file_name)
-    params = Parameters(file_path)
-
-    return params
+from xlseries.utils.case_loaders import load_original_case
+from xlseries.utils.case_loaders import load_parameters_case
+from xlseries.utils.case_loaders import load_expected_case
+from xlseries.utils.path_finders import abs_path
 
 
 # @unittest.skip("skip")
@@ -59,7 +50,7 @@ class CleanSingleColumnTiTest(unittest.TestCase):
         value = "17-12.09"
         last_time = None
 
-        params = load_parameters("test_case1")
+        params = load_parameters_case(2)
         # print repr(params[0])
 
         new_time_value = CleanSingleColumnTi._parse_time(value, last_time,
@@ -71,7 +62,8 @@ class CleanSingleColumnTiTest(unittest.TestCase):
     # @unittest.skip("skip")
     def test_clean_time_index(self):
 
-        wb = load_workbook(os.path.join("original", "test_case2.xlsx"))
+        wb = load_workbook(
+            os.path.join(abs_path("original"), "test_case2.xlsx"))
         ws = wb.active
 
         clean_ci = {"time_alignment": 0,
@@ -87,7 +79,8 @@ class CleanSingleColumnTiTest(unittest.TestCase):
 
         CleanSingleColumnTi._clean_time_index(ws, clean_ci)
 
-        wb_exp = load_workbook(os.path.join("expected", "test_case2.xlsx"))
+        wb_exp = load_workbook(
+            os.path.join(abs_path("expected"), "test_case2.xlsx"))
 
         # wb.save("test_case2_after_cleaning_index.xlsx")
         self.assertTrue(compare_cells(wb, wb_exp))

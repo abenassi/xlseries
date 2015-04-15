@@ -2,7 +2,6 @@ import os
 import numpy as np
 import json
 from functools import wraps
-import arrow
 
 from xlseries.utils.path_finders import get_package_dir
 
@@ -32,6 +31,7 @@ def load_json_vals(rel_dir=os.path.dirname(__file__),
 
     def fn_decorator(fn):
         relative_path = rel_dir + json_file_name + ".json"
+        # raise Exception(os.getcwd())
         with open(relative_path) as f:
             file_loaded = json.load(f)
         values = file_loaded[fn_name_parser(fn.__name__)]
@@ -41,10 +41,9 @@ def load_json_vals(rel_dir=os.path.dirname(__file__),
 
         @wraps(fn)
         def fn_decorated(*args, **kwargs):
-            kwargs[kw_arg] = values
+            # kwargs[kw_arg] = values
             fn(*args, **kwargs)
 
-        fn_decorated.__name__ = fn.__name__
         return fn_decorated
     return fn_decorator
 
@@ -102,3 +101,20 @@ def _approx_equal(a, b, tolerance):
         return True
     else:
         return False
+
+
+def compare_list_values(values1, values2):
+    """Check that all values of both lists are approximately equal."""
+
+    RV = True
+
+    for value1, value2 in zip(values1, values2):
+        # print value1, value2, value2/value1-1
+        if not approx_equal(value1, value2, 0.0001):
+            print value1, type(value1), "not approx_equal to", value2, type(value2)
+            RV = False
+            break
+
+    return RV
+
+

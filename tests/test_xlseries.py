@@ -11,9 +11,9 @@ Tests for `xlseries` module.
 import unittest
 import nose
 import os
-from xlseries.utils.general import get_data_frames
+from xlseries.utils.data_frame import get_data_frames
 from xlseries.xlseries import XlSeries
-from xlseries.utils.general import compare_data_frames
+from xlseries.utils.data_frame import compare_data_frames
 
 
 def load_data_frames(path):

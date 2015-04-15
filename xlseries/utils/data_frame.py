@@ -121,20 +121,6 @@ def _check_values(cols, df1, df2):
     return RV
 
 
-def compare_list_values(values1, values2):
-    """Check that all values of both lists are approximately equal."""
-
-    RV = True
-
-    for value1, value2 in zip(values1, values2):
-        # print value1, value2, value2/value1-1
-        if not approx_equal(value1, value2, 0.0001):
-            print value1, type(value1), "not approx_equal to", value2, type(value2)
-            RV = False
-            break
-
-    return RV
-
 
 def compare_period_ranges(pr1, pr2):
     """Compare two period ranges.

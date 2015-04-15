@@ -11,81 +11,41 @@ from __future__ import unicode_literals
 import unittest
 import nose
 import arrow
-from openpyxl import load_workbook
 import json
 import os
+from functools import wraps
+import re
 
 from xlseries.strategies.clean.parse_time import ParseComposedQuarterTime1
 from xlseries.strategies.clean.parse_time import ParseComposedQuarterTime2
 from xlseries.strategies.clean.parse_time import ParseComposedMonthTime1
 from xlseries.strategies.clean.parse_time import ParseComposedMonthTime2
 from xlseries.strategies.clean.parse_time import ParseSimpleTime
-from xlseries.utils.general import load_json_vals
-from xlseries.utils.xl_methods import compare_cells
-from xlseries.strategies.discover.parameters import Parameters
-from xlseries.utils.general import change_working_dir
-from xlseries.utils.general import load_file, get_package_dir
-
-BASE_DIR = os.path.dirname(__file__)
-REL_WORKING_DIR = os.path.join("tests", "integration_cases")
-PACKAGE_NAME = "xlseries"
+from xlseries.utils.case_loaders import load_parameters_case
+from xlseries.utils.path_finders import abs_path
 
 
-def load_parameters():
-    """Call a test loading the integration test case parameters."""
+def load_case_number():
+    """Decorate a test loading the case number taken from test name."""
 
-    def test_decorator(fn):
-        base_path = os.path.join(get_package_dir("xlseries", __file__),
-                                 "tests", "integration_cases", "parameters")
-        file_name = parse_t_name_without_bis(fn.__name__) + ".json"
-        file_path = os.path.join(base_path, file_name)
-        params = Parameters(file_path)
+    def fn_decorator(fn):
+        last_word = fn.__name__.split("_")[-1]
+        case_num = last_word.replace("case", "").strip()
 
-        def test_decorated(*args, **kwargs):
-            kwargs["params"] = params
+        @wraps(fn)
+        def fn_decorated(*args, **kwargs):
+            kwargs["case_num"] = case_num
             fn(*args, **kwargs)
 
-        test_decorated.__name__ = fn.__name__
-        return test_decorated
-    return test_decorator
+        return fn_decorated
+    return fn_decorator
 
 
-def parse_t_name(fn_name):
-    """Parse the test name from a function name."""
-    return "test_" + fn_name.split("_")[-1]
-
-
-def parse_t_name_without_bis(fn_name):
-    """Parse the test name from a function name."""
-    if fn_name.split("_")[-1][-1].isdigit():
-        return "test_" + fn_name.split("_")[-1]
-    else:
-        return "test_" + fn_name.split("_")[-1][:-1]
-
-
-def load_case_name(fn_name_parser, kw_arg):
-    """Call a test loading the name of the case.
-
-    Args:
-        fn_name_parser: Function to parse the case name from test fn name.
-        kw_arg: Name of the parameter to pass case name.
-    """
-
-    def test_decorator(fn):
-        def test_decorated(*args, **kwargs):
-            kwargs[kw_arg] = fn_name_parser(fn.__name__)
-            fn(*args, **kwargs)
-
-        test_decorated.__name__ = fn.__name__
-        return test_decorated
-    return test_decorator
-
-
+# @unittest.skip("skip")
 class ParseSimpleTimeTest(unittest.TestCase):
 
-    @load_parameters()
-    def test_parse_simple_time_case1(self, params):
-
+    def test_parse_simple_time_case1(self):
+        params = load_parameters_case(1)
         value = "17-12.09"
         last_time = None
         # raise Exception(params[0])
@@ -112,93 +72,71 @@ class ParseComposedTimeTest(unittest.TestCase):
 
         return new_values
 
-    @load_case_name(parse_t_name, "case")
-    @load_json_vals("original/", parse_t_name, "values", "parse_time")
-    @load_json_vals("expected/", parse_t_name, "exp_vals", "parse_time", True)
-    @load_parameters()
-    # @unittest.skip("skip")
-    def test_parse_time_case3(self, case, values, exp_vals, params):
-        """Parse a list of time values using _parse_time method."""
-        strategy = ParseComposedQuarterTime1
+    def run_parse_time_case(self, case_num, strategy):
+        """Run a parse time test case using provided strategy.
+
+        Args:
+            case_num: Number of case to load.
+            strategy: Strategy to parse the case.
+        """
+        case = "test_case" + unicode(case_num)
+
+        with open(os.path.join(abs_path("original"),
+                               "parse_time.json")) as f:
+            values = json.load(f)[case]
+
+        with open(os.path.join(abs_path("expected"),
+                               "parse_time.json")) as f:
+            exp_vals = json.load(f)[case]
+            exp_vals = [eval(value) for value in exp_vals]
+
+        rule = re.compile("(\d)")
+        case_num_int = int(rule.match(case_num).group())
+        params = load_parameters_case(case_num_int)
+
         new_values = self.parse_time_values(strategy, values, params)
 
         msg = " ".join([str(case), ":", str(new_values),
                         "are not equal to", str(exp_vals)])
         assert new_values == exp_vals, msg
 
-    @load_case_name(parse_t_name, "case")
-    @load_json_vals("original/", parse_t_name, "values", "parse_time")
-    @load_json_vals("expected/", parse_t_name, "exp_vals", "parse_time", True)
-    @load_parameters()
+    @load_case_number()
     # @unittest.skip("skip")
-    def test_parse_time_case4(self, case, values, exp_vals, params):
+    def test_parse_time_case3(self, case_num):
         """Parse a list of time values using _parse_time method."""
+        self.run_parse_time_case(case_num, ParseComposedQuarterTime1)
 
-        strategy = ParseComposedQuarterTime2
-        new_values = self.parse_time_values(strategy, values, params)
-
-        msg = " ".join([str(case), ":", str(new_values),
-                        "are not equal to", str(exp_vals)])
-        assert new_values == exp_vals, msg
-
-    @load_case_name(parse_t_name, "case")
-    @load_json_vals("original/", parse_t_name, "values", "parse_time")
-    @load_json_vals("expected/", parse_t_name, "exp_vals", "parse_time", True)
-    @load_parameters()
+    @load_case_number()
     # @unittest.skip("skip")
-    def test_parse_time_case5(self, case, values, exp_vals, params):
+    def test_parse_time_case4(self, case_num):
         """Parse a list of time values using _parse_time method."""
-        strategy = ParseComposedMonthTime1
-        new_values = self.parse_time_values(strategy, values, params)
+        self.run_parse_time_case(case_num, ParseComposedQuarterTime2)
 
-        msg = " ".join([str(case), ":", str(new_values),
-                        "are not equal to", str(exp_vals)])
-        assert new_values == exp_vals, msg
-
-    @load_case_name(parse_t_name, "case")
-    @load_json_vals("original/", parse_t_name, "values", "parse_time")
-    @load_json_vals("expected/", parse_t_name, "exp_vals", "parse_time", True)
-    @load_parameters()
+    @load_case_number()
     # @unittest.skip("skip")
-    def test_parse_time_case5b(self, case, values, exp_vals, params):
+    def test_parse_time_case5(self, case_num):
         """Parse a list of time values using _parse_time method."""
+        self.run_parse_time_case(case_num, ParseComposedMonthTime1)
 
-        strategy = ParseComposedMonthTime2
-        new_values = self.parse_time_values(strategy, values, params)
+    @load_case_number()
+    # @unittest.skip("skip")
+    def test_parse_time_case5b(self, case_num):
+        """Parse a list of time values using _parse_time method."""
+        self.run_parse_time_case(case_num, ParseComposedMonthTime2)
 
-        msg = " ".join([str(case), ":", str(new_values),
-                        "are not equal to", str(exp_vals)])
-        assert new_values == exp_vals, msg
-
-    # @load_case_name(parse_t_name, "case")
-    # @load_json_vals("original/", parse_t_name, "values", "parse_time")
-    # @load_json_vals("expected/", parse_t_name, "exp_vals", "parse_time", True)
-    # @load_parameters()
+    @load_case_number()
     @unittest.skip("skip")
-    def test_parse_time_case6(self, case, values, exp_vals, params):
+    def test_parse_time_case6(self, case_num):
         """Parse a list of time values using _parse_time method."""
+        # TODO: Implement a strategy for this case!
+        self.run_parse_time_case(case_num, None)
 
-        strategy = None  # TODO: Implement a strategy for this case!
-        new_values = self.parse_time_values(strategy, values, params)
-
-        msg = " ".join([str(case), ":", str(new_values),
-                        "are not equal to", str(exp_vals)])
-        assert new_values == exp_vals, msg
-
-    # @load_case_name(parse_t_name, "case")
-    # @load_json_vals("original/", parse_t_name, "values", "parse_time")
-    # @load_json_vals("expected/", parse_t_name, "exp_vals", "parse_time", True)
-    # @load_parameters()
+    @load_case_number()
     @unittest.skip("skip")
-    def test_parse_time_case6b(self, case, values, exp_vals, params):
+    def test_parse_time_case6b(self, case_num):
         """Parse a list of time values using _parse_time method."""
-
-        strategy = None  # TODO: Implement a strategy for this case!
-        new_values = self.parse_time_values(strategy, values, params)
-
-        msg = " ".join([str(case), ":", str(new_values),
-                        "are not equal to", str(exp_vals)])
-        assert new_values == exp_vals, msg
+        # TODO: Implement a strategy for this case!
+        self.run_parse_time_case(case_num, None)
 
 if __name__ == '__main__':
     nose.run(defaultTest=__name__)

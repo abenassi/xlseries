@@ -15,7 +15,7 @@ import arrow
 import numpy as np
 from openpyxl.cell import column_index_from_string
 
-from xlseries.utils.time import increment_time
+from xlseries.utils.time_manipulation import increment_time
 
 
 class BaseGetDataStrategy(object):

@@ -10,6 +10,25 @@ Auxiliar methods to quickly find a directory in the package.
 
 from __future__ import unicode_literals
 import os
+import inspect
+
+
+def abs_path(relative_path, parent_level=1):
+    """Generate absolute path based on file's directory.
+
+    Args:
+        relative_path: Relative path from the directory of the file in which a
+            function is called.
+
+    Returns:
+        An absolute path joining the relative path and the files directory.
+    """
+
+    parent_frame = inspect.stack()[parent_level][0]
+    parent_module = inspect.getmodule(parent_frame)
+    parent_dir = os.path.dirname(parent_module.__file__)
+
+    return os.path.join(parent_dir, relative_path)
 
 
 def get_param_cases_dir():

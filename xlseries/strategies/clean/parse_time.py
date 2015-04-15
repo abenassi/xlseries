@@ -9,8 +9,6 @@ This module contains strategies to parse time strings of different frequencies.
 """
 
 from __future__ import unicode_literals
-import sys
-import inspect
 from pprint import pprint
 import arrow
 import datetime

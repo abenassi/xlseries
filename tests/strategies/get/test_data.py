@@ -10,16 +10,16 @@ Tests for `get_data_strategies` module.
 
 import unittest
 import nose
-from openpyxl import load_workbook
-import os
 
-from xlseries.utils.general import get_data_frames, approx_equal
-from xlseries.strategies.discover.parameters import Parameters
 from xlseries.strategies.get.data import GetSingleFrequencyData
 from xlseries.strategies.clean.time_index import CleanSingleColumnTi
-from xlseries.utils.test import compare_list_values
+from xlseries.utils.general import compare_list_values
+from xlseries.utils.case_loaders import load_parameters_case
+from xlseries.utils.case_loaders import load_original_case
+from xlseries.utils.case_loaders import load_expected_case
 
 
+# @unittest.skip("skip")
 class MissingsTestCase(unittest.TestCase):
 
     def _get_values(self, ws, ini_row, end_row, col):
@@ -33,8 +33,8 @@ class MissingsTestCase(unittest.TestCase):
         return values
 
     def test_fill_implicit_missings(self):
-        test_wb = load_workbook(os.path.join("original", "test_case2.xlsx"))
-        params = Parameters(os.path.join("parameters", "test_case2.json"))
+        test_wb = load_original_case(2)
+        params = load_parameters_case(2)
         strategy = GetSingleFrequencyData
 
         ws = test_wb.active
@@ -54,16 +54,10 @@ class MissingsTestCase(unittest.TestCase):
                                                       ini_row,
                                                       end_row)
 
-        exp_dfs = get_data_frames(os.path.join("expected", "test_case2.xlsx"))
+        exp_dfs = load_expected_case(2)
         exp_values = [value[0] for value in exp_dfs[0].values]
 
         self.assertEqual(len(new_values), len(exp_values))
-
-        with open("record.txt", "wb") as f:
-            for value1, value2 in zip(new_values, exp_values):
-                f.write(str(value1).ljust(20) + str(value2).ljust(20) +
-                        str(approx_equal(value1, value2, 0.001)).ljust(20) +
-                        "\n")
 
         self.assertTrue(compare_list_values(new_values, exp_values))
 

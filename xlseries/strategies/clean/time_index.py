@@ -21,7 +21,7 @@ from openpyxl.cell import column_index_from_string
 
 from xlseries.strategies.clean.parse_time import NoTimeValue
 import xlseries.utils.strategies_helpers
-from xlseries.utils.time import increment_time
+from xlseries.utils.time_manipulation import increment_time
 import xlseries.strategies.clean.parse_time as parse_time_strategies
 
 

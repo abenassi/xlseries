@@ -11,21 +11,15 @@ Tests for `strategies` module.
 from __future__ import unicode_literals
 import unittest
 import nose
-from openpyxl import load_workbook
 import pandas as pd
-import os
 from functools import wraps
 
-from xlseries.utils.general import change_working_dir
 from xlseries.utils.case_loaders import load_original_case
 from xlseries.utils.case_loaders import load_parameters_case
 from xlseries.utils.case_loaders import load_expected_case
-from xlseries.utils.test import compare_data_frames, compare_period_ranges
+from xlseries.utils.data_frame import compare_period_ranges
+from xlseries.utils.data_frame import compare_data_frames
 from xlseries.strategies.strategies import ParameterDiscovery
-from xlseries.strategies.discover.parameters import Parameters
-
-REL_WORKING_DIR = os.path.join("tests", "integration_cases")
-PACKAGE_NAME = "xlseries"
 
 
 def load_case_number():
@@ -91,11 +85,10 @@ class ParameterDiscoveryTestCase(unittest.TestCase):
 # @unittest.skip("skip")
 class PeriodRangeTestCase(unittest.TestCase):
 
-    @change_working_dir(PACKAGE_NAME, REL_WORKING_DIR)
     def test_get_period_ranges(self):
 
-        test_wb = load_workbook("original/test_case2.xlsx")
-        params = Parameters("parameters/test_case2.json")
+        test_wb = load_original_case(2)
+        params = load_parameters_case(2)
         strategy_obj = ParameterDiscovery(test_wb, params)
         ws = strategy_obj.wb.active
 
