@@ -68,15 +68,13 @@ This list of parameters can still change any time, adding, removing or modifying
 * **multifrequency**: "True", "False" - *Indicates if a data series is interrupted by a secondary data series which is a regular aggregation of the main one in another time frequency.*
 * **missings**: "True", "False" - *Indicates the presence of missing values in data.*
 * **missing_value**: "", ".", "NA", "None", "Implicit" - *State the value that should be taken as "missing". "Implicit" is a special missing value that means that there are missing values not showed in the spreadsheet (time index is not continuous, typically in day frequency when weekends are not taken into account).*
-* **progressive_aggregation**: "True", "False" - *Indicates if a data series is a subtotal that aggregates with other data series being the total sum of another series present in the spreadsheet.*
 * **time_alignment**: 0, -1, +1 - *0: Time index run parallel to data, -1: Time value is right before data value cell, +1: Time value is right after data value cell.*
 * **time_multicolumn**: "True", "False" - *Indicates if a data series has a time index expressed in multiple columns that must be composed.*
 * **time_header**: "Date" - *Name of the time header (this is not necessary if time_header_coord is provided).*
 * **time_header_coord**: "A3" - *Excel coordinates for a time index header.*
-* **time_header_next_to_data**: "True", "False" - *Indicates that time header is next to data (nothing else in between).*
 * **time_format**: "datetime.datetime", "string" - *Indicates if date is in a date type or if it's a string.*
 * **time_composed**: "True", "False" - *Indicates if a data series has a time index that has to be composed (not a straight forward date string) because some information about current date is taken from previous cells. Typically when year is only stated a the first quarter while the other three have only the quarter number.*
-* **frequency**: "Y", "Q", "M", "W", "D", "H", "T", "S" - *Indicates the time frequency of the series. It uses pretty much the same strings as datetime.datetime uses.*
+* **frequency**: "Y", "Q", "M", "W", "D", "H", "T", "S" or "Y-Q-Q-Q" and other multi-frequency patterns - *Indicates the time frequency of the series. It uses pretty much the same strings as `datetime.datetime` uses with the substantial aggregation of multi-frequency patterns, when a series has values in more than one frequency at the same row (typically a secondary series is the aggregated version of the other one).*
 
 ## Problem context (or why this package is a good idea)
 

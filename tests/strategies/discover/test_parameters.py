@@ -36,11 +36,12 @@ class ParametersTest(unittest.TestCase):
 
     # @unittest.skip("skip")
     def test_get_num_series(self):
-        # print self.params.__dict__
         self.assertEqual(self.params._get_num_series(self.params.__dict__), 3)
+        self.assertEqual(self.params._get_num_series({"param": None}), None)
 
     def test_apply_to_all(self):
         self.assertEqual(self.params._apply_to_all(True, 2), [True, True])
+        self.assertEqual(self.params._apply_to_all(True, None), True)
 
     def test_unpack_header_ranges(self):
 
@@ -52,6 +53,9 @@ class ParametersTest(unittest.TestCase):
 
         exp = ["A5"]
         self.assertEqual(self.params._unpack_header_ranges("a5"), exp)
+
+        exp = None
+        self.assertEqual(self.params._unpack_header_ranges("None"), exp)
 
 
 if __name__ == '__main__':

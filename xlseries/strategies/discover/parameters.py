@@ -38,7 +38,6 @@ class Parameters(object):
         self.multifrequency = None
         self.missings = None
         self.missing_value = None
-        self.progressive_aggregation = None
 
         # time
         self.time_alignment = None
@@ -53,9 +52,11 @@ class Parameters(object):
         if json_params_file:
             if type(json_params_file) == Parameters:
                 self.__dict__ = json_params_file.__dict__
-                # raise Exception(self)
             else:
-                self.__dict__ = self._load_parameters(json_params_file)
+                # add loaded parameters keeping Parameters object defaults
+                loaded_params_dict = self._load_parameters(json_params_file)
+                for key, value in loaded_params_dict.items():
+                    self.__dict__[key] = value
 
     def __repr__(self):
         return pprint.pformat(self.__dict__)
@@ -95,8 +96,11 @@ class Parameters(object):
             params = json.load(f)
 
         # convert in lists ranges of headers (eg. "B8-B28")
-        h_c = params["headers_coord"]
-        params["headers_coord"] = cls._unpack_header_ranges(h_c)
+        if "headers_coord" in params:
+            h_c = params["headers_coord"]
+            params["headers_coord"] = cls._unpack_header_ranges(h_c)
+        else:
+            params["headers_coord"] = None
 
         # convert strings in python expressions
         for param in params:
@@ -132,10 +136,11 @@ class Parameters(object):
     def _get_num_series(cls, params):
         """Count number of series present in parameters."""
 
-        num_series = 1
+        num_series = None
         for param in params.values():
-            if type(param) == list and len(param) > num_series:
-                num_series = len(param)
+            if type(param) == list:
+                if not num_series or len(param) > num_series:
+                    num_series = len(param)
 
         return num_series
 
@@ -143,7 +148,7 @@ class Parameters(object):
     def _apply_to_all(cls, param, num_series):
         """Creates list from single parameter repeating it for every series."""
 
-        if not type(param) == list and num_series > 1:
+        if not type(param) == list and num_series and num_series > 1:
             param_list = [param for i in range(num_series)]
 
         else:
@@ -160,11 +165,14 @@ class Parameters(object):
             for elem in headers_coord:
                 new_list.extend(cls._unpack_header_ranges(elem))
 
-        else:
+        elif headers_coord.lower() != "none":
             if "-" in headers_coord:
                 start, end = headers_coord.upper().split("-")
                 new_list = list(xl_coordinates_range(start, end))
             else:
                 new_list = [headers_coord.upper()]
+
+        else:
+            new_list = None
 
         return new_list

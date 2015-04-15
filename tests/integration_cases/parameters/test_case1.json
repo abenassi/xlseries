@@ -9,7 +9,6 @@
  "missings": "True",
  "missing_value": "None",
  "multifrequency": "False",
- "progressive_aggregation": "False",
  "series_names": "None",
  "time_composed": "False",
  "time_alignment": 0,
