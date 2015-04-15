@@ -15,6 +15,7 @@ interface expected by the user of the strategies:
     - Parameters class is not passed
 """
 
+from __future__ import unicode_literals
 import inspect
 
 

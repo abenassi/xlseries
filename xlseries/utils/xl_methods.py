@@ -5,7 +5,7 @@
 xl_methods
 ----------------------------------
 
-Useful methods for excel operations and related manipulation.
+Useful methods for excel operations and related manipulations.
 """
 
 from openpyxl import Workbook
