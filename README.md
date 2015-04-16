@@ -6,6 +6,8 @@ A python package to scrape [time series](https://en.wikipedia.org/wiki/Time_seri
 
 ![](https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_cases.gif)
 
+And return them turned into [pandas](http://pandas.pydata.org/pandas-docs/dev/index.html) [data frames](http://pandas.pydata.org/pandas-docs/dev/generated/pandas.DataFrame.html).
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
@@ -15,7 +17,15 @@ A python package to scrape [time series](https://en.wikipedia.org/wiki/Time_seri
 - [Development status](#development-status)
   - [Test cases](#test-cases)
   - [Progress](#progress)
-  - [Parameters](#parameters)
+- [Parameters](#parameters)
+- [Test cases](#test-cases-1)
+  - [Test case 1](#test-case-1)
+  - [Test case 2](#test-case-2)
+  - [Test case 3](#test-case-3)
+  - [Test case 4](#test-case-4)
+  - [Test case 5](#test-case-5)
+  - [Test case 6](#test-case-6)
+  - [Test case 7](#test-case-7)
 - [Problem context (or why this package is a good idea)](#problem-context-or-why-this-package-is-a-good-idea)
   - [International organisms](#international-organisms)
   - [Some common problems using data in third world-countries (and in others too!)](#some-common-problems-using-data-in-third-world-countries-and-in-others-too)
@@ -25,7 +35,7 @@ A python package to scrape [time series](https://en.wikipedia.org/wiki/Time_seri
 
 ## Installation
 
-This package is still in an early development stage, it can't be reliably used for the moment and the design may still be object of radical changes. Anyway, if you want to give it a try or [contribute](#contributions) follow these instructions to install it on your OS.
+This package is still in an early development stage, it can't be reliably used for the moment and the design may still be object of radical changes. Anyway, if you want to give it a try or [contribute](#contributions) follow these instructions to install it on your machine.
 
 **If you are using Anaconda as your python distribution**
 
@@ -53,11 +63,11 @@ series = XlSeries("path_to_excel_file")
 dfs = series.get_data_frames("path_to_json_parameters")
 ```
 
-* **Excel file**: Up to this development point, the excel file must have only one spreadsheet (anyway, only the active one will be used by `xlseries`) and should not be more *complicated* than [test cases](../tests/integration_cases/CASES.md) [1](../tests/integration_cases/CASES.md#case-1), [2](../tests/integration_cases/CASES.md#case-2) or [3](../tests/integration_cases/CASES.md#case-3) (the ones currently passing the tests).
+* **Excel file**: Up to this development point, the excel file must have only one spreadsheet (anyway, only the active one will be used by `xlseries`) and should not be more *complicated* than test cases [1](../tests/integration_cases/CASES.md#case-1), [2](../tests/integration_cases/CASES.md#case-2) or [3](../tests/integration_cases/CASES.md#case-3) (the ones currently passing the tests).
 
 * **Json parameters**: A full JSON file with parameters must be provided. In future development stages more and more [parameters](#parameters) will be discovered by the package and the user will not need to provide them.
 
-If you want to *give it a try with the test cases* that are passing all the tests, check out this [ipython notebook ](http://nbviewer.ipython.org/github/abenassi/xlseries/blob/master/Test%20cases.ipynb).
+If you want to give it a try *with the test cases* that are passing all the tests and get and idea of how it works, check out this [ipython notebook](http://nbviewer.ipython.org/github/abenassi/xlseries/blob/master/Test%20cases.ipynb).
 
 ## Development status
 
@@ -67,15 +77,38 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 
 ### Progress
 
-Up to this moment the package can handle cases 1, 2 and 3 with parameters. Once the seven cases can be handled with given parameters for each case, strategies for discovering parameters will start to be implemented.
+Up to this moment the package can handle cases [1](../tests/integration_cases/CASES.md#case-1), [2](../tests/integration_cases/CASES.md#case-2) and [3](../tests/integration_cases/CASES.md#case-3) with parameters. Once the seven cases can be handled with given parameters for each case, strategies for discovering parameters will start to be implemented.
 
 The ultimate goal is that for **any** given excel file the user can possibly have, `xlseries` be able to extract all time series in the spreadsheet and return pandas data frames.
 
-### Parameters
+## Parameters
 
-Each time data series has it's own list of parameters. Only one [parameters object](https://github.com/abenassi/xlseries/blob/master/xlseries/strategies/discover/parameters.py) (or even just the path to the json file) has to be passed to XlSeries to scrape an excel spreadsheet.
+Each time series has it's own parameters. Parameters can be passed to `XlSeries.get_data_frames()` as a path to a json file that looks like this: 
 
-If many series are to be scraped, parameters for each series should be written in python lists, but only if they differ between series ([see an example](https://github.com/abenassi/xlseries/blob/master/tests/strategies/discover/original/test_params.json)). It is not necessary to write parameters that repeat themselves in all the series (like the alignment, which is usually common to all the series in the spreadsheet).
+*Parameters for [test case 2](../tests/intergration_cases/parameters/test_case2.json)*
+```json
+{"alignment": "vertical",
+ "blank_rows": ["False", "True"],
+ "composed_headers": "False",
+ "data_starts": [5, 22],
+ "data_ends": [2993, 2986],
+ "frequency": ["D", "M"],
+ "headers_coord": ["D4", "F4"],
+ "continuity": ["True", "False"],
+ "missings": ["True", "False"],
+ "missing_value": ["Implicit", "None"],
+ "multifrequency": "False",
+ "series_names": "None",
+ "time_composed": "False",
+ "time_alignment": [0, -1],
+ "time_multicolumn": "False",
+ "time_format": ["datetime.datetime", "datetime.datetime"],
+ "time_header": ["True", "False"],
+ "time_header_coord": ["C4", "F4"],
+ "time_header_next_to_data": ["True", "True"]}
+```
+
+If many series are to be scraped from a single excel file, parameters for each series should be written in lists, but *only if they differ* between series (as you can see in the previous example). It is not necessary to write parameters that repeat themselves in all the series (like the **alignment**, which is usually common to all the series in the spreadsheet).
 
 This list of parameters can still change any time, adding, removing or modifying some of them when the understanding of the problem grows.
 
@@ -99,6 +132,66 @@ This list of parameters can still change any time, adding, removing or modifying
 * **time_format**: "datetime.datetime", "string" - *Indicates if date is in a date type or if it's a string.*
 * **time_composed**: "True", "False" - *Indicates if a data series has a time index that has to be composed (not a straight forward date string) because some information about current date is taken from previous cells. Typically when year is only stated a the first quarter while the other three have only the quarter number.*
 * **frequency**: "Y", "Q", "M", "W", "D", "H", "T", "S" or "Y-Q-Q-Q" and other multi-frequency patterns - *Indicates the time frequency of the series. It uses pretty much the same strings as `datetime.datetime` uses with the substantial aggregation of multi-frequency patterns, when a series has values in more than one frequency at the same row (typically a secondary series is the aggregated version of the other one).*
+
+## Test cases
+
+Each test case was chosen because it adds something new that `xlseries` isn't (or wasn't) able to deal with before. Next you can see a list of new issues brought by each case in addition to the previous ones.
+
+### Test case 1
+
+* Vertical series (always)
+* Monthly frequency (always - not multi-frequency)
+* Data starts in row 2
+* Headers: no header for time field, header for data series
+* Secondary series and notes in additional columns
+* Continuous main series layout
+* Missings in secondary series
+* Time-stamp in date format
+* Footnotes with source
+
+### Test case 2
+
+* Daily frequency (always - not multi-frequency)
+* Data doesn't start in row 2
+* Headers for data and time field
+* Secondary interrupted series (monthly)
+* No footnotes
+* Time-stamp mistakes: need to clean data before using it
+
+### Test case 3
+
+* Quarterly frequency (always - not multi-frequency)
+* No secondary series
+* Time-stamp in string format. String composed in the same cell.
+* Footnotes with source
+
+### Test case 4
+
+* Composed name with hierarchy and aggregation of same hierarchy levels
+* Missings with strings
+* Aggregation data close to the series
+* New data series starting after previous ones
+
+### Test case 5
+
+* Interrupted layout of data series
+* Composed time-stamp using more than one cell
+* Time-stamp header far from data starting
+* Dirty cells between headers and data start
+* False series (meta-data for other series)
+
+### Test case 6
+
+* Horizontal series (always)
+    - Position of header and footer changes! (is not only a matter of transposing the entire sheet)
+* Composed time-stamp plus two frequencies (aggregation in between)
+* Different levels of aggregation mixed
+* Composed series names at the same hierarchy level (column with a "Total" in the end of several partial columns)
+* Progressive aggregation of series identifiable with sum of results, change in capitalization and bold letters
+
+### Test case 7
+
+* Progressive aggregation identifiable with strings indentation
 
 ## Problem context (or why this package is a good idea)
 
