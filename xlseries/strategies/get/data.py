@@ -8,12 +8,14 @@ get_data_strategies
 This module contains strategies to get data from a spreadsheet.
 """
 
+from __future__ import unicode_literals
 import sys
 import inspect
 from pprint import pprint
 import arrow
 import numpy as np
 from openpyxl.cell import column_index_from_string
+from unidecode import unidecode
 
 from xlseries.utils.time_manipulation import increment_time
 
@@ -48,7 +50,7 @@ class GetSingleFrequencyData(BaseGetDataStrategy):
     # PRIVATE
     @classmethod
     def _get_name(cls, ws, header_coord):
-        return ws[header_coord].value
+        return unidecode(ws[header_coord].value)
 
     @classmethod
     def _get_values(cls, ws, params):

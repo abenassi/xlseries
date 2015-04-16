@@ -31,6 +31,7 @@ def load_original_case(case_num=1, **loader_args):
     """
 
     case_name = "test_case" + unicode(case_num) + ".xlsx"
+    # raise Exception(get_orig_cases_dir())
     case_path = os.path.join(get_orig_cases_dir(), case_name)
 
     return load_workbook(case_path, **loader_args)

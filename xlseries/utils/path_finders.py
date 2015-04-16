@@ -10,7 +10,12 @@ Auxiliar methods to quickly find a directory in the package.
 
 from __future__ import unicode_literals
 import os
+import sys
 import inspect
+
+
+class PackageDirNotFound(Exception):
+    pass
 
 
 def abs_path(relative_path, parent_level=1):
@@ -32,36 +37,94 @@ def abs_path(relative_path, parent_level=1):
 
 
 def get_param_cases_dir():
+    return get_param_cases_path()
+
+
+def get_param_cases_path(case_num=None):
     """Return the path to integration test cases parameters."""
 
     relative_path = os.path.sep.join(["tests",
                                       "integration_cases",
                                       "parameters"])
 
-    return os.path.join(get_package_dir("xlseries", __file__),
-                        relative_path)
+    base_dir = os.path.join(get_package_dir("xlseries", __file__),
+                            relative_path)
+
+    if not case_num:
+        return base_dir
+
+    # if a case number is provided, return full path to the file
+    else:
+        file_name = "test_case" + unicode(case_num) + ".json"
+        return os.path.join(base_dir, file_name)
 
 
 def get_orig_cases_dir():
+    return get_orig_cases_path()
+
+
+def get_orig_cases_path(case_num=None):
     """Return the path to integration excel original test cases."""
 
     relative_path = os.path.sep.join(["tests",
                                       "integration_cases",
                                       "original"])
 
-    return os.path.join(get_package_dir("xlseries", __file__),
-                        relative_path)
+    base_dir = os.path.join(get_package_dir("xlseries", __file__),
+                            relative_path)
+
+    if not case_num:
+        return base_dir
+
+    # if a case number is provided, return full path to the file
+    else:
+        file_name = "test_case" + unicode(case_num) + ".xlsx"
+        return os.path.join(base_dir, file_name)
 
 
 def get_exp_cases_dir():
+    return get_exp_cases_path()
+
+
+def get_exp_cases_path(case_num=None):
     """Return the path to integration excel expected test cases."""
 
     relative_path = os.path.sep.join(["tests",
                                       "integration_cases",
                                       "expected"])
 
-    return os.path.join(get_package_dir("xlseries", __file__),
-                        relative_path)
+    base_dir = os.path.join(get_package_dir("xlseries", __file__),
+                            relative_path)
+
+    if not case_num:
+        return base_dir
+
+    # if a case number is provided, return full path to the file
+    else:
+        file_name = "test_case" + unicode(case_num) + ".xlsx"
+        return os.path.join(base_dir, file_name)
+
+
+def get_screenshot_cases_dir():
+    return get_exp_cases_path()
+
+
+def get_screenshot_cases_path(case_num=None):
+    """Return the path to integration excel screenshots of test cases."""
+
+    relative_path = os.path.sep.join(["docs",
+                                      "xl_screenshots"])
+
+    base_dir = os.path.join(get_package_dir("xlseries", __file__),
+                            relative_path)
+
+    if not case_num:
+        return base_dir
+
+    # if a case number is provided, return full path to the file
+    else:
+        file_name = "test_case" + unicode(case_num) + ".png"
+        return os.path.join(base_dir, file_name)
 
 
 def get_package_dir(package_name, inside_path):
@@ -74,9 +137,19 @@ def get_package_dir(package_name, inside_path):
         inside_path: A path inside the package.
     """
 
-    if os.path.split(inside_path)[1] == package_name and \
-            os.path.basename(os.path.split(inside_path)[0]) != package_name:
-        return inside_path
+    # go up in the tree folder looking for the root directory of the package
+    if os.path.isabs(inside_path):
+        if os.path.split(inside_path)[1] == package_name and \
+                os.path.basename(os.path.split(inside_path)[0]) != package_name:
+            return inside_path
 
+        else:
+            return get_package_dir(package_name, os.path.split(inside_path)[0])
+
+    # look at the enviormental variables for the package path
     else:
-        return get_package_dir(package_name, os.path.split(inside_path)[0])
+        for path in sys.path:
+            if os.path.basename(path) == package_name:
+                return path
+
+        raise PackageDirNotFound(package_name + " dir couldn't be found.")

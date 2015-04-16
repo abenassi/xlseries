@@ -244,7 +244,7 @@ class CleanSingleColumnTi(BaseCleanTiStrategy):
             # only clean if the value is not None
             if curr_time:
 
-                print curr_time
+                # print curr_time
                 try:
                     # convert strings and datetime.datetime's to arrow.Arrow times
                     curr_time = cls._parse_time(curr_time, last_time, params)

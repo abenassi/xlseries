@@ -1,6 +1,7 @@
 TODO list for xlseries package
 ====
 
+- [ ] Solve encoding problems when taking headers name from a Workbook
 - [ ] Build test interface to be nicer, specially inside "compare_data_frames" method.
 - [ ] Write tests for discovering parameters.
 - [ ] Explore the possibility of using a package to color error outputs for testing.

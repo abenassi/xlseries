@@ -81,6 +81,36 @@ def _safe_str(value):
     return RV
 
 
+def print_xl_range(ws, cells_range, width=15):
+    """Print a representation of an excel cells range.
+
+    Args:
+        ws: Worksheet from where take the range.
+        range: Cells range to print out.
+    """
+
+    for row in ws[cells_range]:
+
+        for cell in row:
+            value = unicode(cell.coordinate) + ": " + unicode(cell.value)
+
+            # fix length of value representation
+            if len(value) > width:
+                value = value[:width - 3] + "..."
+            else:
+                value = value.ljust(width)
+
+            # print new value
+            print "| " + value,
+
+        # print last border of the row
+        print "| "
+
+        # print the separator between rows
+        for cell in row:
+            print "| " + "-" * (width),
+        print "| "
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod()

@@ -41,9 +41,13 @@ class BaseStrategy(object):
             them or adopt a different approach to parse wb.
     """
 
-    def __init__(self, wb, params_path=None):
+    def __init__(self, wb, params_path_or_obj=None):
         self.wb = wb
-        self.params = Parameters(params_path)
+
+        if type(params_path_or_obj) == Parameters:
+            self.params = params_path_or_obj
+        else:
+            self.params = Parameters(params_path_or_obj)
         # raise Exception(self.params)
 
     # PUBLIC INTERFACE
