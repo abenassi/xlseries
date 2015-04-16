@@ -2,8 +2,9 @@
 xlseries
 ===============================
 
-A python package to scrape [time series](https://en.wikipedia.org/wiki/Time_series) from ugly excel files, like this one:
-![Test cases](https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_cases.gif)
+A python package to scrape [time series](https://en.wikipedia.org/wiki/Time_series) from *any* excel file. Like these ones:
+
+![](https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_cases.gif)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -22,41 +23,55 @@ A python package to scrape [time series](https://en.wikipedia.org/wiki/Time_seri
 
 ## Installation
 
+This package is still in an early development stage, it can't be reliably used for the moment and the design may still be object of radical changes. Anyway, if you want to give it a try or [contribute](#contributions) follow these instructions to install it on your OS.
+
+**If you are using Anaconda as your python distribution**
+
+1. `conda create -n xlseries python=2` *Create new environment*
+2. `cd project_directory`
+3. `source activate xlseries` *Activate the environment*
+4. `pip install -e .` *Install the package in developer mode*
+5. `pip install -r requirements.txt` *Install dependencies*
+6. `deactivate` *Deactivate when you are done*
+
+**If you are using a standard python installation**
+
+1. `pip install virtualenv` *Install package to use virtual environments*
+2. `cd project_directory`
+3. `virtualenv venv` *Create new environment*
+4. `source venv/bin/activate` *Activate the environment*
+5. `pip install -r requirements.txt` *Install dependencies*
+6. `deactivate` *Deactivate when you are done*
+
+## Quick start
+
+```python
+from xlseries import XlSeries
+series = XlSeries("path_to_excel_file")
+dfs = series.get_data_frames("path_to_json_parameters")
+```
+
+* **Excel file**: Up to this development point, the excel file must have only one spreadsheet (anyway, only the active one will be used by `xlseries`) and should not be more *complicated* than [test cases](../tests/integration_cases/CASES.md) [1](../tests/integration_cases/CASES.md#case-1), [2](../tests/integration_cases/CASES.md#case-2) or [3](../tests/integration_cases/CASES.md#case-3) (the ones currently passing the tests).
+
+* **Json parameters**: A full JSON file with parameters must be provided. In future development stages more and more [parameters](#parameters) will be discovered by the package and the user will not need to provide them.
+
+If you want to *give it a try with the test cases* that are passing all the tests, check out this [ipython notebook ](http://nbviewer.ipython.org/github/abenassi/xlseries/blob/master/Test%20cases.ipynb).
 
 ## Development status
-
-This package is still in an early development stage, it can't be reliably used for the moment. The design may still be object of radical changes.
 
 ### Test cases
 
 There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/integration_cases) ordered in increasing difficulty. All the features of the package are being implemented step by step aiming to handle the next test case in the most general and flexible possible way.
 
-Check out in the [ipython notebook ](http://nbviewer.ipython.org/github/abenassi/xlseries/blob/master/Test%20cases.ipynb) how the package works with some of these test cases.
-
-
 ### Progress
 
 Up to this moment the package can handle cases 1, 2 and 3 with parameters. Once the seven cases can be handled with given parameters for each case, strategies for discovering parameters will start to be implemented.
 
-The ultimate goal would be that for **any** given excel file the user can obtain pandas data frames with all the time data series available doing no more than this:
-
-```python
-from xlseries import XlSeries
-series = XlSeries("xl_file_name")
-dfs = series.get_data_frames()
-```
-
-An intermediate step will be that the user can write a json file with some parameters of the excel file and the data series:
-
-```python
-from xlseries import XlSeries
-series = XlSeries("xl_file_name", "json_parameters_file_name")
-dfs = series.get_data_frames()
-```
+The ultimate goal is that for **any** given excel file the user can possibly have, `xlseries` be able to extract all time series in the spreadsheet and return pandas data frames.
 
 ### Parameters
 
-Each time data series has it's own list of parameters. Only one [parameters object](https://github.com/abenassi/xlseries/blob/master/xlseries/strategies/discover/parameters.py) has to be passed to XlSeries to scrape an excel spreadsheet.
+Each time data series has it's own list of parameters. Only one [parameters object](https://github.com/abenassi/xlseries/blob/master/xlseries/strategies/discover/parameters.py) (or even just the path to the json file) has to be passed to XlSeries to scrape an excel spreadsheet.
 
 If many series are to be scraped, parameters for each series should be written in python lists, but only if they differ between series ([see an example](https://github.com/abenassi/xlseries/blob/master/tests/strategies/discover/original/test_params.json)). It is not necessary to write parameters that repeat themselves in all the series (like the alignment, which is usually common to all the series in the spreadsheet).
 

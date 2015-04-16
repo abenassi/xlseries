@@ -9,7 +9,7 @@ This list of excel file cases is ordered, approximately, by difficulty in its ti
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Excel file test cases
-](#excel-file-test-cases)
+](../original/)
 - [Cases](#cases)
   - [Case 1](#case-1)
   - [Case 2](#case-2)
