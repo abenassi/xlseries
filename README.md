@@ -3,7 +3,7 @@ xlseries
 ===============================
 
 A python package to scrape [time series](https://en.wikipedia.org/wiki/Time_series) from ugly excel files, like this one:
-![Test case number 5](https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_cases.gif)
+![Test cases](https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_cases.gif)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
