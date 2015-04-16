@@ -10,6 +10,8 @@ A python package to scrape [time series](https://en.wikipedia.org/wiki/Time_seri
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
+- [Installation](#installation)
+- [Quick start](#quick-start)
 - [Development status](#development-status)
   - [Test cases](#test-cases)
   - [Progress](#progress)
