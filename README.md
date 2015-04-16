@@ -27,9 +27,12 @@ This package is still in an early development stage, it can't be reliably used f
 
 There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/integration_cases) ordered in increasing difficulty. All the features of the package are being implemented step by step aiming to handle the next test case in the most general and flexible possible way.
 
+Check out in the [ipython notebook ](http://nbviewer.ipython.org/github/abenassi/xlseries/blob/master/Test%20cases.ipynb) how the package works with some of these test cases.
+
+
 ### Progress
 
-Up to this moment the package can handle cases 1 and 2 with parameters. Once the seven cases can be handled with given parameters for each case, strategies for discovering parameters will start to be implemented.
+Up to this moment the package can handle cases 1, 2 and 3 with parameters. Once the seven cases can be handled with given parameters for each case, strategies for discovering parameters will start to be implemented.
 
 The ultimate goal would be that for **any** given excel file the user can obtain pandas data frames with all the time data series available doing no more than this:
 
