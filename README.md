@@ -8,31 +8,6 @@ A python package to scrape [time series](https://en.wikipedia.org/wiki/Time_seri
 
 And return them turned into [pandas](http://pandas.pydata.org/pandas-docs/dev/index.html) [data frames](http://pandas.pydata.org/pandas-docs/dev/generated/pandas.DataFrame.html).
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
-
-- [Installation](#installation)
-- [Quick start](#quick-start)
-- [Problem context (*or why this package is a good idea*)](#problem-context-or-why-this-package-is-a-good-idea)
-  - [International organisms](#international-organisms)
-  - [Some common problems using data in third world-countries (and in others too!)](#some-common-problems-using-data-in-third-world-countries-and-in-others-too)
-- [Parameters](#parameters)
-- [Development status](#development-status)
-  - [Test cases](#test-cases)
-  - [Progress](#progress)
-- [Contributions](#contributions)
-- [Task list](#task-list)
-  - [Documentation](#documentation)
-  - [Testing](#testing)
-  - [Bugs](#bugs)
-  - [Error handling](#error-handling)
-  - [User interface](#user-interface)
-  - [Design](#design)
-  - [Deployment](#deployment)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 ## Installation
 
 This package is still in an early development stage, it can't be reliably used for the moment and the design may still be object of radical changes. Anyway, if you want to give it a try or [contribute](#contributions) follow these instructions to install it on your machine.
@@ -68,6 +43,24 @@ dfs = series.get_data_frames("path_to_json_parameters")
 * **Json parameters**: A full JSON file with parameters must be provided. In future development stages more and more [parameters](#parameters) will be discovered by the package and the user will not need to provide them.
 
 If you want to give it a try *with the test cases* that are passing all the tests and get an idea of how `xlseries` works, check out this [ipython notebook with examples](http://nbviewer.ipython.org/github/abenassi/xlseries/blob/master/Test%20cases.ipynb).
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Installation](#installation)
+- [Quick start](#quick-start)
+- [Problem context (*or why this package is a good idea*)](#problem-context-or-why-this-package-is-a-good-idea)
+  - [International organisms](#international-organisms)
+  - [Some common problems using data in third world-countries (and in others too!)](#some-common-problems-using-data-in-third-world-countries-and-in-others-too)
+- [Parameters](#parameters)
+- [Development status](#development-status)
+  - [Test cases](#test-cases)
+  - [Progress](#progress)
+- [Contributions](#contributions)
+- [Task list](#task-list)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Problem context (*or why this package is a good idea*)
 
@@ -254,7 +247,7 @@ For all contributions, we intend to follow the [Google Ptyhon Style Guide](https
 
 This is a quick list of the next tasks in the pipeline. You can also check out some [design thoughts](../DESIGN_THOUGHTS.md) to look into some decisions that were made (and some decisions that are still being evaluated) and some [brainstorming ideas](../BRAINSTORMING.md) about possible strategies to discover parameters and other stuff like that.
 
-### Documentation
+#### Documentation
 - [x] Add screenshots of messy excel files in the README.
 - [x] Add installation instructions to the README
 - [ ] Add a progress bar to the README to track progress in the test cases
@@ -266,7 +259,7 @@ This is a quick list of the next tasks in the pipeline. You can also check out s
 - [ ] Create docs with Sphinx - read the docs.
 - [ ] Create blog with how to contribute? with news about the package?
 
-### Testing
+#### Testing
 - [x] Replace tests with helper functions that take out all the decorators and use an argument to know which case number to call.
 - [ ] Build test interface to be nicer and more explicit, specially inside "compare_data_frames" method.
 - [ ] Add profiling test tools
@@ -275,21 +268,21 @@ This is a quick list of the next tasks in the pipeline. You can also check out s
 - [ ] Cases description could be added to __doc__ variable of the tests from this README
 - [ ] Integration expected examples should be saved in a more native format than xlsx like CSV or a proper pandas data frame serialization tool
 
-### Bugs
+#### Bugs
 - [x] Use os.path to manipulate paths, don't just use a path separator and strings!
 - [ ] Solve encoding problems when taking headers name from a Workbook
 
-### Error handling
+#### Error handling
 - [ ] Make the errors in parsing an excel files be custom designed Exceptions instead of using status returns.
 
-### User interface
+#### User interface
 - [ ] Add a high level method in user interface that catches errors raised during the process of parsing an excel file and returns None.
 - [ ] Build command line interface
 
-### Design
+#### Design
 - [ ] Strategies should be call with a domain name problem, not "strategies"
 
-### Deployment
+#### Deployment
 - [ ] Upload to PIP a first functional version
 
 
