@@ -23,12 +23,11 @@ This package is still in an early development stage, it can't be reliably used f
 
 **If you are using a standard python installation**
 
-1. `pip install virtualenv` *Install package to use virtual environments*
-2. `cd project_directory`
-3. `virtualenv venv` *Create new environment*
-4. `source venv/bin/activate` *Activate the environment*
-5. `pip install -r requirements.txt` *Install dependencies*
-6. `deactivate` *Deactivate when you are done*
+1. `cd project_directory`
+2. `virtualenv venv` *Create new environment*
+3. `source venv/bin/activate` *Activate the environment*
+4. `pip install -r requirements.txt` *Install dependencies*
+5. `deactivate` *Deactivate when you are done*
 
 ## Quick start
 
