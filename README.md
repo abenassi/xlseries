@@ -39,6 +39,8 @@ dfs = series.get_data_frames("path_to_json_parameters")
 
 * **Excel file**: Up to this development point, the excel file must have only one spreadsheet (anyway, only the active one will be used by `xlseries`) and should not be more *complicated* than test cases [1](#test-case-1), [2](#test-case-2) or [3](#test-case-3) (the ones currently passing the tests).
 
+![](https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case_1_2_3.png)
+
 * **Json parameters**: A full JSON file with parameters must be provided. In future development stages more and more [parameters](#parameters) will be discovered by the package and the user will not need to provide them.
 
 If you want to give it a try *with the test cases* that are passing all the tests and get an idea of how `xlseries` works, check out this [ipython notebook with examples](http://nbviewer.ipython.org/github/abenassi/xlseries/blob/master/Test%20cases.ipynb).
