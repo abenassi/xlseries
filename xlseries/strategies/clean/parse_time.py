@@ -6,6 +6,8 @@ parse_time
 ----------------------------------
 
 This module contains strategies to parse time strings of different frequencies.
+Up to this momment, all the strategies need to know the frequency of the time
+string in advance (yearly, quarterly, monthly..).
 """
 
 from __future__ import unicode_literals
@@ -32,6 +34,25 @@ class BaseParseTimeStrategy(object):
     # PUBLIC INTERFACE
     @classmethod
     def accepts(cls, curr_time, last_time, params):
+        """Check the inputs to see if the strategy can handle them.
+
+        This base accepts() method check that the value is either already a
+        time value or that could be a string expressing time before. In the
+        latter it will call the private _accepts() method of the concrete
+        strategy being called to see if it can be handled.
+
+        Args:
+            curr_time: Time string to be parsed.
+            last_time: Last time value (already parsed) in the time series
+                being analyzed.
+            params: A parameters dictionary with meta-data about the series
+                being analyzed.
+
+        Returns:
+            True or False meaning that a strategy declares it can handle the
+                input.
+        """
+
         if (type(curr_time) == arrow.Arrow or
                 type(curr_time) == datetime.datetime):
             return True
@@ -43,10 +64,40 @@ class BaseParseTimeStrategy(object):
 
     @classmethod
     def parse_time(cls, curr_time, last_time, params):
+        """Parse a time string or value into a proper time value.
+
+        Args:
+            curr_time: Time string to be parsed.
+            last_time: Last time value (already parsed) in the time series
+                being analyzed.
+            params: A parameters dictionary with meta-data about the series
+                being analyzed.
+
+        Returns:
+            An arrow.Arrow time value.
+        """
         return cls._parse_time(curr_time, last_time, params)
 
     @classmethod
     def _parse_time(cls, curr_time, last_time, params):
+        """Base _parse_time() method.
+
+        Most of the concrete strategies subclassing BaseParseTimeStrategy will
+        use this method and override only make_parsley_grammar() to change the
+        grammar actually used to parse a time string. If the structure varies
+        significantly or can be simpler, the entire _parse_time() method should
+        be overriden.
+
+        Args:
+            curr_time: Time string to be parsed.
+            last_time: Last time value (already parsed) in the time series
+                being analyzed.
+            params: A parameters dictionary with meta-data about the series
+                being analyzed.
+
+        Returns:
+            An arrow.Arrow time value.
+        """
 
         # time format is correct
         if type(curr_time) == arrow.Arrow:
@@ -80,10 +131,12 @@ class BaseParseTimeStrategy(object):
 
     @staticmethod
     def _dob_year_to_four(dob_year):
+        """Convert a two digit year string in a four digits year string."""
         return arrow.Arrow.strptime(dob_year, "%y").year
 
     @classmethod
     def _possible_time_value(cls, time_value):
+        """Check that a value could be a time value."""
         return time_value and type(time_value) != float
 
 
@@ -139,6 +192,7 @@ class BaseComposedQuarter(BaseParseTimeStrategy):
 
     @staticmethod
     def _quarter_num_to_month(quarter_number):
+        """Convert a quarter number in the number of first month."""
 
         if int(quarter_number) == 1:
             month = 1
@@ -176,6 +230,7 @@ class ParseComposedQuarterTime1(BaseComposedQuarter):
 
     @classmethod
     def make_parsley_grammar(cls):
+        """Return a parsley parsing expression grammar."""
         return parsley.makeGrammar("""
                 not_digit = anything:x ?(x not in "0123456789")
 
@@ -210,6 +265,7 @@ class ParseComposedQuarterTime2(BaseComposedQuarter):
 
     @classmethod
     def make_parsley_grammar(cls):
+        """Return a parsley parsing expression grammar."""
         return parsley.makeGrammar("""
                 not_digit = anything:x ?(x not in "0123456789 ")
 
@@ -289,6 +345,7 @@ class ParseComposedMonthTime1(BaseComposedMonth):
 
     @classmethod
     def make_parsley_grammar(cls):
+        """Return a parsley parsing expression grammar."""
         return parsley.makeGrammar("""
                 not_digit = anything:x ?(x not in "0123456789 ")
 
@@ -326,6 +383,7 @@ class ParseComposedMonthTime2(BaseComposedMonth):
 
     @classmethod
     def make_parsley_grammar(cls):
+        """Return a parsley parsing expression grammar."""
         return parsley.makeGrammar("""
                 not_digit = anything:x ?(x not in "0123456789 ")
 
@@ -340,6 +398,10 @@ class ParseComposedMonthTime2(BaseComposedMonth):
 
 
 def get_strategies():
+    """Return all the concrete strategies available in this module.
+
+    This method avoid to return base classes and exceptions."""
+
     return xlseries.utils.strategies_helpers.get_strategies()
 
 if __name__ == '__main__':
