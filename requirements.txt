@@ -1,8 +1,8 @@
 xlrd==0.9.3
 numpy==1.9.2
 wheel==0.23.0
-pandas==0.16.0
 openpyxl>=2.2.1
 parsley==1.2
 arrow==0.5.4
 unidecode==0.4.17
+pandas==0.16.0
