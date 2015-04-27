@@ -165,7 +165,7 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 
 #### Test case 1 
 
-<div align="middle" height="200px">
+<div align="middle" height="200">
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case1_c.png" >
 </div>
 * Vertical series (always)
@@ -179,7 +179,7 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 * Footnotes with source
 
 #### Test case 2
-<div align="middle" height="200px">
+<div align="middle" height="200">
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case2_a.png">
 </div>
 * Daily frequency (always - not multi-frequency)
@@ -193,7 +193,7 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
    
 
 #### Test case 3
-<div align="middle" height="200px">
+<div align="middle" height="200">
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case3_a.png">
 </div>
 * Quarterly frequency (always - not multi-frequency)
@@ -205,7 +205,7 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
       
 
 #### Test case 4
-<div align="middle" height="200px">
+<div align="middle" height="200">
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case4_b.png">
 </div>
 * Composed name with hierarchy and aggregation of same hierarchy levels
@@ -215,7 +215,7 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
       
 
 #### Test case 5
-<div align="middle" height="200px">
+<div align="middle" height="200">
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case5_a.png">
 </div>
 * Interrupted layout of data series
@@ -228,7 +228,7 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
       
 
 #### Test case 6
-<div align="middle" height="200px">
+<div align="middle" height="200">
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case6_a.png">
 </div>
 * Horizontal series (always)
@@ -240,7 +240,7 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
       
 
 #### Test case 7
-<div align="middle" height="200px">
+<div align="middle" height="200">
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case7_a.png">
 </div>
 * Progressive aggregation identifiable with strings indentation
