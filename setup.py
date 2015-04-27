@@ -11,9 +11,6 @@ except ImportError:
 with open('README.md') as readme_file:
     readme = readme_file.read()
 
-with open('HISTORY.rst') as history_file:
-    history = history_file.read().replace('.. :changelog:', '')
-
 requirements = [
     # TODO: put package requirements here
 ]
