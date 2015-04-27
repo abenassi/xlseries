@@ -164,8 +164,10 @@ This list of parameters can still change any time, adding, removing or modifying
 There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/integration_cases). Each test case was chosen because it adds something new that `xlseries` isn't (or wasn't) able to deal with before. Next there is a list of new issues brought by each case, in addition to the previous ones.
 
 #### Test case 1 
-<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case1_c.png" align="middle" height="200px">
 
+<div align="middle" height="200px">
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case1_c.png" >
+</div>
 * Vertical series (always)
 * Monthly frequency (always - not multi-frequency)
 * Data starts in row 2
@@ -177,8 +179,9 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 * Footnotes with source
 
 #### Test case 2
-<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case2_a.png" align="middle" height="200px">
-
+<div align="middle" height="200px">
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case2_a.png">
+</div>
 * Daily frequency (always - not multi-frequency)
 * Data doesn't start in row 2
 * Headers for data and time field
@@ -190,8 +193,9 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
    
 
 #### Test case 3
-<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case3_a.png" align="middle" height="200px">
-
+<div align="middle" height="200px">
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case3_a.png">
+</div>
 * Quarterly frequency (always - not multi-frequency)
 * No secondary series
 * Time-stamp in string format. String composed in the same cell.
@@ -201,8 +205,9 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
       
 
 #### Test case 4
-<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case4_b.png" align="middle" height="200px">
-
+<div align="middle" height="200px">
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case4_b.png">
+</div>
 * Composed name with hierarchy and aggregation of same hierarchy levels
 * Missings with strings
 * Aggregation data close to the series
@@ -210,8 +215,9 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
       
 
 #### Test case 5
-<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case5_a.png" align="middle" height="200px">
-
+<div align="middle" height="200px">
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case5_a.png">
+</div>
 * Interrupted layout of data series
 * Composed time-stamp using more than one cell
 * Time-stamp header far from data starting
@@ -222,8 +228,9 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
       
 
 #### Test case 6
-<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case6_a.png" align="middle" height="200px">
-
+<div align="middle" height="200px">
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case6_a.png">
+</div>
 * Horizontal series (always)
     - Position of header and footer changes! (is not only a matter of transposing the entire sheet)
 * Composed time-stamp plus two frequencies (aggregation in between)
@@ -233,8 +240,9 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
       
 
 #### Test case 7
-<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case7_a.png" align="middle" height="200px">
-
+<div align="middle" height="200px">
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case7_a.png">
+</div>
 * Progressive aggregation identifiable with strings indentation
       
       
