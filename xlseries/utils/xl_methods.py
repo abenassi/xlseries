@@ -9,7 +9,7 @@ Useful methods for excel operations and related manipulations.
 """
 
 from openpyxl import Workbook
-from xlseries.utils.general import approx_equal
+from xlseries.utils.comparing import approx_equal
 
 
 def xl_coordinates_range(start, end=None):
