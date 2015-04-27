@@ -185,8 +185,8 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 * Secondary interrupted series (monthly)
 * No footnotes
 * Time-stamp mistakes: need to clean data before using it
-<br>
-<br>
+<br />   
+<br />   
 
 #### Test case 3
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case3_a.png" align="left" width="400px">
@@ -195,9 +195,9 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 * No secondary series
 * Time-stamp in string format. String composed in the same cell.
 * Footnotes with source
-<br>
-<br>
-<br>
+<br />   
+<br />   
+<br />   
 
 #### Test case 4
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case4_b.png" align="left" width="400px">
@@ -206,7 +206,7 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 * Missings with strings
 * Aggregation data close to the series
 * New data series starting after previous ones
-<br>
+<br />   
 
 #### Test case 5
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case5_a.png" align="left" width="400px">
@@ -216,9 +216,9 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 * Time-stamp header far from data starting
 * Dirty cells between headers and data start
 * False series (meta-data for other series)
-<br>
-<br>
-<br>
+<br />   
+<br />   
+<br />   
 
 #### Test case 6
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case6_a.png" align="left" width="400px">
@@ -229,15 +229,15 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 * Different levels of aggregation mixed
 * Composed series names at the same hierarchy level (column with a "Total" in the end of several partial columns)
 * Progressive aggregation of series identifiable with sum of results, change in capitalization and bold letters
-<br>
+<br />   
 
 #### Test case 7
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case7_a.png" align="left" width="400px">
 
 * Progressive aggregation identifiable with strings indentation
-<br>
-<br>
-<br>
+<br />   
+<br />   
+<br />   
 
 ### Progress
 
