@@ -15,5 +15,4 @@
  "time_multicolumn": "False",
  "time_format": "datetime.datetime",
  "time_header": "False",
- "time_header_coord": "A1",
- "time_header_next_to_data": "None"}
+ "time_header_coord": "A1"}

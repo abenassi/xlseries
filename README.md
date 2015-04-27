@@ -129,8 +129,7 @@ Each time series has it's own parameters. Parameters can be passed to `XlSeries.
  "time_multicolumn": "False",
  "time_format": ["datetime.datetime", "datetime.datetime"],
  "time_header": ["True", "False"],
- "time_header_coord": ["C4", "F4"],
- "time_header_next_to_data": ["True", "True"]}
+ "time_header_coord": ["C4", "F4"]}
 ```
 
 If many series are to be scraped from a single excel file, parameters for each series should be written in lists, but *only if they differ* between series (as you can see in the previous example). It is not necessary to write parameters that repeat themselves in all the series (like the **alignment**, which is usually common to all the series in the spreadsheet).

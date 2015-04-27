@@ -15,5 +15,4 @@
  "time_multicolumn": "True",
  "time_format": "str",
  "time_header": "True",
- "time_header_coord": ["A18", "B18"],
- "time_header_next_to_data": ["False", "False"]}
+ "time_header_coord": ["A18", "B18"]}

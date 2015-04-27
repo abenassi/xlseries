@@ -15,5 +15,4 @@
  "time_multicolumn": "False",
  "time_format": "str",
  "time_header": "True",
- "time_header_coord": ["A4", "A4", "A4", "A4", "A51", "A51", "A51", "A51"],
- "time_header_next_to_data": "True"}
+ "time_header_coord": ["A4", "A4", "A4", "A4", "A51", "A51", "A51", "A51"]}

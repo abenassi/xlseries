@@ -44,7 +44,6 @@ class Parameters(object):
         self.time_multicolumn = None
         self.time_header = None
         self.time_header_coord = None
-        self.time_header_next_to_data = None
         self.time_format = None
         self.time_composed = None
         self.frequency = None

@@ -1,6 +1,7 @@
 wheel==0.23.0
 pandas==0.16.0
 openpyxl>=2.2.1
-parsley
-arrow
+xlrd==0.9.3
+parsley==1.2
+arrow==0.5.4
 unidecode==0.4.17

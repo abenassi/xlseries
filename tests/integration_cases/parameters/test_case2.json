@@ -15,5 +15,4 @@
  "time_multicolumn": "False",
  "time_format": ["datetime.datetime", "datetime.datetime"],
  "time_header": ["True", "False"],
- "time_header_coord": ["C4", "F4"],
- "time_header_next_to_data": ["True", "True"]}
+ "time_header_coord": ["C4", "F4"]}

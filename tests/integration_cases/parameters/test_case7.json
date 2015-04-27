@@ -15,5 +15,4 @@
  "time_multicolumn": "False",
  "time_format": "int",
  "time_header": "False",
- "time_header_coord": "A6",
- "time_header_next_to_data": "False"}
+ "time_header_coord": "A6"}
