@@ -11,7 +11,7 @@ Small useful time related methods.
 from __future__ import unicode_literals
 import arrow
 import datetime
-from xlseries.utils.general import approx_equal
+from xlseries.utils.comparing import approx_equal
 
 
 def increment_time(time, num, freq):

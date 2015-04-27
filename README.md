@@ -40,6 +40,14 @@ series = XlSeries("path_to_excel_file")
 dfs = series.get_data_frames("path_to_json_parameters")
 ```
 
+With the test case number 1:
+```python
+from xlseries import XlSeries
+from xlseries.utils.path_finders import get_orig_cases_path, get_param_cases_path
+series = XlSeries(get_orig_cases_path(1))
+dfs = series.get_data_frames(get_param_cases_path(1))
+```
+
 * **Excel file**: Up to this development point, the excel file must have only one spreadsheet (anyway, only the active one will be used by `xlseries`) and should not be more *complicated* than test cases [1](#test-case-1), [2](#test-case-2) or [3](#test-case-3) (the ones currently passing the tests).
 
 ![](https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case_1_2_3.png)
