@@ -13,7 +13,7 @@ import nose
 
 from xlseries.strategies.get.data import GetSingleFrequencyData
 from xlseries.strategies.clean.time_index import CleanSingleColumnTi
-from xlseries.utils.general import compare_list_values
+from xlseries.utils.comparing import compare_list_values
 from xlseries.utils.case_loaders import load_parameters_case
 from xlseries.utils.case_loaders import load_original_case
 from xlseries.utils.case_loaders import load_expected_case
