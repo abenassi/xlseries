@@ -165,8 +165,8 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 
 #### Test case 1 
 
-<div align="middle" height="200">
-<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case1_c.png" >
+<div align="middle">
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case1_c.png"  height="200px">
 </div>
 * Vertical series (always)
 * Monthly frequency (always - not multi-frequency)
@@ -179,8 +179,8 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 * Footnotes with source
 
 #### Test case 2
-<div align="middle" height="200">
-<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case2_a.png">
+<div align="middle">
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case2_a.png" height="200px">
 </div>
 * Daily frequency (always - not multi-frequency)
 * Data doesn't start in row 2
@@ -193,8 +193,8 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
    
 
 #### Test case 3
-<div align="middle" height="200">
-<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case3_a.png">
+<div align="middle">
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case3_a.png" height="200px">
 </div>
 * Quarterly frequency (always - not multi-frequency)
 * No secondary series
@@ -205,8 +205,8 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
       
 
 #### Test case 4
-<div align="middle" height="200">
-<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case4_b.png">
+<div align="middle">
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case4_b.png" height="200px">
 </div>
 * Composed name with hierarchy and aggregation of same hierarchy levels
 * Missings with strings
@@ -215,8 +215,8 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
       
 
 #### Test case 5
-<div align="middle" height="200">
-<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case5_a.png">
+<div align="middle">
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case5_a.png" height="200px">
 </div>
 * Interrupted layout of data series
 * Composed time-stamp using more than one cell
@@ -228,8 +228,8 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
       
 
 #### Test case 6
-<div align="middle" height="200">
-<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case6_a.png">
+<div align="middle">
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case6_a.png" height="200px">
 </div>
 * Horizontal series (always)
     - Position of header and footer changes! (is not only a matter of transposing the entire sheet)
@@ -240,8 +240,8 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
       
 
 #### Test case 7
-<div align="middle" height="200">
-<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case7_a.png">
+<div align="middle">
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case7_a.png" height="200px">
 </div>
 * Progressive aggregation identifiable with strings indentation
       
