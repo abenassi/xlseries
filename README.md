@@ -2,6 +2,9 @@
 xlseries
 ===============================
 
+[![Coverage Status](https://coveralls.io/repos/abenassi/xlseries/badge.svg?branch=master)](https://coveralls.io/r/abenassi/xlseries?branch=master)
+[![Build Status](https://travis-ci.org/abenassi/xlseries.svg?branch=master)](https://travis-ci.org/abenassi/xlseries)
+
 A python package to scrape [time series](https://en.wikipedia.org/wiki/Time_series) from *any* excel file. Like these ones:
 
 ![](https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_cases.gif)
