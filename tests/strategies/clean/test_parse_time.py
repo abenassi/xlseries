@@ -45,14 +45,28 @@ def load_case_number():
 class ParseSimpleTimeTest(unittest.TestCase):
 
     def test_parse_simple_time_case1(self):
-        params = load_parameters_case(1)
-        value = "17-12.09"
-        last_time = None
-        # raise Exception(params[0])
-        new_value = ParseSimpleTime._parse_time(value, last_time, params[0])
-
+        params = load_parameters_case(2)
+        last_time = arrow.get(2009, 12, 16)
         exp_value = arrow.get(2009, 12, 17)
 
+        value = "17-12.09"
+        new_value = ParseSimpleTime._parse_time(value, last_time, params[0])
+        self.assertEqual(new_value, exp_value)
+
+        value = "12-17.09"
+        new_value = ParseSimpleTime._parse_time(value, last_time, params[0])
+        self.assertEqual(new_value, exp_value)
+
+        value = "17-12.2009"
+        new_value = ParseSimpleTime._parse_time(value, last_time, params[0])
+        self.assertEqual(new_value, exp_value)
+
+        value = "12-17.2009"
+        new_value = ParseSimpleTime._parse_time(value, last_time, params[0])
+        self.assertEqual(new_value, exp_value)
+
+        value = "2009.12.17"
+        new_value = ParseSimpleTime._parse_time(value, last_time, params[0])
         self.assertEqual(new_value, exp_value)
 
 

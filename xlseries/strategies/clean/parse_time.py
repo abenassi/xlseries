@@ -161,15 +161,55 @@ class ParseSimpleTime(BaseParseTimeStrategy):
         # fix strings time formats
         elif type(curr_time) == str or type(curr_time) == unicode:
             str_value = curr_time.replace(".", "-").replace("/", "-")
-            str_format = "DD-MM-YY"
-            # print "here", str_value, str_format
-            time_value = arrow.get(str_value, str_format)
+
+            time_value = None
+            for str_format in cls._get_possible_time_formats(str_value):
+                try:
+                    time_value = arrow.get(str_value, str_format)
+                    print str_value, str_format, time_value
+                    msg = " ".join([unicode(time_value),
+                                    "doesn't make sense with last value",
+                                    unicode(last_time)])
+                    assert cls._time_make_sense(time_value, last_time), msg
+                    break
+                except:
+                    pass
 
         # no time could be parsed from the value
         else:
             time_value = None
 
         return time_value
+
+    @classmethod
+    def _time_make_sense(cls, time_value, last_time):
+        """Check that a parsed time value make sense with the previous one.
+
+        Args:
+            time_value: Recently parsed time value.
+            last_time: Last time value that was parsed.
+
+        Returns:
+            True or False, if the value make sense with the last one.
+        """
+        return time_value > last_time
+
+    @classmethod
+    def _get_possible_time_formats(cls, str_value):
+        """Generate all possible time formats that could apply to str_value.
+
+        Args:
+            str_value: A string representing time.
+
+        Yields:
+            A possible time format for a given time string value.
+        """
+
+        reps = map(len, str_value.split("-"))
+
+        for order in ["D-M-Y", "M-D-Y", "Y-M-D"]:
+            yield "-".join([char * reps[i] for i, char in
+                            enumerate(order.split("-"))])
 
 
 class BaseComposedQuarter(BaseParseTimeStrategy):
