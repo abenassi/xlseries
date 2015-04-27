@@ -164,7 +164,7 @@ This list of parameters can still change any time, adding, removing or modifying
 There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/integration_cases). Each test case was chosen because it adds something new that `xlseries` isn't (or wasn't) able to deal with before. Next there is a list of new issues brought by each case, in addition to the previous ones.
 
 #### Test case 1 
-<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case1_c.png" style="float: left; padding-right: 30px; max-width: 280px; max-height: 230px">
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case1_c.png" style="float: left; padding-right: 30px; width: 280px; height: 230px">
 
 * Vertical series (always)
 * Monthly frequency (always - not multi-frequency)
@@ -177,7 +177,7 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 * Footnotes with source
 
 #### Test case 2
-<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case2_a.png" style="float: left; padding-right: 30px; max-width: 280px; max-height: 230px">
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case2_a.png" style="float: left; padding-right: 30px; width: 280px; height: 230px">
 
 * Daily frequency (always - not multi-frequency)
 * Data doesn't start in row 2
@@ -189,7 +189,7 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 <br>
 
 #### Test case 3
-<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case3_a.png" style="float: left; padding-right: 30px; max-width: 280px; max-height: 230px">
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case3_a.png" style="float: left; padding-right: 30px; width: 280px; height: 230px">
 
 * Quarterly frequency (always - not multi-frequency)
 * No secondary series
@@ -200,7 +200,7 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 <br>
 
 #### Test case 4
-<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case4_b.png" style="float: left; padding-right: 30px; max-width: 320px; max-height: 300px">
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case4_b.png" style="float: left; padding-right: 30px; width: 320px; height: 300px">
 
 * Composed name with hierarchy and aggregation of same hierarchy levels
 * Missings with strings
@@ -209,7 +209,7 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 <br>
 
 #### Test case 5
-<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case5_a.png" style="float: left; padding-right: 30px; max-width: 280px; max-height: 230px">
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case5_a.png" style="float: left; padding-right: 30px; width: 280px; height: 230px">
 
 * Interrupted layout of data series
 * Composed time-stamp using more than one cell
@@ -221,7 +221,7 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 <br>
 
 #### Test case 6
-<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case6_a.png" style="float: left; padding-right: 30px; max-width: 330px; max-height: 500px">
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case6_a.png" style="float: left; padding-right: 30px; width: 330px; height: 500px">
 
 * Horizontal series (always)
     - Position of header and footer changes! (is not only a matter of transposing the entire sheet)
@@ -232,7 +232,7 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 <br>
 
 #### Test case 7
-<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case7_a.png" style="float: left; padding-right: 30px; max-width: 280px; max-height: 230px">
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case7_a.png" style="float: left; padding-right: 30px; width: 280px; height: 230px">
 
 * Progressive aggregation identifiable with strings indentation
 <br>
