@@ -165,9 +165,13 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 
 #### Test case 1 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case1_c.png" align="center" height="200px">
 >>>>>>> 2f961aa... no message
+=======
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case1_c.png" align="middle" height="200px">
+>>>>>>> bb646dd... no message
 
 <div align="middle">
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case1_c.png"  height="200px">
@@ -184,11 +188,15 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 
 #### Test case 2
 <<<<<<< HEAD
+<<<<<<< HEAD
 <div align="middle">
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case2_a.png" height="200px">
 </div>
 =======
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case2_a.png" align="center" height="400px">
+=======
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case2_a.png" align="middle" height="200px">
+>>>>>>> bb646dd... no message
 
 >>>>>>> 2f961aa... no message
 * Daily frequency (always - not multi-frequency)
@@ -203,11 +211,15 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 
 #### Test case 3
 <<<<<<< HEAD
+<<<<<<< HEAD
 <div align="middle">
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case3_a.png" height="200px">
 </div>
 =======
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case3_a.png" align="center" height="400px">
+=======
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case3_a.png" align="middle" height="200px">
+>>>>>>> bb646dd... no message
 
 >>>>>>> 2f961aa... no message
 * Quarterly frequency (always - not multi-frequency)
@@ -220,11 +232,15 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 
 #### Test case 4
 <<<<<<< HEAD
+<<<<<<< HEAD
 <div align="middle">
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case4_b.png" height="200px">
 </div>
 =======
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case4_b.png" align="center" height="400px">
+=======
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case4_b.png" align="middle" height="200px">
+>>>>>>> bb646dd... no message
 
 >>>>>>> 2f961aa... no message
 * Composed name with hierarchy and aggregation of same hierarchy levels
@@ -235,11 +251,15 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 
 #### Test case 5
 <<<<<<< HEAD
+<<<<<<< HEAD
 <div align="middle">
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case5_a.png" height="200px">
 </div>
 =======
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case5_a.png" align="center" height="400px">
+=======
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case5_a.png" align="middle" height="200px">
+>>>>>>> bb646dd... no message
 
 >>>>>>> 2f961aa... no message
 * Interrupted layout of data series
@@ -253,11 +273,15 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 
 #### Test case 6
 <<<<<<< HEAD
+<<<<<<< HEAD
 <div align="middle">
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case6_a.png" height="200px">
 </div>
 =======
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case6_a.png" align="center" height="400px">
+=======
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case6_a.png" align="middle" height="200px">
+>>>>>>> bb646dd... no message
 
 >>>>>>> 2f961aa... no message
 * Horizontal series (always)
@@ -270,11 +294,15 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 
 #### Test case 7
 <<<<<<< HEAD
+<<<<<<< HEAD
 <div align="middle">
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case7_a.png" height="200px">
 </div>
 =======
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case7_a.png" align="center" height="400px">
+=======
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case7_a.png" align="middle" height="200px">
+>>>>>>> bb646dd... no message
 
 >>>>>>> 2f961aa... no message
 * Progressive aggregation identifiable with strings indentation
