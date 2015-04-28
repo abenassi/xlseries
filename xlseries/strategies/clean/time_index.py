@@ -257,6 +257,9 @@ class CleanSingleColumnTi(BaseCleanTiStrategy):
                                                              p["missings"],
                                                              p["missing_value"])
 
+                    if not curr_time:
+                        raise NoTimeValue
+                        
                     ws.cell(row=row, column=col).value = curr_time.datetime
                     last_time = curr_time
 

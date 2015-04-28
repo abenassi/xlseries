@@ -183,6 +183,9 @@ class ParseSimpleTime(BaseParseTimeStrategy):
         else:
             time_value = None
 
+        if not time_value:
+            raise NoTimeValue
+        
         return time_value
 
     @classmethod
