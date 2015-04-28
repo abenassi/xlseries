@@ -48,7 +48,7 @@ class CleanSingleColumnTiTest(unittest.TestCase):
     def test_parse_time(self):
 
         value = "17-12.09"
-        last_time = None
+        last_time = arrow.get(2009, 12, 16)
 
         params = load_parameters_case(2)
         # print repr(params[0])

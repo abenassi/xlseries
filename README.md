@@ -311,6 +311,7 @@ This is a quick list of the next tasks in the pipeline. You can also check out s
 #### Bugs
 - [x] Use os.path to manipulate paths, don't just use a path separator and strings!
 - [ ] Solve encoding problems when taking headers name from a Workbook
+- [ ] Build heuristic to deal with parsing of the first date of a series, when there is still no "last_time" upon which compare the current value looking for a proper time string formatting
 
 #### Error handling
 - [ ] Make the errors in parsing an excel files be custom designed Exceptions instead of using status returns.

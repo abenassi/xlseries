@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-test_clean_ti_strategies
+test_parse_time
 ----------------------------------
 
-Tests for `clean_ti_strategies` module.
+Tests for `parse_time` module.
 """
 from __future__ import unicode_literals
 import unittest
@@ -15,6 +15,7 @@ import json
 import os
 from functools import wraps
 import re
+from mock import Mock
 
 from xlseries.strategies.clean.parse_time import ParseComposedQuarterTime1
 from xlseries.strategies.clean.parse_time import ParseComposedQuarterTime2
@@ -68,6 +69,12 @@ class ParseSimpleTimeTest(unittest.TestCase):
         value = "2009.12.17"
         new_value = ParseSimpleTime._parse_time(value, last_time, params[0])
         self.assertEqual(new_value, exp_value)
+
+        ParseSimpleTime._get_possible_time_formats = Mock(return_value=["YY-MM-DD"])
+        value = "12-17.09"
+        new_value = ParseSimpleTime._parse_time(value, last_time, params[0])
+        self.assertEqual(new_value, None)
+
 
 
 class ParseComposedTimeTest(unittest.TestCase):
