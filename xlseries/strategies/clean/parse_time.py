@@ -16,6 +16,7 @@ import arrow
 import datetime
 import parsley
 
+from xlseries.utils.time_manipulation import increment_time
 import xlseries.utils.strategies_helpers
 
 
@@ -143,6 +144,7 @@ class BaseParseTimeStrategy(object):
 class ParseSimpleTime(BaseParseTimeStrategy):
 
     """Parse dates in datetime or very easy time string to parse."""
+    MAX_IMPL = 20
 
     @classmethod
     def _accepts(cls, curr_time, last_time, params):
@@ -170,7 +172,9 @@ class ParseSimpleTime(BaseParseTimeStrategy):
                     msg = " ".join([unicode(time_value),
                                     "doesn't make sense with last value",
                                     unicode(last_time)])
-                    assert cls._time_make_sense(time_value, last_time), msg
+                    assert cls._time_make_sense(time_value,
+                                                last_time,
+                                                params["frequency"]), msg
                     break
                 except:
                     pass
@@ -182,7 +186,7 @@ class ParseSimpleTime(BaseParseTimeStrategy):
         return time_value
 
     @classmethod
-    def _time_make_sense(cls, time_value, last_time):
+    def _time_make_sense(cls, time_value, last_time, freq):
         """Check that a parsed time value make sense with the previous one.
 
         Args:
@@ -192,7 +196,10 @@ class ParseSimpleTime(BaseParseTimeStrategy):
         Returns:
             True or False, if the value make sense with the last one.
         """
-        return time_value > last_time
+
+        max_forth_time_value = increment_time(last_time,
+                                              cls.MAX_IMPL, freq)
+        return time_value > last_time and time_value <= max_forth_time_value
 
     @classmethod
     def _get_possible_time_formats(cls, str_value):
