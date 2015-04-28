@@ -53,8 +53,9 @@ class CleanSingleColumnTiTest(unittest.TestCase):
         params = load_parameters_case(2)
         # print repr(params[0])
 
-        new_time_value = CleanSingleColumnTi._parse_time(value, last_time,
-                                                         params[0])
+        new_time_value = CleanSingleColumnTi._parse_time(params[0], value,
+                                                         last_time)
+
         exp_time_value = arrow.get(2009, 12, 17)
 
         self.assertEqual(new_time_value, exp_time_value)

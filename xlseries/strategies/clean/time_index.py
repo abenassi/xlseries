@@ -102,7 +102,7 @@ class BaseCleanTiStrategy(object):
             if cls._time_value_typo(curr_time_value, exp_time_value):
                 return exp_time_value
             else:
-                msg = "".join(["Current:", unicode(curr_time_value),
+                msg = " ".join(["Current:", unicode(curr_time_value),
                                "Expected:", unicode(exp_time_value),
                                "Last:", unicode(last_time_value)])
                 raise TimeValueGoingBackwards(msg)
@@ -178,7 +178,7 @@ class BaseCleanTiStrategy(object):
         return None
 
     @classmethod
-    def _parse_time(cls, curr_time, last_time, params):
+    def _parse_time(cls, params, curr_time, last_time=None, next_value=None):
         """Try to parse any value into a proper date format.
 
         Iterate a pool of strategies looking one that understands the format of
@@ -186,9 +186,10 @@ class BaseCleanTiStrategy(object):
         a date format.
 
         Args:
-            curr_time: Value to be parsed into a date format.
-            last_time: Last value parsed, as reference for some strategies.
             params: Parameters of the series being analyzed.
+            curr_time: Value to be parsed into a date format.
+            last_time: Last value parsed into time value.
+            next_value: Next value to be parsed into time value.
 
         Returns:
             An arrow.Arrow object expressing a date.
@@ -196,10 +197,9 @@ class BaseCleanTiStrategy(object):
 
         if curr_time:
             for strategy in parse_time_strategies.get_strategies():
-                if strategy.accepts(curr_time, last_time, params):
-                    # print strategy, "was accepted!"
-                    time_value = strategy.parse_time(curr_time, last_time,
-                                                     params)
+                if strategy.accepts(params, curr_time, last_time, next_value):
+                    time_value = strategy.parse_time(params, curr_time,
+                                                     last_time, next_value)
 
                     msg = "".join([unicode(time_value), " - ",
                                    unicode(type(time_value)),
@@ -240,14 +240,16 @@ class CleanSingleColumnTi(BaseCleanTiStrategy):
 
             # take the current time value to clean
             curr_time = ws.cell(row=row, column=col).value
+            next_time = ws.cell(row=row + 1, column=col).value
 
             # only clean if the value is not None
             if curr_time:
-
-                # print curr_time
                 try:
-                    # convert strings and datetime.datetime's to arrow.Arrow times
-                    curr_time = cls._parse_time(curr_time, last_time, params)
+                    # convert strings and datetime.datetime's to arrow.Arrow
+                    # times
+                    # print curr_time, last_time, next_time
+                    curr_time = cls._parse_time(params, curr_time, last_time,
+                                                next_time)
 
                     # correct date typos checking a healthy time progression
                     if last_time:
@@ -259,13 +261,12 @@ class CleanSingleColumnTi(BaseCleanTiStrategy):
 
                     if not curr_time:
                         raise NoTimeValue
-                        
+
                     ws.cell(row=row, column=col).value = curr_time.datetime
                     last_time = curr_time
 
                 except NoTimeValue:
                     pass
-
 
 
 def get_strategies():
