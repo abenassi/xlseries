@@ -160,7 +160,7 @@ class ParseSimpleTime(BaseParseTimeStrategy):
             time_value = None
             formats = list(cls._get_possible_time_formats(str_value))
 
-            print str_value, formats, "NEW CASE!"
+            # print str_value, formats, "NEW CASE!"
 
             for str_format in formats:
 
@@ -252,15 +252,15 @@ class ParseSimpleTime(BaseParseTimeStrategy):
         Yields:
             A possible time format for a given time string value.
         """
-        print str_value
+        # print str_value
 
         reps = map(len, str_value.split("-"))
-        print reps
+        # print reps
 
         for order in ["D-M-Y", "M-D-Y", "Y-M-D"]:
             time_format = "-".join([char * reps[i] for i, char in
                             enumerate(order.split("-"))])
-            print time_format
+            # print
             yield time_format
 
 
