@@ -53,13 +53,13 @@ class XlSeries(object):
                 # print "strat results", strategy_results
 
                 for result in strategy_results:
-                    eval_result = evaluation.evaluate(result)
-                    results.append((eval_result, result))
+                    # TODO: in the future the results will be evaluated and
+                    # ordered by score, to compare similar results returned by
+                    # different strategies, for now the loop just breaks after
+                    # the first succesful strategy
 
-        sorted_results = sorted(results, key=lambda x: x[0])
+                    # eval_result = evaluation.evaluate(result)
+                    results.append(result)
+                break
 
-        if all_results:
-            return sorted_results
-
-        else:
-            return sorted_results[0]
+        return results

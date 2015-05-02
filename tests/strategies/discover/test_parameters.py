@@ -27,7 +27,7 @@ class ParametersTest(unittest.TestCase):
         del self.params
 
     # @unittest.skip("skip")
-    def test_load_parameters(self):
+    def test_load_from_json(self):
         self.assertEqual(self.params.__dict__, self.params_exp.__dict__)
 
     # @unittest.skip("skip")

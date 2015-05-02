@@ -20,7 +20,7 @@ class Parameters(object):
 
     """Object that collects input parameters from parsing strategies."""
 
-    def __init__(self, json_params_file=None):
+    def __init__(self, params=None):
 
         # general
         self.alignment = None
@@ -48,12 +48,19 @@ class Parameters(object):
         self.time_composed = None
         self.frequency = None
 
-        if json_params_file:
-            if type(json_params_file) == Parameters:
-                self.__dict__ = json_params_file.__dict__
+        if params:
+            if type(params) == Parameters:
+                self.__dict__ = params.__dict__
+
             else:
-                # add loaded parameters keeping Parameters object defaults
-                loaded_params_dict = self._load_parameters(json_params_file)
+                if type(params) == dict:
+                    # add loaded parameters keeping Parameters object defaults
+                    loaded_params_dict = self._load_from_dict(params)
+
+                else:
+                    # add loaded parameters keeping Parameters object defaults
+                    loaded_params_dict = self._load_from_json(params)
+
                 for key, value in loaded_params_dict.items():
                     self.__dict__[key] = value
 
@@ -88,11 +95,17 @@ class Parameters(object):
 
     # PRIVATE
     @classmethod
-    def _load_parameters(cls, json_params_file):
+    def _load_from_json(cls, json_params):
         """Load json file parameters into a dictionary."""
 
-        with open(json_params_file) as f:
+        with open(json_params) as f:
             params = json.load(f)
+
+        return cls._load_from_dict(params)
+
+    @classmethod
+    def _load_from_dict(cls, params):
+        """Sanitize parameter inputs in a dict."""
 
         # convert in lists ranges of headers (eg. "B8-B28")
         if "headers_coord" in params:
