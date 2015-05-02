@@ -12,7 +12,7 @@ from __future__ import unicode_literals
 import numpy as np
 
 
-def approx_equal(a, b, tolerance):
+def approx_equal(a, b, tolerance=0.00001):
     """Check if a and b can be considered approximately equal.
 
     Args:
@@ -26,7 +26,13 @@ def approx_equal(a, b, tolerance):
 
     RV = False
 
-    if (not a) and (not b):
+    if a == b:
+        RV = True
+
+    elif type(a) == unicode and type(b) == unicode:
+        RV = a == b
+
+    elif (not a) and (not b):
         RV = True
 
     elif np.isnan(a) and np.isnan(b):
@@ -37,14 +43,16 @@ def approx_equal(a, b, tolerance):
         RV = _approx_equal(a, b, tolerance)
 
     else:
-        RV = a == b
+        msg = " ".join([repr(type(a)), repr(a), repr(type(b)),
+                        repr(b), "cannot be compared."])
+        raise NotImplementedError(msg)
 
     return RV
 
 
 def _approx_equal(a, b, tolerance):
     """Check if difference between two numbers is inside tolerance range."""
-    if abs(a - b) < tolerance * a:
+    if abs(a - b) <= tolerance * a:
         return True
     else:
         return False

@@ -8,6 +8,7 @@ test_data_frame
 Tests for `data_frame` utils module.
 """
 
+from __future__ import unicode_literals
 import unittest
 import nose
 import os
