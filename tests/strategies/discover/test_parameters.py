@@ -4,24 +4,33 @@
 import unittest
 import nose
 import os
+import json
+
 from xlseries.strategies.discover.parameters import Parameters
 
 """
 test_parameters
 ----------------------------------
 
-This module tests the parameters object
+This module tests the parameters object.
 """
+
+
+def get_orig_params_path():
+    base_dir = os.path.dirname(__file__)
+    return os.path.join(base_dir, "original", "test_params.json")
+
+
+def get_exp_params_path():
+    base_dir = os.path.dirname(__file__)
+    return os.path.join(base_dir, "expected", "test_params.json")
 
 
 class ParametersTest(unittest.TestCase):
 
     def setUp(self):
-        base_dir = os.path.dirname(__file__)
-        self.params = Parameters(
-            os.path.join(base_dir, "original", "test_params.json"))
-        self.params_exp = Parameters(
-            os.path.join(base_dir, "expected", "test_params.json"))
+        self.params = Parameters(get_orig_params_path())
+        self.params_exp = Parameters(get_exp_params_path())
 
     def tearDown(self):
         del self.params
@@ -29,6 +38,16 @@ class ParametersTest(unittest.TestCase):
     # @unittest.skip("skip")
     def test_load_from_json(self):
         self.assertEqual(self.params.__dict__, self.params_exp.__dict__)
+
+    def test_load_from_dict(self):
+        with open(get_orig_params_path()) as f:
+            params_dict = json.load(f)
+        params = Parameters(params_dict)
+        self.assertEqual(params.__dict__, self.params_exp.__dict__)
+
+    def test_load_from_parameters_object(self):
+        params = Parameters(self.params)
+        self.assertEqual(params.__dict__, self.params_exp.__dict__)
 
     # @unittest.skip("skip")
     def test_eval_param(self):
