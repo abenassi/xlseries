@@ -188,7 +188,11 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 * Secondary interrupted series (monthly)
 * No footnotes
 * Time-stamp mistakes: need to clean data before using it
-   
+<div align="middle">
+<img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case2_a.png" height="200px">
+</div>
+*Change from date format to string format (excel types) unexpectedly (left)*
+*Human typo in the month of "06-05-11" that should be "06-07-11" (right)*    
    
    
 
