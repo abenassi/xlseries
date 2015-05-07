@@ -54,7 +54,7 @@ dfs = series.get_data_frames(get_param_cases_path(1))
 
 * **Json parameters**: A full JSON file with parameters must be provided. In future development stages more and more [parameters](#parameters) will be discovered by the package and the user will not need to provide them.
 
-To give it a try, you can use this [ipython notebook template](http://nbviewer.ipython.org/github/abenassi/xlseries/docs/notebooks/blob/master/Example%20use%20case.ipynb). If you want to see the test cases that are passing all the tests and get an idea of how far is going `xlseries` at the moment, check out this [ipython notebook with test cases](http://nbviewer.ipython.org/github/abenassi/xlseries/docs/notebooks/blob/master/Test%20cases.ipynb).
+To give it a try, you can use this [ipython notebook template](docs/notebooks/Example use case.ipynb). If you want to see the test cases that are passing all the tests and get an idea of how far is going `xlseries` at the moment, check out this [ipython notebook with test cases](docs/notebooks/Test cases.ipynb).
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -188,9 +188,11 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 * Secondary interrupted series (monthly)
 * No footnotes
 * Time-stamp mistakes: need to clean data before using it
+
 <div align="middle">
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case2_bc.png" height="200px">
 </div>
+
 *Change from date format to string format (excel types) unexpectedly (left)*
 *Human typo in the month of "06-05-11" that should be "06-07-11" (right)*
    
