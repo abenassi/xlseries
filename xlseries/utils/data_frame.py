@@ -235,21 +235,33 @@ def compare_data_frames(df1, df2):
     """
 
     msg = "Different index size"
-    assert df1.index.size == df2.index.size, msg
+    assert df1.index.size == df2.index.size, _diff_msg(msg, df1.index.size,
+                                                       df2.index.size)
 
     msg = "Different index freq"
-    assert df1.index.freqstr == df2.index.freqstr, msg
+    assert df1.index.freqstr == df2.index.freqstr, _diff_msg(msg,
+                                                             df1.index.freqstr,
+                                                             df2.index.freqstr)
 
     msg = "Different columns"
-    assert _check_columns(df1.columns, df2.columns), msg
+    assert _check_columns(df1.columns, df2.columns), _diff_msg(msg,
+                                                               df1.columns,
+                                                               df2.columns)
 
     msg = "Different index"
-    assert _check_index(df1.index, df2.index), msg
+    assert _check_index(df1.index, df2.index), _diff_msg(msg,
+                                                         df1.index,
+                                                         df2.index)
 
     msg = "Too different values"
     assert _check_values(df1.columns, df1, df2), msg
 
     return True
+
+
+def _diff_msg(msg, elem1, elem2):
+    """Creates a message for elements that differ in an assertion."""
+    return msg + ": " + unicode(elem1) + " != " + unicode(elem2)
 
 
 def _check_columns(cols1, cols2):
@@ -318,9 +330,14 @@ def compare_period_ranges(pr1, pr2):
 def compare_data_frames_pandas(df1, df2):
     """Wrapper to compare two data frames using assert_frame_equal.
 
+    Quickly compare two data frames using pandas testing tools. this method is
+    not very handy to know exactly where and how two data frames are differing.
+    compare_data_frames should be used instead.
+
     Args:
         df1: First data frame to compare.
         df2: Second data frame to compare.
+
     """
 
     try:
