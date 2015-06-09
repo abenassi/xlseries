@@ -3,7 +3,6 @@
 
 """
 parse_time
-----------------------------------
 
 This module contains strategies to parse time strings of different frequencies.
 Up to this momment, all the strategies need to know the frequency of the time
