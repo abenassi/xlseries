@@ -3,7 +3,6 @@
 
 """
 data_frame
-----------------------------------
 
 Auxiliar methods to load and manipulate data frames.
 """
@@ -197,6 +196,11 @@ def dfs_to_json_and_csv(base_dir=os.getcwd()):
         dir: Directory where all excel data frames are.
     """
     old_dir = os.getcwd()
+
+    # safe check for Travis CI like build systems
+    if not os.path.isdir(base_dir):
+        base_dir = os.path.join(os.getcwd(), base_dir)
+
     os.chdir(base_dir)
 
     for test_case in glob.glob("*.xlsx"):

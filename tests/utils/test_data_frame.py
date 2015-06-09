@@ -98,7 +98,7 @@ class XlMethodsTest(unittest.TestCase):
     def test_dfs_to_json_and_csv(self):
         """Test conversion of xlsx serialized data frames into json and csv."""
 
-        base_dir = "./dfs_xlsx"
+        base_dir = "dfs_xlsx"
         dfs_to_json_and_csv(base_dir)
 
         self.check_get_data_frames(1, get_data_frame, "csv", base_dir)
