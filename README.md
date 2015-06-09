@@ -288,47 +288,10 @@ A non-exhaustive list of ways that you can contribute:
 
 For all contributions, we intend to follow the [Google Ptyhon Style Guide](https://google-styleguide.googlecode.com/svn/trunk/pyguide.html)
 
-## Task list
+## Brainstorming and design thoughts about the package
 
-This is a quick list of the next tasks in the pipeline. You can also check out some [design thoughts](../DESIGN_THOUGHTS.md) to look into some decisions that were made (and some decisions that are still being evaluated) and some [brainstorming ideas](../BRAINSTORMING.md) about possible strategies to discover parameters and other stuff like that.
+Proximately these two files will be moved to issues, to encourage the participation of other people! You can check out some [design thoughts](../DESIGN_THOUGHTS.md) to look into some decisions that were made (and some decisions that are still being evaluated) and some [brainstorming ideas](../BRAINSTORMING.md) about possible strategies to discover parameters and other stuff like that.
 
-#### Documentation
-- [x] Add screenshots of messy excel files in the README.
-- [x] Add installation instructions to the README
-- [ ] Add a progress bar to the README to track progress in the test cases
-- [ ] Classify parameters by its (1) criticality for the parsing engine and (2) need of user input.
-- [ ] Write a CONTRIBUTING file with detailed explanation of how to contribute to the package.
-    - [ ] Describe ways to add a new test case
-- [ ] Add a general slide presentation about the problem faced by the package 
-- [ ] Add badges to the README
-- [ ] Create docs with Sphinx - read the docs.
-- [ ] Create blog with how to contribute? with news about the package?
-
-#### Testing
-- [x] Replace tests with helper functions that take out all the decorators and use an argument to know which case number to call.
-- [ ] Build test interface to be nicer and more explicit, specially inside "compare_data_frames" method.
-- [ ] Add profiling test tools
-- [ ] Write tests for discovering parameters.
-- [ ] Explore the possibility of using a package to color error outputs for testing.
-- [ ] Cases description could be added to __doc__ variable of the tests from this README
-- [ ] Integration expected examples should be saved in a more native format than xlsx like CSV or a proper pandas data frame serialization tool
-
-#### Bugs
-- [x] Use os.path to manipulate paths, don't just use a path separator and strings!
-- [ ] Solve encoding problems when taking headers name from a Workbook
-
-#### Error handling
-- [ ] Make the errors in parsing an excel files be custom designed Exceptions instead of using status returns.
-
-#### User interface
-- [ ] Add a high level method in user interface that catches errors raised during the process of parsing an excel file and returns None.
-- [ ] Build command line interface
-
-#### Design
-- [ ] Strategies should be call with a domain name problem, not "strategies"
-
-#### Deployment
-- [ ] Upload to PIP a first functional version
 
 
 
