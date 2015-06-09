@@ -3,7 +3,6 @@
 
 """
 clean_ti_strategies
-----------------------------------
 
 This module contains strategies to parse and clean time indexes in worksheets
 cotaining time data series.
@@ -158,18 +157,35 @@ class BaseCleanTiStrategy(object):
 
     @classmethod
     def _forth_time_value_typo(cls, curr_time_value, max_forth_time_value):
+        """Check for a typo in day, month or year.
 
-        day_typo = arrow.get(year=curr_time_value.year,
-                             month=curr_time_value.month,
-                             day=max_forth_time_value.day)
+        This check is based on the idea that one of the three elements of
+        the date is wrong because of a typo that makes the date greater than a
+        possible maximum. When one of the possibilities generates a date lower
+        than maximum it means the typo was succesfully corrected.
 
-        month_typo = arrow.get(year=curr_time_value.year,
-                               month=max_forth_time_value.month,
-                               day=curr_time_value.day)
+        Args:
+            curr_time_value (arrow.Arrow): Time value being analyzed because
+                it is greater than it should be.
+            max_forth_time_value (arrow.Arrow): Maximum possible time value for
+                curr_time_value being analyzed.
 
-        year_typo = arrow.get(year=max_forth_time_value.year,
-                              month=curr_time_value.month,
-                              day=curr_time_value.day)
+        Returns:
+            arrow.Arrow or None: A fixed time value removing the typo or None
+                if the typo couldn't be fixed.
+        """
+
+        day_typo = arrow.get(curr_time_value.year,
+                             curr_time_value.month,
+                             max_forth_time_value.day)
+
+        month_typo = arrow.get(curr_time_value.year,
+                               max_forth_time_value.month,
+                               curr_time_value.day)
+
+        year_typo = arrow.get(max_forth_time_value.year,
+                              curr_time_value.month,
+                              curr_time_value.day)
 
         for possible_typo in [day_typo, month_typo, year_typo]:
             if possible_typo < max_forth_time_value:

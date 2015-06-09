@@ -3,7 +3,6 @@
 
 """
 test_clean_ti_strategies
-----------------------------------
 
 Tests for `clean_ti_strategies` module.
 """
@@ -16,10 +15,9 @@ import os
 from openpyxl import load_workbook
 
 from xlseries.strategies.clean.time_index import CleanSingleColumnTi
+from xlseries.strategies.clean.time_index import BaseCleanTiStrategy
 from xlseries.utils.xl_methods import compare_cells
-from xlseries.utils.case_loaders import load_original_case
 from xlseries.utils.case_loaders import load_parameters_case
-from xlseries.utils.case_loaders import load_expected_case
 from xlseries.utils.path_finders import abs_path
 
 
@@ -85,6 +83,15 @@ class CleanSingleColumnTiTest(unittest.TestCase):
 
         # wb.save("test_case2_after_cleaning_index.xlsx")
         self.assertTrue(compare_cells(wb, wb_exp))
+
+    def test_forth_time_value_typo(self):
+
+        exp_time = arrow.get(2015, 5, 2)
+        max_forth_time = arrow.get(2015, 5, 22)
+        curr_time = arrow.get(2015, 7, 2)
+        fixed_time = BaseCleanTiStrategy._forth_time_value_typo(curr_time,
+                                                                max_forth_time)
+        self.assertEqual(exp_time, fixed_time)
 
 
 if __name__ == '__main__':
