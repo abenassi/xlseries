@@ -199,7 +199,7 @@ def dfs_to_json_and_csv(base_dir=os.getcwd()):
 
     # safe check for Travis CI like build systems
     if not os.path.isdir(base_dir):
-        base_dir = os.path.join(os.getcwd(), base_dir)
+        base_dir = os.path.join(os.path.dirname(__file__), base_dir)
 
     os.chdir(base_dir)
 
