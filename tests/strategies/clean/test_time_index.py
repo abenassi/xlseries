@@ -27,6 +27,7 @@ class CleanSingleColumnTiTest(unittest.TestCase):
     # @unittest.skip("skip")
     def test_correct_progression(self):
 
+        # progression wrong because going to the past
         last_time_value = arrow.get(2011, 7, 5)
         curr_time_value = arrow.get(2011, 5, 6)
         freq = "D"
@@ -39,6 +40,16 @@ class CleanSingleColumnTiTest(unittest.TestCase):
             freq, missings,
             missing_value)
         exp_time_value = arrow.get(2011, 7, 6)
+
+        self.assertEqual(new_time_value, exp_time_value)
+
+        # progression wrong because going to the future
+        curr_time_value = arrow.get(2011, 8, 6)
+        new_time_value = CleanSingleColumnTi._correct_progression(
+            last_time_value,
+            curr_time_value,
+            freq, missings,
+            missing_value)
 
         self.assertEqual(new_time_value, exp_time_value)
 
