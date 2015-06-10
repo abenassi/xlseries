@@ -15,6 +15,7 @@ import os
 from openpyxl import load_workbook
 
 from xlseries.strategies.clean.time_index import CleanSingleColumnTi
+from xlseries.strategies.clean.time_index import CleanMultipleColumnsTi
 from xlseries.strategies.clean.time_index import BaseCleanTiStrategy
 from xlseries.utils.xl_methods import compare_cells
 from xlseries.utils.case_loaders import load_parameters_case
@@ -25,6 +26,7 @@ from xlseries.utils.path_finders import abs_path
 class CleanSingleColumnTiTestCase(unittest.TestCase):
 
     # @unittest.skip("skip")
+
     def test_correct_progression(self):
 
         # progression wrong because going to the past
@@ -76,18 +78,18 @@ class CleanSingleColumnTiTestCase(unittest.TestCase):
             os.path.join(abs_path("original"), "test_case2.xlsx"))
         ws = wb.active
 
-        clean_ci = {"time_alignment": 0,
-                    "time_format": datetime.datetime,
-                    "time_header_coord": "C4",
-                    "data_starts": 5,
-                    "data_ends": 2993,
-                    "frequency": "D",
-                    "missings": True,
-                    "missing_value": "Implicit",
-                    "time_multicolumn": False,
-                    "time_composed": False}
+        params = {"time_alignment": 0,
+                  "time_format": datetime.datetime,
+                  "time_header_coord": "C4",
+                  "data_starts": 5,
+                  "data_ends": 2993,
+                  "frequency": "D",
+                  "missings": True,
+                  "missing_value": "Implicit",
+                  "time_multicolumn": False,
+                  "time_composed": False}
 
-        CleanSingleColumnTi._clean_time_index(ws, clean_ci)
+        CleanSingleColumnTi._clean_time_index(ws, params)
 
         wb_exp = load_workbook(
             os.path.join(abs_path("expected"), "test_case2.xlsx"))
@@ -105,35 +107,34 @@ class CleanSingleColumnTiTestCase(unittest.TestCase):
         self.assertEqual(exp_time, fixed_time)
 
 
-class CleanMultipleColumnTiTestCase(unittest.TestCase):
+class CleanMultipleColumnsTiTestCase(unittest.TestCase):
 
     # @unittest.skip("skip")
+
     def test_clean_time_index(self):
 
         wb = load_workbook(
             os.path.join(abs_path("original"), "test_case5.xlsx"))
         ws = wb.active
 
-        clean_ci = {"time_alignment": 0,
-                    "time_format": datetime.datetime,
-                    "time_header_coord": "C4",
-                    "data_starts": 5,
-                    "data_ends": 2993,
-                    "frequency": "D",
-                    "missings": True,
-                    "missing_value": "Implicit",
-                    "time_multicolumn": False,
-                    "time_composed": False}
+        params = {"time_alignment": 0,
+                  "time_format": str,
+                  "time_header_coord": ["A18", "B18"],
+                  "data_starts": 28,
+                  "data_ends": 993,
+                  "frequency": "M",
+                  "missings": True,
+                  "missing_value": None,
+                  "time_multicolumn": True,
+                  "time_composed": True}
 
-        CleanSingleColumnTi._clean_time_index(ws, clean_ci)
+        CleanMultipleColumnsTi._clean_time_index(ws, params)
 
         wb_exp = load_workbook(
-            os.path.join(abs_path("expected"), "test_case2.xlsx"))
+            os.path.join(abs_path("expected"), "test_case5.xlsx"))
 
         # wb.save("test_case2_after_cleaning_index.xlsx")
         self.assertTrue(compare_cells(wb, wb_exp))
-
-
 
 
 if __name__ == '__main__':

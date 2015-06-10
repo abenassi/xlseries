@@ -102,8 +102,8 @@ class BaseCleanTiStrategy(object):
                 return exp_time_value
             else:
                 msg = " ".join(["Current:", unicode(curr_time_value),
-                               "Expected:", unicode(exp_time_value),
-                               "Last:", unicode(last_time_value)])
+                                "Expected:", unicode(exp_time_value),
+                                "Last:", unicode(last_time_value)])
                 raise TimeValueGoingBackwards(msg)
 
         # going forth with no missings allowed
@@ -239,6 +239,60 @@ class CleanSingleColumnTi(BaseCleanTiStrategy):
     @classmethod
     def _accepts(cls, ws, params):
         return not params["time_multicolumn"]
+
+    @classmethod
+    def _clean_time_index(cls, ws, params):
+        """Extract time data series and return them as data frames."""
+
+        p = params
+
+        # the col doesn't change in all the iteration
+        col = column_index_from_string(ws[p["time_header_coord"]].column)
+
+        # iterate series time index values and clean them
+        last_time = None
+        for row in xrange(p["data_starts"], p["data_ends"] + 1):
+            # raise Exception(row, p["data_starts"], p["data_ends"] + 1)
+
+            # take the current time value to clean
+            curr_time = ws.cell(row=row, column=col).value
+            next_time = ws.cell(row=row + 1, column=col).value
+
+            # only clean if the value is not None
+            if curr_time:
+                try:
+                    # convert strings and datetime.datetime's to arrow.Arrow
+                    # times
+                    # print curr_time, last_time, next_time
+                    curr_time = cls._parse_time(params, curr_time, last_time,
+                                                next_time)
+
+                    # correct date typos checking a healthy time progression
+                    if last_time:
+                        curr_time = cls._correct_progression(last_time,
+                                                             curr_time,
+                                                             p["frequency"],
+                                                             p["missings"],
+                                                             p["missing_value"])
+
+                    if not curr_time:
+                        raise NoTimeValue
+
+                    ws.cell(row=row, column=col).value = curr_time.datetime
+                    last_time = curr_time
+
+                except NoTimeValue:
+                    pass
+
+
+class CleanMultipleColumnsTi(BaseCleanTiStrategy):
+
+    """Clean time indexes that use multiple columns."""
+
+    # PRIVATE INTERFACE METHODS
+    @classmethod
+    def _accepts(cls, ws, params):
+        return params["time_multicolumn"]
 
     @classmethod
     def _clean_time_index(cls, ws, params):
