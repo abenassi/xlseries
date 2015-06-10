@@ -26,6 +26,17 @@ class NoTimeValue(Exception):
     pass
 
 
+class DayOutOfRange(Exception):
+
+    """Raised if a day in a parsed time value is out of range."""
+    pass
+
+class MonthOutOfRange(Exception):
+
+    """Raised if a month in a parsed time value is out of range."""
+    pass
+
+
 # STRATEGIES
 class BaseParseTimeStrategy(object):
 
@@ -83,7 +94,7 @@ class BaseParseTimeStrategy(object):
         elif type(curr_time) == datetime.datetime:
             return arrow.get(curr_time)
 
-        elif type(curr_time) == str:
+        elif type(curr_time) == str or type(curr_time) == float:
             return cls._parse_time(params, unicode(curr_time), last_time,
                                    next_value)
         else:
@@ -116,9 +127,22 @@ class BaseParseTimeStrategy(object):
             result = grammar(curr_time).date()
 
             # take new date elements found with the grammar
-            year = result[0] or last_time.year
-            month = result[1] or last_time.month
-            day = result[2] or last_time.day
+            year = int(result[0] or last_time.year)
+            month = int(result[1] or last_time.month)
+            day = int(result[2] or last_time.day)
+
+            # check date make sense
+            if day not in range(1, 32):
+                msg = " ".join(["Time value doesn't make sense.",
+                                unicode(curr_time), "has been converted into",
+                                unicode(result)])
+                raise DayOutOfRange(msg)
+
+            if (month not in range(1, 13)):
+                msg = " ".join(["Time value doesn't make sense.",
+                                unicode(curr_time), "has been converted into",
+                                unicode(result)])
+                raise MonthOutOfRange(msg)
 
             time_value = arrow.get(year, month, day)
 
@@ -136,7 +160,7 @@ class BaseParseTimeStrategy(object):
     @classmethod
     def _possible_time_value(cls, time_value):
         """Check that a value could be a time value."""
-        return time_value and type(time_value) != float
+        return time_value
 
 
 class ParseSimpleTime(BaseParseTimeStrategy):
@@ -229,7 +253,8 @@ class ParseSimpleTime(BaseParseTimeStrategy):
                 max_forth_time_value = increment_time(time_value, cls.MAX_IMPL,
                                                       params["frequency"])
                 is_not_too_before_next = next_time <= max_forth_time_value
-                # print next_value, next_time, time_value, max_forth_time_value, is_not_too_before_next
+                # print next_value, next_time, time_value,
+                # max_forth_time_value, is_not_too_before_next
             except NoTimeValue:
                 is_before_next, is_not_too_before_next = False, False
 
@@ -258,7 +283,7 @@ class ParseSimpleTime(BaseParseTimeStrategy):
 
         for order in ["D-M-Y", "M-D-Y", "Y-M-D"]:
             time_format = "-".join([char * reps[i] for i, char in
-                            enumerate(order.split("-"))])
+                                    enumerate(order.split("-"))])
             # print
             yield time_format
 
@@ -378,11 +403,11 @@ class BaseComposedMonth(BaseParseTimeStrategy):
 
         # try to match grammar
         try:
-            cls.make_parsley_grammar()(curr_time).date()
+            cls.make_parsley_grammar()(unicode(curr_time)).date()
             match_grammar = True
         except:
             match_grammar = False
-
+        # raise Exception("Match grammar" + str(match_grammar))
         return not params["time_multicolumn"] and params["time_composed"] and \
             params["frequency"] == "M" and match_grammar
 
@@ -479,7 +504,7 @@ class ParseComposedMonthTime2(BaseComposedMonth):
                 not_digit = anything:x ?(x not in "0123456789 ")
 
                 y = (ws | not_digit) <digit{4}>:y (ws | not_digit) -> int(y)
-                m = (ws | not_digit) <digit{2}>:m (ws | not_digit) -> int(m)
+                m = (ws | not_digit) <digit{1, 2}>:m (ws | not_digit) -> int(m)
 
                 y_m = y:y not_digit* m:m anything* -> (y, m, 1)
                 m_y = m:m not_digit* y:y anything* -> (y, m, 1)

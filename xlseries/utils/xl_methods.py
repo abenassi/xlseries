@@ -50,21 +50,35 @@ def compare_cells(wb1, wb2):
             for cell1, cell2 in zip(row1, row2):
 
                 msg = "".join([_safe_str(cell1.value), " != ",
-                               _safe_str(cell2.value), "row: ", str(cell1.row),
-                               "column: ", str(cell1.column)])
+                               _safe_str(cell2.value), "\nrow: ",
+                               str(cell1.row),
+                               " column: ", str(cell1.column)])
 
                 try:
                     value1 = float(cell1.value)
                     value2 = float(cell2.value)
+
                 except:
-                    value1 = cell1.value
-                    value2 = cell2.value
+                    value1 = normalize_value(cell1.value)
+                    value2 = normalize_value(cell2.value)
 
                 if type(value1) == float and type(value2) == float:
                     assert approx_equal(cell1.value, cell2.value, 0.00001), msg
                 else:
-                    assert cell1.value == cell2.value, msg
+                    assert value1 == value2, msg
     return True
+
+
+def normalize_value(value):
+    """Strip spaces if the value is a string, convert None to empty string or
+    let it pass otherwise."""
+
+    if type(value) == unicode or type(value) == str:
+        return value.strip()
+    elif value is None:
+        return ""
+    else:
+        return value
 
 
 def _safe_str(value):

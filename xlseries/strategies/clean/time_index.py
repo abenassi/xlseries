@@ -19,6 +19,7 @@ from pprint import pprint
 from openpyxl.cell import column_index_from_string
 
 from xlseries.strategies.clean.parse_time import NoTimeValue
+from xlseries.strategies.clean.parse_time import DayOutOfRange, MonthOutOfRange
 import xlseries.utils.strategies_helpers
 from xlseries.utils.time_manipulation import increment_time
 import xlseries.strategies.clean.parse_time as parse_time_strategies
@@ -214,8 +215,13 @@ class BaseCleanTiStrategy(object):
         if curr_time:
             for strategy in parse_time_strategies.get_strategies():
                 if strategy.accepts(params, curr_time, last_time, next_value):
-                    time_value = strategy.parse_time(params, curr_time,
-                                                     last_time, next_value)
+                    try:
+                        time_value = strategy.parse_time(params, curr_time,
+                                                         last_time,
+                                                         next_value)
+
+                    except (DayOutOfRange, MonthOutOfRange):
+                        return None
 
                     msg = "".join([unicode(time_value), " - ",
                                    unicode(type(time_value)),
@@ -224,6 +230,9 @@ class BaseCleanTiStrategy(object):
                     assert type(time_value) == arrow.Arrow, msg
 
                     return time_value
+
+        else:
+            return None
 
         msg = "".join(["No strategy to parse\nCurrent: ", unicode(curr_time),
                        "\nLast: ", unicode(last_time),
@@ -259,30 +268,30 @@ class CleanSingleColumnTi(BaseCleanTiStrategy):
             next_time = ws.cell(row=row + 1, column=col).value
 
             # only clean if the value is not None
-            if curr_time:
-                try:
-                    # convert strings and datetime.datetime's to arrow.Arrow
-                    # times
-                    # print curr_time, last_time, next_time
-                    curr_time = cls._parse_time(params, curr_time, last_time,
-                                                next_time)
+            if curr_time and len(unicode(curr_time).strip()) > 0:
+                # convert strings and datetime.datetime's to arrow.Arrow
+                # times
+                # print curr_time, last_time, next_time
+                curr_time = cls._parse_time(params, curr_time, last_time,
+                                            next_time)
 
+                if curr_time:
                     # correct date typos checking a healthy time progression
-                    if last_time:
+                    if last_time and curr_time:
                         curr_time = cls._correct_progression(last_time,
                                                              curr_time,
                                                              p["frequency"],
                                                              p["missings"],
                                                              p["missing_value"])
 
-                    if not curr_time:
+                    if curr_time and type(curr_time) != arrow.Arrow:
                         raise NoTimeValue
 
                     ws.cell(row=row, column=col).value = curr_time.datetime
                     last_time = curr_time
 
-                except NoTimeValue:
-                    pass
+                else:
+                    ws.cell(row=row, column=col).value = None
 
 
 class CleanMultipleColumnsTi(BaseCleanTiStrategy):

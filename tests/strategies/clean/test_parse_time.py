@@ -3,7 +3,6 @@
 
 """
 test_parse_time
-----------------------------------
 
 Tests for `parse_time` module.
 """

@@ -25,8 +25,7 @@ from xlseries.utils.path_finders import abs_path
 # @unittest.skip("skip")
 class CleanSingleColumnTiTestCase(unittest.TestCase):
 
-    # @unittest.skip("skip")
-
+    @unittest.skip("skip")
     def test_correct_progression(self):
 
         # progression wrong because going to the past
@@ -55,7 +54,7 @@ class CleanSingleColumnTiTestCase(unittest.TestCase):
 
         self.assertEqual(new_time_value, exp_time_value)
 
-    # @unittest.skip("skip")
+    @unittest.skip("skip")
     def test_parse_time(self):
 
         value = "17-12.09"
@@ -71,8 +70,8 @@ class CleanSingleColumnTiTestCase(unittest.TestCase):
 
         self.assertEqual(new_time_value, exp_time_value)
 
-    # @unittest.skip("skip")
-    def test_clean_time_index(self):
+    @unittest.skip("skip")
+    def test_clean_time_index_case2(self):
 
         wb = load_workbook(
             os.path.join(abs_path("original"), "test_case2.xlsx"))
@@ -97,6 +96,31 @@ class CleanSingleColumnTiTestCase(unittest.TestCase):
         # wb.save("test_case2_after_cleaning_index.xlsx")
         self.assertTrue(compare_cells(wb, wb_exp))
 
+    def test_clean_time_index_case5(self):
+
+        wb = load_workbook(
+            os.path.join(abs_path("original"), "test_case5.xlsx"))
+        ws = wb.active
+
+        params = {"time_alignment": 0,
+                  "time_format": str,
+                  "time_header_coord": "A18",
+                  "data_starts": 28,
+                  "data_ends": 993,
+                  "frequency": "M",
+                  "missings": True,
+                  "missing_value": None,
+                  "time_multicolumn": False,
+                  "time_composed": True}
+
+        CleanSingleColumnTi._clean_time_index(ws, params)
+
+        wb_exp = load_workbook(
+            os.path.join(abs_path("expected"), "test_case5.xlsx"))
+
+        # wb.save("test_case5_after_cleaning_index.xlsx")
+        self.assertTrue(compare_cells(wb, wb_exp))
+
     def test_forth_time_value_typo(self):
 
         exp_time = arrow.get(2015, 5, 2)
@@ -107,14 +131,13 @@ class CleanSingleColumnTiTestCase(unittest.TestCase):
         self.assertEqual(exp_time, fixed_time)
 
 
+@unittest.skip("skip")
 class CleanMultipleColumnsTiTestCase(unittest.TestCase):
 
-    # @unittest.skip("skip")
-
-    def test_clean_time_index(self):
+    def test_clean_time_index_case5b(self):
 
         wb = load_workbook(
-            os.path.join(abs_path("original"), "test_case5.xlsx"))
+            os.path.join(abs_path("original"), "test_case5b.xlsx"))
         ws = wb.active
 
         params = {"time_alignment": 0,
@@ -133,7 +156,7 @@ class CleanMultipleColumnsTiTestCase(unittest.TestCase):
         wb_exp = load_workbook(
             os.path.join(abs_path("expected"), "test_case5.xlsx"))
 
-        # wb.save("test_case2_after_cleaning_index.xlsx")
+        wb.save("test_case5b_after_cleaning_index.xlsx")
         self.assertTrue(compare_cells(wb, wb_exp))
 
 

@@ -3,7 +3,6 @@
 
 """
 xlseries
-----------------------------------
 
 Main module to parse time data series inside excel files into Pandas
 DataFrames. This is the only module that the user should use.
@@ -28,7 +27,7 @@ class XlSeries(object):
             self.wb = xl_path_or_wb
 
         else:
-            self.wb = load_workbook(xl_path_or_wb)
+            self.wb = load_workbook(xl_path_or_wb, data_only=True)
 
     # PUBLIC
     def get_data_frames(self, params_path_or_obj=None, all_results=True):
