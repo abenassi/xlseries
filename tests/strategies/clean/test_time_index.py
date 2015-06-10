@@ -22,7 +22,7 @@ from xlseries.utils.path_finders import abs_path
 
 
 # @unittest.skip("skip")
-class CleanSingleColumnTiTest(unittest.TestCase):
+class CleanSingleColumnTiTestCase(unittest.TestCase):
 
     # @unittest.skip("skip")
     def test_correct_progression(self):
@@ -103,6 +103,37 @@ class CleanSingleColumnTiTest(unittest.TestCase):
         fixed_time = BaseCleanTiStrategy._forth_time_value_typo(curr_time,
                                                                 max_forth_time)
         self.assertEqual(exp_time, fixed_time)
+
+
+class CleanMultipleColumnTiTestCase(unittest.TestCase):
+
+    # @unittest.skip("skip")
+    def test_clean_time_index(self):
+
+        wb = load_workbook(
+            os.path.join(abs_path("original"), "test_case5.xlsx"))
+        ws = wb.active
+
+        clean_ci = {"time_alignment": 0,
+                    "time_format": datetime.datetime,
+                    "time_header_coord": "C4",
+                    "data_starts": 5,
+                    "data_ends": 2993,
+                    "frequency": "D",
+                    "missings": True,
+                    "missing_value": "Implicit",
+                    "time_multicolumn": False,
+                    "time_composed": False}
+
+        CleanSingleColumnTi._clean_time_index(ws, clean_ci)
+
+        wb_exp = load_workbook(
+            os.path.join(abs_path("expected"), "test_case2.xlsx"))
+
+        # wb.save("test_case2_after_cleaning_index.xlsx")
+        self.assertTrue(compare_cells(wb, wb_exp))
+
+
 
 
 if __name__ == '__main__':

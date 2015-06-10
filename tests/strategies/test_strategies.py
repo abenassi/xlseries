@@ -58,19 +58,19 @@ class ParameterDiscoveryTestCase(unittest.TestCase):
             self.assertTrue(compare_data_frames(test_df, exp_df))
 
     @load_case_number()
-    # @unittest.skip("skip")
+    @unittest.skip("skip")
     def test_case1_with_params(self, case_num):
         """Test the strategy with case1 and providing parameters."""
         self.run_case_with_parameters(case_num)
 
     @load_case_number()
-    # @unittest.skip("skip")
+    @unittest.skip("skip")
     def test_case2_with_params(self, case_num):
         """Test the strategy with case2 and providing parameters."""
         self.run_case_with_parameters(case_num)
 
     @load_case_number()
-    # @unittest.skip("skip")
+    @unittest.skip("skip")
     def test_case3_with_params(self, case_num):
         """Test the strategy with case3 and providing parameters."""
         self.run_case_with_parameters(case_num)
@@ -79,6 +79,12 @@ class ParameterDiscoveryTestCase(unittest.TestCase):
     @unittest.skip("skip")
     def test_case4_with_params(self, case_num):
         """Test the strategy with case4 and providing parameters."""
+        self.run_case_with_parameters(case_num)
+
+    @load_case_number()
+    # @unittest.skip("skip")
+    def test_case5_with_params(self, case_num):
+        """Test the strategy with case5 and providing parameters."""
         self.run_case_with_parameters(case_num)
 
 

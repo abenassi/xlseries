@@ -3,7 +3,6 @@
 
 """
 get_data_strategies
-----------------------------------
 
 This module contains strategies to get data from a spreadsheet.
 """

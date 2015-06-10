@@ -34,6 +34,9 @@ def load_original_case(case_num=1, **loader_args):
     # raise Exception(get_orig_cases_dir())
     case_path = os.path.join(get_orig_cases_dir(), case_name)
 
+    # look at data rather than formulae
+    loader_args["data_only"] = True
+
     return load_workbook(case_path, **loader_args)
 
 
