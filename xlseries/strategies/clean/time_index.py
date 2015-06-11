@@ -82,8 +82,6 @@ class BaseCleanTiStrategy(object):
 
     """BaseCleanTiStrategy class for all time index cleaning strategies."""
 
-    MAX_IMPL = 20
-
     # PUBLIC INTERFACE
     @classmethod
     def accepts(cls, ws, params):
@@ -94,6 +92,17 @@ class BaseCleanTiStrategy(object):
         return cls._clean_time_index(ws, params)
 
     # PRIVATE
+    @classmethod
+    def _max_forth_units(cls, freq):
+        max_forth_units = {"D": 20,
+                           "M": 2,
+                           "Q": 1,
+                           "Y": 1}
+        if freq in max_forth_units:
+            return max_forth_units[freq]
+        else:
+            return max(max_forth_units.values())
+
     @classmethod
     def _correct_progression(cls, last_time_value, curr_time_value,
                              freq, missings, missing_value=None):
@@ -126,7 +135,7 @@ class BaseCleanTiStrategy(object):
 
         # going forth with implicit missings
         max_forth_time_value = increment_time(last_time_value,
-                                              cls.MAX_IMPL, freq)
+                                              cls._max_forth_units(freq), freq)
         going_too_forth = curr_time_value > max_forth_time_value
         if going_too_forth and missings and missing_value == "Implicit":
             forth_time_value = cls._forth_time_value_typo(curr_time_value,
