@@ -31,6 +31,7 @@ class DayOutOfRange(Exception):
     """Raised if a day in a parsed time value is out of range."""
     pass
 
+
 class MonthOutOfRange(Exception):
 
     """Raised if a month in a parsed time value is out of range."""
@@ -86,7 +87,6 @@ class BaseParseTimeStrategy(object):
         Returns:
             An arrow.Arrow time value.
         """
-
         # time format is correct
         if type(curr_time) == arrow.Arrow:
             return curr_time
@@ -160,7 +160,34 @@ class BaseParseTimeStrategy(object):
     @classmethod
     def _possible_time_value(cls, time_value):
         """Check that a value could be a time value."""
-        return time_value
+        return time_value is not None
+
+
+class ParseTimeFromOffsetTi(BaseParseTimeStrategy):
+
+    """Parse dates coming from an offset time index.
+
+    Usually this means that shares the time index column is the same than the
+    data column. So parse_time strategies in this case have to be resistent
+    (don't throw exceptions) with floats (because they will be data) and
+    Nones (because they will be blank rows)."""
+
+    @classmethod
+    def _accepts(cls, params, curr_time, last_time=None, next_value=None):
+        return params["time_alignment"] != 0
+
+    @classmethod
+    def _parse_time(cls, params, curr_time, last_time=None, next_value=None):
+        """Clear out floats and Nones, call strategies for the rest."""
+
+        if not curr_time or type(curr_time) == float:
+            return None
+
+        else:
+            for strategy in get_strategies():
+                if strategy.accepts(params, curr_time, last_time, next_value):
+                    return strategy.parse_time(params, curr_time, last_time,
+                                               next_value)
 
 
 class ParseSimpleTime(BaseParseTimeStrategy):
@@ -171,7 +198,7 @@ class ParseSimpleTime(BaseParseTimeStrategy):
     @classmethod
     def _accepts(cls, params, curr_time, last_time=None, next_value=None):
         return (curr_time and not params["time_multicolumn"] and
-                not params["time_composed"])
+                not params["time_composed"] and type(curr_time) != float)
 
     @classmethod
     def _parse_time(cls, params, curr_time, last_time=None, next_value=None):
@@ -279,7 +306,7 @@ class ParseSimpleTime(BaseParseTimeStrategy):
         # print str_value
 
         reps = map(len, str_value.split("-"))
-        # print reps
+        assert len(reps) == 3, "There is no 3 date elements in " + str_value
 
         for order in ["D-M-Y", "M-D-Y", "Y-M-D"]:
             time_format = "-".join([char * reps[i] for i, char in
@@ -335,7 +362,7 @@ class ParseComposedQuarterTime1(BaseComposedQuarter):
     >>>
     >>> last = None
     >>> for str_date in orig:
-    ...     new = ParseComposedQuarterTime1.parse_time(str_date, last, params)
+    ...     new = ParseComposedQuarterTime1.parse_time(params, str_date, last)
     ...     last = new
     ...     print new
     1986-01-01T00:00:00+00:00
@@ -370,7 +397,7 @@ class ParseComposedQuarterTime2(BaseComposedQuarter):
     >>>
     >>> last = None
     >>> for str_date in orig:
-    ...     new = ParseComposedQuarterTime2.parse_time(str_date, last, params)
+    ...     new = ParseComposedQuarterTime2.parse_time(params, str_date, last)
     ...     last = new
     ...     print new
     2007-04-01T00:00:00+00:00
@@ -449,7 +476,7 @@ class ParseComposedMonthTime1(BaseComposedMonth):
     >>>
     >>> last = None
     >>> for str_date in orig:
-    ...     new = ParseComposedMonthTime1.parse_time(str_date, last, params)
+    ...     new = ParseComposedMonthTime1.parse_time(params, str_date, last)
     ...     last = new
     ...     print new
     1991-01-01T00:00:00+00:00
@@ -488,7 +515,7 @@ class ParseComposedMonthTime2(BaseComposedMonth):
     >>>
     >>> last = None
     >>> for str_date in orig:
-    ...     new = ParseComposedMonthTime2.parse_time(str_date, last, params)
+    ...     new = ParseComposedMonthTime2.parse_time(params, str_date, last)
     ...     last = new
     ...     print new
     1991-01-01T00:00:00+00:00

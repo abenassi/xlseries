@@ -3,7 +3,6 @@
 
 """
 test_xlseries
-----------------------------------
 
 Tests for `xlseries` module.
 """
@@ -54,24 +53,27 @@ class TestXlSeriesWithAllParameters(unittest.TestCase):
         for test_df, exp_df in zip(test_dfs, exp_dfs):
             self.assertTrue(compare_data_frames(test_df, exp_df))
 
+    # @unittest.skip("skip")
     @load_case_number()
     def test_case1(self, case_num):
         self.run_case_with_parameters(case_num)
 
+    # @unittest.skip("skip")
     @load_case_number()
     def test_case2(self, case_num):
         self.run_case_with_parameters(case_num)
 
+    # @unittest.skip("skip")
     @load_case_number()
     def test_case3(self, case_num):
         self.run_case_with_parameters(case_num)
 
-    @unittest.skip("skip")
+    # @unittest.skip("skip")
     @load_case_number()
     def test_case4(self, case_num):
         self.run_case_with_parameters(case_num)
 
-    @unittest.skip("skip")
+    # @unittest.skip("skip")
     @load_case_number()
     def test_case5(self, case_num):
         self.run_case_with_parameters(case_num)

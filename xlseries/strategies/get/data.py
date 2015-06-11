@@ -12,6 +12,7 @@ import sys
 import inspect
 from pprint import pprint
 import arrow
+import datetime
 import numpy as np
 from openpyxl.cell import column_index_from_string
 from unidecode import unidecode
@@ -33,7 +34,7 @@ class BaseGetDataStrategy(object):
         return cls._get_data(ws, params)
 
 
-class GetSingleFrequencyData(BaseGetDataStrategy):
+class BaseGetSingleFrequencyData(BaseGetDataStrategy):
 
     @classmethod
     def _accepts(cls, ws, params):
@@ -64,7 +65,8 @@ class GetSingleFrequencyData(BaseGetDataStrategy):
                                               params["continuity"],
                                               params["missings"],
                                               params["missing_value"])
-            if new_value:
+
+            if cls._value_to_be_added(new_value, i_row, ws, params):
                 values.append(new_value)
 
             i_row += 1
@@ -172,6 +174,46 @@ class GetSingleFrequencyData(BaseGetDataStrategy):
 
         return new_values
 
+    @classmethod
+    def _value_to_be_added(cls, value, row, ws, params):
+        """Check if a value should be added or not."""
+        return value is not None
+
+
+class GetSingleFrequencyDataContinuous(BaseGetSingleFrequencyData):
+
+    """Get data with a single frequency and continous layout in a column."""
+
+    @classmethod
+    def _accepts(cls, ws, params):
+        return (not params["multifrequency"] and params["continuity"])
+
+
+class GetSingleFrequencyDataNotContinuous(BaseGetSingleFrequencyData):
+
+    """Get data with a single frequency and data layout interrupted.
+
+    The interruption is due to strange strings or values that should not be
+    taken into account when gathering values. Series interrupted only by blank
+    rows do not need this strategy."""
+
+    @classmethod
+    def _accepts(cls, ws, params):
+        return (not params["multifrequency"] and not params["continuity"])
+
+    @classmethod
+    def _value_to_be_added(cls, value, row, ws, params):
+        """Check if a value should be added or not.
+
+        Value shouldn't be None and the row should correspond to a valid time
+        value in the time index."""
+
+        time_col = ws[params["time_header_coord"]].column
+        time_coord = time_col + unicode(row + params["time_alignment"])
+        time_value = ws[time_coord].value
+
+        return value is not None and type(time_value) == datetime.datetime
+
 
 def get_strategies_names():
     """Returns a list of the parsers names, whith no Base classes."""
@@ -192,4 +234,4 @@ def get_strategies():
 
 
 if __name__ == '__main__':
-    pprint(sorted(increment_time()))
+    pprint(sorted(get_strategies_names()))

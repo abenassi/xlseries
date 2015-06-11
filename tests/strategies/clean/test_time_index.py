@@ -15,7 +15,7 @@ import os
 from openpyxl import load_workbook
 
 from xlseries.strategies.clean.time_index import CleanSingleColumnTi
-from xlseries.strategies.clean.time_index import CleanMultipleColumnsTi
+from xlseries.strategies.clean.time_index import CleanMultipleColumnsTiConcat
 from xlseries.strategies.clean.time_index import BaseCleanTiStrategy
 from xlseries.utils.xl_methods import compare_cells
 from xlseries.utils.case_loaders import load_parameters_case
@@ -25,7 +25,7 @@ from xlseries.utils.path_finders import abs_path
 # @unittest.skip("skip")
 class CleanSingleColumnTiTestCase(unittest.TestCase):
 
-    @unittest.skip("skip")
+    # @unittest.skip("skip")
     def test_correct_progression(self):
 
         # progression wrong because going to the past
@@ -54,7 +54,7 @@ class CleanSingleColumnTiTestCase(unittest.TestCase):
 
         self.assertEqual(new_time_value, exp_time_value)
 
-    @unittest.skip("skip")
+    # @unittest.skip("skip")
     def test_parse_time(self):
 
         value = "17-12.09"
@@ -70,7 +70,7 @@ class CleanSingleColumnTiTestCase(unittest.TestCase):
 
         self.assertEqual(new_time_value, exp_time_value)
 
-    @unittest.skip("skip")
+    # @unittest.skip("skip")
     def test_clean_time_index_case2(self):
 
         wb = load_workbook(
@@ -96,6 +96,7 @@ class CleanSingleColumnTiTestCase(unittest.TestCase):
         # wb.save("test_case2_after_cleaning_index.xlsx")
         self.assertTrue(compare_cells(wb, wb_exp))
 
+    # @unittest.skip("skip")
     def test_clean_time_index_case5(self):
 
         wb = load_workbook(
@@ -121,6 +122,7 @@ class CleanSingleColumnTiTestCase(unittest.TestCase):
         # wb.save("test_case5_after_cleaning_index.xlsx")
         self.assertTrue(compare_cells(wb, wb_exp))
 
+    # @unittest.skip("skip")
     def test_forth_time_value_typo(self):
 
         exp_time = arrow.get(2015, 5, 2)
@@ -131,9 +133,9 @@ class CleanSingleColumnTiTestCase(unittest.TestCase):
         self.assertEqual(exp_time, fixed_time)
 
 
-@unittest.skip("skip")
-class CleanMultipleColumnsTiTestCase(unittest.TestCase):
+class CleanMultipleColumnsTiConcatTestCase(unittest.TestCase):
 
+    @unittest.skip("skip")
     def test_clean_time_index_case5b(self):
 
         wb = load_workbook(
@@ -151,7 +153,7 @@ class CleanMultipleColumnsTiTestCase(unittest.TestCase):
                   "time_multicolumn": True,
                   "time_composed": True}
 
-        CleanMultipleColumnsTi._clean_time_index(ws, params)
+        CleanMultipleColumnsTiConcat._clean_time_index(ws, params)
 
         wb_exp = load_workbook(
             os.path.join(abs_path("expected"), "test_case5.xlsx"))

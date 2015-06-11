@@ -12,7 +12,7 @@
  "series_names": "None",
  "time_composed": "True",
  "time_alignment": 0,
- "time_multicolumn": "True",
+ "time_multicolumn": "False",
  "time_format": "str",
  "time_header": "True",
- "time_header_coord": ["A18", "B18"]}
+ "time_header_coord": "A18"}

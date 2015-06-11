@@ -3,7 +3,6 @@
 
 """
 strategies
-----------------------------------
 
 This module contains the high level strategies used by `xlseries` to parse
 time data series inside excel files into Pandas DataFrames.
@@ -126,7 +125,9 @@ class ParameterDiscovery(BaseStrategy):
                 msg = "There is no strategy to deal with " + str(params)
                 raise Exception(msg)
 
-            # print "period range", params["frequency"], params["data_starts"], params["headers_coord"], params["data_ends"], params["time_alignment"]
+            # print "period range", params["frequency"], params["data_starts"],
+            # params["headers_coord"], params["data_ends"],
+            # params["time_alignment"]
             period_range = self._get_period_range(ws, params["frequency"],
                                                   params["data_starts"],
                                                   params["time_header_coord"],
@@ -214,6 +215,7 @@ class ParameterDiscovery(BaseStrategy):
         period_range = pd.period_range(start, end, freq=freq)
 
         return period_range
+
 
 def get_strategies():
     return xlseries.utils.strategies_helpers.get_strategies()
