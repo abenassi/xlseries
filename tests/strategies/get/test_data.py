@@ -11,7 +11,7 @@ import unittest
 import nose
 
 from xlseries.strategies.get.data import GetSingleFrequencyDataContinuous
-from xlseries.strategies.clean.time_index import CleanSingleColumnTi
+from xlseries.strategies.clean.time_index import CleanSingleColumn
 from xlseries.utils.comparing import compare_list_values
 from xlseries.utils.case_loaders import load_parameters_case
 from xlseries.utils.case_loaders import load_original_case
@@ -46,7 +46,7 @@ class MissingsTestCase(unittest.TestCase):
         frequency = "D"
         time_header_coord = "C4"
 
-        CleanSingleColumnTi.clean_time_index(ws, params[0])
+        CleanSingleColumn.clean_time_index(ws, params[0])
 
         new_values = strategy._fill_implicit_missings(ws, values, frequency,
                                                       time_header_coord,

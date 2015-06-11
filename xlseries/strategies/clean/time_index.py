@@ -361,7 +361,7 @@ class BaseOffsetTi(BaseCleanTiStrategy):
         return params["time_alignment"] != 0
 
     @classmethod
-    def _must_be_time_value(cls, value):
+    def _must_be_time_value(cls, value, next_time, last_time):
         base_cond = super(BaseOffsetTi, cls)._must_be_time_value(value)
         return base_cond and type(value) != float
 
