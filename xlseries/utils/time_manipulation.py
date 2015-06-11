@@ -3,7 +3,6 @@
 
 """
 time_manipulation
-----------------------------------
 
 Small useful time related methods.
 """
@@ -12,6 +11,17 @@ from __future__ import unicode_literals
 import arrow
 import datetime
 from xlseries.utils.comparing import approx_equal
+
+
+class InvalidTimeFrequency(Exception):
+
+    """Raised when the frequency passed isn't valid."""
+
+    def __init__(self, time, frequency):
+        msg = " ".join(["Frequency is invalid for incrementing time.\n",
+                        "Time:", unicode(time),
+                        "Frequency:", unicode(frequency)])
+        super(InvalidTimeFrequency, self).__init__(msg)
 
 
 def increment_time(time, num, freq):
@@ -45,7 +55,7 @@ def increment_time(time, num, freq):
         shifted_time = time.replace(**replace)
 
     else:
-        shifted_time = None
+        raise InvalidTimeFrequency(time, freq)
 
     return shifted_time
 

@@ -27,41 +27,57 @@ import xlseries.strategies.clean.parse_time as parse_time_strategies
 
 
 # CUSTOM EXCEPTIONS
-class TimeValueGoingBackwards(Exception):
+class BaseProgressionError(ValueError):
+
+    """Raised when the progression of a time value is wrong."""
+
+    def get_msg(self, curr_time_value, exp_time_value, last_time_value):
+        return " ".join(["Last:", unicode(last_time_value),
+                         "\nExpected:", unicode(exp_time_value),
+                         "\nCurrent:", unicode(curr_time_value)])
+
+
+class TimeValueGoingBackwards(BaseProgressionError):
 
     """Raised when a time value is going backwards.
 
     The parser observe that a time value is going backwards and
     existent strategies can't deal with it."""
-    pass
+
+    def __init__(self, curr_time_value, exp_time_value, last_time_value):
+        msg = self.get_msg(curr_time_value, exp_time_value, last_time_value)
+        super(TimeValueGoingBackwards, self).__init__(msg)
 
 
-class NoExpectedTimeValue(Exception):
-
-    """Raised when no expected time value is provided to compare."""
-    pass
-
-
-class TimeValueGoingForth(Exception):
+class TimeValueGoingForth(BaseProgressionError):
 
     """Raised when time value is going forth, when not supposed to.
 
     The parser observe that a time value is going forth than expected
     and existent strategies can't deal with it."""
-    pass
+
+    def __init__(self, curr_time_value, exp_time_value, last_time_value):
+        msg = self.get_msg(curr_time_value, exp_time_value, last_time_value)
+        super(TimeValueGoingForth, self).__init__(msg)
 
 
-class TimeParsingError(Exception):
+class ParseTimeImplementationError(NotImplementedError):
 
     """Raised when parsing to date data structure is impossible.
 
     There is no strategy to deal with the time value that is trying to be
     parsed."""
-    pass
+
+    def __init__(self, curr_time, last_time, next_value, params):
+        msg = " ".join(["No strategy to parse time.",
+                        "\nCurrent:", unicode(curr_time),
+                        "\nLast:", unicode(last_time),
+                        "\nNext:", unicode(next_value),
+                        "\nParameters: ", pformat(params)])
+        super(ParseTimeImplementationError, self).__init__(msg)
+
 
 # STRATEGIES
-
-
 class BaseCleanTiStrategy(object):
 
     """BaseCleanTiStrategy class for all time index cleaning strategies."""
@@ -80,19 +96,12 @@ class BaseCleanTiStrategy(object):
     # PRIVATE
     @classmethod
     def _correct_progression(cls, last_time_value, curr_time_value,
-                             freq, missings, missing_value):
+                             freq, missings, missing_value=None):
 
         exp_time_value = increment_time(last_time_value, 1, freq)
         assert type(exp_time_value) == arrow.Arrow
         assert type(last_time_value) == arrow.Arrow or not last_time_value
         assert type(curr_time_value) == arrow.Arrow
-        # print last_time_value, curr_time_value, exp_time_value,
-        # curr_time_value == exp_time_value, missing_value
-
-        if not exp_time_value:
-            msg = "No expected time value could be calcualted from " + \
-                unicode(last_time_value) + " " + unicode(freq)
-            raise NoExpectedTimeValue(msg)
 
         # everything is ok!
         if exp_time_value == curr_time_value:
@@ -103,10 +112,8 @@ class BaseCleanTiStrategy(object):
             if cls._time_value_typo(curr_time_value, exp_time_value):
                 return exp_time_value
             else:
-                msg = " ".join(["Current:", unicode(curr_time_value),
-                                "Expected:", unicode(exp_time_value),
-                                "Last:", unicode(last_time_value)])
-                raise TimeValueGoingBackwards(msg)
+                raise TimeValueGoingBackwards(curr_time_value, exp_time_value,
+                                              last_time_value)
 
         # going forth with no missings allowed
         going_forth = curr_time_value > last_time_value
@@ -114,10 +121,8 @@ class BaseCleanTiStrategy(object):
             if cls._time_value_typo(curr_time_value, exp_time_value):
                 return exp_time_value
             else:
-                msg = "".join(["Current:", unicode(curr_time_value),
-                               "Expected:", unicode(exp_time_value),
-                               "Last:", unicode(last_time_value)])
-                raise TimeValueGoingForth(msg)
+                raise TimeValueGoingForth(curr_time_value, exp_time_value,
+                                          last_time_value)
 
         # going forth with implicit missings
         max_forth_time_value = increment_time(last_time_value,
@@ -235,10 +240,8 @@ class BaseCleanTiStrategy(object):
         else:
             return None
 
-        msg = "".join(["No strategy to parse\nCurrent: ", unicode(curr_time),
-                       "\nLast: ", unicode(last_time),
-                       "\nParameters: ", pformat(params)])
-        raise TimeParsingError(msg)
+        raise ParseTimeImplementationError(curr_time, last_time, next_value,
+                                           params)
 
 
 class CleanSingleColumnTi(BaseCleanTiStrategy):

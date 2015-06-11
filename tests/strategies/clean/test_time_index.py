@@ -17,9 +17,34 @@ from openpyxl import load_workbook
 from xlseries.strategies.clean.time_index import CleanSingleColumnTi
 from xlseries.strategies.clean.time_index import CleanMultipleColumnsTiConcat
 from xlseries.strategies.clean.time_index import BaseCleanTiStrategy
+from xlseries.strategies.clean.time_index import TimeValueGoingBackwards
+from xlseries.strategies.clean.time_index import TimeValueGoingForth
 from xlseries.utils.xl_methods import compare_cells
 from xlseries.utils.case_loaders import load_parameters_case
 from xlseries.utils.path_finders import abs_path
+
+
+class BaseCleanTiStrategyTestCase(unittest.TestCase):
+
+    def test_correct_progression_backwards_exception(self):
+        last = arrow.get(2015, 5, 9)
+        curr = arrow.get(2015, 2, 15)
+        freq = "D"
+        missings = False
+
+        with self.assertRaises(TimeValueGoingBackwards):
+            BaseCleanTiStrategy._correct_progression(last, curr, freq,
+                                                     missings)
+
+    def test_correct_progression_forth_exception(self):
+        last = arrow.get(2015, 5, 9)
+        curr = arrow.get(2016, 6, 30)
+        freq = "M"
+        missings = False
+
+        with self.assertRaises(TimeValueGoingForth):
+            BaseCleanTiStrategy._correct_progression(last, curr, freq,
+                                                     missings)
 
 
 # @unittest.skip("skip")
@@ -137,6 +162,7 @@ class CleanSingleColumnTiTestCase(unittest.TestCase):
         self.assertEqual(exp_time, fixed_time)
 
 
+# @unittest.skip("skip")
 class CleanMultipleColumnsTiConcatTestCase(unittest.TestCase):
 
     # @unittest.skip("skip")

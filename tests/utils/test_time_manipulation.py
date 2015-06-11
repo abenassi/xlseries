@@ -12,6 +12,7 @@ import arrow
 import unittest
 import nose
 from xlseries.utils.time_manipulation import increment_time
+from xlseries.utils.time_manipulation import InvalidTimeFrequency
 from xlseries.utils.time_manipulation import infer_freq
 
 
@@ -39,6 +40,11 @@ class TimeManipulationTest(unittest.TestCase):
         new_time = increment_time(time, 1, "Y")
         exp_new_time = arrow.get(2016, 12, 1)
         self.assertEqual(new_time, exp_new_time)
+
+    def test_increment_time_exception(self):
+        with self.assertRaises(InvalidTimeFrequency):
+            time = arrow.get(2015, 2, 15)
+            increment_time(time, 4, "X")
 
     def test_infer_freq(self):
 
