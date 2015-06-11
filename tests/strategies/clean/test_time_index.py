@@ -60,7 +60,7 @@ class CleanSingleColumnTestCase(unittest.TestCase):
         missings = True
         missing_value = "Implicit"
 
-        new_time_value = CleanSingleColumn._correct_progression(
+        new_time_value = CleanSingleColumn()._correct_progression(
             last_time_value,
             curr_time_value,
             freq, missings,
@@ -71,7 +71,7 @@ class CleanSingleColumnTestCase(unittest.TestCase):
 
         # progression wrong because going to the future
         curr_time_value = arrow.get(2011, 8, 6)
-        new_time_value = CleanSingleColumn._correct_progression(
+        new_time_value = CleanSingleColumn()._correct_progression(
             last_time_value,
             curr_time_value,
             freq, missings,
@@ -88,7 +88,7 @@ class CleanSingleColumnTestCase(unittest.TestCase):
         params = load_parameters_case(2)
         # print repr(params[0])
 
-        new_time_value = CleanSingleColumn._parse_time(params[0], value,
+        new_time_value = CleanSingleColumn()._parse_time(params[0], value,
                                                          last_time)
 
         exp_time_value = arrow.get(2009, 12, 17)
@@ -115,7 +115,7 @@ class CleanSingleColumnTestCase(unittest.TestCase):
                   "time_multicolumn": False,
                   "time_composed": False}
 
-        CleanSingleColumn._clean_time_index(ws, params)
+        CleanSingleColumn()._clean_time_index(ws, params)
 
         wb_exp = load_workbook(
             os.path.join(abs_path("expected"), "test_case2.xlsx"))
@@ -143,7 +143,7 @@ class CleanSingleColumnTestCase(unittest.TestCase):
                   "time_multicolumn": False,
                   "time_composed": True}
 
-        CleanSingleColumn._clean_time_index(ws, params)
+        CleanSingleColumn()._clean_time_index(ws, params)
 
         wb_exp = load_workbook(
             os.path.join(abs_path("expected"), "test_case5.xlsx"))
@@ -184,7 +184,7 @@ class CleanMultipleColumnsTestCase(unittest.TestCase):
                   "continuity": False,
                   "time_composed": True}
 
-        CleanMultipleColumns._clean_time_index(ws, params)
+        CleanMultipleColumns()._clean_time_index(ws, params)
 
         wb_exp = load_workbook(
             os.path.join(abs_path("expected"), "test_case5.xlsx"))

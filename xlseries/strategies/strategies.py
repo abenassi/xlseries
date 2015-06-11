@@ -168,7 +168,6 @@ class ParameterDiscovery(BaseStrategy):
         # raise Exception(clean_ti_strategies.get_strategies())
 
         for strategy in clean_ti_strategies.get_strategies():
-            # print strategy
             if strategy.accepts(ws, params):
                 strategy_obj = strategy()
                 strategy_obj.clean_time_index(ws, params)

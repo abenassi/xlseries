@@ -46,7 +46,7 @@ class MissingsTestCase(unittest.TestCase):
         frequency = "D"
         time_header_coord = "C4"
 
-        CleanSingleColumn.clean_time_index(ws, params[0])
+        CleanSingleColumn().clean_time_index(ws, params[0])
 
         new_values = strategy._fill_implicit_missings(ws, values, frequency,
                                                       time_header_coord,

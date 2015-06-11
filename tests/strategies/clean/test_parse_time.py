@@ -47,7 +47,7 @@ class ParseSimpleTimeTest(unittest.TestCase):
 
     def run_pt(self, params, exp_value, value, last_time=None,
                next_value=None):
-        new_value = ParseSimpleTime._parse_time(params, value, last_time,
+        new_value = ParseSimpleTime()._parse_time(params, value, last_time,
                                                 next_value)
 
         msg = " ".join([repr(new_value), "!=", repr(exp_value), "\n",
@@ -97,13 +97,13 @@ class ParseSimpleTimeTest(unittest.TestCase):
         with patch.object(ParseSimpleTime, "_get_possible_time_formats",
                           return_value=["YY-MM-DD"]):
             value = "12-17.09"
-            self.assertRaises(NoTimeValue, ParseSimpleTime._parse_time,
+            self.assertRaises(NoTimeValue, ParseSimpleTime()._parse_time,
                               params[0], value, last_time, next_value)
 
         with patch.object(ParseSimpleTime, "_get_possible_time_formats",
                           return_value=["MM-DD-YY"]):
             value = "17-12.09"
-            self.assertRaises(NoTimeValue, ParseSimpleTime._parse_time,
+            self.assertRaises(NoTimeValue, ParseSimpleTime()._parse_time,
                               params[0], value, last_time, next_value)
 
     def test_time_make_sense(self):
@@ -113,12 +113,12 @@ class ParseSimpleTimeTest(unittest.TestCase):
         last_time = arrow.get(2009, 12, 16)
         next_value = "18-12-09"
 
-        make_sense = ParseSimpleTime._time_make_sense(params[0],
+        make_sense = ParseSimpleTime()._time_make_sense(params[0],
                                                       time_value, last_time,
                                                       next_value)
         self.assertFalse(make_sense)
 
-        make_sense = ParseSimpleTime._time_make_sense(params[0],
+        make_sense = ParseSimpleTime()._time_make_sense(params[0],
                                                       time_value, None,
                                                       next_value)
         self.assertFalse(make_sense)
@@ -126,7 +126,7 @@ class ParseSimpleTimeTest(unittest.TestCase):
         time_value = arrow.get(2002, 3, 10)
         last_time = arrow.get(2010, 3, 1)
 
-        make_sense = ParseSimpleTime._time_make_sense(params[0],
+        make_sense = ParseSimpleTime()._time_make_sense(params[0],
                                                       time_value, last_time,
                                                       next_value)
         self.assertFalse(make_sense)
@@ -135,7 +135,7 @@ class ParseSimpleTimeTest(unittest.TestCase):
         last_time = arrow.get(2010, 3, 1)
         next_value = arrow.get(2010, 3, 3)
 
-        make_sense = ParseSimpleTime._time_make_sense(params[0],
+        make_sense = ParseSimpleTime()._time_make_sense(params[0],
                                                       time_value, last_time,
                                                       next_value)
         self.assertFalse(make_sense)
@@ -144,16 +144,16 @@ class ParseSimpleTimeTest(unittest.TestCase):
         last_time = arrow.get(2010, 3, 1)
         next_value = arrow.get(2010, 3, 3)
 
-        make_sense = ParseSimpleTime._time_make_sense(params[0],
+        make_sense = ParseSimpleTime()._time_make_sense(params[0],
                                                       time_value, last_time,
                                                       next_value)
         self.assertTrue(make_sense)
 
     def test_get_possible_time_formats(self):
-        gen = ParseSimpleTime._get_possible_time_formats("02-03-10")
+        gen = ParseSimpleTime()._get_possible_time_formats("02-03-10")
         self.assertEqual(set(gen), set(["DD-MM-YY", "MM-DD-YY", "YY-MM-DD"]))
 
-        gen = ParseSimpleTime._get_possible_time_formats("02-03-2010")
+        gen = ParseSimpleTime()._get_possible_time_formats("02-03-2010")
         self.assertEqual(set(gen), set(["DD-MM-YYYY", "MM-DD-YYYY",
                                         "YY-MM-DDDD"]))
 

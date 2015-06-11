@@ -81,14 +81,16 @@ class BaseCleanTiStrategy(object):
 
     """BaseCleanTiStrategy class for all time index cleaning strategies."""
 
+    def __init__(self, time_parser=None):
+        self.time_parser = time_parser
+
     # PUBLIC INTERFACE
     @classmethod
     def accepts(cls, ws, params):
         return cls._accepts(ws, params)
 
-    @classmethod
-    def clean_time_index(cls, ws, params):
-        return cls._clean_time_index(ws, params)
+    def clean_time_index(self, ws, params):
+        return self._clean_time_index(ws, params)
 
     # PRIVATE main methods
     @classmethod
@@ -96,38 +98,37 @@ class BaseCleanTiStrategy(object):
         raise NotImplementedError("Base cleaning time index strategy " +
                                   "doesn't accept inputs.")
 
-    @classmethod
-    def _clean_time_index(cls, ws, params):
+    def _clean_time_index(self, ws, params):
         """Parse time strings into time values, cleaning the time index.
 
         If a value in a cell should be a time value, replace it with the clean
         time value."""
 
         p = params
-        col = cls._get_time_write_col(ws, p["time_header_coord"])
+        col = self._get_time_write_col(ws, p["time_header_coord"])
 
         # iterate series time index values cleaning them
         last_time = None
         for row in xrange(p["data_starts"], p["data_ends"] + 1):
 
             # take take a possible time value that should be cleaned
-            curr_time = cls._get_time_value(ws, row, p["time_header_coord"])
-            next_time = cls._get_time_value(ws, row + 1,
-                                            p["time_header_coord"])
+            curr_time = self._get_time_value(ws, row, p["time_header_coord"])
+            next_time = self._get_time_value(ws, row + 1,
+                                             p["time_header_coord"])
 
             # only clean if the value is expected to be a time value
-            if cls._must_be_time_value(curr_time, next_time, last_time):
+            if self._must_be_time_value(curr_time, next_time, last_time):
 
                 try:
-                    curr_time = cls._parse_time(params, curr_time, last_time,
-                                                next_time)
+                    curr_time = self._parse_time(params, curr_time, last_time,
+                                                 next_time)
 
                     # correct typos checking for a healthy time progression
-                    curr_time = cls._correct_progression(last_time,
-                                                         curr_time,
-                                                         p["frequency"],
-                                                         p["missings"],
-                                                         p["missing_value"])
+                    curr_time = self._correct_progression(last_time,
+                                                          curr_time,
+                                                          p["frequency"],
+                                                          p["missings"],
+                                                          p["missing_value"])
 
                     # write the clean value to the spreadsheet
                     ws.cell(row=row, column=col).value = curr_time.datetime
@@ -144,8 +145,7 @@ class BaseCleanTiStrategy(object):
     def _must_be_time_value(cls, value, next_time, last_time):
         return (value is not None) and (len(unicode(value).strip()) > 0)
 
-    @classmethod
-    def _parse_time(cls, params, curr_time, last_time=None, next_time=None):
+    def _parse_time(self, params, curr_time, last_time=None, next_time=None):
         """Try to parse any value into a proper date format.
 
         Iterate a pool of strategies looking one that understands the format of
@@ -161,13 +161,25 @@ class BaseCleanTiStrategy(object):
         Returns:
             An arrow.Arrow object expressing a date.
         """
+        msg = "parse_time strategies must assure a valid time value!"
 
+        # first, try to use the parser used last time
+        if self.time_parser:
+            try:
+                time_value = self.time_parser.parse_time(params, curr_time,
+                                                         last_time, next_time)
+                assert type(time_value) == arrow.Arrow, msg
+                return time_value
+            except:
+                pass
+
+        # if last parser doesn't work (or there is None), search again
         for strategy in parse_time_strategies.get_strategies():
             if strategy.accepts(params, curr_time, last_time, next_time):
-                time_value = strategy.parse_time(params, curr_time, last_time,
-                                                 next_time)
+                self.time_parser = strategy()
+                time_value = self.time_parser.parse_time(params, curr_time,
+                                                         last_time, next_time)
 
-                msg = "parse_time strategies must assure a valid time value!"
                 assert type(time_value) == arrow.Arrow, msg
 
                 return time_value
@@ -362,7 +374,9 @@ class BaseOffsetTi(BaseCleanTiStrategy):
 
     @classmethod
     def _must_be_time_value(cls, value, next_time, last_time):
-        base_cond = super(BaseOffsetTi, cls)._must_be_time_value(value)
+        base_cond = super(BaseOffsetTi, cls)._must_be_time_value(value,
+                                                                 next_time,
+                                                                 last_time)
         return base_cond and type(value) != float
 
 

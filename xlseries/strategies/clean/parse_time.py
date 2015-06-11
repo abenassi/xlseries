@@ -6,7 +6,10 @@ parse_time
 
 This module contains strategies to parse time strings of different frequencies.
 Up to this momment, all the strategies need to know the frequency of the time
-string in advance (yearly, quarterly, monthly..).
+string in advance (yearly, quarterly, monthly..)
+
+The preconditions of all the strategies is that the strings passed to them must
+be time values, otherwise an exception will be raised.
 """
 
 from __future__ import unicode_literals
@@ -20,22 +23,50 @@ import xlseries.utils.strategies_helpers
 
 
 # EXCEPTIONS
-class NoTimeValue(Exception):
+class NoPossibleTimeValue(ValueError):
 
-    """Raised if the value is not a time value."""
-    pass
+    """Raised if the value is not a possible time value."""
+
+    def __init__(self, value):
+        msg = " ".join([unicode(type(value)), unicode(value),
+                        "is not a possible time value."])
+        super(NoPossibleTimeValue, self).__init__(msg)
 
 
-class DayOutOfRange(Exception):
+class NoTimeValue(ValueError):
+
+    """Raised if the value is not an arrow.Arrow time value."""
+
+    def __init__(self, value, last_time=None, next_time=None):
+        msg = " ".join([unicode(type(value)), unicode(value),
+                        "is not an arrow.Arrow time value."])
+        if last_time:
+            msg += "\nLast:" + unicode(last_time)
+        if next_time:
+            msg += "\nNext:" + unicode(next_time)
+
+        super(NoTimeValue, self).__init__(msg)
+
+
+class BaseDateMemberOutOfRange(ValueError):
+
+    """Part of the result of a parsing grammar is out of range for a date."""
+
+    def __init__(self, curr_time, grammar_result):
+        msg = " ".join(["Time value doesn't make sense.",
+                        unicode(curr_time), "has been converted into",
+                        unicode(grammar_result)])
+        super(BaseDateMemberOutOfRange, self).__init__(msg)
+
+
+class DayOutOfRange(BaseDateMemberOutOfRange):
 
     """Raised if a day in a parsed time value is out of range."""
-    pass
 
 
-class MonthOutOfRange(Exception):
+class MonthOutOfRange(BaseDateMemberOutOfRange):
 
     """Raised if a month in a parsed time value is out of range."""
-    pass
 
 
 # STRATEGIES
@@ -45,7 +76,7 @@ class BaseParseTimeStrategy(object):
 
     # PUBLIC INTERFACE
     @classmethod
-    def accepts(cls, params, curr_time, last_time=None, next_value=None):
+    def accepts(cls, params, curr_time, last_time=None, next_time=None):
         """Check the inputs to see if the strategy can handle them.
 
         This base accepts() method check that the value is either already a
@@ -57,32 +88,32 @@ class BaseParseTimeStrategy(object):
             params: Parameters of the series being analyzed.
             curr_time: Value to be parsed into a date format.
             last_time: Last value parsed into time value.
-            next_value: Next value to be parsed into time value.
+            next_time: Next value to be parsed into time value.
 
         Returns:
             True or False meaning that a strategy declares it can handle the
                 input.
         """
 
-        if (type(curr_time) == arrow.Arrow or
-                type(curr_time) == datetime.datetime):
+        if cls._already_time_value(curr_time):
             return True
-
         else:
             if not cls._possible_time_value(curr_time):
-                raise NoTimeValue(curr_time)
-            return cls._accepts(params, curr_time, last_time, next_value)
+                raise NoPossibleTimeValue(curr_time)
 
-    @classmethod
-    def parse_time(cls, params, curr_time, last_time=None, next_value=None):
+            if not (type(last_time) == arrow.Arrow or last_time is None):
+                raise NoTimeValue(last_time)
+
+            return cls._accepts(params, curr_time, last_time, next_time)
+
+    def parse_time(self, params, curr_time, last_time=None, next_time=None):
         """Parse a time string or value into a proper time value.
 
         Args:
-            curr_time: Time string to be parsed.
-            last_time: Last time value (already parsed) in the time series
-                being analyzed.
-            params: A parameters dictionary with meta-data about the series
-                being analyzed.
+            params: Parameters of the series being analyzed.
+            curr_time: Value to be parsed into a date format.
+            last_time: Last value parsed into time value.
+            next_time: Next value to be parsed into time value.
 
         Returns:
             An arrow.Arrow time value.
@@ -95,13 +126,21 @@ class BaseParseTimeStrategy(object):
             return arrow.get(curr_time)
 
         elif type(curr_time) == str or type(curr_time) == float:
-            return cls._parse_time(params, unicode(curr_time), last_time,
-                                   next_value)
+            return self._parse_time(params, unicode(curr_time), last_time,
+                                    next_time)
         else:
-            return cls._parse_time(params, curr_time, last_time, next_value)
+            assert type(curr_time) == unicode, "Current is not unicode."
+
+            time_value = self._parse_time(params, curr_time,
+                                          last_time, next_time)
+
+            if not type(time_value) == arrow.Arrow:
+                raise NoTimeValue(time_value, last_time, next_time)
+
+            return time_value
 
     @classmethod
-    def _parse_time(cls, params, curr_time, last_time=None, next_value=None):
+    def _parse_time(cls, params, curr_time, last_time=None, next_time=None):
         """Base _parse_time() method.
 
         Most of the concrete strategies subclassing BaseParseTimeStrategy will
@@ -121,36 +160,22 @@ class BaseParseTimeStrategy(object):
             An arrow.Arrow time value.
         """
 
-        # fix strings time formats
-        if type(curr_time) == unicode:
-            grammar = cls.make_parsley_grammar()
-            result = grammar(curr_time).date()
+        grammar = cls.make_parsley_grammar()
+        result = grammar(curr_time).date()
 
-            # take new date elements found with the grammar
-            year = int(result[0] or last_time.year)
-            month = int(result[1] or last_time.month)
-            day = int(result[2] or last_time.day)
+        # take new date elements found with the grammar
+        year = int(result[0] or last_time.year)
+        month = int(result[1] or last_time.month)
+        day = int(result[2] or last_time.day)
 
-            # check date make sense
-            if day not in range(1, 32):
-                msg = " ".join(["Time value doesn't make sense.",
-                                unicode(curr_time), "has been converted into",
-                                unicode(result)])
-                raise DayOutOfRange(msg)
+        # check date make sense
+        if day not in range(1, 32):
+            raise DayOutOfRange(curr_time, result)
 
-            if (month not in range(1, 13)):
-                msg = " ".join(["Time value doesn't make sense.",
-                                unicode(curr_time), "has been converted into",
-                                unicode(result)])
-                raise MonthOutOfRange(msg)
+        if month not in range(1, 13):
+            raise MonthOutOfRange(curr_time, result)
 
-            time_value = arrow.get(year, month, day)
-
-        # no time could be parsed from the value
-        else:
-            raise NoTimeValue(curr_time)
-
-        return time_value
+        return arrow.get(year, month, day)
 
     @staticmethod
     def _dob_year_to_four(dob_year):
@@ -158,115 +183,83 @@ class BaseParseTimeStrategy(object):
         return arrow.Arrow.strptime(dob_year, "%y").year
 
     @classmethod
-    def _possible_time_value(cls, time_value):
+    def _already_time_value(cls, value):
+        """Check if a value is already of a time value type."""
+        return (type(value) == arrow.Arrow or type(value) == datetime.datetime)
+
+    @classmethod
+    def _possible_time_value(cls, value):
         """Check that a value could be a time value."""
-        return time_value is not None
-
-
-class ParseTimeFromOffsetTi(BaseParseTimeStrategy):
-
-    """Parse dates coming from an offset time index.
-
-    Usually this means that shares the time index column is the same than the
-    data column. So parse_time strategies in this case have to be resistent
-    (don't throw exceptions) with floats (because they will be data) and
-    Nones (because they will be blank rows)."""
-
-    @classmethod
-    def _accepts(cls, params, curr_time, last_time=None, next_value=None):
-        return (params["time_alignment"] != 0 and
-                (not curr_time or type(curr_time) == float))
-
-    @classmethod
-    def _parse_time(cls, params, curr_time, last_time=None, next_value=None):
-        """Clear out floats and Nones, call strategies for the rest."""
-        return None
-
-
-class ParseTimeFromNonContinuousTi(BaseParseTimeStrategy):
-
-    """Parse dates coming from a non continuous time index.
-
-    Non continuous time index will have blank rows in between valid time
-    values. Nones must be cleared out before calling other strategies."""
-
-    @classmethod
-    def _accepts(cls, params, curr_time, last_time=None, next_value=None):
-        return ((not params["continuity"] or params["blank_rows"]) and
-                not curr_time)
-
-    @classmethod
-    def _parse_time(cls, params, curr_time, last_time=None, next_value=None):
-        """Clear out Nones, call strategies for the rest."""
-        return None
+        return (value is not None) and (type(value) != int)
 
 
 class ParseSimpleTime(BaseParseTimeStrategy):
 
-    """Parse dates in datetime or very easy time string to parse."""
+    """Parse dates expressed in a standard or very easy string to parse."""
     MAX_IMPL = 20
 
-    @classmethod
-    def _accepts(cls, params, curr_time, last_time=None, next_value=None):
-        return (curr_time and not params["time_multicolumn"] and
-                not params["time_composed"] and type(curr_time) != float)
+    def __init__(self, time_format=None):
+        self.time_format = time_format
 
     @classmethod
-    def _parse_time(cls, params, curr_time, last_time=None, next_value=None):
+    def _accepts(cls, params, curr_time, last_time=None, next_time=None):
+        return not params["time_composed"]
 
-        # fix strings time formats
-        if type(curr_time) == unicode:
-            str_value = curr_time.replace(".", "-").replace("/", "-")
+    def _parse_time(self, params, curr_time, last_time=None, next_time=None):
+        """Parse a string into a time value.
 
-            time_value = None
-            formats = list(cls._get_possible_time_formats(str_value))
+        Try different standard formats and check that the result make sense in
+        the progression of the time series."""
 
-            # print str_value, formats, "NEW CASE!"
+        str_value = curr_time.replace(".", "-").replace("/", "-")
+        time_value = None
 
-            for str_format in formats:
-
-                # print str_value, str_format
-
-                try:
-                    time_value = arrow.get(str_value, str_format)
-                except Exception:
-                    continue
-
-                if not cls._time_make_sense(params,
-                                            time_value,
-                                            last_time,
-                                            next_value):
+        # first try with the last time format that worked
+        if self.time_format:
+            try:
+                time_value = arrow.get(str_value, self.time_format)
+                if not self._time_make_sense(params, time_value, last_time,
+                                            next_time):
                     time_value = None
-                    continue
-                else:
-                    print "make sense", time_value
 
+                if not type(time_value) == arrow.Arrow:
+                    raise NoTimeValue(time_value, last_time, next_time)
+
+                return time_value
+
+            except:
+                pass
+
+        # if it doesn't work, try with everyone
+        formats = list(self._get_possible_time_formats(str_value))
+        for time_format in formats:
+            # print curr_time, last_time, next_time, time_format, formats
+            try:
+                time_value = arrow.get(str_value, time_format)
+            except Exception:
+                continue
+
+            if not self._time_make_sense(params, time_value, last_time,
+                                        next_time):
+                time_value = None
+                continue
+
+            else:
                 break
 
-        # no time could be parsed from the value
-        else:
-            msg = "There is no support for non unicode time values."
-            raise NotImplementedError(msg)
-
-        if not time_value:
-            msg = " ".join([
-                "value:", repr(curr_time),
-                "last time:", repr(last_time),
-                "next value:", repr(next_value)])
-
-            raise NoTimeValue(msg)
+        if not type(time_value) == arrow.Arrow:
+            raise NoTimeValue(time_value, last_time, next_time)
 
         return time_value
 
-    @classmethod
-    def _time_make_sense(cls, params, time_value, last_time, next_value):
+    def _time_make_sense(self, params, time_value, last_time, next_time):
         """Check that a parsed time value make sense with the previous one.
 
         Args:
             params: Parameters of the time series.
             time_value: Recently parsed time value.
             last_time: Last time value that was parsed.
-            next_value: Next value to be parsed into a time value.
+            next_time: Next value to be parsed into a time value.
 
         Returns:
             True or False, if the value make sense with the last one and the
@@ -276,7 +269,7 @@ class ParseSimpleTime(BaseParseTimeStrategy):
         # making sense with the last value
         if last_time:
             is_after_last = time_value > last_time
-            max_forth_time_value = increment_time(last_time, cls.MAX_IMPL,
+            max_forth_time_value = increment_time(last_time, self.MAX_IMPL,
                                                   params["frequency"])
             is_not_too_after_last = time_value <= max_forth_time_value
 
@@ -284,23 +277,21 @@ class ParseSimpleTime(BaseParseTimeStrategy):
             is_after_last, is_not_too_after_last = True, True
 
         # making sense with the next value
-        if next_value:
+        if next_time:
             try:
-                next_time = cls.parse_time(params, next_value, time_value)
+                next_time = self.parse_time(params, next_time, time_value)
                 is_before_next = time_value < next_time
-                max_forth_time_value = increment_time(time_value, cls.MAX_IMPL,
+                max_forth_time_value = increment_time(time_value,
+                                                      self.MAX_IMPL,
                                                       params["frequency"])
                 is_not_too_before_next = next_time <= max_forth_time_value
-                # print next_value, next_time, time_value,
-                # max_forth_time_value, is_not_too_before_next
+
             except NoTimeValue:
                 is_before_next, is_not_too_before_next = False, False
 
         else:
             is_before_next, is_not_too_before_next = True, True
 
-        # print(is_after_last, is_not_too_after_last, is_before_next,
-        #         is_not_too_before_next)
         return (is_after_last and is_not_too_after_last and is_before_next and
                 is_not_too_before_next)
 
@@ -332,7 +323,7 @@ class BaseComposedQuarter(BaseParseTimeStrategy):
     Only for quarterly series."""
 
     @classmethod
-    def _accepts(cls, params, curr_time, last_time=None, next_value=None):
+    def _accepts(cls, params, curr_time, last_time=None, next_time=None):
 
         try:
             cls.make_parsley_grammar()(curr_time).date()
@@ -340,8 +331,7 @@ class BaseComposedQuarter(BaseParseTimeStrategy):
         except:
             match_grammar = False
 
-        return (curr_time and not params["time_multicolumn"] and
-                params["time_composed"] and params["frequency"] == "Q" and
+        return (params["time_composed"] and params["frequency"] == "Q" and
                 match_grammar)
 
     @staticmethod
@@ -437,7 +427,7 @@ class BaseComposedMonth(BaseParseTimeStrategy):
     Only for quarterly series."""
 
     @classmethod
-    def _accepts(cls, params, curr_time, last_time=None, next_value=None):
+    def _accepts(cls, params, curr_time, last_time=None, next_time=None):
 
         # try to match grammar
         try:
@@ -446,8 +436,8 @@ class BaseComposedMonth(BaseParseTimeStrategy):
         except:
             match_grammar = False
         # raise Exception("Match grammar" + str(match_grammar))
-        return params["time_composed"] and \
-            params["frequency"] == "M" and match_grammar
+        return (params["time_composed"] and
+                params["frequency"] == "M" and match_grammar)
 
     @classmethod
     def _month_str_to_num(cls, month_str):
