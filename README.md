@@ -51,6 +51,7 @@ dfs = series.get_data_frames(get_param_cases_path(1))
 * **Excel file**: Up to this development point, the excel file must have only one spreadsheet (anyway, only the active one will be used by `xlseries`) and should not be more *complicated* than test cases [1](#test-case-1), [2](#test-case-2), [3](#test-case-3), [4](#test-case-4) or [5](#test-case-5) (the ones currently passing the tests).
 
 ![](https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case_1_2_3.png)
+![](https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case_4_5.png)
 
 * **Json parameters**: A full JSON file with parameters must be provided. In future development stages more and more [parameters](#parameters) will be discovered by the package and the user will not need to provide them.
 
