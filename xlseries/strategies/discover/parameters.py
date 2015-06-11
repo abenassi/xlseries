@@ -1,18 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import json
-import datetime
 import pprint
-import re
+import copy
 from xlseries.utils.xl_methods import xl_coordinates_range
 
 """
 parameters
-----------------------------------
 
 This module contains the parameters object used by parsing strategies.
-
-TODO: "B8-B28" should be parsed into a list from 8 to 28. Handle cols too.
 """
 
 
@@ -89,7 +85,16 @@ class Parameters(object):
         series_params = Parameters()
 
         for param_name in series_params:
-            series_params[param_name] = self[param_name][i_series]
+
+            # when time index is multicolumn, a time_header_coord contains a
+            # list of columns composing the multicolumn time index, thus there
+            # is no multi-column and multi-index possible in this object, only
+            # one "multi" at a time is supported
+            if self.time_multicolumn[0] and param_name == "time_header_coord":
+                series_params[param_name] = copy.deepcopy(self[param_name])
+
+            else:
+                series_params[param_name] = self[param_name][i_series]
 
         return series_params
 

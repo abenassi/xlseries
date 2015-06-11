@@ -174,20 +174,31 @@ class ParseTimeFromOffsetTi(BaseParseTimeStrategy):
 
     @classmethod
     def _accepts(cls, params, curr_time, last_time=None, next_value=None):
-        return params["time_alignment"] != 0
+        return (params["time_alignment"] != 0 and
+                (not curr_time or type(curr_time) == float))
 
     @classmethod
     def _parse_time(cls, params, curr_time, last_time=None, next_value=None):
         """Clear out floats and Nones, call strategies for the rest."""
+        return None
 
-        if not curr_time or type(curr_time) == float:
-            return None
 
-        else:
-            for strategy in get_strategies():
-                if strategy.accepts(params, curr_time, last_time, next_value):
-                    return strategy.parse_time(params, curr_time, last_time,
-                                               next_value)
+class ParseTimeFromNonContinuousTi(BaseParseTimeStrategy):
+
+    """Parse dates coming from a non continuous time index.
+
+    Non continuous time index will have blank rows in between valid time
+    values. Nones must be cleared out before calling other strategies."""
+
+    @classmethod
+    def _accepts(cls, params, curr_time, last_time=None, next_value=None):
+        return ((not params["continuity"] or params["blank_rows"]) and
+                not curr_time)
+
+    @classmethod
+    def _parse_time(cls, params, curr_time, last_time=None, next_value=None):
+        """Clear out Nones, call strategies for the rest."""
+        return None
 
 
 class ParseSimpleTime(BaseParseTimeStrategy):
@@ -435,7 +446,7 @@ class BaseComposedMonth(BaseParseTimeStrategy):
         except:
             match_grammar = False
         # raise Exception("Match grammar" + str(match_grammar))
-        return not params["time_multicolumn"] and params["time_composed"] and \
+        return params["time_composed"] and \
             params["frequency"] == "M" and match_grammar
 
     @classmethod

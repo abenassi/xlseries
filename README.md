@@ -48,7 +48,7 @@ series = XlSeries(get_orig_cases_path(1))
 dfs = series.get_data_frames(get_param_cases_path(1))
 ```
 
-* **Excel file**: Up to this development point, the excel file must have only one spreadsheet (anyway, only the active one will be used by `xlseries`) and should not be more *complicated* than test cases [1](#test-case-1), [2](#test-case-2) or [3](#test-case-3) (the ones currently passing the tests).
+* **Excel file**: Up to this development point, the excel file must have only one spreadsheet (anyway, only the active one will be used by `xlseries`) and should not be more *complicated* than test cases [1](#test-case-1), [2](#test-case-2), [3](#test-case-3), [4](#test-case-4) or [5](#test-case-5) (the ones currently passing the tests).
 
 ![](https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case_1_2_3.png)
 
@@ -255,7 +255,7 @@ There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/
 
 ### Progress
 
-Up to this moment the package can handle cases [1](../tests/integration_cases/CASES.md#case-1), [2](../tests/integration_cases/CASES.md#case-2) and [3](../tests/integration_cases/CASES.md#case-3) with parameters. Once the seven cases can be handled with given parameters for each case, strategies for discovering parameters will start to be implemented.
+Up to this moment the package can handle cases [1](#test-case-1), [2](#test-case-2), [3](#test-case-3), [4](#test-case-4) or [5](#test-case-5) with parameters. Once the seven cases can be handled with given parameters for each case, strategies for discovering parameters will start to be implemented.
 
 The ultimate goal is that for **any** given excel file the user can possibly have, `xlseries` be able to extract all time series in the spreadsheet and return pandas data frames.
 

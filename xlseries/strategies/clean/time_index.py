@@ -17,6 +17,7 @@ automatically taken by "get_strategies" and exposed to the user.
 import arrow
 from pprint import pprint
 from openpyxl.cell import column_index_from_string
+from pprint import pformat
 
 from xlseries.strategies.clean.parse_time import NoTimeValue
 from xlseries.strategies.clean.parse_time import DayOutOfRange, MonthOutOfRange
@@ -236,7 +237,7 @@ class BaseCleanTiStrategy(object):
 
         msg = "".join(["No strategy to parse\nCurrent: ", unicode(curr_time),
                        "\nLast: ", unicode(last_time),
-                       "\nParameters: ", repr(params)])
+                       "\nParameters: ", pformat(params)])
         raise TimeParsingError(msg)
 
 
@@ -256,18 +257,16 @@ class CleanSingleColumnTi(BaseCleanTiStrategy):
         Replace the value in the cell with the clean time value."""
 
         p = params
-
-        # the col doesn't change in all the iteration
-        col = column_index_from_string(ws[p["time_header_coord"]].column)
+        col = cls._get_time_write_col(ws, p["time_header_coord"])
 
         # iterate series time index values and clean them
         last_time = None
         for row in xrange(p["data_starts"], p["data_ends"] + 1):
-            # raise Exception(row, p["data_starts"], p["data_ends"] + 1)
 
             # take the current time value to clean
-            curr_time = ws.cell(row=row, column=col).value
-            next_time = ws.cell(row=row + 1, column=col).value
+            curr_time = cls._get_time_value(ws, row, p["time_header_coord"])
+            next_time = cls._get_time_value(ws, row + 1,
+                                            p["time_header_coord"])
 
             # only clean if the value is not None
             if cls._possible_time_value(curr_time):
@@ -299,6 +298,17 @@ class CleanSingleColumnTi(BaseCleanTiStrategy):
     def _possible_time_value(cls, value):
         return value is not None and len(unicode(value).strip()) > 0
 
+    @classmethod
+    def _get_time_write_col(cls, ws, time_header_coord):
+        """Returns the column where clean time index shouls be written."""
+        return column_index_from_string(ws[time_header_coord].column)
+
+    @classmethod
+    def _get_time_value(cls, ws, row, time_header_coord):
+        """Returns the time value corresponding a certain series and row."""
+        col = cls._get_time_write_col(ws, time_header_coord)
+        return ws.cell(row=row, column=col).value
+
 
 class CleanSingleColumnTiOffsetTi(CleanSingleColumnTi):
 
@@ -317,7 +327,7 @@ class CleanSingleColumnTiOffsetTi(CleanSingleColumnTi):
                 type(value) != float)
 
 
-class CleanMultipleColumnsTiConcat(BaseCleanTiStrategy):
+class CleanMultipleColumnsTiConcat(CleanSingleColumnTi):
 
     """Clean time indexes that use multiple columns concatenating columns.
 
@@ -330,13 +340,27 @@ class CleanMultipleColumnsTiConcat(BaseCleanTiStrategy):
         return params["time_multicolumn"]
 
     @classmethod
-    def _clean_time_index(cls, ws, params):
-        """Parse time strings into time values, cleaning the time index.
+    def _get_time_write_col(cls, ws, time_header_coord):
+        """Returns the column where clean time index shouls be written."""
+        return column_index_from_string(ws[time_header_coord[0]].column)
 
-        Replace the value in the cell with the clean time value. First column
-        is used leaving untouched the other columns."""
+    @classmethod
+    def _get_time_value(cls, ws, row, time_header_coord):
+        """Returns the time value corresponding a certain series and row.
 
-        pass
+        Concatenate all the values of the time header columns in a unique
+        string."""
+
+        time_value_list = []
+
+        for coord in time_header_coord:
+            col = column_index_from_string(ws[coord].column)
+            value = unicode(ws.cell(row=row, column=col).value).strip()
+            if not value:
+                return None
+            time_value_list.append(value)
+
+        return " ".join(time_value_list)
 
 
 def get_strategies():

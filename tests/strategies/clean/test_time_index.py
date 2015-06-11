@@ -79,6 +79,8 @@ class CleanSingleColumnTiTestCase(unittest.TestCase):
 
         params = {"time_alignment": 0,
                   "time_format": datetime.datetime,
+                  "continuity": True,
+                  "blank_rows": True,
                   "time_header_coord": "C4",
                   "data_starts": 5,
                   "data_ends": 2993,
@@ -105,6 +107,8 @@ class CleanSingleColumnTiTestCase(unittest.TestCase):
 
         params = {"time_alignment": 0,
                   "time_format": str,
+                  "continuity": False,
+                  "blank_rows": True,
                   "time_header_coord": "A18",
                   "data_starts": 28,
                   "data_ends": 993,
@@ -135,7 +139,7 @@ class CleanSingleColumnTiTestCase(unittest.TestCase):
 
 class CleanMultipleColumnsTiConcatTestCase(unittest.TestCase):
 
-    @unittest.skip("skip")
+    # @unittest.skip("skip")
     def test_clean_time_index_case5b(self):
 
         wb = load_workbook(
@@ -151,6 +155,7 @@ class CleanMultipleColumnsTiConcatTestCase(unittest.TestCase):
                   "missings": True,
                   "missing_value": None,
                   "time_multicolumn": True,
+                  "continuity": False,
                   "time_composed": True}
 
         CleanMultipleColumnsTiConcat._clean_time_index(ws, params)
@@ -158,7 +163,7 @@ class CleanMultipleColumnsTiConcatTestCase(unittest.TestCase):
         wb_exp = load_workbook(
             os.path.join(abs_path("expected"), "test_case5.xlsx"))
 
-        wb.save("test_case5b_after_cleaning_index.xlsx")
+        # wb.save("test_case5b_after_cleaning_index.xlsx")
         self.assertTrue(compare_cells(wb, wb_exp))
 
 
