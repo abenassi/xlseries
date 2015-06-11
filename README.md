@@ -61,8 +61,6 @@ To give it a try, you can use this [ipython notebook template](docs/notebooks/Ex
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Installation](#installation)
-- [Quick start](#quick-start)
 - [Problem context (*or why this package is a good idea*)](#problem-context-or-why-this-package-is-a-good-idea)
   - [International organisms](#international-organisms)
   - [Some common problems using data in third world-countries (and in others too!)](#some-common-problems-using-data-in-third-world-countries-and-in-others-too)
@@ -71,7 +69,7 @@ To give it a try, you can use this [ipython notebook template](docs/notebooks/Ex
   - [Test cases](#test-cases)
   - [Progress](#progress)
 - [Contributions](#contributions)
-- [Task list](#task-list)
+- [Brainstorming and design thoughts about the package](#brainstorming-and-design-thoughts-about-the-package)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
