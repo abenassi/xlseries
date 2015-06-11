@@ -14,8 +14,8 @@ import datetime
 import os
 from openpyxl import load_workbook
 
-from xlseries.strategies.clean.time_index import CleanSingleColumnTi
-from xlseries.strategies.clean.time_index import CleanMultipleColumnsTiConcat
+from xlseries.strategies.clean.time_index import CleanSingleColumn
+from xlseries.strategies.clean.time_index import CleanMultipleColumns
 from xlseries.strategies.clean.time_index import BaseCleanTiStrategy
 from xlseries.strategies.clean.time_index import TimeValueGoingBackwards
 from xlseries.strategies.clean.time_index import TimeValueGoingForth
@@ -48,7 +48,7 @@ class BaseCleanTiStrategyTestCase(unittest.TestCase):
 
 
 # @unittest.skip("skip")
-class CleanSingleColumnTiTestCase(unittest.TestCase):
+class CleanSingleColumnTestCase(unittest.TestCase):
 
     # @unittest.skip("skip")
     def test_correct_progression(self):
@@ -60,7 +60,7 @@ class CleanSingleColumnTiTestCase(unittest.TestCase):
         missings = True
         missing_value = "Implicit"
 
-        new_time_value = CleanSingleColumnTi._correct_progression(
+        new_time_value = CleanSingleColumn._correct_progression(
             last_time_value,
             curr_time_value,
             freq, missings,
@@ -71,7 +71,7 @@ class CleanSingleColumnTiTestCase(unittest.TestCase):
 
         # progression wrong because going to the future
         curr_time_value = arrow.get(2011, 8, 6)
-        new_time_value = CleanSingleColumnTi._correct_progression(
+        new_time_value = CleanSingleColumn._correct_progression(
             last_time_value,
             curr_time_value,
             freq, missings,
@@ -88,7 +88,7 @@ class CleanSingleColumnTiTestCase(unittest.TestCase):
         params = load_parameters_case(2)
         # print repr(params[0])
 
-        new_time_value = CleanSingleColumnTi._parse_time(params[0], value,
+        new_time_value = CleanSingleColumn._parse_time(params[0], value,
                                                          last_time)
 
         exp_time_value = arrow.get(2009, 12, 17)
@@ -115,7 +115,7 @@ class CleanSingleColumnTiTestCase(unittest.TestCase):
                   "time_multicolumn": False,
                   "time_composed": False}
 
-        CleanSingleColumnTi._clean_time_index(ws, params)
+        CleanSingleColumn._clean_time_index(ws, params)
 
         wb_exp = load_workbook(
             os.path.join(abs_path("expected"), "test_case2.xlsx"))
@@ -143,7 +143,7 @@ class CleanSingleColumnTiTestCase(unittest.TestCase):
                   "time_multicolumn": False,
                   "time_composed": True}
 
-        CleanSingleColumnTi._clean_time_index(ws, params)
+        CleanSingleColumn._clean_time_index(ws, params)
 
         wb_exp = load_workbook(
             os.path.join(abs_path("expected"), "test_case5.xlsx"))
@@ -163,7 +163,7 @@ class CleanSingleColumnTiTestCase(unittest.TestCase):
 
 
 # @unittest.skip("skip")
-class CleanMultipleColumnsTiConcatTestCase(unittest.TestCase):
+class CleanMultipleColumnsTestCase(unittest.TestCase):
 
     # @unittest.skip("skip")
     def test_clean_time_index_case5b(self):
@@ -184,7 +184,7 @@ class CleanMultipleColumnsTiConcatTestCase(unittest.TestCase):
                   "continuity": False,
                   "time_composed": True}
 
-        CleanMultipleColumnsTiConcat._clean_time_index(ws, params)
+        CleanMultipleColumns._clean_time_index(ws, params)
 
         wb_exp = load_workbook(
             os.path.join(abs_path("expected"), "test_case5.xlsx"))
