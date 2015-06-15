@@ -74,6 +74,9 @@ class BaseParseTimeStrategy(object):
 
     """BaseParseTimeStrategy class for all parse time strategies."""
 
+    def __init__(self, grammar=None):
+        self.grammar = grammar
+
     # PUBLIC INTERFACE
     @classmethod
     def accepts(cls, params, curr_time, last_time=None, next_time=None):
@@ -139,8 +142,7 @@ class BaseParseTimeStrategy(object):
 
             return time_value
 
-    @classmethod
-    def _parse_time(cls, params, curr_time, last_time=None, next_time=None):
+    def _parse_time(self, params, curr_time, last_time=None, next_time=None):
         """Base _parse_time() method.
 
         Most of the concrete strategies subclassing BaseParseTimeStrategy will
@@ -160,8 +162,11 @@ class BaseParseTimeStrategy(object):
             An arrow.Arrow time value.
         """
 
-        grammar = cls.make_parsley_grammar()
-        result = grammar(curr_time).date()
+        # create grammar only if not already created
+        if not self.grammar:
+            self.grammar = self.make_parsley_grammar()
+
+        result = self.grammar(curr_time).date()
 
         # take new date elements found with the grammar
         year = int(result[0] or last_time.year)
@@ -219,7 +224,7 @@ class ParseSimpleTime(BaseParseTimeStrategy):
             try:
                 time_value = arrow.get(str_value, self.time_format)
                 if not self._time_make_sense(params, time_value, last_time,
-                                            next_time):
+                                             next_time):
                     time_value = None
 
                 if not type(time_value) == arrow.Arrow:
@@ -240,7 +245,7 @@ class ParseSimpleTime(BaseParseTimeStrategy):
                 continue
 
             if not self._time_make_sense(params, time_value, last_time,
-                                        next_time):
+                                         next_time):
                 time_value = None
                 continue
 

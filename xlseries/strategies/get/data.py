@@ -136,41 +136,24 @@ class BaseGetSingleFrequencyData(BaseGetDataStrategy):
                                 ini_row, end_row):
         """Fill time holes in the series with missing data."""
 
-        col = column_index_from_string(ws[time_header_coord].column)
-
-        record = []
+        col = ws[time_header_coord].column
 
         new_values = []
-        i_value = 0
-        i_row = ini_row
-        ini_time_value = arrow.get(ws.cell(row=i_row, column=col).value)
+        ini_time_value = arrow.get(ws.cell(coordinate=col +
+                                           unicode(ini_row)).value)
         exp_time_value = ini_time_value
-        while i_row <= end_row:
-            obs_time_value = arrow.get(ws.cell(row=i_row, column=col).value)
+        for row, (i_value, value) in zip(xrange(ini_row, end_row + 1),
+                                         enumerate(values)):
+            obs_time_value = arrow.get(
+                ws.cell(coordinate=col + unicode(row)).value)
 
             # fill time holes in the series with missing data
             while exp_time_value < obs_time_value:
                 new_values.append(np.nan)
-
-                record.append([i_row, col, np.nan,
-                               obs_time_value.isoformat(),
-                               exp_time_value.isoformat()])
-
-                exp_time_value = increment_time(exp_time_value, 1,
-                                                frequency)
+                exp_time_value = increment_time(exp_time_value, 1, frequency)
 
             new_values.append(values[i_value])
-            record.append([i_row, col, values[i_value],
-                           obs_time_value.isoformat(),
-                           exp_time_value.isoformat()])
             exp_time_value = increment_time(exp_time_value, 1, frequency)
-
-            i_row += 1
-            i_value += 1
-
-        # with open("record.txt", "wb") as f:
-        #     for line in record:
-        #         f.write(str(line) + "\n")
 
         return new_values
 

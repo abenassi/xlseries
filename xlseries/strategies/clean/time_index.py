@@ -131,14 +131,15 @@ class BaseCleanTiStrategy(object):
                                                           p["missing_value"])
 
                     # write the clean value to the spreadsheet
-                    ws.cell(row=row, column=col).value = curr_time.datetime
+                    # ws.cell(row=row, column=col).value = curr_time.datetime
+                    ws.cell(coordinate=col+unicode(row)).value = curr_time.datetime
                     last_time = curr_time
 
                 # this is the only case that _must_be_time_value is not
                 # expected to avoid before calling _parse_time, it's a mistake
                 # of the excel designers in the time index
                 except (DayOutOfRange, MonthOutOfRange):
-                    ws.cell(row=row, column=col).value = None
+                    ws.cell(coordinate=col+unicode(row)).value = None
 
     # PRIVATE auxiliar methods
     @classmethod
@@ -321,13 +322,16 @@ class BaseSingleColumn(BaseCleanTiStrategy):
     @classmethod
     def _get_time_write_col(cls, ws, time_header_coord):
         """Returns the column where clean time index shouls be written."""
-        return column_index_from_string(ws[time_header_coord].column)
+
+        # return column_index_from_string(ws[time_header_coord].column)
+        return ws[time_header_coord].column
 
     @classmethod
     def _get_time_value(cls, ws, row, time_header_coord):
         """Returns the time value corresponding a certain series and row."""
         col = cls._get_time_write_col(ws, time_header_coord)
-        return ws.cell(row=row, column=col).value
+        # return ws.cell(row=row, column=col).value
+        return ws.cell(coordinate=col + unicode(row)).value
 
 
 class BaseMultipleColumn(BaseCleanTiStrategy):
@@ -342,7 +346,8 @@ class BaseMultipleColumn(BaseCleanTiStrategy):
     @classmethod
     def _get_time_write_col(cls, ws, time_header_coord):
         """Returns the column where clean time index shouls be written."""
-        return column_index_from_string(ws[time_header_coord[0]].column)
+        # return column_index_from_string(ws[time_header_coord[0]].column)
+        return ws[time_header_coord[0]].column
 
     @classmethod
     def _get_time_value(cls, ws, row, time_header_coord):
@@ -354,8 +359,8 @@ class BaseMultipleColumn(BaseCleanTiStrategy):
         time_value_list = []
 
         for coord in time_header_coord:
-            col = column_index_from_string(ws[coord].column)
-            value = unicode(ws.cell(row=row, column=col).value).strip()
+            col = ws[coord].column
+            value = unicode(ws.cell(col + unicode(row)).value).strip()
             if not value:
                 return None
             time_value_list.append(value)
