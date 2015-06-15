@@ -1,0 +1,6645 @@
+version: 1
+creator: yappi
+pid: 11389
+cmd:  /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/kernel/__main__.py -f /Users/abenassi/.ipython/profile_default/security/kernel-11382.json
+part: 1
+
+events: Ticks
+
+fl=(0) profiling.py
+fl=(268) /Users/abenassi/github/xlseries/xlseries/xlseries.py
+fl=(337) /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py
+fl=(338) /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py
+fl=(341) /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py
+fl=(346) /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py
+fl=(352) /Users/abenassi/github/xlseries/xlseries/strategies/clean/time_index.py
+fl=(353) /Users/abenassi/github/xlseries/xlseries/strategies/clean/time_index.py
+fl=(366) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/compat/functools.py
+fl=(358) /Users/abenassi/github/xlseries/xlseries/strategies/clean/time_index.py
+fl=(360) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/cell/cell.py
+fl=(270) /Users/abenassi/github/xlseries/xlseries/utils/strategies_helpers.py
+fl=(271) /Users/abenassi/github/xlseries/xlseries/utils/strategies_helpers.py
+fl=(272) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py
+fl=(274) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py
+fl=(275) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py
+fl=(255) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/cell/cell.py
+fl=(256) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/cell/cell.py
+fl=(397) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/cell/cell.py
+fl=(15) /Users/abenassi/github/xlseries/xlseries/xlseries.py
+fl=(16) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/excel.py
+fl=(136) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/excel.py
+fl=(222) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/worksheet.py
+fl=(223) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/worksheet.py
+fl=(226) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/worksheet.py
+fl=(278) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py
+fl=(395) /Users/abenassi/github/xlseries/xlseries/strategies/clean/time_index.py
+fl=(381) /Users/abenassi/github/xlseries/xlseries/strategies/clean/time_index.py
+fl=(243) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/worksheet.py
+fl=(289) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py
+fl=(399) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/utils/datetime.py
+fl=(404) /Users/abenassi/github/xlseries/xlseries/utils/time_manipulation.py
+fl=(313) /Users/abenassi/github/xlseries/xlseries/utils/strategies_helpers.py
+fl=(405) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/arrow/arrow.py
+fl=(361) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/cell/cell.py
+fl=(371) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/threading.py
+fl=(382) /Users/abenassi/github/xlseries/xlseries/strategies/clean/parse_time.py
+fl=(347) /Users/abenassi/github/xlseries/xlseries/strategies/clean/time_index.py
+fl=(269) /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py
+fl=(367) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/threading.py
+fl=(279) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py
+fl=(246) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/worksheet.py
+fl=(372) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/threading.py
+fl=(374) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/utils/datetime.py
+fl=(27) __builtin__
+fl=(420) /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py
+fl=(450) /Users/abenassi/github/xlseries/xlseries/strategies/get/data.py
+fl=(451) /Users/abenassi/github/xlseries/xlseries/strategies/get/data.py
+fl=(455) /Users/abenassi/github/xlseries/xlseries/strategies/get/data.py
+fl=(375) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/jdcal.py
+fl=(386) /Users/abenassi/github/xlseries/xlseries/strategies/clean/parse_time.py
+fl=(362) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/styleable.py
+fl=(377) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/jdcal.py
+fl=(387) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/arrow/api.py
+fl=(409) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/dateutil/relativedelta.py
+fl=(410) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/dateutil/relativedelta.py
+fl=(388) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/arrow/factory.py
+fl=(127) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/dimensions.py
+fl=(290) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pycallgraph/tracer.py
+fl=(291) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py
+fl=(95) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/descriptors/base.py
+fl=(128) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/dimensions.py
+fl=(400) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/jdcal.py
+fl=(359) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/worksheet.py
+fl=(354) /Users/abenassi/github/xlseries/xlseries/strategies/clean/time_index.py
+fl=(415) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/arrow/arrow.py
+fl=(78) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/descriptors/base.py
+fl=(392) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/arrow/arrow.py
+fl=(280) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py
+fl=(94) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/descriptors/base.py
+fl=(363) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/numbers.py
+fl=(407) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/dateutil/relativedelta.py
+fl=(355) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/worksheet.py
+fl=(97) __builtin__
+fl=(285) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/string.py
+fl=(376) math
+fl=(370) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/threading.py
+fl=(189) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/style.py
+fl=(403) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/styleable.py
+fl=(342) /Users/abenassi/github/xlseries/xlseries/strategies/discover/parameters.py
+fl=(368) thread
+fl=(288) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/genericpath.py
+fl=(141) __builtin__
+fl=(191) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/style.py
+fl=(393) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/arrow/arrow.py
+fl=(249) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/utils/__init__.py
+fl=(245) <string>
+fl=(408) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/dateutil/relativedelta.py
+fl=(416) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/arrow/arrow.py
+fl=(365) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/cell/cell.py
+fl=(389) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/arrow/arrow.py
+fl=(281) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py
+fl=(19) posix
+fl=(276) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py
+fl=(8) __builtin__
+fl=(277) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py
+fl=(369) __builtin__
+fl=(84) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/utils/indexed_list.py
+fl=(225) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/worksheet.py
+fl=(380) /Users/abenassi/github/xlseries/xlseries/strategies/clean/time_index.py
+fl=(282) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py
+fl=(283) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py
+fl=(373) __builtin__
+fl=(284) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py
+fl=(390) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/arrow/arrow.py
+fl=(356) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/worksheet.py
+fl=(236) <string>
+fl=(254) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/cell/cell.py
+fl=(104) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/worksheet.py
+fl=(411) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/calendar.py
+fl=(394) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/arrow/util.py
+fl=(379) __builtin__
+fl=(76) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/workbook.py
+fl=(138) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py
+fl=(160) __builtin__
+fl=(211) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/style.py
+fl=(212) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/style.py
+fl=(328) __builtin__
+fl=(17) __builtin__
+fl=(195) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/descriptors/serialisable.py
+fl=(286) __builtin__
+fl=(79) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/descriptors/base.py
+fl=(86) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/utils/indexed_list.py
+fl=(309) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py
+fl=(251) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/cell/cell.py
+fl=(252) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/worksheet.py
+fl=(248) __builtin__
+fl=(188) __builtin__
+fl=(412) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/calendar.py
+fl=(406) __builtin__
+fl=(194) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/style.py
+fl=(106) __builtin__
+fl=(247) __builtin__
+fl=(398) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/dateutil/tz.py
+fl=(157) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/xml/functions.py
+fl=(391) __builtin__
+fl=(145) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py
+fl=(423) /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py
+fl=(364) __builtin__
+fl=(238) __builtin__
+fl=(146) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py
+fl=(456) /Users/abenassi/github/xlseries/xlseries/strategies/get/data.py
+fl=(88) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/hashable.py
+fl=(293) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/re.py
+fl=(89) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/hashable.py
+fl=(357) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/worksheet.py
+fl=(139) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py
+fl=(396) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/arrow/arrow.py
+fl=(67) __builtin__
+fl=(297) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py
+fl=(295) <string>
+fl=(201) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/fonts.py
+fl=(87) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/utils/indexed_list.py
+fl=(168) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/lxml/_elementpath.py
+fl=(148) __builtin__
+fl=(215) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/workbook.py
+fl=(287) imp
+fl=(123) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/views.py
+fl=(402) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/utils/datetime.py
+fl=(421) /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py
+fl=(90) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/alignment.py
+fl=(169) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/lxml/_elementpath.py
+fl=(130) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/dimensions.py
+fl=(179) __builtin__
+fl=(166) __builtin__
+fl=(426) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/tseries/period.py
+fl=(180) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/lxml/_elementpath.py
+fl=(116) __builtin__
+fl=(427) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/tseries/period.py
+fl=(147) __builtin__
+fl=(401) __builtin__
+fl=(164) __builtin__
+fl=(250) __builtin__
+fl=(96) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/hashable.py
+fl=(100) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/style.py
+fl=(178) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/workbook.py
+fl=(167) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/lxml/_elementpath.py
+fl=(182) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/strings.py
+fl=(378) __builtin__
+fl=(162) __builtin__
+fl=(317) /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py
+fl=(318) /Users/abenassi/github/xlseries/xlseries/strategies/discover/parameters.py
+fl=(85) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/workbook.py
+fl=(303) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/posixpath.py
+fl=(461) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/frame.py
+fl=(298) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/posixpath.py
+fl=(183) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/strings.py
+fl=(319) /Users/abenassi/github/xlseries/xlseries/strategies/discover/parameters.py
+fl=(429) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/tseries/frequencies.py
+fl=(184) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/strings.py
+fl=(187) __builtin__
+fl=(294) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/re.py
+fl=(462) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/frame.py
+fl=(25) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py
+fl=(126) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/protection.py
+fl=(149) __builtin__
+fl=(239) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/worksheet.py
+fl=(343) /Users/abenassi/github/xlseries/xlseries/strategies/discover/parameters.py
+fl=(434) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/tseries/period.py
+fl=(304) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/posixpath.py
+fl=(425) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/utils/__init__.py
+fl=(61) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py
+fl=(413) __builtin__
+fl=(156) lxml.etree
+fl=(155) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/properties.py
+fl=(458) /Users/abenassi/github/xlseries/xlseries/strategies/get/data.py
+fl=(35) <string>
+fl=(36) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/core/history.py
+fl=(91) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/descriptors/base.py
+fl=(28) __builtin__
+fl=(37) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/core/history.py
+fl=(437) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/tseries/period.py
+fl=(300) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/posixpath.py
+fl=(117) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/page.py
+fl=(292) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/linecache.py
+fl=(129) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/styleable.py
+fl=(457) __builtin__
+fl=(207) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/style.py
+fl=(296) __builtin__
+fl=(325) /Users/abenassi/github/xlseries/xlseries/strategies/discover/parameters.py
+fl=(81) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/__init__.py
+fl=(77) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/properties.py
+fl=(441) /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py
+fl=(170) __builtin__
+fl=(216) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/workbook.py
+fl=(102) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/style.py
+fl=(93) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/descriptors/base.py
+fl=(190) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/style.py
+fl=(443) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/tseries/period.py
+fl=(98) __builtin__
+fl=(133) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/properties.py
+fl=(175) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/lxml/_elementpath.py
+fl=(217) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/workbook.py
+fl=(242) __builtin__
+fl=(445) /Users/abenassi/github/xlseries/xlseries/strategies/get/data.py
+fl=(185) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/strings.py
+fl=(478) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py
+fl=(38) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/core/history.py
+fl=(101) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/style.py
+fl=(446) /Users/abenassi/github/xlseries/xlseries/strategies/get/data.py
+fl=(214) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/workbook.py
+fl=(92) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/descriptors/base.py
+fl=(306) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/posixpath.py
+fl=(111) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/collections.py
+fl=(3) /Users/abenassi/github/xlseries/xlseries/utils/path_finders.py
+fl=(224) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/worksheet.py
+fl=(198) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/colors.py
+fl=(330) /Users/abenassi/github/xlseries/xlseries/strategies/discover/parameters.py
+fl=(159) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/xml/functions.py
+fl=(142) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py
+fl=(171) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/lxml/_elementpath.py
+fl=(218) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/workbook.py
+fl=(484) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py
+fl=(120) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/page.py
+fl=(431) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/tseries/frequencies.py
+fl=(432) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/tseries/frequencies.py
+fl=(152) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py
+fl=(134) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/colors.py
+fl=(181) __builtin__
+fl=(119) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/page.py
+fl=(80) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/properties.py
+fl=(428) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/tseries/frequencies.py
+fl=(466) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/frame.py
+fl=(203) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/style.py
+fl=(331) __builtin__
+fl=(124) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/views.py
+fl=(467) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/index.py
+fl=(165) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/workbook.py
+fl=(11) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/posixpath.py
+fl=(132) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/formatting/__init__.py
+fl=(151) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py
+fl=(228) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/worksheet.py
+fl=(1) /Users/abenassi/github/xlseries/xlseries/utils/path_finders.py
+fl=(6) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/posixpath.py
+fl=(135) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/properties.py
+fl=(267) /Users/abenassi/github/xlseries/xlseries/utils/path_finders.py
+fl=(39) __builtin__
+fl=(144) zlib
+fl=(177) __builtin__
+fl=(229) __builtin__
+fl=(114) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/_abcoll.py
+fl=(452) /Users/abenassi/github/xlseries/xlseries/strategies/get/data.py
+fl=(110) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/dimensions.py
+fl=(153) __builtin__
+fl=(307) posix
+fl=(495) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py
+fl=(209) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/borders.py
+fl=(5) __builtin__
+fl=(469) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/index.py
+fl=(208) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/borders.py
+fl=(192) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/style.py
+fl=(40) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/utils/traitlets.py
+fl=(65) __builtin__
+fl=(200) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/descriptors/base.py
+fl=(63) __builtin__
+fl=(264) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/workbook.py
+fl=(213) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/style.py
+fl=(204) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/fills.py
+fl=(220) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/workbook.py
+fl=(199) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/colors.py
+fl=(4) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/posixpath.py
+fl=(453) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/unidecode/__init__.py
+fl=(261) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/names/named_range.py
+fl=(196) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/fonts.py
+fl=(172) __builtin__
+fl=(435) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/common.py
+fl=(205) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/fills.py
+fl=(161) __builtin__
+fl=(71) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py
+fl=(344) /Users/abenassi/github/xlseries/xlseries/strategies/discover/parameters.py
+fl=(345) /Users/abenassi/github/xlseries/xlseries/strategies/discover/parameters.py
+fl=(41) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/utils/traitlets.py
+fl=(99) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/protection.py
+fl=(193) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/style.py
+fl=(210) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/style.py
+fl=(82) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/numbers.py
+fl=(320) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/json/__init__.py
+fl=(308) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/stat.py
+fl=(257) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/worksheet.py
+fl=(206) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/fills.py
+fl=(265) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py
+fl=(62) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py
+fl=(43) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/utils/traitlets.py
+fl=(487) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py
+fl=(310) __builtin__
+fl=(335) /Users/abenassi/github/xlseries/xlseries/strategies/discover/parameters.py
+fl=(433) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/tseries/frequencies.py
+fl=(486) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py
+fl=(137) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py
+fl=(202) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/hashable.py
+fl=(70) __builtin__
+fl=(314) __builtin__
+fl=(321) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/json/__init__.py
+fl=(115) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/abc.py
+fl=(140) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py
+fl=(125) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/descriptors/base.py
+fl=(174) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/lxml/_elementpath.py
+fl=(66) _struct
+fl=(197) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/descriptors/serialisable.py
+fl=(414) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/calendar.py
+fl=(121) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/header_footer.py
+fl=(241) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/views.py
+fl=(322) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/json/decoder.py
+fl=(488) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py
+fl=(105) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/worksheet.py
+fl=(480) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py
+fl=(112) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/abc.py
+fl=(154) __builtin__
+fl=(44) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/utils/traitlets.py
+fl=(312) /Users/abenassi/github/xlseries/xlseries/utils/strategies_helpers.py
+fl=(150) __builtin__
+fl=(74) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py
+fl=(348) /Users/abenassi/github/xlseries/xlseries/strategies/clean/time_index.py
+fl=(230) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/xml/functions.py
+fl=(439) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/tseries/period.py
+fl=(113) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/_weakrefset.py
+fl=(444) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/numpy/core/numeric.py
+fl=(468) pandas.lib
+fl=(163) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/utils/datetime.py
+fl=(143) zlib
+fl=(299) posix
+fl=(158) __builtin__
+fl=(326) /Users/abenassi/github/xlseries/xlseries/strategies/discover/parameters.py
+fl=(349) /Users/abenassi/github/xlseries/xlseries/strategies/clean/time_index.py
+fl=(481) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py
+fl=(47) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/utils/traitlets.py
+fl=(498) __builtin__
+fl=(7) __builtin__
+fl=(2) __builtin__
+fl=(231) <string>
+fl=(436) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/common.py
+fl=(13) __builtin__
+fl=(118) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/descriptors/base.py
+fl=(301) __builtin__
+fl=(324) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/json/decoder.py
+fl=(479) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/index.py
+fl=(18) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/genericpath.py
+fl=(472) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/common.py
+fl=(332) <string>
+fl=(474) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/index.py
+fl=(424) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/utils/__init__.py
+fl=(21) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/stat.py
+fl=(107) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/worksheet.py
+fl=(438) numpy.core.multiarray
+fl=(305) __builtin__
+fl=(50) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/utils/traitlets.py
+fl=(459) numpy.core.multiarray
+fl=(499) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/numpy/core/_methods.py
+fl=(448) /Users/abenassi/github/xlseries/xlseries/strategies/get/data.py
+fl=(9) __builtin__
+fl=(311) __builtin__
+fl=(260) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/comments.py
+fl=(122) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/header_footer.py
+fl=(463) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/common.py
+fl=(336) __builtin__
+fl=(221) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/descriptors/base.py
+fl=(492) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py
+fl=(75) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py
+fl=(237) __builtin__
+fl=(73) __builtin__
+fl=(68) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py
+fl=(464) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/frame.py
+fl=(430) pandas.lib
+fl=(470) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/common.py
+fl=(471) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/common.py
+fl=(449) /Users/abenassi/github/xlseries/xlseries/strategies/get/data.py
+fl=(176) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/lxml/_elementpath.py
+fl=(383) /Users/abenassi/github/xlseries/xlseries/strategies/clean/parse_time.py
+fl=(253) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/collections.py
+fl=(22) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/posixpath.py
+fl=(273) sys
+fl=(10) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/posixpath.py
+fl=(72) __builtin__
+fl=(500) __builtin__
+fl=(454) __builtin__
+fl=(477) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/common.py
+fl=(259) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/workbook.py
+fl=(350) /Users/abenassi/github/xlseries/xlseries/strategies/clean/time_index.py
+fl=(473) pandas.lib
+fl=(131) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/filters.py
+fl=(333) /Users/abenassi/github/xlseries/xlseries/strategies/discover/parameters.py
+fl=(302) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/posixpath.py
+fl=(186) __builtin__
+fl=(30) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/threading.py
+fl=(33) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/utils/traitlets.py
+fl=(262) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/names/named_range.py
+fl=(465) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/numpy/core/numeric.py
+fl=(108) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/workbook.py
+fl=(23) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/genericpath.py
+fl=(26) __builtin__
+fl=(34) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/threading.py
+fl=(440) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/index.py
+fl=(482) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py
+fl=(384) /Users/abenassi/github/xlseries/xlseries/strategies/clean/parse_time.py
+fl=(501) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py
+fl=(475) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/compat/__init__.py
+fl=(489) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py
+fl=(442) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/tseries/period.py
+fl=(46) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/utils/traitlets.py
+fl=(54) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/core/history.py
+fl=(327) __builtin__
+fl=(233) _elementtree
+fl=(20) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/stat.py
+fl=(483) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py
+fl=(315) /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py
+fl=(493) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py
+fl=(12) __builtin__
+fl=(503) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/generic.py
+fl=(485) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py
+fl=(109) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/workbook.py
+fl=(49) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/utils/traitlets.py
+fl=(57) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/threading.py
+fl=(14) __builtin__
+fl=(447) __builtin__
+fl=(496) numpy.core.multiarray
+fl=(266) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py
+fl=(329) __builtin__
+fl=(497) __builtin__
+fl=(69) cStringIO
+fl=(232) _elementtree
+fl=(351) /Users/abenassi/github/xlseries/xlseries/strategies/clean/time_index.py
+fl=(60) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/threading.py
+fl=(385) /Users/abenassi/github/xlseries/xlseries/strategies/clean/parse_time.py
+fl=(24) __builtin__
+fl=(323) __builtin__
+fl=(334) __builtin__
+fl=(83) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/properties.py
+fl=(258) __builtin__
+fl=(422) __builtin__
+fl=(502) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py
+fl=(316) /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py
+fl=(476) __builtin__
+fl=(227) __builtin__
+fl=(219) __builtin__
+fl=(419) /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py
+fl=(339) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/workbook.py
+fl=(490) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py
+fl=(103) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/workbook.py
+fl=(64) __builtin__
+fl=(417) posix
+fl=(29) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/threading.py
+fl=(460) __builtin__
+fl=(491) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py
+fl=(173) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/lxml/_elementpath.py
+fl=(263) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/worksheet.py
+fl=(234) __builtin__
+fl=(494) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py
+fl=(340) /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py
+fl=(240) __builtin__
+fl=(235) <string>
+fl=(58) thread
+fl=(418) time
+fl=(56) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/threading.py
+fl=(55) /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/threading.py
+
+fn=(0) _run_test_case profiling.py:55
+fn=(268) XlSeries.get_data_frames /Users/abenassi/github/xlseries/xlseries/xlseries.py:33
+fn=(337) ParameterDiscovery.get_data_frames /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py:57
+fn=(338) ParameterDiscovery._get_data_frames /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py:70
+fn=(341) ParameterDiscovery._clean_data /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py:89
+fn=(346) _clean_time_index /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py:163
+fn=(352) CleanSingleColumn.clean_time_index /Users/abenassi/github/xlseries/xlseries/strategies/clean/time_index.py:92
+fn=(353) CleanSingleColumn._clean_time_index /Users/abenassi/github/xlseries/xlseries/strategies/clean/time_index.py:101
+fn=(366) wrapper /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/compat/functools.py:105
+fn=(358) _get_time_value /Users/abenassi/github/xlseries/xlseries/strategies/clean/time_index.py:329
+fn=(360) Cell.value /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/cell/cell.py:300
+fn=(270) get_strategies /Users/abenassi/github/xlseries/xlseries/utils/strategies_helpers.py:37
+fn=(271) get_parent_module_classes /Users/abenassi/github/xlseries/xlseries/utils/strategies_helpers.py:53
+fn=(272) stack /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py:1053
+fn=(274) getouterframes /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py:1026
+fn=(275) getframeinfo /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py:988
+fn=(255) Cell.value /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/cell/cell.py:310
+fn=(256) Cell._bind_value /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/cell/cell.py:188
+fn=(397) Cell._cast_datetime /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/cell/cell.py:284
+fn=(15) XlSeries.__init__ /Users/abenassi/github/xlseries/xlseries/xlseries.py:25
+fn=(16) load_workbook /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/excel.py:78
+fn=(136) _load_workbook /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/excel.py:158
+fn=(222) read_worksheet /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/worksheet.py:319
+fn=(223) fast_parse /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/worksheet.py:313
+fn=(226) WorkSheetParser.parse /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/worksheet.py:70
+fn=(278) getsourcefile /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py:440
+fn=(395) _correct_progression /Users/abenassi/github/xlseries/xlseries/strategies/clean/time_index.py:191
+fn=(381) CleanSingleColumn._parse_time /Users/abenassi/github/xlseries/xlseries/strategies/clean/time_index.py:149
+fn=(243) WorkSheetParser.parse_row_dimensions /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/worksheet.py:182
+fn=(289) findsource /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py:518
+fn=(399) to_excel /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/utils/datetime.py:43
+fn=(404) increment_time /Users/abenassi/github/xlseries/xlseries/utils/time_manipulation.py:27
+fn=(313) get_strategies_names /Users/abenassi/github/xlseries/xlseries/utils/strategies_helpers.py:22
+fn=(405) Arrow.replace /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/arrow/arrow.py:362
+fn=(361) Cell.is_date /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/cell/cell.py:345
+fn=(371) _RLock.__exit__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/threading.py:215
+fn=(382) get_strategies /Users/abenassi/github/xlseries/xlseries/strategies/clean/parse_time.py:549
+fn=(347) get_strategies /Users/abenassi/github/xlseries/xlseries/strategies/clean/time_index.py:421
+fn=(269) get_strategies /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py:219
+fn=(367) _RLock.acquire /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/threading.py:147
+fn=(279) getfile /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py:398
+fn=(246) WorkSheetParser.parse_cell /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/worksheet.py:101
+fn=(372) _RLock.release /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/threading.py:187
+fn=(374) from_excel /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/utils/datetime.py:53
+fn=(27) isinstance __builtin__:0
+fn=(420) ParameterDiscovery._get_data /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py:100
+fn=(450) get_data /Users/abenassi/github/xlseries/xlseries/strategies/get/data.py:32
+fn=(451) _get_data /Users/abenassi/github/xlseries/xlseries/strategies/get/data.py:43
+fn=(455) _get_values /Users/abenassi/github/xlseries/xlseries/strategies/get/data.py:55
+fn=(375) jd2gcal /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/jdcal.py:203
+fn=(386) ParseSimpleTime.parse_time /Users/abenassi/github/xlseries/xlseries/strategies/clean/parse_time.py:112
+fn=(362) NumberFormatDescriptor.__get__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/styleable.py:44
+fn=(377) ipart /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/jdcal.py:56
+fn=(387) get /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/arrow/api.py:17
+fn=(409) relativedelta.__radd__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/dateutil/relativedelta.py:317
+fn=(410) relativedelta.__add__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/dateutil/relativedelta.py:255
+fn=(388) ArrowFactory.get /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/arrow/factory.py:32
+fn=(127) RowDimension.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/dimensions.py:64
+fn=(290) wrapper /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pycallgraph/tracer.py:371
+fn=(291) getmodule /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py:472
+fn=(95) Bool.__set__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/descriptors/base.py:45
+fn=(128) RowDimension.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/dimensions.py:25
+fn=(400) gcal2jd /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/jdcal.py:72
+fn=(359) Worksheet.cell /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/worksheet.py:319
+fn=(354) _get_time_write_col /Users/abenassi/github/xlseries/xlseries/strategies/clean/time_index.py:322
+fn=(415) Arrow.__eq__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/arrow/arrow.py:678
+fn=(78) String.__set__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/descriptors/base.py:31
+fn=(392) fromdatetime /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/arrow/arrow.py:118
+fn=(280) ismodule /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py:51
+fn=(94) Bool.__set__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/descriptors/base.py:143
+fn=(363) is_date_format /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/numbers.py:166
+fn=(407) relativedelta.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/dateutil/relativedelta.py:114
+fn=(355) Worksheet.__getitem__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/worksheet.py:394
+fn=(97) getattr __builtin__:0
+fn=(285) lower /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/string.py:214
+fn=(376) modf math:0
+fn=(370) _RLock._note /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/threading.py:64
+fn=(189) read_style_table /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/style.py:197
+fn=(403) NumberFormatDescriptor.__set__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/styleable.py:35
+fn=(342) Parameters.__getitem__ /Users/abenassi/github/xlseries/xlseries/strategies/discover/parameters.py:66
+fn=(368) get_ident thread:0
+fn=(288) exists /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/genericpath.py:15
+fn=(141) <method 'get' of 'dict' objects> __builtin__:0
+fn=(191) SharedStylesParser.parse /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/style.py:48
+fn=(393) Arrow.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/arrow/arrow.py:49
+fn=(249) coordinate_from_string /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/utils/__init__.py:36
+fn=(245) iter <string>:44
+fn=(408) relativedelta._fix /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/dateutil/relativedelta.py:212
+fn=(416) _get_datetime /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/arrow/arrow.py:822
+fn=(365) Cell.base_date /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/cell/cell.py:140
+fn=(389) utcfromtimestamp /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/arrow/arrow.py:104
+fn=(281) isclass /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py:59
+fn=(19) stat posix:0
+fn=(276) istraceback /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py:181
+fn=(8) len __builtin__:0
+fn=(277) isframe /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py:191
+fn=(369) <method 'acquire' of 'thread.lock' objects> __builtin__:0
+fn=(84) IndexedList.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/utils/indexed_list.py:12
+fn=(225) Worksheet.parent /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/worksheet.py:182
+fn=(380) _must_be_time_value /Users/abenassi/github/xlseries/xlseries/strategies/clean/time_index.py:145
+fn=(282) ismethod /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py:67
+fn=(283) isfunction /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py:142
+fn=(373) <method 'release' of 'thread.lock' objects> __builtin__:0
+fn=(284) iscode /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py:209
+fn=(390) _get_timestamp_from_input /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/arrow/arrow.py:861
+fn=(356) Worksheet._get_cell /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/worksheet.py:363
+fn=(236) iterparse.next <string>:80
+fn=(254) Cell._cast_numeric /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/cell/cell.py:247
+fn=(104) Worksheet.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/worksheet.py:100
+fn=(411) monthrange /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/calendar.py:116
+fn=(394) isstr /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/arrow/util.py:31
+fn=(379) abs __builtin__:0
+fn=(76) Workbook.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/workbook.py:35
+fn=(138) ZipFile.read /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py:933
+fn=(160) <method 'match' of '_sre.SRE_Pattern' objects> __builtin__:0
+fn=(211) SharedStylesParser.parse_cell_styles /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/style.py:133
+fn=(212) SharedStylesParser._parse_xfs /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/style.py:142
+fn=(328) <method 'upper' of 'unicode' objects> __builtin__:0
+fn=(17) hasattr __builtin__:0
+fn=(195) from_tree /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/descriptors/serialisable.py:28
+fn=(286) <method 'lower' of 'str' objects> __builtin__:0
+fn=(79) String.__set__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/descriptors/base.py:20
+fn=(86) IndexedList.add /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/utils/indexed_list.py:45
+fn=(309) getmembers /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py:247
+fn=(251) Cell.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/cell/cell.py:111
+fn=(252) Worksheet._add_cell /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/worksheet.py:380
+fn=(248) get __builtin__:0
+fn=(188) <method 'replace' of 'unicode' objects> __builtin__:0
+fn=(412) weekday /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/calendar.py:110
+fn=(406) <method 'replace' of 'datetime.datetime' objects> __builtin__:0
+fn=(194) SharedStylesParser.parse_fonts /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/style.py:84
+fn=(106) <method 'search' of '_sre.SRE_Pattern' objects> __builtin__:0
+fn=(247) find __builtin__:0
+fn=(398) tzutc.utcoffset /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/dateutil/tz.py:50
+fn=(157) safe_iterator /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/xml/functions.py:120
+fn=(391) <method 'format' of 'str' objects> __builtin__:0
+fn=(145) ZipExtFile.read /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py:621
+fn=(423) ParameterDiscovery._get_period_range /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py:206
+fn=(364) any __builtin__:0
+fn=(238) feed __builtin__:0
+fn=(146) ZipExtFile.read1 /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py:649
+fn=(456) _handle_new_value /Users/abenassi/github/xlseries/xlseries/strategies/get/data.py:84
+fn=(88) Font.__hash__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/hashable.py:62
+fn=(293) compile /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/re.py:192
+fn=(89) Font.key /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/hashable.py:55
+fn=(357) Worksheet._new_cell /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/worksheet.py:375
+fn=(139) ZipFile.open /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py:937
+fn=(396) Arrow.datetime /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/arrow/arrow.py:323
+fn=(67) <method 'append' of 'list' objects> __builtin__:0
+fn=(297) getabsfile /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/inspect.py:460
+fn=(295) __new__ <string>:8
+fn=(201) Font.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/fonts.py:77
+fn=(87) IndexedList.append /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/utils/indexed_list.py:40
+fn=(168) iterfind /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/lxml/_elementpath.py:270
+fn=(148) min __builtin__:0
+fn=(215) detect_worksheets /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/workbook.py:87
+fn=(287) get_suffixes imp:0
+fn=(123) SheetView.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/views.py:75
+fn=(402) time_to_days /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/utils/datetime.py:72
+fn=(421) ParameterDiscovery._get_period_ranges /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py:186
+fn=(90) Alignment.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/alignment.py:46
+fn=(169) _build_path_iterator /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/lxml/_elementpath.py:229
+fn=(130) ColumnDimension.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/dimensions.py:137
+fn=(179) <method 'findall' of 'lxml.etree._Element' objects> __builtin__:0
+fn=(166) <method 'find' of 'lxml.etree._Element' objects> __builtin__:0
+fn=(426) period_range /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/tseries/period.py:931
+fn=(180) findall /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/lxml/_elementpath.py:295
+fn=(116) <method 'items' of 'dict' objects> __builtin__:0
+fn=(427) __new__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/tseries/period.py:164
+fn=(147) max __builtin__:0
+fn=(401) sum __builtin__:0
+fn=(164) <method 'groups' of '_sre.SRE_Match' objects> __builtin__:0
+fn=(250) <method 'upper' of 'str' objects> __builtin__:0
+fn=(96) <genexpr> /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/hashable.py:59
+fn=(100) StyleId.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/style.py:46
+fn=(178) read_content_types /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/workbook.py:51
+fn=(167) find /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/lxml/_elementpath.py:280
+fn=(182) read_string_table /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/strings.py:14
+fn=(378) divmod __builtin__:0
+fn=(162) setattr __builtin__:0
+fn=(317) ParameterDiscovery.__init__ /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py:43
+fn=(318) Parameters.__init__ /Users/abenassi/github/xlseries/xlseries/strategies/discover/parameters.py:19
+fn=(85) Workbook._setup_styles /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/workbook.py:73
+fn=(303) realpath /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/posixpath.py:379
+fn=(461) DataFrame.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/frame.py:194
+fn=(298) abspath /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/posixpath.py:365
+fn=(183) <genexpr> /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/strings.py:18
+fn=(319) _load_from_json /Users/abenassi/github/xlseries/xlseries/strategies/discover/parameters.py:102
+fn=(429) get_freq_code /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/tseries/frequencies.py:113
+fn=(184) get_string /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/strings.py:22
+fn=(187) <method 'strip' of 'unicode' objects> __builtin__:0
+fn=(294) _compile /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/re.py:230
+fn=(462) DataFrame._init_ndarray /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/frame.py:338
+fn=(25) ZipFile.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py:726
+fn=(126) SheetProtection.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/protection.py:60
+fn=(149) decompress __builtin__:0
+fn=(239) WorkSheetParser.parse_sheet_views /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/worksheet.py:306
+fn=(343) Parameters.get_series_params /Users/abenassi/github/xlseries/xlseries/strategies/discover/parameters.py:82
+fn=(434) _generate_range /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/tseries/period.py:188
+fn=(304) _joinrealpath /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/posixpath.py:387
+fn=(425) get_column_letter /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/utils/__init__.py:93
+fn=(61) ZipFile._RealGetContents /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py:803
+fn=(413) <method 'weekday' of 'datetime.date' objects> __builtin__:0
+fn=(156) fromstring lxml.etree:0
+fn=(155) read_properties /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/properties.py:117
+fn=(458) _value_to_be_added /Users/abenassi/github/xlseries/xlseries/strategies/get/data.py:160
+fn=(35) HistoryManager.writeout_cache <string>:1
+fn=(36) needs_sqlite /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/core/history.py:62
+fn=(91) NoneSet.__set__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/descriptors/base.py:123
+fn=(28) open __builtin__:0
+fn=(37) HistoryManager.writeout_cache /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/core/history.py:734
+fn=(437) _get_ordinal_range /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/tseries/period.py:831
+fn=(300) normpath /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/posixpath.py:336
+fn=(117) PageSetup.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/page.py:45
+fn=(292) getlines /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/linecache.py:33
+fn=(129) RowDimension.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/styleable.py:68
+fn=(457) locals __builtin__:0
+fn=(207) SharedStylesParser.parse_borders /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/style.py:97
+fn=(296) <built-in method __new__ of type object at 0x100183980> __builtin__:0
+fn=(325) _load_from_dict /Users/abenassi/github/xlseries/xlseries/strategies/discover/parameters.py:111
+fn=(81) Style.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/__init__.py:35
+fn=(77) DocumentProperties.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/properties.py:55
+fn=(441) _hash_period_range /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py:157
+fn=(170) iter __builtin__:0
+fn=(216) <genexpr> /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/workbook.py:94
+fn=(102) StyleId.__iter__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/style.py:98
+fn=(93) Min.__set__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/descriptors/base.py:85
+fn=(190) SharedStylesParser.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/style.py:33
+fn=(443) PeriodIndex.__getitem__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/tseries/period.py:663
+fn=(98) hash __builtin__:0
+fn=(133) WorksheetProperties.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/properties.py:78
+fn=(175) select /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/lxml/_elementpath.py:87
+fn=(217) read_rels /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/workbook.py:60
+fn=(242) clear __builtin__:0
+fn=(445) get_strategies /Users/abenassi/github/xlseries/xlseries/strategies/get/data.py:213
+fn=(185) get_text /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/strings.py:34
+fn=(478) create_block_manager_from_blocks /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py:3512
+fn=(38) HistoryManager._writeout_input_cache /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/core/history.py:722
+fn=(101) StyleId.__hash__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/style.py:114
+fn=(446) get_strategies_names /Users/abenassi/github/xlseries/xlseries/strategies/get/data.py:201
+fn=(214) read_excel_base_date /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/workbook.py:42
+fn=(92) NoneSet.__set__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/descriptors/base.py:109
+fn=(306) islink /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/posixpath.py:139
+fn=(111) DimensionHolder.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/collections.py:38
+fn=(3) get_package_dir /Users/abenassi/github/xlseries/xlseries/utils/path_finders.py:130
+fn=(224) WorkSheetParser.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/worksheet.py:59
+fn=(198) Color.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/colors.py:74
+fn=(330) _eval_param /Users/abenassi/github/xlseries/xlseries/strategies/discover/parameters.py:133
+fn=(159) localname /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/xml/functions.py:148
+fn=(142) ZipExtFile.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py:515
+fn=(171) xpath_tokenizer /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/lxml/_elementpath.py:70
+fn=(218) read_sheets /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/workbook.py:76
+fn=(484) BlockManager.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py:2155
+fn=(120) PageMargins.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/page.py:176
+fn=(431) _base_and_stride /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/tseries/frequencies.py:358
+fn=(432) _period_str_to_code /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/tseries/frequencies.py:651
+fn=(152) ZipExtFile.close /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py:701
+fn=(134) ColorDescriptor.__set__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/colors.py:116
+fn=(181) <method 'get' of 'lxml.etree._Element' objects> __builtin__:0
+fn=(119) PrintOptions.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/page.py:133
+fn=(80) W3CDateTime.__set__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/properties.py:18
+fn=(428) get_standard_freq /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/tseries/frequencies.py:455
+fn=(466) _get_axes /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/frame.py:356
+fn=(203) SharedStylesParser.parse_fills /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/style.py:91
+fn=(331) eval __builtin__:0
+fn=(124) Selection.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/views.py:36
+fn=(467) _ensure_index /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/index.py:4888
+fn=(165) Workbook._read_workbook_settings /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/workbook.py:106
+fn=(11) join /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/posixpath.py:68
+fn=(132) ConditionalFormatting.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/formatting/__init__.py:24
+fn=(151) ZipExtFile._update_crc /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py:639
+fn=(228) _get_xml_iter /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/worksheet.py:29
+fn=(1) get_orig_cases_path /Users/abenassi/github/xlseries/xlseries/utils/path_finders.py:66
+fn=(6) split /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/posixpath.py:89
+fn=(135) Outline.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/properties.py:23
+fn=(267) get_param_cases_path /Users/abenassi/github/xlseries/xlseries/utils/path_finders.py:43
+fn=(39) <method 'execute' of 'sqlite3.Connection' objects> __builtin__:0
+fn=(144) crc32 zlib:0
+fn=(177) <method 'iterchildren' of 'lxml.etree._Element' objects> __builtin__:0
+fn=(229) <method 'encode' of 'str' objects> __builtin__:0
+fn=(114) update /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/_abcoll.py:545
+fn=(452) _get_name /Users/abenassi/github/xlseries/xlseries/strategies/get/data.py:51
+fn=(110) DimensionHolder.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/dimensions.py:187
+fn=(153) <method 'close' of 'file' objects> __builtin__:0
+fn=(307) lstat posix:0
+fn=(495) BlockManager._rebuild_blknos_and_blklocs /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py:2250
+fn=(209) Border.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/borders.py:81
+fn=(5) <method 'startswith' of 'str' objects> __builtin__:0
+fn=(469) __new__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/index.py:127
+fn=(208) Side.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/borders.py:43
+fn=(192) SharedStylesParser.parse_custom_num_formats /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/style.py:58
+fn=(40) List.__set__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/utils/traitlets.py:429
+fn=(65) <method 'read' of 'file' objects> __builtin__:0
+fn=(200) MinMax.__set__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/descriptors/base.py:65
+fn=(63) <method 'seek' of 'file' objects> __builtin__:0
+fn=(264) read_workbook_code_name /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/workbook.py:115
+fn=(213) bool_attrib /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/style.py:207
+fn=(204) from_tree /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/fills.py:49
+fn=(220) Workbook.shared_styles /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/workbook.py:113
+fn=(199) RGB.__set__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/colors.py:51
+fn=(4) isabs /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/posixpath.py:59
+fn=(453) unidecode /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/unidecode/__init__.py:22
+fn=(261) read_named_ranges /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/names/named_range.py:113
+fn=(196) _create_nested /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/fonts.py:57
+fn=(172) <method 'findall' of '_sre.SRE_Pattern' objects> __builtin__:0
+fn=(435) _count_not_none /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/common.py:2166
+fn=(205) _from_tree /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/fills.py:93
+fn=(161) <method 'group' of '_sre.SRE_Match' objects> __builtin__:0
+fn=(71) ZipInfo.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py:287
+fn=(344) Parameters.__iter__ /Users/abenassi/github/xlseries/xlseries/strategies/discover/parameters.py:74
+fn=(345) Parameters.__setitem__ /Users/abenassi/github/xlseries/xlseries/strategies/discover/parameters.py:78
+fn=(41) List._validate /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/utils/traitlets.py:447
+fn=(99) Protection.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/protection.py:19
+fn=(193) SharedStylesParser.parse_color_index /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/style.py:68
+fn=(210) SharedStylesParser.parse_dxfs /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/style.py:78
+fn=(82) NumberFormatDescriptor.__set__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/numbers.py:191
+fn=(320) load /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/json/__init__.py:257
+fn=(308) S_ISLNK /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/stat.py:55
+fn=(257) WorkSheetParser.parse_margins /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/worksheet.py:194
+fn=(206) PatternFill.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/fills.py:81
+fn=(265) ZipFile.close /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py:1261
+fn=(62) _EndRecData /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py:201
+fn=(43) List.validate /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/utils/traitlets.py:1533
+fn=(487) BlockManager.shape /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py:2196
+fn=(310) dir __builtin__:0
+fn=(335) _apply_to_all /Users/abenassi/github/xlseries/xlseries/strategies/discover/parameters.py:164
+fn=(433) _get_freq_str /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/tseries/frequencies.py:151
+fn=(486) BlockManager._verify_integrity /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py:2376
+fn=(137) ZipFile.namelist /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py:872
+fn=(202) Font.__eq__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/styles/hashable.py:65
+fn=(70) <method 'read' of 'cStringIO.StringI' objects> __builtin__:0
+fn=(314) issubclass __builtin__:0
+fn=(321) loads /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/json/__init__.py:293
+fn=(115) __instancecheck__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/abc.py:128
+fn=(140) ZipFile.getinfo /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py:904
+fn=(125) Sequence.__set__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/descriptors/base.py:174
+fn=(174) prepare_child /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/lxml/_elementpath.py:85
+fn=(66) unpack _struct:0
+fn=(197) _create_nested /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/descriptors/serialisable.py:55
+fn=(414) isleap /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/calendar.py:97
+fn=(121) HeaderFooter.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/header_footer.py:133
+fn=(241) Pane.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/views.py:17
+fn=(322) JSONDecoder.decode /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/json/decoder.py:361
+fn=(488) <genexpr> /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py:2198
+fn=(105) Worksheet.title /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/worksheet.py:214
+fn=(480) make_block /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py:2065
+fn=(112) __subclasscheck__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/abc.py:148
+fn=(154) <function close at 0x105b3ab90> __builtin__:0
+fn=(44) List.validate /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/utils/traitlets.py:1440
+fn=(312) <dictcomp> /Users/abenassi/github/xlseries/xlseries/utils/strategies_helpers.py:70
+fn=(150) flush __builtin__:0
+fn=(74) ZipInfo._decodeExtra /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py:383
+fn=(348) accepts /Users/abenassi/github/xlseries/xlseries/strategies/clean/time_index.py:88
+fn=(230) safe_iterparse /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/xml/functions.py:76
+fn=(439) _simple_new /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/tseries/period.py:264
+fn=(113) WeakSet.__contains__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/_weakrefset.py:70
+fn=(444) isscalar /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/numpy/core/numeric.py:1910
+fn=(468) clean_index_list pandas.lib:0
+fn=(163) W3CDTF_to_datetime /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/utils/datetime.py:36
+fn=(143) decompressobj zlib:0
+fn=(299) getcwd posix:0
+fn=(158) <method 'iter' of 'lxml.etree._Element' objects> __builtin__:0
+fn=(326) _unpack_header_ranges /Users/abenassi/github/xlseries/xlseries/strategies/discover/parameters.py:176
+fn=(349) _accepts /Users/abenassi/github/xlseries/xlseries/strategies/clean/time_index.py:393
+fn=(481) FloatBlock.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py:64
+fn=(47) List.validate_elements /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/utils/traitlets.py:1526
+fn=(498) <method 'any' of 'numpy.ndarray' objects> __builtin__:0
+fn=(7) <method 'rfind' of 'str' objects> __builtin__:0
+fn=(2) <method 'join' of 'str' objects> __builtin__:0
+fn=(231) iterparse.__init__ <string>:67
+fn=(436) <genexpr> /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/common.py:2167
+fn=(13) <method 'endswith' of 'str' objects> __builtin__:0
+fn=(118) UniversalMeasure.__set__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/descriptors/base.py:246
+fn=(301) <method 'split' of 'str' objects> __builtin__:0
+fn=(324) JSONDecoder.raw_decode /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/json/decoder.py:372
+fn=(479) Index.__len__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/index.py:256
+fn=(18) isfile /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/genericpath.py:26
+fn=(472) _asarray_tuplesafe /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/common.py:2320
+fn=(332) <module> <string>:1
+fn=(474) _simple_new /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/index.py:218
+fn=(424) column_index_from_string /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/utils/__init__.py:103
+fn=(21) S_IFMT /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/stat.py:24
+fn=(107) Worksheet._unique_sheet_name /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/worksheet.py:231
+fn=(438) arange numpy.core.multiarray:0
+fn=(305) <method 'partition' of 'str' objects> __builtin__:0
+fn=(50) HistoryManager._notify_trait /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/utils/traitlets.py:567
+fn=(459) array numpy.core.multiarray:0
+fn=(499) _any /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/numpy/core/_methods.py:37
+fn=(448) accepts /Users/abenassi/github/xlseries/xlseries/strategies/get/data.py:28
+fn=(9) <method 'rstrip' of 'str' objects> __builtin__:0
+fn=(311) <method 'sort' of 'list' objects> __builtin__:0
+fn=(260) get_comments_file /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/reader/comments.py:38
+fn=(122) HeaderFooterItem.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/header_footer.py:74
+fn=(463) is_categorical_dtype /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/common.py:2519
+fn=(336) range __builtin__:0
+fn=(221) Alias.__get__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/descriptors/base.py:230
+fn=(492) BlockManager._consolidate_check /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py:2560
+fn=(75) ZipInfo._decodeFilename /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py:377
+fn=(237) <method 'read' of '_io.BytesIO' objects> __builtin__:0
+fn=(73) <method 'find' of 'str' objects> __builtin__:0
+fn=(68) _EndRecData64 /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py:158
+fn=(464) _prep_ndarray /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/frame.py:4816
+fn=(430) is_integer pandas.lib:0
+fn=(470) is_bool_dtype /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/common.py:2511
+fn=(471) _get_dtype_type /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/common.py:2434
+fn=(449) _accepts /Users/abenassi/github/xlseries/xlseries/strategies/get/data.py:170
+fn=(176) select /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/lxml/_elementpath.py:94
+fn=(383) accepts /Users/abenassi/github/xlseries/xlseries/strategies/clean/parse_time.py:81
+fn=(253) DimensionHolder.__setitem__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/collections.py:54
+fn=(22) splitext /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/posixpath.py:104
+fn=(273) _getframe sys:0
+fn=(10) basename /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/posixpath.py:119
+fn=(72) chr __builtin__:0
+fn=(500) <method 'reduce' of 'numpy.ufunc' objects> __builtin__:0
+fn=(454) ord __builtin__:0
+fn=(477) is_object_dtype /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/common.py:2535
+fn=(259) Workbook._add_sheet /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/workbook.py:191
+fn=(350) _accepts /Users/abenassi/github/xlseries/xlseries/strategies/clean/time_index.py:318
+fn=(473) infer_dtype pandas.lib:0
+fn=(131) AutoFilter.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/filters.py:83
+fn=(333) _get_num_series /Users/abenassi/github/xlseries/xlseries/strategies/discover/parameters.py:152
+fn=(302) normcase /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/posixpath.py:51
+fn=(186) <method 'strip' of 'str' objects> __builtin__:0
+fn=(30) _Condition._acquire_restore /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/threading.py:297
+fn=(33) Instance.__get__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/utils/traitlets.py:395
+fn=(262) <genexpr> /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/names/named_range.py:115
+fn=(465) asarray /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/numpy/core/numeric.py:394
+fn=(108) Workbook.get_sheet_names /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/workbook.py:242
+fn=(23) _splitext /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/genericpath.py:85
+fn=(26) <method 'replace' of 'str' objects> __builtin__:0
+fn=(34) _Event.clear /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/threading.py:590
+fn=(440) PeriodIndex._reset_identity /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/index.py:251
+fn=(482) FloatBlock.mgr_locs /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py:141
+fn=(384) _already_time_value /Users/abenassi/github/xlseries/xlseries/strategies/clean/parse_time.py:190
+fn=(501) BlockManager._consolidate_inplace /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py:2828
+fn=(475) iteritems /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/compat/__init__.py:121
+fn=(489) <genexpr> /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py:2378
+fn=(442) PeriodIndex.freqstr /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/tseries/period.py:353
+fn=(46) List.validate /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/utils/traitlets.py:961
+fn=(54) HistoryManager._writeout_output_cache /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/core/history.py:728
+fn=(327) <method 'lower' of 'unicode' objects> __builtin__:0
+fn=(233) XMLParser _elementtree:0
+fn=(20) S_ISREG /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/stat.py:49
+fn=(483) FloatBlock.mgr_locs /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py:119
+fn=(315) accepts /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py:53
+fn=(493) FloatBlock.ftype /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py:232
+fn=(12) <method 'startswith' of 'unicode' objects> __builtin__:0
+fn=(503) DataFrame.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/generic.py:89
+fn=(485) BlockManager.ndim /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py:2200
+fn=(109) Workbook.sheetnames /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/workbook.py:245
+fn=(49) List.validate_elements /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/IPython/utils/traitlets.py:1451
+fn=(57) _Condition._is_owned /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/threading.py:300
+fn=(14) <method 'endswith' of 'unicode' objects> __builtin__:0
+fn=(447) globals __builtin__:0
+fn=(496) empty numpy.core.multiarray:0
+fn=(266) ZipFile.__del__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/zipfile.py:1257
+fn=(329) <method 'extend' of 'list' objects> __builtin__:0
+fn=(497) <method 'fill' of 'numpy.ndarray' objects> __builtin__:0
+fn=(69) StringIO cStringIO:0
+fn=(232) TreeBuilder _elementtree:0
+fn=(351) CleanSingleColumn.__init__ /Users/abenassi/github/xlseries/xlseries/strategies/clean/time_index.py:84
+fn=(60) _Condition._release_save /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/threading.py:294
+fn=(385) ParseSimpleTime.__init__ /Users/abenassi/github/xlseries/xlseries/strategies/clean/parse_time.py:206
+fn=(24) <method 'rfind' of 'unicode' objects> __builtin__:0
+fn=(323) <method 'end' of '_sre.SRE_Match' objects> __builtin__:0
+fn=(334) <method 'values' of 'dict' objects> __builtin__:0
+fn=(83) DocumentSecurity.__init__ /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/properties.py:131
+fn=(258) close __builtin__:0
+fn=(422) zip __builtin__:0
+fn=(502) BlockManager.is_consolidated /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py:2552
+fn=(316) _accepts /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py:66
+fn=(476) <method 'iteritems' of 'dict' objects> __builtin__:0
+fn=(227) <method 'keys' of 'dict' objects> __builtin__:0
+fn=(219) <method 'get' of 'lxml.etree._Attrib' objects> __builtin__:0
+fn=(419) _clean_values /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py:179
+fn=(339) Workbook.active /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/workbook.py:152
+fn=(490) FloatBlock.shape /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py:220
+fn=(103) Workbook.write_only /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/workbook/workbook.py:144
+fn=(64) <method 'tell' of 'file' objects> __builtin__:0
+fn=(417) getppid posix:0
+fn=(29) _Condition._note /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/threading.py:64
+fn=(460) <method 'transpose' of 'numpy.ndarray' objects> __builtin__:0
+fn=(491) BlockManager._get_items /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py:2271
+fn=(173) prepare_star /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/lxml/_elementpath.py:93
+fn=(263) Worksheet.title /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/openpyxl/worksheet/worksheet.py:209
+fn=(234) _setevents __builtin__:0
+fn=(494) FloatBlock.dtype /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/site-packages/pandas/core/internals.py:228
+fn=(340) ParameterDiscovery._discover_parameters /Users/abenassi/github/xlseries/xlseries/strategies/strategies.py:85
+fn=(240) findall __builtin__:0
+fn=(235) iterparse.__iter__ <string>:109
+fn=(58) allocate_lock thread:0
+fn=(418) sleep time:0
+fn=(56) _Condition.wait /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/threading.py:309
+fn=(55) _Event.wait /Users/abenassi/anaconda/envs/xlseries/lib/python2.7/threading.py:603
+
+fl=(0)
+fn=(0)
+55 24
+cfl=(268)
+cfn=(268)
+calls=1 0
+0 536397
+cfl=(267)
+cfn=(267)
+calls=1 0
+0 180
+cfl=(15)
+cfn=(15)
+calls=1 0
+0 99700
+cfl=(1)
+cfn=(1)
+calls=1 0
+0 195
+
+fl=(268)
+fn=(268)
+33 26
+cfl=(67)
+cfn=(67)
+calls=1 0
+0 0
+cfl=(337)
+cfn=(337)
+calls=1 0
+0 498523
+cfl=(317)
+cfn=(317)
+calls=1 0
+0 739
+cfl=(315)
+cfn=(315)
+calls=1 0
+0 6
+cfl=(269)
+cfn=(269)
+calls=1 0
+0 37101
+
+fl=(337)
+fn=(337)
+57 8
+cfl=(338)
+cfn=(338)
+calls=1 0
+0 498515
+
+fl=(338)
+fn=(338)
+70 27
+cfl=(420)
+cfn=(420)
+calls=1 0
+0 29061
+cfl=(341)
+cfn=(341)
+calls=1 0
+0 469425
+cfl=(340)
+cfn=(340)
+calls=1 0
+0 1
+cfl=(339)
+cfn=(339)
+calls=1 0
+0 2
+
+fl=(341)
+fn=(341)
+89 26
+cfl=(419)
+cfn=(419)
+calls=2 0
+0 2
+cfl=(346)
+cfn=(346)
+calls=2 0
+0 469066
+cfl=(342)
+cfn=(342)
+calls=2 0
+0 327
+cfl=(8)
+cfn=(8)
+calls=2 0
+0 3
+
+fl=(346)
+fn=(346)
+163 42
+cfl=(352)
+cfn=(352)
+calls=2 0
+0 429322
+cfl=(351)
+cfn=(351)
+calls=2 0
+0 4
+cfl=(348)
+cfn=(348)
+calls=2 0
+0 44
+cfl=(347)
+cfn=(347)
+calls=2 0
+0 39653
+
+fl=(352)
+fn=(352)
+92 9
+cfl=(353)
+cfn=(353)
+calls=2 0
+0 429313
+
+fl=(353)
+fn=(353)
+101 12279
+cfl=(255)
+cfn=(255)
+calls=510 0
+0 111482
+cfl=(359)
+cfn=(359)
+calls=510 0
+0 4029
+cfl=(396)
+cfn=(396)
+calls=510 0
+0 682
+cfl=(395)
+cfn=(395)
+calls=510 0
+0 69445
+cfl=(381)
+cfn=(381)
+calls=510 0
+0 69148
+cfl=(380)
+cfn=(380)
+calls=510 0
+0 4837
+cfl=(358)
+cfn=(358)
+calls=1020 0
+0 152780
+cfl=(354)
+cfn=(354)
+calls=2 0
+0 88
+cfl=(342)
+cfn=(342)
+calls=2556 0
+0 4541
+
+fl=(366)
+fn=(366)
+105 26626
+cfl=(402)
+cfn=(402)
+calls=510 0
+0 1091
+cfl=(399)
+cfn=(399)
+calls=510 0
+0 53516
+cfl=(8)
+cfn=(8)
+calls=1531 0
+0 1834
+cfl=(374)
+cfn=(374)
+calls=511 0
+0 32017
+cfl=(371)
+cfn=(371)
+calls=3577 0
+0 42962
+cfl=(141)
+cfn=(141)
+calls=2046 0
+0 4652
+cfl=(367)
+cfn=(367)
+calls=3577 0
+0 35866
+
+fl=(358)
+fn=(358)
+329 6717
+cfl=(360)
+cfn=(360)
+calls=1020 0
+0 125296
+cfl=(359)
+cfn=(359)
+calls=1020 0
+0 7423
+cfl=(354)
+cfn=(354)
+calls=1020 0
+0 13342
+
+fl=(360)
+fn=(360)
+300 7791
+cfl=(366)
+cfn=(366)
+calls=1026 0
+0 79479
+cfl=(365)
+cfn=(365)
+calls=1026 0
+0 4171
+cfl=(361)
+cfn=(361)
+calls=1371 0
+0 43451
+
+fl=(270)
+fn=(270)
+37 40
+cfl=(313)
+cfn=(313)
+calls=5 0
+0 51959
+cfl=(271)
+cfn=(271)
+calls=5 0
+0 66996
+
+fl=(271)
+fn=(271)
+53 179
+cfl=(312)
+cfn=(312)
+calls=10 0
+0 46
+cfl=(309)
+cfn=(309)
+calls=10 0
+0 2415
+cfl=(290)
+cfn=(290)
+calls=10 0
+0 918
+cfl=(272)
+cfn=(272)
+calls=10 0
+0 115236
+
+fl=(272)
+fn=(272)
+1053 54
+cfl=(274)
+cfn=(274)
+calls=10 0
+0 115164
+cfl=(273)
+cfn=(273)
+calls=10 0
+0 17
+
+fl=(274)
+fn=(274)
+1026 1034
+cfl=(67)
+cfn=(67)
+calls=309 0
+0 401
+cfl=(275)
+cfn=(275)
+calls=309 0
+0 113729
+
+fl=(275)
+fn=(275)
+988 5035
+cfl=(295)
+cfn=(295)
+calls=309 0
+0 1316
+cfl=(148)
+cfn=(148)
+calls=309 0
+0 394
+cfl=(8)
+cfn=(8)
+calls=309 0
+0 378
+cfl=(147)
+cfn=(147)
+calls=618 0
+0 857
+cfl=(289)
+cfn=(289)
+calls=309 0
+0 59586
+cfl=(278)
+cfn=(278)
+calls=309 0
+0 43723
+cfl=(277)
+cfn=(277)
+calls=309 0
+0 1197
+cfl=(276)
+cfn=(276)
+calls=309 0
+0 1241
+
+fl=(255)
+fn=(255)
+310 1674
+cfl=(256)
+cfn=(256)
+calls=608 0
+0 111579
+
+fl=(256)
+fn=(256)
+188 5170
+cfl=(397)
+cfn=(397)
+calls=510 0
+0 102702
+cfl=(27)
+cfn=(27)
+calls=2530 0
+0 3705
+
+fl=(397)
+fn=(397)
+284 4569
+cfl=(403)
+cfn=(403)
+calls=510 0
+0 8316
+cfl=(366)
+cfn=(366)
+calls=510 0
+0 86916
+cfl=(365)
+cfn=(365)
+calls=510 0
+0 2333
+cfl=(27)
+cfn=(27)
+calls=510 0
+0 567
+
+fl=(15)
+fn=(15)
+25 32
+cfl=(266)
+cfn=(266)
+calls=1 0
+0 4
+cfl=(16)
+cfn=(16)
+calls=1 0
+0 99663
+
+fl=(16)
+fn=(16)
+78 99
+cfl=(265)
+cfn=(265)
+calls=1 0
+0 75
+cfl=(136)
+cfn=(136)
+calls=1 0
+0 95110
+cfl=(76)
+cfn=(76)
+calls=1 0
+0 3658
+cfl=(25)
+cfn=(25)
+calls=1 0
+0 674
+cfl=(22)
+cfn=(22)
+calls=1 0
+0 17
+cfl=(18)
+cfn=(18)
+calls=1 0
+0 27
+cfl=(17)
+cfn=(17)
+calls=1 0
+0 2
+
+fl=(136)
+fn=(136)
+158 259
+cfl=(264)
+cfn=(264)
+calls=1 0
+0 122
+cfl=(261)
+cfn=(261)
+calls=1 0
+0 103
+cfl=(260)
+cfn=(260)
+calls=1 0
+0 22
+cfl=(259)
+cfn=(259)
+calls=1 0
+0 14
+cfl=(222)
+cfn=(222)
+calls=1 0
+0 80180
+cfl=(220)
+cfn=(220)
+calls=1 0
+0 108
+cfl=(215)
+cfn=(215)
+calls=2 0
+0 1175
+cfl=(214)
+cfn=(214)
+calls=1 0
+0 352
+cfl=(189)
+cfn=(189)
+calls=1 0
+0 8459
+cfl=(182)
+cfn=(182)
+calls=1 0
+0 797
+cfl=(5)
+cfn=(5)
+calls=1 0
+0 2
+cfl=(141)
+cfn=(141)
+calls=2 0
+0 3
+cfl=(178)
+cfn=(178)
+calls=9 0
+0 403
+cfl=(165)
+cfn=(165)
+calls=1 0
+0 205
+cfl=(155)
+cfn=(155)
+calls=1 0
+0 578
+cfl=(138)
+cfn=(138)
+calls=7 0
+0 2290
+cfl=(137)
+cfn=(137)
+calls=1 0
+0 35
+
+fl=(222)
+fn=(222)
+319 11
+cfl=(223)
+cfn=(223)
+calls=1 0
+0 78418
+cfl=(104)
+cfn=(104)
+calls=1 0
+0 1751
+
+fl=(223)
+fn=(223)
+313 29
+cfl=(226)
+cfn=(226)
+calls=1 0
+0 78088
+cfl=(224)
+cfn=(224)
+calls=1 0
+0 299
+
+fl=(226)
+fn=(226)
+70 3541
+cfl=(8)
+cfn=(8)
+calls=1 0
+0 1
+cfl=(257)
+cfn=(257)
+calls=1 0
+0 82
+cfl=(243)
+cfn=(243)
+calls=261 0
+0 68802
+cfl=(242)
+cfn=(242)
+calls=263 0
+0 385
+cfl=(239)
+cfn=(239)
+calls=1 0
+0 621
+cfl=(236)
+cfn=(236)
+calls=1586 0
+0 4417
+cfl=(235)
+cfn=(235)
+calls=1 0
+0 1
+cfl=(230)
+cfn=(230)
+calls=1 0
+0 42
+cfl=(228)
+cfn=(228)
+calls=1 0
+0 195
+cfl=(227)
+cfn=(227)
+calls=1 0
+0 2
+
+fl=(278)
+fn=(278)
+440 11084
+cfl=(17)
+cfn=(17)
+calls=20 0
+0 44
+cfl=(290)
+cfn=(290)
+calls=20 0
+0 15851
+cfl=(288)
+cfn=(288)
+calls=624 0
+0 8092
+cfl=(8)
+cfn=(8)
+calls=1873 0
+0 2167
+cfl=(287)
+cfn=(287)
+calls=625 0
+0 1156
+cfl=(285)
+cfn=(285)
+calls=2498 0
+0 9387
+cfl=(279)
+cfn=(279)
+calls=625 0
+0 23531
+
+fl=(395)
+fn=(395)
+191 2917
+cfl=(415)
+cfn=(415)
+calls=508 0
+0 13259
+cfl=(404)
+cfn=(404)
+calls=508 0
+0 53269
+
+fl=(381)
+fn=(381)
+149 1961
+cfl=(386)
+cfn=(386)
+calls=510 0
+0 24898
+cfl=(385)
+cfn=(385)
+calls=2 0
+0 3
+cfl=(383)
+cfn=(383)
+calls=2 0
+0 17
+cfl=(382)
+cfn=(382)
+calls=2 0
+0 42267
+
+fl=(243)
+fn=(243)
+182 4177
+cfl=(246)
+cfn=(246)
+calls=705 0
+0 34808
+cfl=(245)
+cfn=(245)
+calls=966 0
+0 7444
+cfl=(157)
+cfn=(157)
+calls=261 0
+0 1784
+cfl=(127)
+cfn=(127)
+calls=261 0
+0 20589
+
+fl=(289)
+fn=(289)
+518 7351
+cfl=(160)
+cfn=(160)
+calls=299 0
+0 763
+cfl=(293)
+cfn=(293)
+calls=309 0
+0 1542
+cfl=(17)
+cfn=(17)
+calls=309 0
+0 408
+cfl=(284)
+cfn=(284)
+calls=309 0
+0 1132
+cfl=(277)
+cfn=(277)
+calls=309 0
+0 1168
+cfl=(276)
+cfn=(276)
+calls=309 0
+0 1184
+cfl=(283)
+cfn=(283)
+calls=309 0
+0 1176
+cfl=(282)
+cfn=(282)
+calls=309 0
+0 1184
+cfl=(281)
+cfn=(281)
+calls=309 0
+0 1276
+cfl=(280)
+cfn=(280)
+calls=309 0
+0 1256
+cfl=(292)
+cfn=(292)
+calls=309 0
+0 504
+cfl=(290)
+cfn=(290)
+calls=309 0
+0 1599
+cfl=(278)
+cfn=(278)
+calls=309 0
+0 26987
+cfl=(279)
+cfn=(279)
+calls=309 0
+0 12052
+
+fl=(399)
+fn=(399)
+43 4334
+cfl=(366)
+cfn=(366)
+calls=510 0
+0 32173
+cfl=(17)
+cfn=(17)
+calls=510 0
+0 696
+cfl=(401)
+cfn=(401)
+calls=510 0
+0 812
+cfl=(400)
+cfn=(400)
+calls=510 0
+0 15502
+
+fl=(404)
+fn=(404)
+27 2833
+cfl=(405)
+cfn=(405)
+calls=508 0
+0 50435
+
+fl=(313)
+fn=(313)
+22 107
+cfl=(314)
+cfn=(314)
+calls=36 0
+0 51
+cfl=(271)
+cfn=(271)
+calls=5 0
+0 51801
+
+fl=(405)
+fn=(405)
+362 7970
+cfl=(392)
+cfn=(392)
+calls=508 0
+0 5781
+cfl=(141)
+cfn=(141)
+calls=508 0
+0 605
+cfl=(409)
+cfn=(409)
+calls=508 0
+0 22890
+cfl=(407)
+cfn=(407)
+calls=508 0
+0 11432
+cfl=(406)
+cfn=(406)
+calls=508 0
+0 1078
+cfl=(116)
+cfn=(116)
+calls=508 0
+0 678
+
+fl=(361)
+fn=(361)
+345 8022
+cfl=(363)
+cfn=(363)
+calls=1369 0
+0 11552
+cfl=(362)
+cfn=(362)
+calls=2738 0
+0 23875
+
+fl=(371)
+fn=(371)
+215 9505
+cfl=(372)
+cfn=(372)
+calls=3577 0
+0 33457
+
+fl=(382)
+fn=(382)
+549 8
+cfl=(270)
+cfn=(270)
+calls=2 0
+0 42259
+
+fl=(347)
+fn=(347)
+421 10
+cfl=(270)
+cfn=(270)
+calls=2 0
+0 39644
+
+fl=(269)
+fn=(269)
+219 10
+cfl=(270)
+cfn=(270)
+calls=1 0
+0 37092
+
+fl=(367)
+fn=(367)
+147 21396
+cfl=(370)
+cfn=(370)
+calls=3577 0
+0 4581
+cfl=(369)
+cfn=(369)
+calls=3577 0
+0 5783
+cfl=(368)
+cfn=(368)
+calls=3577 0
+0 4106
+
+fl=(279)
+fn=(279)
+398 10431
+cfl=(17)
+cfn=(17)
+calls=3 0
+0 6
+cfl=(284)
+cfn=(284)
+calls=932 0
+0 3407
+cfl=(277)
+cfn=(277)
+calls=932 0
+0 3486
+cfl=(276)
+cfn=(276)
+calls=932 0
+0 3584
+cfl=(283)
+cfn=(283)
+calls=932 0
+0 3571
+cfl=(282)
+cfn=(282)
+calls=932 0
+0 3567
+cfl=(281)
+cfn=(281)
+calls=932 0
+0 3848
+cfl=(280)
+cfn=(280)
+calls=935 0
+0 3699
+
+fl=(246)
+fn=(246)
+101 12003
+cfl=(255)
+cfn=(255)
+calls=98 0
+0 1771
+cfl=(254)
+cfn=(254)
+calls=598 0
+0 4343
+cfl=(252)
+cfn=(252)
+calls=705 0
+0 2358
+cfl=(251)
+cfn=(251)
+calls=705 0
+0 2320
+cfl=(249)
+cfn=(249)
+calls=705 0
+0 7477
+cfl=(248)
+cfn=(248)
+calls=2115 0
+0 2536
+cfl=(247)
+cfn=(247)
+calls=1410 0
+0 1997
+
+fl=(372)
+fn=(372)
+187 20505
+cfl=(370)
+cfn=(370)
+calls=3577 0
+0 4406
+cfl=(373)
+cfn=(373)
+calls=3577 0
+0 4555
+cfl=(368)
+cfn=(368)
+calls=3577 0
+0 3990
+
+fl=(374)
+fn=(374)
+53 5656
+cfl=(379)
+cfn=(379)
+calls=511 0
+0 606
+cfl=(378)
+cfn=(378)
+calls=511 0
+0 784
+cfl=(375)
+cfn=(375)
+calls=511 0
+0 24971
+
+fl=(27)
+fn=(27)
+0 31385
+cfl=(115)
+cfn=(115)
+calls=4 0
+0 63
+
+fl=(420)
+fn=(420)
+100 119
+cfl=(461)
+cfn=(461)
+calls=1 0
+0 728
+cfl=(460)
+cfn=(460)
+calls=1 0
+0 1
+cfl=(459)
+cfn=(459)
+calls=1 0
+0 18
+cfl=(334)
+cfn=(334)
+calls=1 0
+0 2
+cfl=(67)
+cfn=(67)
+calls=5 0
+0 6
+cfl=(423)
+cfn=(423)
+calls=2 0
+0 759
+cfl=(450)
+cfn=(450)
+calls=2 0
+0 25205
+cfl=(448)
+cfn=(448)
+calls=2 0
+0 23
+cfl=(445)
+cfn=(445)
+calls=2 0
+0 383
+cfl=(342)
+cfn=(342)
+calls=12 0
+0 320
+cfl=(8)
+cfn=(8)
+calls=1 0
+0 2
+cfl=(441)
+cfn=(441)
+calls=4 0
+0 464
+cfl=(421)
+cfn=(421)
+calls=1 0
+0 1028
+
+fl=(450)
+fn=(450)
+32 7
+cfl=(451)
+cfn=(451)
+calls=2 0
+0 25197
+
+fl=(451)
+fn=(451)
+43 20
+cfl=(455)
+cfn=(455)
+calls=2 0
+0 25023
+cfl=(452)
+cfn=(452)
+calls=2 0
+0 153
+cfl=(342)
+cfn=(342)
+calls=2 0
+0 2
+
+fl=(455)
+fn=(455)
+55 6488
+cfl=(67)
+cfn=(67)
+calls=510 0
+0 529
+cfl=(458)
+cfn=(458)
+calls=510 0
+0 567
+cfl=(456)
+cfn=(456)
+calls=510 0
+0 1651
+cfl=(360)
+cfn=(360)
+calls=510 0
+0 8924
+cfl=(359)
+cfn=(359)
+calls=510 0
+0 3760
+cfl=(424)
+cfn=(424)
+calls=2 0
+0 8
+cfl=(355)
+cfn=(355)
+calls=2 0
+0 18
+cfl=(342)
+cfn=(342)
+calls=2050 0
+0 3075
+
+fl=(375)
+fn=(375)
+203 10121
+cfl=(377)
+cfn=(377)
+calls=3577 0
+0 13474
+cfl=(376)
+cfn=(376)
+calls=1022 0
+0 1375
+
+fl=(386)
+fn=(386)
+112 1803
+cfl=(387)
+cfn=(387)
+calls=510 0
+0 23096
+
+fl=(362)
+fn=(362)
+44 14844
+cfl=(141)
+cfn=(141)
+calls=510 0
+0 556
+cfl=(225)
+cfn=(225)
+calls=2228 0
+0 2760
+cfl=(97)
+cfn=(97)
+calls=4966 0
+0 5716
+
+fl=(377)
+fn=(377)
+56 15803
+cfl=(376)
+cfn=(376)
+calls=6127 0
+0 7656
+
+fl=(387)
+fn=(387)
+17 2067
+cfl=(388)
+cfn=(388)
+calls=510 0
+0 21029
+
+fl=(409)
+fn=(409)
+317 1513
+cfl=(410)
+cfn=(410)
+calls=508 0
+0 21377
+
+fl=(410)
+fn=(410)
+255 11079
+cfl=(406)
+cfn=(406)
+calls=508 0
+0 1145
+cfl=(97)
+cfn=(97)
+calls=2032 0
+0 2340
+cfl=(148)
+cfn=(148)
+calls=508 0
+0 767
+cfl=(411)
+cfn=(411)
+calls=508 0
+0 4093
+cfl=(379)
+cfn=(379)
+calls=508 0
+0 585
+cfl=(27)
+cfn=(27)
+calls=1016 0
+0 1366
+
+fl=(388)
+fn=(388)
+32 5742
+cfl=(392)
+cfn=(392)
+calls=510 0
+0 6294
+cfl=(27)
+cfn=(27)
+calls=1020 0
+0 1398
+cfl=(389)
+cfn=(389)
+calls=510 0
+0 6416
+cfl=(141)
+cfn=(141)
+calls=510 0
+0 616
+cfl=(8)
+cfn=(8)
+calls=510 0
+0 562
+
+fl=(127)
+fn=(127)
+64 1416
+cfl=(128)
+cfn=(128)
+calls=263 0
+0 16529
+cfl=(95)
+cfn=(95)
+calls=263 0
+0 2839
+
+fl=(290)
+fn=(290)
+371 816
+cfl=(291)
+cfn=(291)
+calls=57 0
+0 17553
+
+fl=(291)
+fn=(291)
+472 5587
+cfl=(303)
+cfn=(303)
+calls=2 0
+0 728
+cfl=(116)
+cfn=(116)
+calls=1 0
+0 224
+cfl=(297)
+cfn=(297)
+calls=10 0
+0 1326
+cfl=(141)
+cfn=(141)
+calls=937 0
+0 1264
+cfl=(17)
+cfn=(17)
+calls=963 0
+0 1591
+cfl=(280)
+cfn=(280)
+calls=1710 0
+0 6829
+
+fl=(95)
+fn=(95)
+45 5660
+cfl=(78)
+cfn=(78)
+calls=1685 0
+0 11548
+
+fl=(128)
+fn=(128)
+25 2712
+cfl=(78)
+cfn=(78)
+calls=7 0
+0 53
+cfl=(94)
+cfn=(94)
+calls=540 0
+0 8265
+cfl=(95)
+cfn=(95)
+calls=533 0
+0 5431
+cfl=(129)
+cfn=(129)
+calls=270 0
+0 497
+
+fl=(400)
+fn=(400)
+72 5516
+cfl=(377)
+cfn=(377)
+calls=2550 0
+0 9986
+
+fl=(359)
+fn=(359)
+319 8950
+cfl=(357)
+cfn=(357)
+calls=156 0
+0 1380
+cfl=(425)
+cfn=(425)
+calls=518 0
+0 605
+cfl=(188)
+cfn=(188)
+calls=1530 0
+0 2392
+cfl=(328)
+cfn=(328)
+calls=1530 0
+0 1924
+
+fl=(354)
+fn=(354)
+322 3042
+cfl=(355)
+cfn=(355)
+calls=1022 0
+0 10388
+
+fl=(415)
+fn=(415)
+678 4797
+cfl=(398)
+cfn=(398)
+calls=1016 0
+0 1269
+cfl=(416)
+cfn=(416)
+calls=1016 0
+0 6594
+cfl=(27)
+cfn=(27)
+calls=508 0
+0 598
+
+fl=(78)
+fn=(78)
+31 8055
+cfl=(79)
+cfn=(79)
+calls=1887 0
+0 2773
+cfl=(27)
+cfn=(27)
+calls=1887 0
+0 2284
+
+fl=(392)
+fn=(392)
+118 4334
+cfl=(393)
+cfn=(393)
+calls=1018 0
+0 7741
+
+fl=(280)
+fn=(280)
+51 7778
+cfl=(27)
+cfn=(27)
+calls=2954 0
+0 4006
+
+fl=(94)
+fn=(94)
+143 3146
+cfl=(95)
+cfn=(95)
+calls=746 0
+0 7424
+cfl=(27)
+cfn=(27)
+calls=746 0
+0 1041
+
+fl=(363)
+fn=(363)
+166 7651
+cfl=(106)
+cfn=(106)
+calls=1026 0
+0 2182
+cfl=(364)
+cfn=(364)
+calls=1369 0
+0 1718
+
+fl=(407)
+fn=(407)
+114 3260
+cfl=(408)
+cfn=(408)
+calls=508 0
+0 7297
+cfl=(27)
+cfn=(27)
+calls=508 0
+0 875
+
+fl=(355)
+fn=(355)
+394 4524
+cfl=(356)
+cfn=(356)
+calls=1030 0
+0 4438
+cfl=(27)
+cfn=(27)
+calls=1030 0
+0 1504
+
+fl=(97)
+fn=(97)
+0 9555
+
+fl=(285)
+fn=(285)
+214 6325
+cfl=(286)
+cfn=(286)
+calls=2498 0
+0 3062
+
+fl=(376)
+fn=(376)
+0 9032
+
+fl=(370)
+fn=(370)
+64 8987
+
+fl=(189)
+fn=(189)
+197 20
+cfl=(191)
+cfn=(191)
+calls=1 0
+0 7771
+cfl=(190)
+cfn=(190)
+calls=1 0
+0 428
+cfl=(138)
+cfn=(138)
+calls=1 0
+0 208
+cfl=(137)
+cfn=(137)
+calls=1 0
+0 31
+
+fl=(403)
+fn=(403)
+35 4124
+cfl=(162)
+cfn=(162)
+calls=510 0
+0 672
+cfl=(86)
+cfn=(86)
+calls=510 0
+0 2226
+cfl=(97)
+cfn=(97)
+calls=510 0
+0 643
+cfl=(225)
+cfn=(225)
+calls=510 0
+0 651
+
+fl=(342)
+fn=(342)
+66 7765
+cfl=(343)
+cfn=(343)
+calls=4 0
+0 616
+
+fl=(368)
+fn=(368)
+0 8097
+
+fl=(288)
+fn=(288)
+15 2077
+cfl=(19)
+cfn=(19)
+calls=624 0
+0 6014
+
+fl=(141)
+fn=(141)
+0 7170
+cfl=(398)
+cfn=(398)
+calls=510 0
+0 623
+
+fl=(191)
+fn=(191)
+48 29
+cfl=(211)
+cfn=(211)
+calls=1 0
+0 3457
+cfl=(210)
+cfn=(210)
+calls=1 0
+0 87
+cfl=(84)
+cfn=(84)
+calls=3 0
+0 3979
+cfl=(193)
+cfn=(193)
+calls=1 0
+0 88
+cfl=(192)
+cfn=(192)
+calls=1 0
+0 131
+
+fl=(393)
+fn=(393)
+49 3650
+cfl=(394)
+cfn=(394)
+calls=1018 0
+0 4090
+
+fl=(249)
+fn=(249)
+36 4417
+cfl=(328)
+cfn=(328)
+calls=1 0
+0 1
+cfl=(164)
+cfn=(164)
+calls=706 0
+0 879
+cfl=(160)
+cfn=(160)
+calls=706 0
+0 1341
+cfl=(250)
+cfn=(250)
+calls=705 0
+0 857
+
+fl=(245)
+fn=(245)
+44 7444
+cfl=(245)
+cfn=(245)
+calls=2018 0
+0 4154
+
+fl=(408)
+fn=(408)
+212 4498
+cfl=(379)
+cfn=(379)
+calls=2540 0
+0 2797
+
+fl=(416)
+fn=(416)
+822 4065
+cfl=(396)
+cfn=(396)
+calls=508 0
+0 704
+cfl=(27)
+cfn=(27)
+calls=1524 0
+0 1825
+
+fl=(365)
+fn=(365)
+140 4606
+cfl=(225)
+cfn=(225)
+calls=1536 0
+0 1900
+
+fl=(389)
+fn=(389)
+104 1893
+cfl=(390)
+cfn=(390)
+calls=510 0
+0 4523
+
+fl=(281)
+fn=(281)
+59 4110
+cfl=(27)
+cfn=(27)
+calls=1529 0
+0 2128
+
+fl=(19)
+fn=(19)
+0 6026
+
+fl=(276)
+fn=(276)
+181 4001
+cfl=(27)
+cfn=(27)
+calls=1550 0
+0 2009
+
+fl=(8)
+fn=(8)
+0 5909
+cfl=(479)
+cfn=(479)
+calls=8 0
+0 27
+
+fl=(277)
+fn=(277)
+191 4098
+cfl=(27)
+cfn=(27)
+calls=1550 0
+0 1754
+
+fl=(369)
+fn=(369)
+0 5791
+
+fl=(84)
+fn=(84)
+12 161
+cfl=(207)
+cfn=(207)
+calls=2 0
+0 490
+cfl=(203)
+cfn=(203)
+calls=3 0
+0 209
+cfl=(202)
+cfn=(202)
+calls=3 0
+0 24
+cfl=(194)
+cfn=(194)
+calls=7 0
+0 2211
+cfl=(183)
+cfn=(183)
+calls=7 0
+0 723
+cfl=(101)
+cfn=(101)
+calls=7 0
+0 361
+cfl=(88)
+cfn=(88)
+calls=13 0
+0 1165
+
+fl=(225)
+fn=(225)
+182 5319
+
+fl=(380)
+fn=(380)
+145 3575
+cfl=(8)
+cfn=(8)
+calls=510 0
+0 584
+cfl=(187)
+cfn=(187)
+calls=510 0
+0 678
+
+fl=(282)
+fn=(282)
+67 3192
+cfl=(27)
+cfn=(27)
+calls=1241 0
+0 1560
+
+fl=(283)
+fn=(283)
+142 3159
+cfl=(27)
+cfn=(27)
+calls=1241 0
+0 1589
+
+fl=(373)
+fn=(373)
+0 4558
+
+fl=(284)
+fn=(284)
+209 3087
+cfl=(27)
+cfn=(27)
+calls=1241 0
+0 1452
+
+fl=(390)
+fn=(390)
+861 2673
+cfl=(391)
+cfn=(391)
+calls=510 0
+0 1849
+
+fl=(356)
+fn=(356)
+363 3106
+cfl=(357)
+cfn=(357)
+calls=1 0
+0 24
+cfl=(249)
+cfn=(249)
+calls=1 0
+0 17
+cfl=(328)
+cfn=(328)
+calls=1030 0
+0 1290
+
+fl=(236)
+fn=(236)
+80 2685
+cfl=(258)
+cfn=(258)
+calls=1 0
+0 3
+cfl=(238)
+cfn=(238)
+calls=3 0
+0 1709
+cfl=(237)
+cfn=(237)
+calls=4 0
+0 20
+
+fl=(254)
+fn=(254)
+247 3012
+cfl=(160)
+cfn=(160)
+calls=598 0
+0 1331
+
+fl=(104)
+fn=(104)
+100 335
+cfl=(78)
+cfn=(78)
+calls=2 0
+0 14
+cfl=(135)
+cfn=(135)
+calls=2 0
+0 188
+cfl=(133)
+cfn=(133)
+calls=2 0
+0 405
+cfl=(132)
+cfn=(132)
+calls=2 0
+0 198
+cfl=(131)
+cfn=(131)
+calls=2 0
+0 13
+cfl=(130)
+cfn=(130)
+calls=2 0
+0 312
+cfl=(127)
+cfn=(127)
+calls=2 0
+0 196
+cfl=(126)
+cfn=(126)
+calls=2 0
+0 672
+cfl=(123)
+cfn=(123)
+calls=2 0
+0 794
+cfl=(121)
+cfn=(121)
+calls=2 0
+0 56
+cfl=(120)
+cfn=(120)
+calls=2 0
+0 179
+cfl=(119)
+cfn=(119)
+calls=2 0
+0 218
+cfl=(117)
+cfn=(117)
+calls=2 0
+0 505
+cfl=(110)
+cfn=(110)
+calls=2 0
+0 148
+cfl=(105)
+cfn=(105)
+calls=2 0
+0 53
+
+fl=(411)
+fn=(411)
+116 1813
+cfl=(414)
+cfn=(414)
+calls=44 0
+0 56
+cfl=(412)
+cfn=(412)
+calls=508 0
+0 2224
+
+fl=(394)
+fn=(394)
+31 2644
+cfl=(27)
+cfn=(27)
+calls=1018 0
+0 1446
+
+fl=(379)
+fn=(379)
+0 3988
+
+fl=(76)
+fn=(76)
+35 93
+cfl=(67)
+cfn=(67)
+calls=1 0
+0 2
+cfl=(104)
+cfn=(104)
+calls=1 0
+0 2539
+cfl=(103)
+cfn=(103)
+calls=1 0
+0 2
+cfl=(85)
+cfn=(85)
+calls=1 0
+0 737
+cfl=(84)
+cfn=(84)
+calls=1 0
+0 3
+cfl=(83)
+cfn=(83)
+calls=1 0
+0 3
+cfl=(81)
+cfn=(81)
+calls=1 0
+0 77
+cfl=(77)
+cfn=(77)
+calls=1 0
+0 200
+
+fl=(138)
+fn=(138)
+933 158
+cfl=(152)
+cfn=(152)
+calls=13 0
+0 218
+cfl=(145)
+cfn=(145)
+calls=13 0
+0 1797
+cfl=(139)
+cfn=(139)
+calls=13 0
+0 1403
+
+fl=(160)
+fn=(160)
+0 3568
+
+fl=(211)
+fn=(211)
+133 14
+cfl=(212)
+cfn=(212)
+calls=1 0
+0 3391
+cfl=(166)
+cfn=(166)
+calls=1 0
+0 53
+
+fl=(212)
+fn=(212)
+142 269
+cfl=(84)
+cfn=(84)
+calls=1 0
+0 320
+cfl=(100)
+cfn=(100)
+calls=6 0
+0 727
+cfl=(67)
+cfn=(67)
+calls=12 0
+0 12
+cfl=(81)
+cfn=(81)
+calls=6 0
+0 337
+cfl=(86)
+cfn=(86)
+calls=8 0
+0 506
+cfl=(90)
+cfn=(90)
+calls=6 0
+0 731
+cfl=(166)
+cfn=(166)
+calls=6 0
+0 317
+cfl=(213)
+cfn=(213)
+calls=30 0
+0 119
+cfl=(181)
+cfn=(181)
+calls=24 0
+0 42
+cfl=(157)
+cfn=(157)
+calls=1 0
+0 9
+
+fl=(328)
+fn=(328)
+0 3228
+
+fl=(17)
+fn=(17)
+0 3158
+
+fl=(195)
+fn=(195)
+28 387
+cfl=(123)
+cfn=(123)
+calls=1 0
+0 300
+cfl=(67)
+cfn=(67)
+calls=3 0
+0 6
+cfl=(124)
+cfn=(124)
+calls=3 0
+0 122
+cfl=(241)
+cfn=(241)
+calls=1 0
+0 54
+cfl=(209)
+cfn=(209)
+calls=1 0
+0 135
+cfl=(208)
+cfn=(208)
+calls=5 0
+0 131
+cfl=(201)
+cfn=(201)
+calls=6 0
+0 1261
+cfl=(27)
+cfn=(27)
+calls=15 0
+0 24
+cfl=(198)
+cfn=(198)
+calls=6 0
+0 288
+cfl=(195)
+cfn=(195)
+calls=15 0
+0 701
+cfl=(17)
+cfn=(17)
+calls=15 0
+0 23
+cfl=(196)
+cfn=(196)
+calls=13 0
+0 103
+cfl=(97)
+cfn=(97)
+calls=28 0
+0 42
+cfl=(159)
+cfn=(159)
+calls=28 0
+0 226
+
+fl=(286)
+fn=(286)
+0 3084
+
+fl=(79)
+fn=(79)
+20 2897
+
+fl=(86)
+fn=(86)
+45 1576
+cfl=(202)
+cfn=(202)
+calls=3 0
+0 18
+cfl=(88)
+cfn=(88)
+calls=10 0
+0 41
+cfl=(87)
+cfn=(87)
+calls=522 0
+0 1227
+
+fl=(309)
+fn=(309)
+247 1049
+cfl=(311)
+cfn=(311)
+calls=12 0
+0 22
+cfl=(67)
+cfn=(67)
+calls=120 0
+0 136
+cfl=(281)
+cfn=(281)
+calls=288 0
+0 1114
+cfl=(97)
+cfn=(97)
+calls=288 0
+0 370
+cfl=(310)
+cfn=(310)
+calls=12 0
+0 73
+
+fl=(251)
+fn=(251)
+111 2748
+
+fl=(252)
+fn=(252)
+380 1993
+cfl=(253)
+cfn=(253)
+calls=5 0
+0 17
+cfl=(130)
+cfn=(130)
+calls=5 0
+0 655
+
+fl=(248)
+fn=(248)
+0 2536
+
+fl=(188)
+fn=(188)
+0 2394
+
+fl=(412)
+fn=(412)
+110 1637
+cfl=(413)
+cfn=(413)
+calls=508 0
+0 587
+
+fl=(406)
+fn=(406)
+0 2224
+
+fl=(194)
+fn=(194)
+84 35
+cfl=(195)
+cfn=(195)
+calls=6 0
+0 2087
+cfl=(179)
+cfn=(179)
+calls=1 0
+0 89
+
+fl=(106)
+fn=(106)
+0 2186
+
+fl=(247)
+fn=(247)
+0 1997
+
+fl=(398)
+fn=(398)
+50 1893
+
+fl=(157)
+fn=(157)
+120 1102
+cfl=(158)
+cfn=(158)
+calls=6 0
+0 34
+cfl=(17)
+cfn=(17)
+calls=267 0
+0 337
+
+fl=(391)
+fn=(391)
+0 1849
+
+fl=(145)
+fn=(145)
+621 104
+cfl=(8)
+cfn=(8)
+calls=26 0
+0 29
+cfl=(146)
+cfn=(146)
+calls=26 0
+0 1664
+
+fl=(423)
+fn=(423)
+206 72
+cfl=(426)
+cfn=(426)
+calls=4 0
+0 933
+cfl=(360)
+cfn=(360)
+calls=8 0
+0 664
+cfl=(359)
+cfn=(359)
+calls=8 0
+0 41
+cfl=(424)
+cfn=(424)
+calls=4 0
+0 17
+cfl=(355)
+cfn=(355)
+calls=4 0
+0 39
+
+fl=(364)
+fn=(364)
+0 1718
+
+fl=(238)
+fn=(238)
+0 1709
+
+fl=(146)
+fn=(146)
+649 552
+cfl=(151)
+cfn=(151)
+calls=13 0
+0 198
+cfl=(150)
+cfn=(150)
+calls=13 0
+0 44
+cfl=(149)
+cfn=(149)
+calls=13 0
+0 627
+cfl=(65)
+cfn=(65)
+calls=13 0
+0 49
+cfl=(148)
+cfn=(148)
+calls=13 0
+0 18
+cfl=(147)
+cfn=(147)
+calls=26 0
+0 44
+cfl=(8)
+cfn=(8)
+calls=130 0
+0 128
+
+fl=(456)
+fn=(456)
+84 1153
+cfl=(457)
+cfn=(457)
+calls=343 0
+0 496
+
+fl=(88)
+fn=(88)
+62 179
+cfl=(89)
+cfn=(89)
+calls=55 0
+0 1478
+
+fl=(293)
+fn=(293)
+192 861
+cfl=(294)
+cfn=(294)
+calls=309 0
+0 681
+
+fl=(89)
+fn=(89)
+55 540
+cfl=(98)
+cfn=(98)
+calls=30 0
+0 401
+cfl=(96)
+cfn=(96)
+calls=256 0
+0 852
+
+fl=(357)
+fn=(357)
+375 672
+cfl=(252)
+cfn=(252)
+calls=157 0
+0 307
+cfl=(251)
+cfn=(251)
+calls=157 0
+0 426
+
+fl=(139)
+fn=(139)
+937 378
+cfl=(142)
+cfn=(142)
+calls=13 0
+0 274
+cfl=(66)
+cfn=(66)
+calls=13 0
+0 34
+cfl=(8)
+cfn=(8)
+calls=13 0
+0 11
+cfl=(65)
+cfn=(65)
+calls=30 0
+0 62
+cfl=(63)
+cfn=(63)
+calls=13 0
+0 103
+cfl=(140)
+cfn=(140)
+calls=13 0
+0 62
+cfl=(27)
+cfn=(27)
+calls=13 0
+0 34
+cfl=(28)
+cfn=(28)
+calls=13 0
+0 446
+
+fl=(396)
+fn=(396)
+323 1385
+
+fl=(67)
+fn=(67)
+0 1342
+
+fl=(297)
+fn=(297)
+460 75
+cfl=(279)
+cfn=(279)
+calls=1 0
+0 17
+cfl=(278)
+cfn=(278)
+calls=7 0
+0 605
+cfl=(302)
+cfn=(302)
+calls=10 0
+0 13
+cfl=(298)
+cfn=(298)
+calls=10 0
+0 616
+
+fl=(295)
+fn=(295)
+8 830
+cfl=(296)
+cfn=(296)
+calls=309 0
+0 484
+
+fl=(201)
+fn=(201)
+77 163
+cfl=(134)
+cfn=(134)
+calls=6 0
+0 70
+cfl=(91)
+cfn=(91)
+calls=18 0
+0 138
+cfl=(94)
+cfn=(94)
+calls=42 0
+0 636
+cfl=(95)
+cfn=(95)
+calls=12 0
+0 125
+cfl=(93)
+cfn=(93)
+calls=6 0
+0 85
+cfl=(78)
+cfn=(78)
+calls=6 0
+0 42
+
+fl=(87)
+fn=(87)
+40 793
+cfl=(202)
+cfn=(202)
+calls=3 0
+0 22
+cfl=(8)
+cfn=(8)
+calls=10 0
+0 14
+cfl=(88)
+cfn=(88)
+calls=17 0
+0 406
+
+fl=(168)
+fn=(168)
+270 160
+cfl=(170)
+cfn=(170)
+calls=30 0
+0 35
+cfl=(169)
+cfn=(169)
+calls=30 0
+0 987
+
+fl=(148)
+fn=(148)
+0 1179
+
+fl=(215)
+fn=(215)
+87 53
+cfl=(219)
+cfn=(219)
+calls=1 0
+0 2
+cfl=(218)
+cfn=(218)
+calls=2 0
+0 272
+cfl=(217)
+cfn=(217)
+calls=6 0
+0 394
+cfl=(216)
+cfn=(216)
+calls=2 0
+0 454
+
+fl=(287)
+fn=(287)
+0 1156
+
+fl=(123)
+fn=(123)
+75 160
+cfl=(125)
+cfn=(125)
+calls=3 0
+0 61
+cfl=(124)
+cfn=(124)
+calls=2 0
+0 87
+cfl=(95)
+cfn=(95)
+calls=18 0
+0 190
+cfl=(78)
+cfn=(78)
+calls=6 0
+0 44
+cfl=(91)
+cfn=(91)
+calls=3 0
+0 36
+cfl=(94)
+cfn=(94)
+calls=33 0
+0 514
+
+fl=(402)
+fn=(402)
+72 1091
+
+fl=(421)
+fn=(421)
+186 14
+cfl=(67)
+cfn=(67)
+calls=2 0
+0 3
+cfl=(423)
+cfn=(423)
+calls=2 0
+0 1006
+cfl=(422)
+cfn=(422)
+calls=1 0
+0 3
+
+fl=(90)
+fn=(90)
+46 167
+cfl=(94)
+cfn=(94)
+calls=24 0
+0 407
+cfl=(93)
+cfn=(93)
+calls=24 0
+0 252
+cfl=(91)
+cfn=(91)
+calls=24 0
+0 200
+
+fl=(169)
+fn=(169)
+229 526
+cfl=(174)
+cfn=(174)
+calls=37 0
+0 59
+cfl=(67)
+cfn=(67)
+calls=38 0
+0 54
+cfl=(173)
+cfn=(173)
+calls=1 0
+0 1
+cfl=(171)
+cfn=(171)
+calls=76 0
+0 272
+cfl=(170)
+cfn=(170)
+calls=30 0
+0 37
+cfl=(8)
+cfn=(8)
+calls=30 0
+0 37
+
+fl=(130)
+fn=(130)
+137 106
+cfl=(128)
+cfn=(128)
+calls=7 0
+0 432
+cfl=(94)
+cfn=(94)
+calls=14 0
+0 213
+cfl=(95)
+cfn=(95)
+calls=21 0
+0 217
+
+fl=(179)
+fn=(179)
+0 47
+cfl=(180)
+cfn=(180)
+calls=14 0
+0 921
+
+fl=(166)
+fn=(166)
+0 89
+cfl=(176)
+cfn=(176)
+calls=1 0
+0 1
+cfl=(175)
+cfn=(175)
+calls=16 0
+0 28
+cfl=(167)
+cfn=(167)
+calls=16 0
+0 821
+
+fl=(426)
+fn=(426)
+931 26
+cfl=(427)
+cfn=(427)
+calls=4 0
+0 908
+
+fl=(180)
+fn=(180)
+295 118
+cfl=(175)
+cfn=(175)
+calls=41 0
+0 217
+cfl=(168)
+cfn=(168)
+calls=14 0
+0 585
+
+fl=(116)
+fn=(116)
+0 909
+
+fl=(427)
+fn=(427)
+164 44
+cfl=(439)
+cfn=(439)
+calls=4 0
+0 41
+cfl=(434)
+cfn=(434)
+calls=4 0
+0 609
+cfl=(428)
+cfn=(428)
+calls=4 0
+0 214
+
+fl=(147)
+fn=(147)
+0 901
+
+fl=(401)
+fn=(401)
+0 863
+cfl=(489)
+cfn=(489)
+calls=2 0
+0 8
+cfl=(436)
+cfn=(436)
+calls=28 0
+0 29
+
+fl=(164)
+fn=(164)
+0 883
+
+fl=(250)
+fn=(250)
+0 882
+
+fl=(96)
+fn=(96)
+59 567
+cfl=(97)
+cfn=(97)
+calls=226 0
+0 285
+
+fl=(100)
+fn=(100)
+46 124
+cfl=(94)
+cfn=(94)
+calls=14 0
+0 222
+cfl=(95)
+cfn=(95)
+calls=49 0
+0 501
+
+fl=(178)
+fn=(178)
+51 75
+cfl=(181)
+cfn=(181)
+calls=32 0
+0 56
+cfl=(179)
+cfn=(179)
+calls=2 0
+0 178
+cfl=(156)
+cfn=(156)
+calls=2 0
+0 88
+cfl=(138)
+cfn=(138)
+calls=2 0
+0 434
+
+fl=(167)
+fn=(167)
+280 70
+cfl=(175)
+cfn=(175)
+calls=16 0
+0 154
+cfl=(168)
+cfn=(168)
+calls=16 0
+0 597
+
+fl=(182)
+fn=(182)
+14 11
+cfl=(84)
+cfn=(84)
+calls=1 0
+0 741
+cfl=(157)
+cfn=(157)
+calls=1 0
+0 12
+cfl=(156)
+cfn=(156)
+calls=1 0
+0 32
+
+fl=(378)
+fn=(378)
+0 784
+
+fl=(162)
+fn=(162)
+0 687
+cfl=(80)
+cfn=(80)
+calls=2 0
+0 73
+cfl=(78)
+cfn=(78)
+calls=2 0
+0 14
+
+fl=(317)
+fn=(317)
+43 14
+cfl=(318)
+cfn=(318)
+calls=1 0
+0 725
+
+fl=(318)
+fn=(318)
+19 35
+cfl=(116)
+cfn=(116)
+calls=1 0
+0 1
+cfl=(319)
+cfn=(319)
+calls=1 0
+0 701
+
+fl=(85)
+fn=(85)
+73 83
+cfl=(100)
+cfn=(100)
+calls=1 0
+0 121
+cfl=(99)
+cfn=(99)
+calls=1 0
+0 49
+cfl=(90)
+cfn=(90)
+calls=1 0
+0 161
+cfl=(86)
+cfn=(86)
+calls=4 0
+0 131
+cfl=(84)
+cfn=(84)
+calls=7 0
+0 192
+
+fl=(303)
+fn=(303)
+379 12
+cfl=(298)
+cfn=(298)
+calls=2 0
+0 111
+cfl=(304)
+cfn=(304)
+calls=2 0
+0 606
+
+fl=(461)
+fn=(461)
+194 40
+cfl=(503)
+cfn=(503)
+calls=1 0
+0 5
+cfl=(462)
+cfn=(462)
+calls=1 0
+0 676
+cfl=(97)
+cfn=(97)
+calls=1 0
+0 2
+cfl=(27)
+cfn=(27)
+calls=5 0
+0 6
+
+fl=(298)
+fn=(298)
+365 78
+cfl=(300)
+cfn=(300)
+calls=12 0
+0 522
+cfl=(11)
+cfn=(11)
+calls=3 0
+0 23
+cfl=(299)
+cfn=(299)
+calls=3 0
+0 34
+cfl=(27)
+cfn=(27)
+calls=3 0
+0 6
+cfl=(4)
+cfn=(4)
+calls=12 0
+0 65
+
+fl=(183)
+fn=(183)
+18 29
+cfl=(184)
+cfn=(184)
+calls=6 0
+0 694
+
+fl=(319)
+fn=(319)
+102 94
+cfl=(325)
+cfn=(325)
+calls=1 0
+0 473
+cfl=(320)
+cfn=(320)
+calls=1 0
+0 83
+cfl=(28)
+cfn=(28)
+calls=1 0
+0 51
+
+fl=(429)
+fn=(429)
+113 180
+cfl=(432)
+cfn=(432)
+calls=20 0
+0 222
+cfl=(431)
+cfn=(431)
+calls=20 0
+0 235
+cfl=(430)
+cfn=(430)
+calls=20 0
+0 18
+cfl=(27)
+cfn=(27)
+calls=40 0
+0 42
+
+fl=(184)
+fn=(184)
+22 29
+cfl=(185)
+cfn=(185)
+calls=6 0
+0 375
+cfl=(179)
+cfn=(179)
+calls=6 0
+0 289
+
+fl=(187)
+fn=(187)
+0 681
+
+fl=(294)
+fn=(294)
+230 681
+
+fl=(462)
+fn=(462)
+338 37
+cfl=(478)
+cfn=(478)
+calls=1 0
+0 370
+cfl=(477)
+cfn=(477)
+calls=1 0
+0 14
+cfl=(466)
+cfn=(466)
+calls=1 0
+0 212
+cfl=(464)
+cfn=(464)
+calls=1 0
+0 18
+cfl=(463)
+cfn=(463)
+calls=2 0
+0 22
+cfl=(97)
+cfn=(97)
+calls=1 0
+0 2
+cfl=(27)
+cfn=(27)
+calls=1 0
+0 0
+
+fl=(25)
+fn=(25)
+726 35
+cfl=(61)
+cfn=(61)
+calls=1 0
+0 601
+cfl=(28)
+cfn=(28)
+calls=1 0
+0 37
+cfl=(27)
+cfn=(27)
+calls=1 0
+0 0
+cfl=(26)
+cfn=(26)
+calls=1 0
+0 2
+
+fl=(126)
+fn=(126)
+60 97
+cfl=(95)
+cfn=(95)
+calls=2 0
+0 23
+cfl=(78)
+cfn=(78)
+calls=4 0
+0 31
+cfl=(94)
+cfn=(94)
+calls=32 0
+0 521
+
+fl=(149)
+fn=(149)
+0 627
+
+fl=(239)
+fn=(239)
+306 11
+cfl=(195)
+cfn=(195)
+calls=1 0
+0 609
+cfl=(240)
+cfn=(240)
+calls=1 0
+0 1
+
+fl=(343)
+fn=(343)
+82 320
+cfl=(345)
+cfn=(345)
+calls=72 0
+0 89
+cfl=(342)
+cfn=(342)
+calls=72 0
+0 102
+cfl=(344)
+cfn=(344)
+calls=76 0
+0 92
+cfl=(318)
+cfn=(318)
+calls=4 0
+0 13
+
+fl=(434)
+fn=(434)
+188 29
+cfl=(437)
+cfn=(437)
+calls=4 0
+0 525
+cfl=(435)
+cfn=(435)
+calls=4 0
+0 49
+cfl=(8)
+cfn=(8)
+calls=4 0
+0 5
+
+fl=(304)
+fn=(304)
+387 114
+cfl=(306)
+cfn=(306)
+calls=18 0
+0 314
+cfl=(11)
+cfn=(11)
+calls=18 0
+0 145
+cfl=(305)
+cfn=(305)
+calls=18 0
+0 24
+cfl=(4)
+cfn=(4)
+calls=2 0
+0 8
+
+fl=(425)
+fn=(425)
+93 605
+
+fl=(61)
+fn=(61)
+803 238
+cfl=(67)
+cfn=(67)
+calls=11 0
+0 14
+cfl=(75)
+cfn=(75)
+calls=11 0
+0 20
+cfl=(74)
+cfn=(74)
+calls=11 0
+0 44
+cfl=(71)
+cfn=(71)
+calls=11 0
+0 96
+cfl=(66)
+cfn=(66)
+calls=11 0
+0 18
+cfl=(8)
+cfn=(8)
+calls=11 0
+0 17
+cfl=(70)
+cfn=(70)
+calls=44 0
+0 64
+cfl=(69)
+cfn=(69)
+calls=1 0
+0 4
+cfl=(65)
+cfn=(65)
+calls=1 0
+0 3
+cfl=(63)
+cfn=(63)
+calls=1 0
+0 4
+cfl=(62)
+cfn=(62)
+calls=1 0
+0 75
+
+fl=(413)
+fn=(413)
+0 587
+
+fl=(156)
+fn=(156)
+0 579
+
+fl=(155)
+fn=(155)
+117 47
+cfl=(162)
+cfn=(162)
+calls=5 0
+0 104
+cfl=(159)
+cfn=(159)
+calls=5 0
+0 52
+cfl=(157)
+cfn=(157)
+calls=1 0
+0 16
+cfl=(156)
+cfn=(156)
+calls=1 0
+0 88
+cfl=(77)
+cfn=(77)
+calls=1 0
+0 271
+
+fl=(458)
+fn=(458)
+160 567
+
+fl=(35)
+fn=(35)
+1 4
+cfl=(36)
+cfn=(36)
+calls=1 0
+0 544
+
+fl=(36)
+fn=(36)
+62 9
+cfl=(37)
+cfn=(37)
+calls=1 0
+0 534
+cfl=(33)
+cfn=(33)
+calls=1 0
+0 1
+
+fl=(91)
+fn=(91)
+123 220
+cfl=(92)
+cfn=(92)
+calls=65 0
+0 321
+
+fl=(28)
+fn=(28)
+0 534
+
+fl=(37)
+fn=(37)
+734 26
+cfl=(54)
+cfn=(54)
+calls=1 0
+0 8
+cfl=(40)
+cfn=(40)
+calls=2 0
+0 130
+cfl=(38)
+cfn=(38)
+calls=1 0
+0 370
+
+fl=(437)
+fn=(437)
+831 146
+cfl=(438)
+cfn=(438)
+calls=4 0
+0 22
+cfl=(27)
+cfn=(27)
+calls=8 0
+0 8
+cfl=(433)
+cfn=(433)
+calls=8 0
+0 27
+cfl=(429)
+cfn=(429)
+calls=8 0
+0 272
+cfl=(435)
+cfn=(435)
+calls=4 0
+0 49
+
+fl=(300)
+fn=(300)
+336 296
+cfl=(2)
+cfn=(2)
+calls=12 0
+0 22
+cfl=(67)
+cfn=(67)
+calls=93 0
+0 126
+cfl=(301)
+cfn=(301)
+calls=12 0
+0 28
+cfl=(5)
+cfn=(5)
+calls=24 0
+0 32
+cfl=(27)
+cfn=(27)
+calls=12 0
+0 18
+
+fl=(117)
+fn=(117)
+45 89
+cfl=(78)
+cfn=(78)
+calls=2 0
+0 18
+cfl=(118)
+cfn=(118)
+calls=4 0
+0 28
+cfl=(94)
+cfn=(94)
+calls=8 0
+0 127
+cfl=(95)
+cfn=(95)
+calls=16 0
+0 173
+cfl=(91)
+cfn=(91)
+calls=8 0
+0 70
+
+fl=(292)
+fn=(292)
+33 504
+
+fl=(129)
+fn=(129)
+68 497
+
+fl=(457)
+fn=(457)
+0 496
+
+fl=(207)
+fn=(207)
+97 5
+cfl=(195)
+cfn=(195)
+calls=1 0
+0 408
+cfl=(179)
+cfn=(179)
+calls=1 0
+0 77
+
+fl=(296)
+fn=(296)
+0 490
+
+fl=(325)
+fn=(325)
+111 75
+cfl=(335)
+cfn=(335)
+calls=18 0
+0 70
+cfl=(333)
+cfn=(333)
+calls=1 0
+0 13
+cfl=(330)
+cfn=(330)
+calls=18 0
+0 280
+cfl=(326)
+cfn=(326)
+calls=1 0
+0 34
+
+fl=(81)
+fn=(81)
+35 93
+cfl=(82)
+cfn=(82)
+calls=8 0
+0 84
+cfl=(78)
+cfn=(78)
+calls=40 0
+0 294
+
+fl=(77)
+fn=(77)
+55 99
+cfl=(80)
+cfn=(80)
+calls=6 0
+0 140
+cfl=(78)
+cfn=(78)
+calls=24 0
+0 230
+
+fl=(441)
+fn=(441)
+157 36
+cfl=(443)
+cfn=(443)
+calls=8 0
+0 419
+cfl=(442)
+cfn=(442)
+calls=4 0
+0 8
+
+fl=(170)
+fn=(170)
+0 461
+
+fl=(216)
+fn=(216)
+94 26
+cfl=(178)
+cfn=(178)
+calls=9 0
+0 428
+
+fl=(102)
+fn=(102)
+98 310
+cfl=(97)
+cfn=(97)
+calls=117 0
+0 139
+
+fl=(93)
+fn=(93)
+85 140
+cfl=(200)
+cfn=(200)
+calls=12 0
+0 124
+cfl=(78)
+cfn=(78)
+calls=24 0
+0 164
+
+fl=(190)
+fn=(190)
+33 32
+cfl=(99)
+cfn=(99)
+calls=1 0
+0 40
+cfl=(90)
+cfn=(90)
+calls=1 0
+0 135
+cfl=(84)
+cfn=(84)
+calls=7 0
+0 111
+cfl=(156)
+cfn=(156)
+calls=1 0
+0 109
+
+fl=(443)
+fn=(443)
+663 93
+cfl=(433)
+cfn=(433)
+calls=8 0
+0 24
+cfl=(429)
+cfn=(429)
+calls=8 0
+0 265
+cfl=(444)
+cfn=(444)
+calls=8 0
+0 37
+
+fl=(98)
+fn=(98)
+0 73
+cfl=(88)
+cfn=(88)
+calls=15 0
+0 350
+
+fl=(133)
+fn=(133)
+78 72
+cfl=(134)
+cfn=(134)
+calls=2 0
+0 32
+cfl=(94)
+cfn=(94)
+calls=14 0
+0 228
+cfl=(78)
+cfn=(78)
+calls=8 0
+0 70
+
+fl=(175)
+fn=(175)
+87 224
+cfl=(175)
+cfn=(175)
+calls=12 0
+0 64
+cfl=(177)
+cfn=(177)
+calls=37 0
+0 158
+cfl=(176)
+cfn=(176)
+calls=3 0
+0 17
+
+fl=(217)
+fn=(217)
+60 67
+cfl=(5)
+cfn=(5)
+calls=15 0
+0 22
+cfl=(181)
+cfn=(181)
+calls=15 0
+0 29
+cfl=(157)
+cfn=(157)
+calls=1 0
+0 13
+cfl=(156)
+cfn=(156)
+calls=1 0
+0 40
+cfl=(138)
+cfn=(138)
+calls=1 0
+0 222
+
+fl=(242)
+fn=(242)
+0 385
+
+fl=(445)
+fn=(445)
+213 18
+cfl=(447)
+cfn=(447)
+calls=4 0
+0 4
+cfl=(446)
+cfn=(446)
+calls=2 0
+0 361
+
+fl=(185)
+fn=(185)
+34 63
+cfl=(188)
+cfn=(188)
+calls=1 0
+0 1
+cfl=(187)
+cfn=(187)
+calls=1 0
+0 2
+cfl=(26)
+cfn=(26)
+calls=5 0
+0 9
+cfl=(186)
+cfn=(186)
+calls=5 0
+0 13
+cfl=(181)
+cfn=(181)
+calls=6 0
+0 6
+cfl=(166)
+cfn=(166)
+calls=6 0
+0 281
+
+fl=(478)
+fn=(478)
+3512 29
+cfl=(501)
+cfn=(501)
+calls=1 0
+0 9
+cfl=(484)
+cfn=(484)
+calls=1 0
+0 267
+cfl=(480)
+cfn=(480)
+calls=1 0
+0 52
+cfl=(27)
+cfn=(27)
+calls=1 0
+0 1
+cfl=(8)
+cfn=(8)
+calls=2 0
+0 12
+
+fl=(38)
+fn=(38)
+722 188
+cfl=(39)
+cfn=(39)
+calls=1 0
+0 177
+cfl=(33)
+cfn=(33)
+calls=2 0
+0 5
+
+fl=(101)
+fn=(101)
+114 106
+cfl=(98)
+cfn=(98)
+calls=7 0
+0 10
+cfl=(102)
+cfn=(102)
+calls=56 0
+0 245
+
+fl=(446)
+fn=(446)
+201 12
+cfl=(309)
+cfn=(309)
+calls=2 0
+0 349
+
+fl=(214)
+fn=(214)
+42 12
+cfl=(181)
+cfn=(181)
+calls=1 0
+0 2
+cfl=(166)
+cfn=(166)
+calls=1 0
+0 68
+cfl=(156)
+cfn=(156)
+calls=1 0
+0 48
+cfl=(138)
+cfn=(138)
+calls=1 0
+0 223
+
+fl=(92)
+fn=(92)
+109 226
+cfl=(79)
+cfn=(79)
+calls=67 0
+0 108
+
+fl=(306)
+fn=(306)
+139 87
+cfl=(308)
+cfn=(308)
+calls=18 0
+0 82
+cfl=(307)
+cfn=(307)
+calls=18 0
+0 145
+
+fl=(111)
+fn=(111)
+38 97
+cfl=(114)
+cfn=(114)
+calls=4 0
+0 154
+cfl=(112)
+cfn=(112)
+calls=4 0
+0 48
+cfl=(8)
+cfn=(8)
+calls=4 0
+0 5
+
+fl=(3)
+fn=(3)
+130 78
+cfl=(10)
+cfn=(10)
+calls=4 0
+0 16
+cfl=(3)
+cfn=(3)
+calls=6 0
+0 219
+cfl=(6)
+cfn=(6)
+calls=18 0
+0 174
+cfl=(4)
+cfn=(4)
+calls=8 0
+0 32
+
+fl=(224)
+fn=(224)
+59 89
+cfl=(102)
+cfn=(102)
+calls=48 0
+0 204
+cfl=(225)
+cfn=(225)
+calls=4 0
+0 6
+
+fl=(198)
+fn=(198)
+74 49
+cfl=(93)
+cfn=(93)
+calls=6 0
+0 89
+cfl=(78)
+cfn=(78)
+calls=6 0
+0 40
+cfl=(199)
+cfn=(199)
+calls=6 0
+0 108
+
+fl=(330)
+fn=(330)
+133 68
+cfl=(67)
+cfn=(67)
+calls=2 0
+0 3
+cfl=(330)
+cfn=(330)
+calls=2 0
+0 32
+cfl=(331)
+cfn=(331)
+calls=19 0
+0 208
+
+fl=(159)
+fn=(159)
+148 165
+cfl=(161)
+cfn=(161)
+calls=33 0
+0 47
+cfl=(160)
+cfn=(160)
+calls=33 0
+0 65
+
+fl=(142)
+fn=(142)
+515 188
+cfl=(144)
+cfn=(144)
+calls=13 0
+0 26
+cfl=(17)
+cfn=(17)
+calls=13 0
+0 24
+cfl=(143)
+cfn=(143)
+calls=13 0
+0 35
+
+fl=(171)
+fn=(171)
+70 169
+cfl=(172)
+cfn=(172)
+calls=30 0
+0 102
+
+fl=(218)
+fn=(218)
+76 26
+cfl=(157)
+cfn=(157)
+calls=1 0
+0 11
+cfl=(156)
+cfn=(156)
+calls=1 0
+0 35
+cfl=(138)
+cfn=(138)
+calls=1 0
+0 199
+
+fl=(484)
+fn=(484)
+2155 29
+cfl=(495)
+cfn=(495)
+calls=1 0
+0 138
+cfl=(492)
+cfn=(492)
+calls=1 0
+0 21
+cfl=(486)
+cfn=(486)
+calls=1 0
+0 67
+cfl=(485)
+cfn=(485)
+calls=1 0
+0 5
+cfl=(467)
+cfn=(467)
+calls=2 0
+0 7
+
+fl=(120)
+fn=(120)
+176 49
+cfl=(95)
+cfn=(95)
+calls=18 0
+0 204
+
+fl=(431)
+fn=(431)
+358 119
+cfl=(8)
+cfn=(8)
+calls=20 0
+0 22
+cfl=(161)
+cfn=(161)
+calls=40 0
+0 49
+cfl=(160)
+cfn=(160)
+calls=20 0
+0 42
+
+fl=(432)
+fn=(432)
+651 116
+cfl=(250)
+cfn=(250)
+calls=16 0
+0 22
+cfl=(286)
+cfn=(286)
+calls=16 0
+0 21
+cfl=(328)
+cfn=(328)
+calls=4 0
+0 4
+cfl=(327)
+cfn=(327)
+calls=4 0
+0 5
+cfl=(141)
+cfn=(141)
+calls=40 0
+0 54
+
+fl=(152)
+fn=(152)
+701 94
+cfl=(154)
+cfn=(154)
+calls=13 0
+0 47
+cfl=(153)
+cfn=(153)
+calls=13 0
+0 77
+
+fl=(134)
+fn=(134)
+116 73
+cfl=(78)
+cfn=(78)
+calls=17 0
+0 118
+cfl=(27)
+cfn=(27)
+calls=17 0
+0 27
+
+fl=(181)
+fn=(181)
+0 218
+
+fl=(119)
+fn=(119)
+133 24
+cfl=(94)
+cfn=(94)
+calls=10 0
+0 193
+
+fl=(80)
+fn=(80)
+18 56
+cfl=(163)
+cfn=(163)
+calls=2 0
+0 36
+cfl=(27)
+cfn=(27)
+calls=6 0
+0 24
+cfl=(78)
+cfn=(78)
+calls=8 0
+0 98
+
+fl=(428)
+fn=(428)
+455 34
+cfl=(433)
+cfn=(433)
+calls=4 0
+0 14
+cfl=(429)
+cfn=(429)
+calls=4 0
+0 161
+cfl=(27)
+cfn=(27)
+calls=4 0
+0 3
+
+fl=(466)
+fn=(466)
+356 12
+cfl=(467)
+cfn=(467)
+calls=2 0
+0 199
+
+fl=(203)
+fn=(203)
+91 12
+cfl=(204)
+cfn=(204)
+calls=2 0
+0 113
+cfl=(179)
+cfn=(179)
+calls=1 0
+0 84
+
+fl=(331)
+fn=(331)
+0 181
+cfl=(332)
+cfn=(332)
+calls=16 0
+0 27
+
+fl=(124)
+fn=(124)
+36 42
+cfl=(95)
+cfn=(95)
+calls=5 0
+0 54
+cfl=(78)
+cfn=(78)
+calls=10 0
+0 70
+cfl=(91)
+cfn=(91)
+calls=5 0
+0 41
+
+fl=(467)
+fn=(467)
+4888 29
+cfl=(469)
+cfn=(469)
+calls=1 0
+0 131
+cfl=(8)
+cfn=(8)
+calls=1 0
+0 1
+cfl=(468)
+cfn=(468)
+calls=1 0
+0 37
+cfl=(17)
+cfn=(17)
+calls=1 0
+0 1
+cfl=(27)
+cfn=(27)
+calls=5 0
+0 6
+
+fl=(165)
+fn=(165)
+106 14
+cfl=(166)
+cfn=(166)
+calls=1 0
+0 148
+cfl=(156)
+cfn=(156)
+calls=1 0
+0 42
+
+fl=(11)
+fn=(11)
+68 131
+cfl=(5)
+cfn=(5)
+calls=21 0
+0 34
+cfl=(14)
+cfn=(14)
+calls=2 0
+0 4
+cfl=(13)
+cfn=(13)
+calls=23 0
+0 29
+cfl=(12)
+cfn=(12)
+calls=4 0
+0 5
+
+fl=(132)
+fn=(132)
+24 26
+cfl=(111)
+cfn=(111)
+calls=2 0
+0 173
+
+fl=(151)
+fn=(151)
+639 54
+cfl=(144)
+cfn=(144)
+calls=13 0
+0 145
+
+fl=(228)
+fn=(228)
+29 32
+cfl=(229)
+cfn=(229)
+calls=1 0
+0 160
+cfl=(17)
+cfn=(17)
+calls=1 0
+0 2
+
+fl=(1)
+fn=(1)
+66 17
+cfl=(11)
+cfn=(11)
+calls=2 0
+0 18
+cfl=(3)
+cfn=(3)
+calls=1 0
+0 156
+cfl=(2)
+cfn=(2)
+calls=1 0
+0 3
+
+fl=(6)
+fn=(6)
+89 122
+cfl=(9)
+cfn=(9)
+calls=19 0
+0 23
+cfl=(8)
+cfn=(8)
+calls=19 0
+0 18
+cfl=(7)
+cfn=(7)
+calls=19 0
+0 26
+
+fl=(135)
+fn=(135)
+23 28
+cfl=(94)
+cfn=(94)
+calls=8 0
+0 160
+
+fl=(267)
+fn=(267)
+43 16
+cfl=(11)
+cfn=(11)
+calls=2 0
+0 17
+cfl=(3)
+cfn=(3)
+calls=1 0
+0 145
+cfl=(2)
+cfn=(2)
+calls=1 0
+0 3
+
+fl=(39)
+fn=(39)
+0 177
+
+fl=(144)
+fn=(144)
+0 170
+
+fl=(177)
+fn=(177)
+0 166
+
+fl=(229)
+fn=(229)
+0 160
+
+fl=(114)
+fn=(114)
+545 48
+cfl=(116)
+cfn=(116)
+calls=4 0
+0 5
+cfl=(17)
+cfn=(17)
+calls=4 0
+0 10
+cfl=(27)
+cfn=(27)
+calls=4 0
+0 79
+cfl=(8)
+cfn=(8)
+calls=8 0
+0 12
+
+fl=(452)
+fn=(452)
+51 18
+cfl=(453)
+cfn=(453)
+calls=2 0
+0 104
+cfl=(360)
+cfn=(360)
+calls=2 0
+0 9
+cfl=(355)
+cfn=(355)
+calls=2 0
+0 21
+
+fl=(110)
+fn=(110)
+187 17
+cfl=(111)
+cfn=(111)
+calls=2 0
+0 131
+
+fl=(153)
+fn=(153)
+0 146
+
+fl=(307)
+fn=(307)
+0 145
+
+fl=(495)
+fn=(495)
+2250 44
+cfl=(498)
+cfn=(498)
+calls=1 0
+0 32
+cfl=(438)
+cfn=(438)
+calls=1 0
+0 3
+cfl=(8)
+cfn=(8)
+calls=1 0
+0 2
+cfl=(483)
+cfn=(483)
+calls=1 0
+0 2
+cfl=(497)
+cfn=(497)
+calls=2 0
+0 4
+cfl=(496)
+cfn=(496)
+calls=2 0
+0 4
+cfl=(487)
+cfn=(487)
+calls=2 0
+0 46
+
+fl=(209)
+fn=(209)
+81 23
+cfl=(94)
+cfn=(94)
+calls=3 0
+0 46
+cfl=(78)
+cfn=(78)
+calls=9 0
+0 65
+
+fl=(5)
+fn=(5)
+0 133
+
+fl=(469)
+fn=(469)
+127 39
+cfl=(474)
+cfn=(474)
+calls=1 0
+0 26
+cfl=(473)
+cfn=(473)
+calls=1 0
+0 13
+cfl=(472)
+cfn=(472)
+calls=1 0
+0 27
+cfl=(470)
+cfn=(470)
+calls=1 0
+0 18
+cfl=(314)
+cfn=(314)
+calls=5 0
+0 7
+cfl=(27)
+cfn=(27)
+calls=2 0
+0 2
+
+fl=(208)
+fn=(208)
+43 24
+cfl=(134)
+cfn=(134)
+calls=5 0
+0 65
+cfl=(91)
+cfn=(91)
+calls=5 0
+0 40
+
+fl=(192)
+fn=(192)
+58 23
+cfl=(87)
+cfn=(87)
+calls=2 0
+0 9
+cfl=(181)
+cfn=(181)
+calls=6 0
+0 8
+cfl=(179)
+cfn=(179)
+calls=1 0
+0 90
+
+fl=(40)
+fn=(40)
+429 16
+cfl=(50)
+cfn=(50)
+calls=1 0
+0 24
+cfl=(41)
+cfn=(41)
+calls=2 0
+0 89
+
+fl=(65)
+fn=(65)
+0 129
+
+fl=(200)
+fn=(200)
+65 42
+cfl=(78)
+cfn=(78)
+calls=12 0
+0 82
+
+fl=(63)
+fn=(63)
+0 124
+
+fl=(264)
+fn=(264)
+115 11
+cfl=(181)
+cfn=(181)
+calls=1 0
+0 1
+cfl=(166)
+cfn=(166)
+calls=1 0
+0 73
+cfl=(156)
+cfn=(156)
+calls=1 0
+0 37
+
+fl=(213)
+fn=(213)
+207 75
+cfl=(181)
+cfn=(181)
+calls=30 0
+0 44
+
+fl=(204)
+fn=(204)
+49 16
+cfl=(205)
+cfn=(205)
+calls=2 0
+0 98
+
+fl=(220)
+fn=(220)
+113 24
+cfl=(67)
+cfn=(67)
+calls=1 0
+0 2
+cfl=(81)
+cfn=(81)
+calls=1 0
+0 58
+cfl=(141)
+cfn=(141)
+calls=1 0
+0 2
+cfl=(221)
+cfn=(221)
+calls=6 0
+0 22
+
+fl=(199)
+fn=(199)
+51 40
+cfl=(78)
+cfn=(78)
+calls=6 0
+0 46
+cfl=(8)
+cfn=(8)
+calls=6 0
+0 8
+cfl=(160)
+cfn=(160)
+calls=6 0
+0 14
+
+fl=(4)
+fn=(4)
+59 63
+cfl=(5)
+cfn=(5)
+calls=22 0
+0 42
+
+fl=(453)
+fn=(453)
+22 65
+cfl=(2)
+cfn=(2)
+calls=2 0
+0 3
+cfl=(67)
+cfn=(67)
+calls=17 0
+0 18
+cfl=(454)
+cfn=(454)
+calls=17 0
+0 14
+cfl=(27)
+cfn=(27)
+calls=2 0
+0 1
+
+fl=(261)
+fn=(261)
+113 16
+cfl=(157)
+cfn=(157)
+calls=1 0
+0 17
+cfl=(156)
+cfn=(156)
+calls=1 0
+0 58
+cfl=(262)
+cfn=(262)
+calls=2 0
+0 12
+
+fl=(196)
+fn=(196)
+57 44
+cfl=(181)
+cfn=(181)
+calls=1 0
+0 2
+cfl=(197)
+cfn=(197)
+calls=12 0
+0 56
+
+fl=(172)
+fn=(172)
+0 102
+
+fl=(435)
+fn=(435)
+2166 24
+cfl=(401)
+cfn=(401)
+calls=8 0
+0 75
+
+fl=(205)
+fn=(205)
+93 18
+cfl=(206)
+cfn=(206)
+calls=2 0
+0 80
+
+fl=(161)
+fn=(161)
+0 97
+
+fl=(71)
+fn=(71)
+287 61
+cfl=(73)
+cfn=(73)
+calls=11 0
+0 18
+cfl=(72)
+cfn=(72)
+calls=11 0
+0 16
+
+fl=(344)
+fn=(344)
+74 92
+
+fl=(345)
+fn=(345)
+78 89
+
+fl=(41)
+fn=(41)
+447 12
+cfl=(43)
+cfn=(43)
+calls=2 0
+0 75
+
+fl=(99)
+fn=(99)
+19 11
+cfl=(94)
+cfn=(94)
+calls=4 0
+0 78
+
+fl=(193)
+fn=(193)
+68 8
+cfl=(179)
+cfn=(179)
+calls=1 0
+0 80
+
+fl=(210)
+fn=(210)
+78 7
+cfl=(179)
+cfn=(179)
+calls=1 0
+0 80
+
+fl=(82)
+fn=(82)
+191 26
+cfl=(78)
+cfn=(78)
+calls=8 0
+0 58
+
+fl=(320)
+fn=(320)
+257 11
+cfl=(321)
+cfn=(321)
+calls=1 0
+0 63
+cfl=(65)
+cfn=(65)
+calls=1 0
+0 9
+
+fl=(308)
+fn=(308)
+55 56
+cfl=(21)
+cfn=(21)
+calls=18 0
+0 24
+
+fl=(257)
+fn=(257)
+194 7
+cfl=(120)
+cfn=(120)
+calls=1 0
+0 75
+
+fl=(206)
+fn=(206)
+81 14
+cfl=(134)
+cfn=(134)
+calls=4 0
+0 49
+cfl=(91)
+cfn=(91)
+calls=2 0
+0 17
+
+fl=(265)
+fn=(265)
+1261 8
+cfl=(153)
+cfn=(153)
+calls=1 0
+0 69
+
+fl=(62)
+fn=(62)
+201 32
+cfl=(68)
+cfn=(68)
+calls=1 0
+0 18
+cfl=(67)
+cfn=(67)
+calls=2 0
+0 3
+cfl=(66)
+cfn=(66)
+calls=1 0
+0 3
+cfl=(8)
+cfn=(8)
+calls=1 0
+0 1
+cfl=(65)
+cfn=(65)
+calls=1 0
+0 3
+cfl=(64)
+cfn=(64)
+calls=1 0
+0 2
+cfl=(63)
+cfn=(63)
+calls=2 0
+0 13
+
+fl=(43)
+fn=(43)
+1533 14
+cfl=(47)
+cfn=(47)
+calls=2 0
+0 14
+cfl=(44)
+cfn=(44)
+calls=2 0
+0 47
+
+fl=(487)
+fn=(487)
+2196 22
+cfl=(488)
+cfn=(488)
+calls=9 0
+0 53
+
+fl=(310)
+fn=(310)
+0 73
+
+fl=(335)
+fn=(335)
+164 49
+cfl=(336)
+cfn=(336)
+calls=17 0
+0 22
+
+fl=(433)
+fn=(433)
+151 46
+cfl=(141)
+cfn=(141)
+calls=20 0
+0 21
+
+fl=(486)
+fn=(486)
+2376 17
+cfl=(8)
+cfn=(8)
+calls=1 0
+0 5
+cfl=(491)
+cfn=(491)
+calls=1 0
+0 1
+cfl=(490)
+cfn=(490)
+calls=1 0
+0 2
+cfl=(401)
+cfn=(401)
+calls=1 0
+0 13
+cfl=(487)
+cfn=(487)
+calls=1 0
+0 29
+
+fl=(137)
+fn=(137)
+872 42
+cfl=(67)
+cfn=(67)
+calls=22 0
+0 24
+
+fl=(202)
+fn=(202)
+65 41
+cfl=(89)
+cfn=(89)
+calls=18 0
+0 24
+
+fl=(70)
+fn=(70)
+0 64
+
+fl=(314)
+fn=(314)
+0 63
+
+fl=(321)
+fn=(321)
+293 9
+cfl=(322)
+cfn=(322)
+calls=1 0
+0 54
+
+fl=(115)
+fn=(115)
+128 40
+cfl=(113)
+cfn=(113)
+calls=8 0
+0 16
+cfl=(97)
+cfn=(97)
+calls=4 0
+0 7
+
+fl=(140)
+fn=(140)
+904 46
+cfl=(141)
+cfn=(141)
+calls=13 0
+0 16
+
+fl=(125)
+fn=(125)
+174 37
+cfl=(79)
+cfn=(79)
+calls=3 0
+0 7
+cfl=(27)
+cfn=(27)
+calls=11 0
+0 16
+
+fl=(174)
+fn=(174)
+85 59
+
+fl=(66)
+fn=(66)
+0 58
+
+fl=(197)
+fn=(197)
+55 31
+cfl=(181)
+cfn=(181)
+calls=12 0
+0 26
+
+fl=(414)
+fn=(414)
+97 56
+
+fl=(121)
+fn=(121)
+133 34
+cfl=(122)
+cfn=(122)
+calls=12 0
+0 22
+
+fl=(241)
+fn=(241)
+17 12
+cfl=(92)
+cfn=(92)
+calls=2 0
+0 12
+cfl=(78)
+cfn=(78)
+calls=1 0
+0 7
+cfl=(95)
+cfn=(95)
+calls=2 0
+0 24
+
+fl=(322)
+fn=(322)
+361 17
+cfl=(8)
+cfn=(8)
+calls=1 0
+0 1
+cfl=(324)
+cfn=(324)
+calls=1 0
+0 28
+cfl=(323)
+cfn=(323)
+calls=2 0
+0 3
+cfl=(160)
+cfn=(160)
+calls=2 0
+0 5
+
+fl=(488)
+fn=(488)
+2198 18
+cfl=(8)
+cfn=(8)
+calls=6 0
+0 35
+
+fl=(105)
+fn=(105)
+214 22
+cfl=(8)
+cfn=(8)
+calls=2 0
+0 2
+cfl=(107)
+cfn=(107)
+calls=2 0
+0 24
+cfl=(106)
+cfn=(106)
+calls=2 0
+0 4
+
+fl=(480)
+fn=(480)
+2065 17
+cfl=(481)
+cfn=(481)
+calls=1 0
+0 32
+cfl=(314)
+cfn=(314)
+calls=1 0
+0 1
+cfl=(27)
+cfn=(27)
+calls=1 0
+0 1
+
+fl=(112)
+fn=(112)
+148 26
+cfl=(113)
+cfn=(113)
+calls=4 0
+0 22
+
+fl=(154)
+fn=(154)
+0 47
+
+fl=(44)
+fn=(44)
+1440 16
+cfl=(47)
+cfn=(47)
+calls=2 0
+0 18
+cfl=(46)
+cfn=(46)
+calls=2 0
+0 8
+
+fl=(312)
+fn=(312)
+70 46
+
+fl=(150)
+fn=(150)
+0 44
+
+fl=(74)
+fn=(74)
+383 32
+cfl=(8)
+cfn=(8)
+calls=11 0
+0 13
+
+fl=(348)
+fn=(348)
+88 11
+cfl=(349)
+cfn=(349)
+calls=2 0
+0 32
+
+fl=(230)
+fn=(230)
+76 11
+cfl=(231)
+cfn=(231)
+calls=1 0
+0 31
+
+fl=(439)
+fn=(439)
+264 29
+cfl=(440)
+cfn=(440)
+calls=4 0
+0 8
+cfl=(296)
+cfn=(296)
+calls=4 0
+0 4
+
+fl=(113)
+fn=(113)
+70 37
+
+fl=(444)
+fn=(444)
+1910 24
+cfl=(27)
+cfn=(27)
+calls=8 0
+0 12
+
+fl=(468)
+fn=(468)
+0 37
+
+fl=(163)
+fn=(163)
+36 27
+cfl=(164)
+cfn=(164)
+calls=2 0
+0 4
+cfl=(160)
+cfn=(160)
+calls=2 0
+0 5
+
+fl=(143)
+fn=(143)
+0 35
+
+fl=(299)
+fn=(299)
+0 34
+
+fl=(158)
+fn=(158)
+0 34
+
+fl=(326)
+fn=(326)
+176 24
+cfl=(329)
+cfn=(329)
+calls=2 0
+0 3
+cfl=(328)
+cfn=(328)
+calls=2 0
+0 4
+cfl=(327)
+cfn=(327)
+calls=2 0
+0 2
+cfl=(326)
+cfn=(326)
+calls=2 0
+0 18
+
+fl=(349)
+fn=(349)
+393 17
+cfl=(342)
+cfn=(342)
+calls=2 0
+0 2
+cfl=(350)
+cfn=(350)
+calls=2 0
+0 14
+
+fl=(481)
+fn=(481)
+64 17
+cfl=(8)
+cfn=(8)
+calls=2 0
+0 4
+cfl=(483)
+cfn=(483)
+calls=1 0
+0 3
+cfl=(482)
+cfn=(482)
+calls=1 0
+0 9
+
+fl=(47)
+fn=(47)
+1526 23
+cfl=(49)
+cfn=(49)
+calls=4 0
+0 5
+
+fl=(498)
+fn=(498)
+0 9
+cfl=(499)
+cfn=(499)
+calls=1 0
+0 23
+
+fl=(7)
+fn=(7)
+0 32
+
+fl=(2)
+fn=(2)
+0 31
+
+fl=(231)
+fn=(231)
+67 17
+cfl=(234)
+cfn=(234)
+calls=1 0
+0 1
+cfl=(233)
+cfn=(233)
+calls=1 0
+0 7
+cfl=(232)
+cfn=(232)
+calls=1 0
+0 4
+cfl=(17)
+cfn=(17)
+calls=1 0
+0 2
+
+fl=(436)
+fn=(436)
+2167 29
+
+fl=(13)
+fn=(13)
+0 29
+
+fl=(118)
+fn=(118)
+246 18
+cfl=(79)
+cfn=(79)
+calls=4 0
+0 9
+
+fl=(301)
+fn=(301)
+0 28
+
+fl=(324)
+fn=(324)
+372 28
+
+fl=(479)
+fn=(479)
+256 14
+cfl=(8)
+cfn=(8)
+calls=8 0
+0 12
+
+fl=(18)
+fn=(18)
+26 9
+cfl=(20)
+cfn=(20)
+calls=1 0
+0 6
+cfl=(19)
+cfn=(19)
+calls=1 0
+0 12
+
+fl=(472)
+fn=(472)
+2320 12
+cfl=(314)
+cfn=(314)
+calls=1 0
+0 2
+cfl=(465)
+cfn=(465)
+calls=1 0
+0 6
+cfl=(17)
+cfn=(17)
+calls=1 0
+0 2
+cfl=(27)
+cfn=(27)
+calls=3 0
+0 5
+
+fl=(332)
+fn=(332)
+1 27
+
+fl=(474)
+fn=(474)
+218 14
+cfl=(440)
+cfn=(440)
+calls=1 0
+0 2
+cfl=(475)
+cfn=(475)
+calls=1 0
+0 9
+cfl=(296)
+cfn=(296)
+calls=1 0
+0 1
+
+fl=(424)
+fn=(424)
+103 18
+cfl=(250)
+cfn=(250)
+calls=2 0
+0 3
+cfl=(328)
+cfn=(328)
+calls=4 0
+0 4
+
+fl=(21)
+fn=(21)
+24 24
+
+fl=(107)
+fn=(107)
+231 14
+cfl=(108)
+cfn=(108)
+calls=2 0
+0 11
+
+fl=(438)
+fn=(438)
+0 24
+
+fl=(305)
+fn=(305)
+0 24
+
+fl=(50)
+fn=(50)
+567 18
+
+fl=(459)
+fn=(459)
+0 23
+
+fl=(499)
+fn=(499)
+37 8
+cfl=(500)
+cfn=(500)
+calls=1 0
+0 14
+
+fl=(448)
+fn=(448)
+28 5
+cfl=(449)
+cfn=(449)
+calls=2 0
+0 18
+
+fl=(9)
+fn=(9)
+0 23
+
+fl=(311)
+fn=(311)
+0 22
+
+fl=(260)
+fn=(260)
+38 7
+cfl=(6)
+cfn=(6)
+calls=1 0
+0 14
+
+fl=(122)
+fn=(122)
+74 22
+
+fl=(463)
+fn=(463)
+2519 14
+cfl=(27)
+cfn=(27)
+calls=2 0
+0 3
+cfl=(17)
+cfn=(17)
+calls=2 0
+0 5
+
+fl=(336)
+fn=(336)
+0 22
+
+fl=(221)
+fn=(221)
+230 16
+cfl=(97)
+cfn=(97)
+calls=6 0
+0 6
+
+fl=(492)
+fn=(492)
+2560 14
+cfl=(8)
+cfn=(8)
+calls=2 0
+0 1
+cfl=(493)
+cfn=(493)
+calls=1 0
+0 6
+
+fl=(75)
+fn=(75)
+377 20
+
+fl=(237)
+fn=(237)
+0 20
+
+fl=(73)
+fn=(73)
+0 18
+
+fl=(68)
+fn=(68)
+158 11
+cfl=(66)
+cfn=(66)
+calls=1 0
+0 2
+cfl=(8)
+cfn=(8)
+calls=1 0
+0 0
+cfl=(65)
+cfn=(65)
+calls=1 0
+0 2
+cfl=(63)
+cfn=(63)
+calls=1 0
+0 4
+
+fl=(464)
+fn=(464)
+4816 10
+cfl=(465)
+cfn=(465)
+calls=1 0
+0 6
+cfl=(27)
+cfn=(27)
+calls=1 0
+0 2
+
+fl=(430)
+fn=(430)
+0 18
+
+fl=(470)
+fn=(470)
+2511 8
+cfl=(314)
+cfn=(314)
+calls=1 0
+0 1
+cfl=(471)
+cfn=(471)
+calls=1 0
+0 9
+
+fl=(471)
+fn=(471)
+2434 11
+cfl=(27)
+cfn=(27)
+calls=6 0
+0 7
+
+fl=(449)
+fn=(449)
+170 10
+cfl=(342)
+cfn=(342)
+calls=4 0
+0 8
+
+fl=(176)
+fn=(176)
+94 10
+cfl=(177)
+cfn=(177)
+calls=1 0
+0 8
+
+fl=(383)
+fn=(383)
+81 8
+cfl=(384)
+cfn=(384)
+calls=2 0
+0 9
+
+fl=(253)
+fn=(253)
+54 17
+
+fl=(22)
+fn=(22)
+104 6
+cfl=(23)
+cfn=(23)
+calls=1 0
+0 11
+
+fl=(273)
+fn=(273)
+0 17
+
+fl=(10)
+fn=(10)
+119 10
+cfl=(7)
+cfn=(7)
+calls=4 0
+0 6
+
+fl=(72)
+fn=(72)
+0 16
+
+fl=(500)
+fn=(500)
+0 14
+
+fl=(454)
+fn=(454)
+0 14
+
+fl=(477)
+fn=(477)
+2535 5
+cfl=(314)
+cfn=(314)
+calls=1 0
+0 1
+cfl=(471)
+cfn=(471)
+calls=1 0
+0 9
+
+fl=(259)
+fn=(259)
+191 11
+cfl=(67)
+cfn=(67)
+calls=1 0
+0 0
+cfl=(225)
+cfn=(225)
+calls=1 0
+0 2
+cfl=(27)
+cfn=(27)
+calls=1 0
+0 1
+
+fl=(350)
+fn=(350)
+318 9
+cfl=(342)
+cfn=(342)
+calls=2 0
+0 5
+
+fl=(473)
+fn=(473)
+0 13
+
+fl=(131)
+fn=(131)
+83 13
+
+fl=(333)
+fn=(333)
+152 11
+cfl=(8)
+cfn=(8)
+calls=1 0
+0 1
+cfl=(334)
+cfn=(334)
+calls=1 0
+0 1
+
+fl=(302)
+fn=(302)
+51 13
+
+fl=(186)
+fn=(186)
+0 13
+
+fl=(30)
+fn=(30)
+297 10
+
+fl=(33)
+fn=(33)
+395 13
+
+fl=(262)
+fn=(262)
+115 11
+cfl=(263)
+cfn=(263)
+calls=1 0
+0 1
+
+fl=(465)
+fn=(465)
+394 7
+cfl=(459)
+cfn=(459)
+calls=2 0
+0 5
+
+fl=(108)
+fn=(108)
+242 6
+cfl=(109)
+cfn=(109)
+calls=2 0
+0 5
+
+fl=(23)
+fn=(23)
+85 8
+cfl=(24)
+cfn=(24)
+calls=2 0
+0 3
+
+fl=(26)
+fn=(26)
+0 11
+
+fl=(34)
+fn=(34)
+590 9
+
+fl=(440)
+fn=(440)
+251 10
+
+fl=(482)
+fn=(482)
+141 7
+cfl=(27)
+cfn=(27)
+calls=1 0
+0 2
+
+fl=(384)
+fn=(384)
+190 9
+
+fl=(501)
+fn=(501)
+2828 7
+cfl=(502)
+cfn=(502)
+calls=1 0
+0 2
+
+fl=(475)
+fn=(475)
+121 7
+cfl=(476)
+cfn=(476)
+calls=1 0
+0 2
+cfl=(97)
+cfn=(97)
+calls=1 0
+0 0
+
+fl=(489)
+fn=(489)
+2378 5
+cfl=(8)
+cfn=(8)
+calls=1 0
+0 2
+cfl=(483)
+cfn=(483)
+calls=1 0
+0 1
+
+fl=(442)
+fn=(442)
+353 8
+
+fl=(46)
+fn=(46)
+961 5
+
+fl=(54)
+fn=(54)
+728 6
+cfl=(33)
+cfn=(33)
+calls=1 0
+0 2
+
+fl=(327)
+fn=(327)
+0 7
+
+fl=(233)
+fn=(233)
+0 7
+
+fl=(20)
+fn=(20)
+49 6
+cfl=(21)
+cfn=(21)
+calls=1 0
+0 0
+
+fl=(483)
+fn=(483)
+119 6
+
+fl=(315)
+fn=(315)
+53 4
+cfl=(316)
+cfn=(316)
+calls=1 0
+0 2
+
+fl=(493)
+fn=(493)
+232 5
+cfl=(494)
+cfn=(494)
+calls=1 0
+0 1
+
+fl=(12)
+fn=(12)
+0 5
+
+fl=(503)
+fn=(503)
+89 5
+
+fl=(485)
+fn=(485)
+2200 3
+cfl=(8)
+cfn=(8)
+calls=1 0
+0 2
+
+fl=(109)
+fn=(109)
+245 5
+
+fl=(49)
+fn=(49)
+1451 5
+
+fl=(57)
+fn=(57)
+300 4
+
+fl=(14)
+fn=(14)
+0 4
+
+fl=(447)
+fn=(447)
+0 4
+
+fl=(496)
+fn=(496)
+0 4
+
+fl=(266)
+fn=(266)
+1257 2
+cfl=(265)
+cfn=(265)
+calls=1 0
+0 2
+
+fl=(329)
+fn=(329)
+0 4
+
+fl=(497)
+fn=(497)
+0 4
+
+fl=(69)
+fn=(69)
+0 4
+
+fl=(232)
+fn=(232)
+0 4
+
+fl=(351)
+fn=(351)
+84 4
+
+fl=(60)
+fn=(60)
+294 3
+
+fl=(385)
+fn=(385)
+206 3
+
+fl=(24)
+fn=(24)
+0 3
+
+fl=(323)
+fn=(323)
+0 3
+
+fl=(334)
+fn=(334)
+0 3
+
+fl=(83)
+fn=(83)
+131 3
+
+fl=(258)
+fn=(258)
+0 3
+
+fl=(422)
+fn=(422)
+0 3
+
+fl=(502)
+fn=(502)
+2552 2
+
+fl=(316)
+fn=(316)
+66 2
+
+fl=(476)
+fn=(476)
+0 2
+
+fl=(227)
+fn=(227)
+0 2
+
+fl=(219)
+fn=(219)
+0 2
+
+fl=(419)
+fn=(419)
+179 2
+
+fl=(339)
+fn=(339)
+152 2
+
+fl=(490)
+fn=(490)
+220 2
+
+fl=(103)
+fn=(103)
+144 2
+
+fl=(64)
+fn=(64)
+0 2
+
+fl=(417)
+fn=(417)
+0 2
+
+fl=(29)
+fn=(29)
+64 2
+
+fl=(460)
+fn=(460)
+0 1
+
+fl=(491)
+fn=(491)
+2271 1
+
+fl=(173)
+fn=(173)
+93 1
+
+fl=(263)
+fn=(263)
+209 1
+
+fl=(234)
+fn=(234)
+0 1
+
+fl=(494)
+fn=(494)
+228 1
+
+fl=(340)
+fn=(340)
+85 1
+
+fl=(240)
+fn=(240)
+0 1
+
+fl=(235)
+fn=(235)
+109 1
+
+fl=(58)
+fn=(58)
+0 1
+
+fl=(418)
+fn=(418)
+0 0
+
+fl=(56)
+fn=(56)
+309 0
+cfl=(60)
+cfn=(60)
+calls=1 0
+0 4
+cfl=(58)
+cfn=(58)
+calls=1 0
+0 1
+cfl=(57)
+cfn=(57)
+calls=1 0
+0 5
+
+fl=(55)
+fn=(55)
+603 0
+cfl=(56)
+cfn=(56)
+calls=1 0
+0 0

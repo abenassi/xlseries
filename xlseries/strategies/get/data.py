@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-get_data_strategies
+data
 
 This module contains strategies to get data from a spreadsheet.
 """

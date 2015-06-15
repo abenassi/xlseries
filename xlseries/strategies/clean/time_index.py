@@ -16,7 +16,6 @@ automatically taken by "get_strategies" and exposed to the user.
 
 import arrow
 from pprint import pprint
-from openpyxl.cell import column_index_from_string
 from pprint import pformat
 
 from xlseries.strategies.clean.parse_time import DayOutOfRange, MonthOutOfRange
@@ -170,12 +169,15 @@ class BaseCleanTiStrategy(object):
                 time_value = self.time_parser.parse_time(params, curr_time,
                                                          last_time, next_time)
                 assert type(time_value) == arrow.Arrow, msg
+                # print curr_time, time_value
                 return time_value
-            except:
-                pass
+            except (DayOutOfRange, MonthOutOfRange) as inst:
+                raise inst
 
         # if last parser doesn't work (or there is None), search again
+        # print "Looking for a time parser..."
         for strategy in parse_time_strategies.get_strategies():
+            # print strategy
             if strategy.accepts(params, curr_time, last_time, next_time):
                 self.time_parser = strategy()
                 time_value = self.time_parser.parse_time(params, curr_time,
