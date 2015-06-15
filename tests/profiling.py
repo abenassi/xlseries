@@ -28,6 +28,9 @@ Example:
     # will run a group analysis over test cases 4 and 5, together
     import profiling
     profiling.group(4, 5)
+
+The output is a png file, but it can be changed to a Gephi output than can be
+analyzed with Gephi.
 """
 
 from __future__ import unicode_literals
@@ -37,6 +40,7 @@ from pycallgraph import PyCallGraph
 from pycallgraph import Config
 from pycallgraph import GlobbingFilter
 from pycallgraph.output import GraphvizOutput
+# from pycallgraph.output import GephiOutput
 
 
 from xlseries import XlSeries
@@ -89,6 +93,7 @@ def single_analysis(ini, end=None, config=None):
     """
 
     for num in xrange(ini, end + 1):
+        # graphviz = GephiOutput()
         graphviz = GraphvizOutput()
         graphviz.output_file = _generate_name_output(num)
 
@@ -105,6 +110,7 @@ def group_analysis(ini, end, config=None):
         config (Config): Configuration object for PyCallGraph.
     """
 
+    # graphviz = GephiOutput()
     graphviz = GraphvizOutput()
     graphviz.output_file = _generate_name_output(ini, end)
 
