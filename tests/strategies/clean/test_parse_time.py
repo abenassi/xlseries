@@ -16,10 +16,11 @@ from functools import wraps
 import re
 from mock import patch
 
-from xlseries.strategies.clean.parse_time import ParseComposedQuarterTime1
-from xlseries.strategies.clean.parse_time import ParseComposedQuarterTime2
-from xlseries.strategies.clean.parse_time import ParseComposedMonthTime1
-from xlseries.strategies.clean.parse_time import ParseComposedMonthTime2
+from xlseries.strategies.clean.parse_time import ParseComposedYearQuarter1
+from xlseries.strategies.clean.parse_time import ParseComposedQuarter1
+from xlseries.strategies.clean.parse_time import ParseComposedQuarter2
+from xlseries.strategies.clean.parse_time import ParseComposedMonth1
+from xlseries.strategies.clean.parse_time import ParseComposedMonth2
 from xlseries.strategies.clean.parse_time import ParseSimpleTime
 from xlseries.strategies.clean.parse_time import NoTimeValue
 from xlseries.utils.case_loaders import load_parameters_case
@@ -167,8 +168,7 @@ class ParseComposedTimeTest(unittest.TestCase):
         new_values = []
         for value in values:
             # print value.encode("utf-8", "ignore")
-            new_time = strategy()._parse_time(params, value,
-                                              last_time)
+            new_time = strategy().parse_time(params, value, last_time)
             new_values.append(new_time)
             last_time = new_time
 
@@ -206,39 +206,37 @@ class ParseComposedTimeTest(unittest.TestCase):
     # @unittest.skip("skip")
     def test_parse_time_case3(self, case_num):
         """Parse a list of time values using _parse_time method."""
-        self.run_parse_time_case(case_num, ParseComposedQuarterTime1)
+        self.run_parse_time_case(case_num, ParseComposedQuarter1)
 
     @load_case_number()
     # @unittest.skip("skip")
     def test_parse_time_case4(self, case_num):
         """Parse a list of time values using _parse_time method."""
-        self.run_parse_time_case(case_num, ParseComposedQuarterTime2)
+        self.run_parse_time_case(case_num, ParseComposedQuarter2)
 
     @load_case_number()
     # @unittest.skip("skip")
     def test_parse_time_case5(self, case_num):
         """Parse a list of time values using _parse_time method."""
-        self.run_parse_time_case(case_num, ParseComposedMonthTime1)
+        self.run_parse_time_case(case_num, ParseComposedMonth1)
 
     @load_case_number()
     # @unittest.skip("skip")
     def test_parse_time_case5b(self, case_num):
         """Parse a list of time values using _parse_time method."""
-        self.run_parse_time_case(case_num, ParseComposedMonthTime2)
+        self.run_parse_time_case(case_num, ParseComposedMonth2)
 
     @load_case_number()
-    @unittest.skip("skip")
+    # @unittest.skip("skip")
     def test_parse_time_case6(self, case_num):
-        """Parse a list of time values using _parse_time method."""
-        # TODO: Implement a strategy for this case!
-        self.run_parse_time_case(case_num, None)
+        """Parse a list of time values from case6 using _parse_time method."""
+        self.run_parse_time_case(case_num, ParseComposedYearQuarter1)
 
     @load_case_number()
-    @unittest.skip("skip")
+    # @unittest.skip("skip")
     def test_parse_time_case6b(self, case_num):
-        """Parse a list of time values using _parse_time method."""
-        # TODO: Implement a strategy for this case!
-        self.run_parse_time_case(case_num, None)
+        """Parse a list of time values from case6b using _parse_time method."""
+        self.run_parse_time_case(case_num, ParseComposedYearQuarter1)
 
 if __name__ == '__main__':
     nose.run(defaultTest=__name__)

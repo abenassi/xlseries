@@ -3,7 +3,7 @@
  "composed_headers": "True",
  "data_starts": 3,
  "data_ends": 61,
- "frequency": "Q-Y",
+ "frequency": "YQQQQ",
  "headers_coord": "B8-B28",
  "continuity": "False",
  "missings": "False",
@@ -15,4 +15,4 @@
  "time_multicolumn": "True",
  "time_format": "str",
  "time_header": "True",
- "time_header_coord": "C6"}
+ "time_header_coord": ["C4", "C6"]}

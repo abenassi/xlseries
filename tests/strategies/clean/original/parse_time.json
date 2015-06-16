@@ -39,8 +39,8 @@
                     "1991,12  "
                     ],
 
-    "test_case6": ["2004  Año",
-                   "Trimestre    I",
+    "test_case6": ["2004  ",
+                   "             I",
                    "             II",
                    "             III",
                    "             IV"

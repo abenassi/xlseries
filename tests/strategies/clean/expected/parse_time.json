@@ -39,14 +39,14 @@
                     "arrow.get(1991, 12, 1)"
                     ],
 
-    "test_case6": ["None",
+    "test_case6": ["arrow.get(2004, 1, 1)",
                    "arrow.get(2004, 1, 1)",
                    "arrow.get(2004, 4, 1)",
                    "arrow.get(2004, 7, 1)",
                    "arrow.get(2004, 10, 1)"
                    ],
 
-    "test_case6b": ["None",
+    "test_case6b": ["arrow.get(2008, 1, 1)",
                     "arrow.get(2008, 1, 1)",
                     "arrow.get(2008, 4, 1)",
                     "arrow.get(2008, 7, 1)",

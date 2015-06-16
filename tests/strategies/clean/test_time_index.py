@@ -115,7 +115,7 @@ class CleanSingleColumnTestCase(unittest.TestCase):
                   "time_multicolumn": False,
                   "time_composed": False}
 
-        CleanSingleColumn()._clean_time_index(ws, params)
+        CleanSingleColumn().clean_time_index(ws, params)
 
         wb_exp = load_workbook(
             os.path.join(abs_path("expected"), "test_case2.xlsx"))
@@ -143,7 +143,7 @@ class CleanSingleColumnTestCase(unittest.TestCase):
                   "time_multicolumn": False,
                   "time_composed": True}
 
-        CleanSingleColumn()._clean_time_index(ws, params)
+        CleanSingleColumn().clean_time_index(ws, params)
 
         wb_exp = load_workbook(
             os.path.join(abs_path("expected"), "test_case5.xlsx"))

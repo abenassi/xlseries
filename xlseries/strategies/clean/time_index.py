@@ -68,9 +68,9 @@ class ParseTimeImplementationError(NotImplementedError):
 
     def __init__(self, curr_time, last_time, next_time, params):
         msg = " ".join(["No strategy to parse time.",
-                        "\nCurrent:", unicode(curr_time),
-                        "\nLast:", unicode(last_time),
-                        "\nNext:", unicode(next_time),
+                        "\nCurrent:", unicode(curr_time), repr(type(curr_time)),
+                        "\nLast:", unicode(last_time), repr(type(last_time)),
+                        "\nNext:", unicode(next_time), repr(type(next_time)),
                         "\nParameters: ", pformat(params)])
         super(ParseTimeImplementationError, self).__init__(msg)
 
@@ -169,15 +169,17 @@ class BaseCleanTiStrategy(object):
                 time_value = self.time_parser.parse_time(params, curr_time,
                                                          last_time, next_time)
                 assert type(time_value) == arrow.Arrow, msg
-                # print curr_time, time_value
+
                 return time_value
+
             except (DayOutOfRange, MonthOutOfRange) as inst:
                 raise inst
 
+            except:
+                pass
+
         # if last parser doesn't work (or there is None), search again
-        # print "Looking for a time parser..."
         for strategy in parse_time_strategies.get_strategies():
-            # print strategy
             if strategy.accepts(params, curr_time, last_time, next_time):
                 self.time_parser = strategy()
                 time_value = self.time_parser.parse_time(params, curr_time,
