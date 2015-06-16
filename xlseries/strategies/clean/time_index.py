@@ -142,6 +142,31 @@ class BaseCleanTiStrategy(object):
 
     # PRIVATE auxiliar methods
     @classmethod
+    def _time_index_iterator(cls, ws, alignment, time_header_coord, ini, end):
+
+        if alignment == "vertical":
+            for row in xrange(ini, end + 1):
+                col = ws[time_header_coord].column
+                curr_time = ws.cell(coordinate=col+unicode(row)).value
+                next_time = ws.cell(coordinate=col+unicode(row + 1)).value
+                write_time_cell = ws.cell(coordinate=col+unicode(row))
+                yield (curr_time, next_time, write_time_cell)
+
+        elif alignment == "horizontal":
+            for col in xrange(ini, end + 1):
+                row = ws[time_header_coord].row
+                curr_time = ws.cell(column=col, row=row).value
+                next_time = ws.cell(column=col+1, row=row).value
+                write_time_cell = ws.cell(column=col, row=row)
+                yield (curr_time, next_time, write_time_cell)
+
+        else:
+            raise Exception("Series alignment must be 'vertical' or " +
+                            "'horizontal'.")
+
+
+
+    @classmethod
     def _must_be_time_value(cls, value, next_time, last_time):
         return (value is not None) and (len(unicode(value).strip()) > 0)
 
