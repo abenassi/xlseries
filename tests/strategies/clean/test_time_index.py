@@ -22,6 +22,7 @@ from xlseries.strategies.clean.time_index import TimeValueGoingForth
 from xlseries.utils.xl_methods import compare_cells
 from xlseries.utils.case_loaders import load_parameters_case
 from xlseries.utils.path_finders import abs_path
+from xlseries.strategies.discover.parameters import Parameters
 
 
 class BaseCleanTiStrategyTestCase(unittest.TestCase):
@@ -149,6 +150,41 @@ class CleanSingleColumnTestCase(unittest.TestCase):
             os.path.join(abs_path("expected"), "test_case5.xlsx"))
 
         # wb.save("test_case5_after_cleaning_index.xlsx")
+        self.assertTrue(compare_cells(wb, wb_exp))
+
+    # @unittest.skip("skip")
+    def test_clean_time_index_case6(self):
+
+        wb = load_workbook(
+            os.path.join(abs_path("original"), "test_case6.xlsx"))
+        ws = wb.active
+
+        params = Parameters(
+                 {"alignment": "horizontal",
+                  "blank_rows": True,
+                  "composed_headers": True,
+                  "data_starts": 3,
+                  "data_ends": 61,
+                  "frequency": "YQQQQ",
+                  "headers_coord": "B8-B28",
+                  "continuity": False,
+                  "missings": False,
+                  "missing_value": None,
+                  "multifrequency": True,
+                  "series_names": None,
+                  "time_composed": True,
+                  "time_alignment": 0,
+                  "time_multicolumn": True,
+                  "time_format": str,
+                  "time_header": True,
+                  "time_header_coord": ["C4", "C6"]})
+
+        CleanSingleColumn().clean_time_index(ws, params)
+
+        wb_exp = load_workbook(
+            os.path.join(abs_path("expected"), "test_case6.xlsx"))
+
+        # wb.save("test_case6_after_cleaning_index.xlsx")
         self.assertTrue(compare_cells(wb, wb_exp))
 
     # @unittest.skip("skip")
