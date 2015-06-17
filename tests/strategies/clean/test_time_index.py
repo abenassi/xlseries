@@ -194,6 +194,40 @@ class CleanSingleColumnTestCase(unittest.TestCase):
         self.assertTrue(compare_cells(wb, wb_exp))
 
     # @unittest.skip("skip")
+    def test_clean_time_index_case7(self):
+
+        wb = load_workbook(
+            os.path.join(abs_path("original"), "test_case7.xlsx"))
+        ws = wb.active
+
+        params = {"alignment": "horizontal",
+                  "blank_rows": True,
+                  "composed_headers": False,
+                  "data_starts": 2,
+                  "data_ends": 44,
+                  "frequency": "Y",
+                  "continuity": False,
+                  "missings": False,
+                  "missing_value": "None",
+                  "multifrequency": False,
+                  "series_names": "None",
+                  "time_composed": True,
+                  "time_alignment": 0,
+                  "time_multicolumn": False,
+                  "time_format": int,
+                  "time_header": False,
+                  "time_header_coord": "A6"}
+
+        CleanSingleColumn().clean_time_index(ws, params)
+
+        wb_exp = load_workbook(
+            os.path.join(abs_path("expected"), "test_case7.xlsx"),
+            data_only=True)
+
+        # wb.save("test_case5_after_cleaning_index.xlsx")
+        self.assertTrue(compare_cells(wb, wb_exp))
+
+    # @unittest.skip("skip")
     def test_forth_time_value_typo(self):
 
         exp_time = arrow.get(2015, 5, 2)

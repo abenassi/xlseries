@@ -134,7 +134,8 @@ class BaseParseTimeStrategy(object):
         elif type(curr_time) == datetime.datetime:
             return arrow.get(curr_time)
 
-        elif type(curr_time) == str or type(curr_time) == float:
+        elif (type(curr_time) == str or type(curr_time) == float or
+              type(curr_time) == int):
             return self._parse_time(params, unicode(curr_time), last_time,
                                     next_time)
         else:
@@ -202,7 +203,7 @@ class BaseParseTimeStrategy(object):
     @classmethod
     def _possible_time_value(cls, value):
         """Check that a value could be a time value."""
-        return (value is not None) and (type(value) != int)
+        return (value is not None)
 
     @classmethod
     def _parse_date_elements(cls, curr_time):
@@ -657,6 +658,63 @@ class ParseComposedMonth2(BasePEG, BaseComposedMonth):
                 m_y = m:m not_digit* y:y anything* -> (y, m, 1)
 
                 date = y_m | m_y
+                """, {})
+
+
+class BaseComposedYear():
+
+    """Parse dates from strings composed by substrings with date info.
+    Only for yearly series."""
+
+    @classmethod
+    def _accepts(cls, params, curr_time, last_time=None, next_time=None):
+
+        if not (params["time_composed"] and params["frequency"] == "Y"):
+            return False
+
+        try:
+            cls.make_parsley_grammar()(curr_time).date()
+            return True
+        except:
+            return False
+
+
+class ParseComposedYear1(BasePEG, BaseComposedYear):
+
+    """Parse quarterly dates from strings composed by substrings with date
+    info of the structure showed in the example.
+
+    >>> orig = ["1995    (1)",
+    ...         "1996    (2)",
+    ...         "1997       ",
+    ...         "(3)  1998  ",
+    ...         "(4)  1999  "]
+    >>> params = {"time_format": str}
+    >>>
+    >>> last = None
+    >>> time_parser = ParseComposedYear1()
+    >>> for str_date in orig:
+    ...     new = time_parser.parse_time(params, str_date, last)
+    ...     last = new
+    ...     print new
+    1995-01-01T00:00:00+00:00
+    1996-01-01T00:00:00+00:00
+    1997-01-01T00:00:00+00:00
+    1998-01-01T00:00:00+00:00
+    1999-01-01T00:00:00+00:00
+    """
+
+    @classmethod
+    def make_parsley_grammar(cls):
+        """Return a parsley parsing expression grammar."""
+        return parsley.makeGrammar("""
+                not_digit = anything:x ?(x not in "0123456789")
+                not_d_or_p = anything:x ?(x not in "0123456789()")
+                ref = not_d_or_p* '(' digit{1, 3} ')' not_d_or_p*
+
+                year = not_d_or_p* <digit{4}>:y not_d_or_p* -> int(y)
+
+                date = ref? year:y ref? -> (y, 1, 1)
                 """, {})
 
 

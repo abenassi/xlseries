@@ -152,6 +152,7 @@ class BaseCleanTiStrategy(object):
                                                 f_row=row + 1)
                 col = cls._time_header_cell(ws, time_header_coord).column
                 write_time_cell = ws.cell(coordinate=col + unicode(row))
+
                 yield (curr_time, next_time, write_time_cell)
 
         elif alignment == "horizontal":
@@ -162,6 +163,7 @@ class BaseCleanTiStrategy(object):
                     ws, time_header_coord, f_col=get_column_letter(col + 1))
                 row = cls._time_header_cell(ws, time_header_coord).row
                 write_time_cell = ws.cell(column=col, row=row)
+
                 yield (curr_time, next_time, write_time_cell)
 
         else:

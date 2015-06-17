@@ -16,6 +16,7 @@ from functools import wraps
 import re
 from mock import patch
 
+from xlseries.strategies.clean.parse_time import ParseComposedYear1
 from xlseries.strategies.clean.parse_time import ParseComposedYearQuarter1
 from xlseries.strategies.clean.parse_time import ParseComposedQuarter1
 from xlseries.strategies.clean.parse_time import ParseComposedQuarter2
@@ -237,6 +238,12 @@ class ParseComposedTimeTest(unittest.TestCase):
     def test_parse_time_case6b(self, case_num):
         """Parse a list of time values from case6b using _parse_time method."""
         self.run_parse_time_case(case_num, ParseComposedYearQuarter1)
+
+    @load_case_number()
+    # @unittest.skip("skip")
+    def test_parse_time_case7(self, case_num):
+        """Parse a list of time values from case7 using _parse_time method."""
+        self.run_parse_time_case(case_num, ParseComposedYear1)
 
 if __name__ == '__main__':
     nose.run(defaultTest=__name__)

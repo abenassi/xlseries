@@ -51,6 +51,13 @@
                     "arrow.get(2008, 4, 1)",
                     "arrow.get(2008, 7, 1)",
                     "arrow.get(2008, 10, 1)"
+                    ],
+
+    "test_case7": ["arrow.get(1995, 1, 1)",
+                   "arrow.get(1996, 1, 1)",
+                   "arrow.get(1997, 1, 1)",
+                   "arrow.get(1998, 1, 1)",
+                   "arrow.get(1999, 1, 1)"
                     ]
 
 }
