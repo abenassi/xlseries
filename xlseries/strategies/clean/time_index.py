@@ -17,6 +17,7 @@ automatically taken by "get_strategies" and exposed to the user.
 import arrow
 from pprint import pprint
 from pprint import pformat
+from openpyxl.cell import get_column_letter
 
 from xlseries.strategies.clean.parse_time import DayOutOfRange, MonthOutOfRange
 import xlseries.utils.strategies_helpers
@@ -68,7 +69,8 @@ class ParseTimeImplementationError(NotImplementedError):
 
     def __init__(self, curr_time, last_time, next_time, params):
         msg = " ".join(["No strategy to parse time.",
-                        "\nCurrent:", unicode(curr_time), repr(type(curr_time)),
+                        "\nCurrent:", unicode(
+                            curr_time), repr(type(curr_time)),
                         "\nLast:", unicode(last_time), repr(type(last_time)),
                         "\nNext:", unicode(next_time), repr(type(next_time)),
                         "\nParameters: ", pformat(params)])
@@ -104,17 +106,12 @@ class BaseCleanTiStrategy(object):
         time value."""
 
         p = params
-        col = self._get_time_write_col(ws, p["time_header_coord"])
+        iter_time_index = self._time_index_iterator(
+            ws, p["alignment"], p["time_header_coord"], p["data_starts"],
+            p["data_ends"])
 
-        # iterate series time index values cleaning them
         last_time = None
-        for row in xrange(p["data_starts"], p["data_ends"] + 1):
-
-            # take take a possible time value that should be cleaned
-            curr_time = self._get_time_value(ws, row, p["time_header_coord"])
-            next_time = self._get_time_value(ws, row + 1,
-                                             p["time_header_coord"])
-
+        for curr_time, next_time, write_time_cell in iter_time_index:
             # only clean if the value is expected to be a time value
             if self._must_be_time_value(curr_time, next_time, last_time):
 
@@ -130,46 +127,62 @@ class BaseCleanTiStrategy(object):
                                                           p["missing_value"])
 
                     # write the clean value to the spreadsheet
-                    # ws.cell(row=row, column=col).value = curr_time.datetime
-                    ws.cell(coordinate=col+unicode(row)).value = curr_time.datetime
+                    write_time_cell.value = curr_time.datetime
                     last_time = curr_time
 
                 # this is the only case that _must_be_time_value is not
                 # expected to avoid before calling _parse_time, it's a mistake
                 # of the excel designers in the time index
                 except (DayOutOfRange, MonthOutOfRange):
-                    ws.cell(coordinate=col+unicode(row)).value = None
+                    write_time_cell.value = None
 
-    # PRIVATE auxiliar methods
+    @classmethod
+    def _must_be_time_value(cls, value, next_time, last_time):
+        return ((value is not None) and (len(unicode(value).strip()) > 0))
+
+    # PRIVATE time index iterator methods
     @classmethod
     def _time_index_iterator(cls, ws, alignment, time_header_coord, ini, end):
 
         if alignment == "vertical":
             for row in xrange(ini, end + 1):
-                col = ws[time_header_coord].column
-                curr_time = ws.cell(coordinate=col+unicode(row)).value
-                next_time = ws.cell(coordinate=col+unicode(row + 1)).value
-                write_time_cell = ws.cell(coordinate=col+unicode(row))
+                curr_time = cls._get_time_value(ws, time_header_coord,
+                                                f_row=row)
+                next_time = cls._get_time_value(ws, time_header_coord,
+                                                f_row=row + 1)
+                col = cls._time_header_cell(ws, time_header_coord).column
+                write_time_cell = ws.cell(coordinate=col + unicode(row))
                 yield (curr_time, next_time, write_time_cell)
 
         elif alignment == "horizontal":
             for col in xrange(ini, end + 1):
-                row = ws[time_header_coord].row
-                curr_time = ws.cell(column=col, row=row).value
-                next_time = ws.cell(column=col+1, row=row).value
+                curr_time = cls._get_time_value(ws, time_header_coord,
+                                                f_col=get_column_letter(col))
+                next_time = cls._get_time_value(
+                    ws, time_header_coord, f_col=get_column_letter(col + 1))
+                row = cls._time_header_cell(ws, time_header_coord).row
                 write_time_cell = ws.cell(column=col, row=row)
                 yield (curr_time, next_time, write_time_cell)
 
         else:
             raise Exception("Series alignment must be 'vertical' or " +
-                            "'horizontal'.")
-
-
+                            "'horizontal', not " + repr(alignment))
 
     @classmethod
-    def _must_be_time_value(cls, value, next_time, last_time):
-        return (value is not None) and (len(unicode(value).strip()) > 0)
+    def _get_time_value(cls, ws, time_header_coord, f_row=None, f_col=None):
+        """Returns the time value corresponding a certain series and row."""
+        raise NotImplementedError("Getting the time value must be " +
+                                  "implemented in a subclass.")
 
+    @classmethod
+    def _time_header_cell(cls, ws, time_header_coord):
+        """Returns the column where clean time index shouls be written."""
+        if type(time_header_coord) == list:
+            return ws[time_header_coord[0]]
+        else:
+            return ws[time_header_coord]
+
+    # PRIVATE methods to parse time values
     def _parse_time(self, params, curr_time, last_time=None, next_time=None):
         """Try to parse any value into a proper date format.
 
@@ -216,6 +229,8 @@ class BaseCleanTiStrategy(object):
 
         raise ParseTimeImplementationError(curr_time, last_time, next_time,
                                            params)
+
+    # PRIVATE methods to correct progression
 
     @classmethod
     def _correct_progression(cls, last_time, curr_time,
@@ -339,7 +354,7 @@ class BaseCleanTiStrategy(object):
         return None
 
 
-class BaseSingleColumn(BaseCleanTiStrategy):
+class BaseSingleColumn():
 
     """Clean time indexes that use a single column."""
 
@@ -349,21 +364,17 @@ class BaseSingleColumn(BaseCleanTiStrategy):
         return not params["time_multicolumn"]
 
     @classmethod
-    def _get_time_write_col(cls, ws, time_header_coord):
-        """Returns the column where clean time index shouls be written."""
-
-        # return column_index_from_string(ws[time_header_coord].column)
-        return ws[time_header_coord].column
-
-    @classmethod
-    def _get_time_value(cls, ws, row, time_header_coord):
+    def _get_time_value(cls, ws, time_header_coord, f_row=None, f_col=None):
         """Returns the time value corresponding a certain series and row."""
-        col = cls._get_time_write_col(ws, time_header_coord)
-        # return ws.cell(row=row, column=col).value
-        return ws.cell(coordinate=col + unicode(row)).value
+        assert type(time_header_coord) != list, "Time header should be a str."
+
+        col = unicode(f_col or ws[time_header_coord].column)
+        row = unicode(f_row or ws[time_header_coord].row)
+
+        return ws.cell(coordinate=col + row).value
 
 
-class BaseMultipleColumn(BaseCleanTiStrategy):
+class BaseMultipleColumns():
 
     """Clean time indexes that use a single column."""
 
@@ -373,31 +384,31 @@ class BaseMultipleColumn(BaseCleanTiStrategy):
         return params["time_multicolumn"]
 
     @classmethod
-    def _get_time_write_col(cls, ws, time_header_coord):
-        """Returns the column where clean time index shouls be written."""
-        # return column_index_from_string(ws[time_header_coord[0]].column)
-        return ws[time_header_coord[0]].column
-
-    @classmethod
-    def _get_time_value(cls, ws, row, time_header_coord):
+    def _get_time_value(cls, ws, time_header_coord, f_row=None, f_col=None):
         """Returns the time value corresponding a certain series and row.
 
         Concatenate all the values of the time header columns in a unique
         string."""
+        assert type(time_header_coord) == list, "Time header should be a list."
 
         time_value_list = []
 
         for coord in time_header_coord:
-            col = ws[coord].column
-            value = unicode(ws.cell(col + unicode(row)).value).strip()
-            if not value:
-                return None
-            time_value_list.append(value)
+            col = unicode(f_col or ws[coord].column)
+            row = unicode(f_row or ws[coord].row)
+            value = ws.cell(coordinate=col + row).value
+            if value:
+                time_value_list.append(unicode(value))
 
-        return " ".join(time_value_list)
+        time_value = " ".join(time_value_list)
+
+        if len(time_value.strip()) > 0:
+            return time_value
+        else:
+            return None
 
 
-class BaseOffsetTi(BaseCleanTiStrategy):
+class BaseOffsetTi():
 
     """Clean time indexes where time alignment is offset, sharing the same
     column with the data."""
@@ -408,43 +419,124 @@ class BaseOffsetTi(BaseCleanTiStrategy):
 
     @classmethod
     def _must_be_time_value(cls, value, next_time, last_time):
-        base_cond = super(BaseOffsetTi, cls)._must_be_time_value(value,
-                                                                 next_time,
-                                                                 last_time)
+        base_cond = BaseCleanTiStrategy._must_be_time_value(value,
+                                                            next_time,
+                                                            last_time)
         return base_cond and type(value) != float
 
 
-class CleanSingleColumn(BaseSingleColumn):
+class BaseMultiFrequency():
+
+    """Reimplements private methods for multifrequency series."""
+
+    def __init__(self, *args, **kwargs):
+        BaseCleanTiStrategy.__init__(self, *args, **kwargs)
+        self.last_time = {}
+        self.last_frequency = None
+
+    @classmethod
+    def _accepts(cls, ws, params):
+        return len(params["frequency"]) > 1
+
+    def _correct_progression(self, last_time, curr_time,
+                             frequency, missings, missing_value=None):
+
+        if len(self.last_time) == 0:
+            self.last_time = self._init_last_time_dict(frequency)
+
+        # frequency and last_time are replaced simulating two single frequency
+        # series instead of one multifrequency
+        freq, self.last_frequency = self._next_frequency(frequency,
+                                                         self.last_frequency)
+        last_time = self.last_time[freq]
+        print freq, self.last_frequency, last_time, curr_time
+
+        superclass = BaseCleanTiStrategy
+        curr_time = superclass._correct_progression(last_time, curr_time,
+                                                    freq, missings,
+                                                    missing_value)
+        self.last_time[freq] = curr_time
+        return curr_time
+
+    @classmethod
+    def _init_last_time_dict(cls, frequency):
+        """Create a dictionary for _correct_progression arguments.
+
+        Each entry is a different frequency, in a multifrequency series."""
+        freqs = "".join(set(frequency))
+        return {freq: None for freq in freqs}
+
+    @classmethod
+    def _next_frequency(cls, frequency, last_frequency=None):
+        """Calculates what frequency go next.
+
+        In single frequency series, returns the frequency parameter. This
+        method gains relevance in multifrequency series, where a tracking of
+        the last frequency is needed to know what frequency should be applied
+        for a time value in a certain point of the time index.
+        """
+
+        if not len(frequency) > 1:
+            return frequency
+
+        if not last_frequency or last_frequency == frequency:
+            freq = frequency[0]
+            last_frequency = freq
+        else:
+            # print frequency.partition(last_frequency)
+            freq = frequency.partition(last_frequency)[2][0]
+            assert len(freq) == 1, "Freq must have only one character."
+            last_frequency += freq
+
+        # print freq, last_frequency
+
+        return freq, last_frequency
+
+
+class CleanSingleColumn(BaseSingleColumn, BaseCleanTiStrategy):
 
     """Clean time indexes that use a single column, different than the one
     used by the datea and with no offset time alignment."""
 
     @classmethod
     def _accepts(cls, ws, params):
-        base_cond = super(CleanSingleColumn, cls)._accepts(ws, params)
-        return base_cond and params["time_alignment"] == 0
+        single = BaseSingleColumn._accepts(ws, params)
+        return single and params["time_alignment"] == 0
 
 
-class CleanMultipleColumns(BaseMultipleColumn):
+class CleanMultipleColumns(BaseMultipleColumns, BaseCleanTiStrategy):
 
     """Clean time indexes that use multiple columns concatenating values."""
 
     @classmethod
     def _accepts(cls, ws, params):
-        base_cond = super(CleanMultipleColumns, cls)._accepts(ws, params)
-        return base_cond and params["time_alignment"] == 0
+        multicol = BaseMultipleColumns._accepts(ws, params)
+        return multicol and params["time_alignment"] == 0
 
 
-class CleanSingleColumnWithOffset(BaseSingleColumn, BaseOffsetTi):
+class CleanSingleColumnWithOffset(BaseSingleColumn, BaseOffsetTi,
+                                  BaseCleanTiStrategy):
 
     """Clean time indexes that use a single column, different than the one
     used by the datea and with no offset time alignment."""
 
     @classmethod
     def _accepts(cls, ws, params):
-        single_cond = BaseSingleColumn._accepts(ws, params)
-        offset_cond = BaseOffsetTi._accepts(ws, params)
-        return single_cond and offset_cond
+        single = BaseSingleColumn._accepts(ws, params)
+        offset = BaseOffsetTi._accepts(ws, params)
+        return single and offset
+
+
+class CleanMultiColumnsMultiFreq(BaseMultipleColumns, BaseMultiFrequency,
+                                 BaseCleanTiStrategy):
+
+    """Clean a time index with multiple columns and multifrequency series."""
+
+    @classmethod
+    def _accepts(cls, ws, params):
+        multicol = BaseMultipleColumns._accepts(ws, params)
+        multifreq = BaseMultiFrequency._accepts(ws, params)
+        return (multicol and multifreq)
 
 
 def get_strategies():
