@@ -18,6 +18,7 @@ import arrow
 from pprint import pprint
 from pprint import pformat
 from openpyxl.cell import get_column_letter
+import datetime
 
 from xlseries.strategies.clean.parse_time import DayOutOfRange, MonthOutOfRange
 import xlseries.utils.strategies_helpers
@@ -116,8 +117,11 @@ class BaseCleanTiStrategy(object):
             if self._must_be_time_value(curr_time, next_time, last_time):
 
                 try:
+                    # print curr_time, type(curr_time)
                     curr_time = self._parse_time(params, curr_time, last_time,
                                                  next_time)
+                    # print curr_time, type(curr_time)
+
 
                     # correct typos checking for a healthy time progression
                     curr_time = self._correct_progression(last_time,
@@ -128,6 +132,7 @@ class BaseCleanTiStrategy(object):
 
                     # write the clean value to the spreadsheet
                     write_time_cell.value = curr_time.datetime
+                    # print write_time_cell.value, type(write_time_cell.value)
                     last_time = curr_time
 
                 # this is the only case that _must_be_time_value is not
@@ -233,7 +238,6 @@ class BaseCleanTiStrategy(object):
                                            params)
 
     # PRIVATE methods to correct progression
-
     @classmethod
     def _correct_progression(cls, last_time, curr_time,
                              freq, missings, missing_value=None):
@@ -355,6 +359,15 @@ class BaseCleanTiStrategy(object):
 
         return None
 
+    @classmethod
+    def _base_cond(cls, ws, params):
+        """Check that all base classes accept the input."""
+        for base in cls.__bases__:
+            if (base is not BaseCleanTiStrategy and
+                    not base._accepts(ws, params)):
+                return False
+        return True
+
 
 class BaseSingleColumn():
 
@@ -399,6 +412,10 @@ class BaseMultipleColumns():
             col = unicode(f_col or ws[coord].column)
             row = unicode(f_row or ws[coord].row)
             value = ws.cell(coordinate=col + row).value
+
+            msg = "there shouldn't be time values in multicolumn!"
+            assert type(value) != datetime.datetime, msg
+
             if value:
                 time_value_list.append(unicode(value))
 
@@ -427,6 +444,15 @@ class BaseOffsetTi():
         return base_cond and type(value) != float
 
 
+class BaseSingleFrequency():
+
+    """Only accepts single frequency series."""
+
+    @classmethod
+    def _accepts(cls, ws, params):
+        return len(params["frequency"]) == 1
+
+
 class BaseMultiFrequency():
 
     """Reimplements private methods for multifrequency series."""
@@ -442,7 +468,6 @@ class BaseMultiFrequency():
 
     def _correct_progression(self, last_time, curr_time,
                              frequency, missings, missing_value=None):
-
         if len(self.last_time) == 0:
             self.last_time = self._init_last_time_dict(frequency)
 
@@ -451,7 +476,7 @@ class BaseMultiFrequency():
         freq, self.last_frequency = self._next_frequency(frequency,
                                                          self.last_frequency)
         last_time = self.last_time[freq]
-        print freq, self.last_frequency, last_time, curr_time
+        # print freq, self.last_frequency, last_time, curr_time
 
         superclass = BaseCleanTiStrategy
         curr_time = superclass._correct_progression(last_time, curr_time,
@@ -495,38 +520,41 @@ class BaseMultiFrequency():
         return freq, last_frequency
 
 
-class CleanSingleColumn(BaseSingleColumn, BaseCleanTiStrategy):
+class CleanSingleColumn(BaseSingleColumn, BaseSingleFrequency,
+                        BaseCleanTiStrategy):
 
     """Clean time indexes that use a single column, different than the one
     used by the datea and with no offset time alignment."""
 
     @classmethod
     def _accepts(cls, ws, params):
-        single = BaseSingleColumn._accepts(ws, params)
-        return single and params["time_alignment"] == 0
+        # single = BaseSingleColumn._accepts(ws, params)
+        return (cls._base_cond(ws, params) and
+                params["time_alignment"] == 0)
 
 
-class CleanMultipleColumns(BaseMultipleColumns, BaseCleanTiStrategy):
+class CleanMultipleColumns(BaseMultipleColumns, BaseSingleFrequency,
+                           BaseCleanTiStrategy):
 
     """Clean time indexes that use multiple columns concatenating values."""
 
     @classmethod
     def _accepts(cls, ws, params):
-        multicol = BaseMultipleColumns._accepts(ws, params)
-        return multicol and params["time_alignment"] == 0
+        return (cls._base_cond(ws, params) and
+                params["time_alignment"] == 0)
 
 
-class CleanSingleColumnWithOffset(BaseSingleColumn, BaseOffsetTi,
-                                  BaseCleanTiStrategy):
+class CleanSingleColumnWithOffset(BaseSingleColumn, BaseSingleFrequency,
+                                  BaseOffsetTi, BaseCleanTiStrategy):
 
     """Clean time indexes that use a single column, different than the one
     used by the datea and with no offset time alignment."""
 
     @classmethod
     def _accepts(cls, ws, params):
-        single = BaseSingleColumn._accepts(ws, params)
-        offset = BaseOffsetTi._accepts(ws, params)
-        return single and offset
+        # single = BaseSingleColumn._accepts(ws, params)
+        # offset = BaseOffsetTi._accepts(ws, params)
+        return cls._base_cond(ws, params)
 
 
 class CleanMultiColumnsMultiFreq(BaseMultipleColumns, BaseMultiFrequency,
@@ -536,9 +564,9 @@ class CleanMultiColumnsMultiFreq(BaseMultipleColumns, BaseMultiFrequency,
 
     @classmethod
     def _accepts(cls, ws, params):
-        multicol = BaseMultipleColumns._accepts(ws, params)
-        multifreq = BaseMultiFrequency._accepts(ws, params)
-        return (multicol and multifreq)
+        # multicol = BaseMultipleColumns._accepts(ws, params)
+        # multifreq = BaseMultiFrequency._accepts(ws, params)
+        return cls._base_cond(ws, params)
 
 
 def get_strategies():

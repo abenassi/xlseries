@@ -90,8 +90,20 @@ class ParameterDiscovery(BaseStrategy):
         """Ensure data is clean to be processed with the parameters."""
 
         # 1. Clean time index
-        for i_series in xrange(len(self.params.time_header_coord)):
-            self._clean_time_index(ws, self.params[i_series])
+
+        # if time index is multicolumn, only one time index is allowed
+        if self.params["time_multicolumn"][0]:
+            self._clean_time_index(ws, self.params[0])
+
+        # if time index is not multicolumn, many time indexes are allowed
+        else:
+            time_indexes = set()
+            for i_series in xrange(len(self.params.time_header_coord)):
+                # avoid cleaning the same time index twice
+                time_header_coord = self.params["time_header_coord"][i_series]
+                if time_header_coord not in time_indexes:
+                    time_indexes.add(time_header_coord)
+                    self._clean_time_index(ws, self.params[i_series])
 
         # 2. Clean data values
         for i_series in xrange(len(self.params.headers_coord)):
@@ -169,6 +181,7 @@ class ParameterDiscovery(BaseStrategy):
 
         for strategy in clean_ti_strategies.get_strategies():
             if strategy.accepts(ws, params):
+                # print "strategy accepted is", strategy
                 strategy_obj = strategy()
                 strategy_obj.clean_time_index(ws, params)
                 return
