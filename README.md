@@ -154,7 +154,7 @@ This list of parameters can still change any time, adding, removing or modifying
 * **time_header_coord**: "A3" - *Excel coordinates for a time index header.*
 * **time_format**: "datetime.datetime", "string" - *Indicates if date is in a date type or if it's a string.*
 * **time_composed**: "True", "False" - *Indicates if a data series has a time index that has to be composed (not a straight forward date string) because some information about current date is taken from previous cells. Typically when year is only stated a the first quarter while the other three have only the quarter number.*
-* **frequency**: "Y", "Q", "M", "W", "D", "H", "T", "S" or "Y-Q-Q-Q" and other multi-frequency patterns - *Indicates the time frequency of the series. It uses pretty much the same strings as `datetime.datetime` uses with the substantial aggregation of multi-frequency patterns, when a series has values in more than one frequency at the same row (typically a secondary series is the aggregated version of the other one).*
+* **frequency**: "Y", "Q", "M", "W", "D", "H", "T", "S" or "YQQQ" and other multi-frequency patterns - *Indicates the time frequency of the series. It uses pretty much the same strings as `datetime.datetime` uses with the substantial aggregation of multi-frequency patterns, when a series has values in more than one frequency at the same row (typically a secondary series is the aggregated version of the other one).*
 
 ## Development status
 
