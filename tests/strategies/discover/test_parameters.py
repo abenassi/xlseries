@@ -80,9 +80,11 @@ class ParametersTest(unittest.TestCase):
         params = Parameters(get_orig_params_path(
             "test_params_time_multicolumn.json"))
 
-        self.assertEqual(params[0]["time_header_coord"], [["A1", "A2"],
-                                                          ["A1", "A2"],
-                                                          ["A1", "A2"]])
+        self.assertEqual(params["time_header_coord"], [["A1", "A2"],
+                                                       ["A1", "A2"],
+                                                       ["A1", "A2"]])
+
+        self.assertEqual(params[0]["time_header_coord"], ["A1", "A2"])
 
 
 if __name__ == '__main__':
