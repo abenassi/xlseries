@@ -100,7 +100,7 @@ class PeriodRangeTestCase(unittest.TestCase):
         pr_d = pd.period_range("20020304", "20140410", freq="D")
         pr_m = pd.period_range("20020301", "20140301", freq="M")
 
-        period_ranges = strategy_obj._get_period_ranges(ws)
+        period_ranges = list(strategy_obj._get_period_ranges(ws))
 
         self.assertTrue(compare_period_ranges(pr_d, period_ranges[0]))
         self.assertTrue(compare_period_ranges(pr_m, period_ranges[1]))

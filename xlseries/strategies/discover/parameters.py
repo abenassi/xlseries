@@ -46,7 +46,9 @@ class Parameters(object):
 
         if params:
             if type(params) == Parameters:
-                self.__dict__ = params.__dict__
+                # self.__dict__ = params.__dict__
+                raise Exception("The object passed is already an instance of" +
+                                "Parameters.")
 
             else:
                 if type(params) == dict:
@@ -105,7 +107,7 @@ class Parameters(object):
 
         with open(json_params) as f:
             params = json.load(f)
-
+        # print params
         return cls._load_from_dict(params)
 
     @classmethod
@@ -126,7 +128,12 @@ class Parameters(object):
         # apply single provided parameters to all series
         num_series = cls._get_num_series(params)
         for param in params:
-            params[param] = cls._apply_to_all(params[param], num_series)
+            if param != "time_header_coord":
+                params[param] = cls._apply_to_all(params[param], num_series)
+            else:
+                params[param] = cls._apply_to_all_time_header(params[param],
+                                                              num_series,
+                                                              params)
 
         return params
 
@@ -165,13 +172,27 @@ class Parameters(object):
     def _apply_to_all(cls, param, num_series):
         """Creates list from single parameter repeating it for every series."""
 
-        if not type(param) == list and num_series and num_series > 1:
-            param_list = [param for i in range(num_series)]
+        if not type(param) == list and num_series:
+            param_list = [param for i in xrange(num_series)]
 
         else:
             param_list = param
 
         return param_list
+
+    @classmethod
+    def _apply_to_all_time_header(cls, param, num_series, params):
+        """Creates list from single parameter repeating it for every series."""
+
+        if type(params["time_multicolumn"]) == list:
+            time_multicolumn = params["time_multicolumn"][0]
+        else:
+            time_multicolumn = params["time_multicolumn"]
+
+        if (not type(param) == list or not time_multicolumn):
+            return cls._apply_to_all(param, num_series)
+        else:
+            return [param for i in xrange(num_series)]
 
     @classmethod
     def _unpack_header_ranges(cls, headers_coord):

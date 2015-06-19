@@ -166,6 +166,7 @@ class ParameterDiscovery(BaseStrategy):
 
         return dfs
 
+    # auxiliar methods
     @staticmethod
     def _hash_period_range(period_range):
         """Returns a tuple describing a period range in a hashable way."""
@@ -203,18 +204,13 @@ class ParameterDiscovery(BaseStrategy):
             ws: A clean worksheet with time data series.
         """
 
-        period_ranges = []
-
         for freq, ini_row, header_coord, end_row, time_alignement in \
             zip(self.params.frequency, self.params.data_starts,
                 self.params.time_header_coord, self.params.data_ends,
                 self.params.time_alignment):
 
-            pr = self._get_period_range(ws, freq, ini_row, header_coord,
-                                        end_row, time_alignement)
-            period_ranges.append(pr)
-
-        return period_ranges
+            yield self._get_period_range(ws, freq, ini_row, header_coord,
+                                         end_row, time_alignement)
 
     def _get_period_range(self, ws, freq, ini_row, header_coord, end_row,
                           time_alignement):

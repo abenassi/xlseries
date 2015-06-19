@@ -12,6 +12,7 @@
  "progressive_aggregation": "False",
  "series_names": "None",
  "time_composed": "False",
+ "time_multicolumn": "False",
  "time_alignment": 0,
  "time_format": "datetime.datetime",
  "time_header": "False",

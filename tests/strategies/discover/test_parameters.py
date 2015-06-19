@@ -46,8 +46,8 @@ class ParametersTest(unittest.TestCase):
         self.assertEqual(params.__dict__, self.params_exp.__dict__)
 
     def test_load_from_parameters_object(self):
-        params = Parameters(self.params)
-        self.assertEqual(params.__dict__, self.params_exp.__dict__)
+        with self.assertRaises(Exception):
+            Parameters(self.params)
 
     # @unittest.skip("skip")
     def test_eval_param(self):
@@ -80,7 +80,9 @@ class ParametersTest(unittest.TestCase):
         params = Parameters(get_orig_params_path(
             "test_params_time_multicolumn.json"))
 
-        self.assertEqual(params[0]["time_header_coord"], ["A1", "A2"])
+        self.assertEqual(params[0]["time_header_coord"], [["A1", "A2"],
+                                                          ["A1", "A2"],
+                                                          ["A1", "A2"]])
 
 
 if __name__ == '__main__':
