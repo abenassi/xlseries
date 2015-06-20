@@ -19,6 +19,7 @@ import xlseries.utils.strategies_helpers
 from xlseries.strategies.discover.parameters import Parameters
 import xlseries.strategies.clean.time_index as clean_ti_strategies
 import xlseries.strategies.get.data as get_data_strategies
+import xlseries.strategies.get.period_range as get_pr_strategies
 
 
 # EXCEPTIONS
@@ -129,26 +130,27 @@ class ParameterDiscovery(BaseStrategy):
             for strategy in get_data_strategies.get_strategies():
                 if strategy.accepts(ws, params):
                     strategy_obj = strategy()
-                    name, values = strategy_obj.get_data(ws, params)
+                    names_and_values = strategy_obj.get_data(ws, params)
                     break
 
             # raise exception if no strategy accepts the input
-            if not name or not values:
+            if not names_and_values:
                 msg = "There is no strategy to deal with " + str(params)
                 raise Exception(msg)
 
-            # print "period range", params["frequency"], params["data_starts"],
-            # params["headers_coord"], params["data_ends"],
-            # params["time_alignment"]
-            period_range = self._get_period_range(ws, params["frequency"],
-                                                  params["data_starts"],
-                                                  params["time_header_coord"],
-                                                  params["data_ends"],
-                                                  params["time_alignment"])
-            hashable_pr = self._hash_period_range(period_range)
+            prs = self._get_series_prs(ws, params["frequency"],
+                                       params["data_starts"],
+                                       params["time_header_coord"],
+                                       params["data_ends"],
+                                       params["time_alignment"],
+                                       params["alignment"])
 
-            dfs_dict[hashable_pr]["columns"].append(name)
-            dfs_dict[hashable_pr]["data"].append(values)
+            for period_range, (name, values) in zip(prs, names_and_values):
+                # print period_range, name, values
+                hashable_pr = self._hash_period_range(period_range)
+
+                dfs_dict[hashable_pr]["columns"].append(name)
+                dfs_dict[hashable_pr]["data"].append(values)
 
         # 3. Build data frames
         dfs = []
@@ -177,12 +179,8 @@ class ParameterDiscovery(BaseStrategy):
     def _clean_time_index(cls, ws, params):
         """This is changing ws..."""
 
-        # raise Exception(ws.title + unicode(params) + " accepted!")
-        # raise Exception(clean_ti_strategies.get_strategies())
-
         for strategy in clean_ti_strategies.get_strategies():
             if strategy.accepts(ws, params):
-                # print "strategy accepted is", strategy
                 strategy_obj = strategy()
                 strategy_obj.clean_time_index(ws, params)
                 return
@@ -204,25 +202,32 @@ class ParameterDiscovery(BaseStrategy):
             ws: A clean worksheet with time data series.
         """
 
-        for freq, ini_row, header_coord, end_row, time_alignement in \
+        for (freq, ini_row, time_header_coord, end_row, time_alignement,
+             alignment) in \
             zip(self.params.frequency, self.params.data_starts,
                 self.params.time_header_coord, self.params.data_ends,
-                self.params.time_alignment):
+                self.params.time_alignment, self.params.alignment):
 
-            yield self._get_period_range(ws, freq, ini_row, header_coord,
-                                         end_row, time_alignement)
+            for pr in self._get_series_prs(ws, freq, ini_row,
+                                           time_header_coord,
+                                           end_row, time_alignement,
+                                           alignment):
+                yield pr
 
-    def _get_period_range(self, ws, freq, ini_row, header_coord, end_row,
-                          time_alignement):
+    def _get_series_prs(self, ws, freq, ini_row, time_header_coord, end_row,
+                        time_alignement, alignment):
 
-        col = column_index_from_string(ws[header_coord].column)
-        start = ws.cell(row=ini_row + time_alignement, column=col).value
-        end = ws.cell(row=end_row + time_alignement, column=col).value
+        for strategy in get_pr_strategies.get_strategies():
+            if strategy.accepts(ws, freq):
+                return strategy.get_period_ranges(ws, freq, ini_row,
+                                                  time_header_coord, end_row,
+                                                  time_alignement,
+                                                  alignment)
 
-        # print start, end, freq
-        period_range = pd.period_range(start, end, freq=freq)
-
-        return period_range
+        msg = " ".join(["There is no strategy to get period range for",
+                        "\nFrequency:", freq,
+                        "\nTime header coord:", time_header_coord])
+        raise Exception(msg)
 
 
 def get_strategies():

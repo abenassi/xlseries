@@ -45,7 +45,7 @@ class BaseGetSingleFrequencyData(BaseGetDataStrategy):
         name = cls._get_name(ws, params["headers_coord"])
         values = cls._get_values(ws, params)
 
-        return name, values
+        return [(name, values)]
 
     # PRIVATE
     @classmethod
