@@ -79,8 +79,13 @@ class GetPeriodRangesMultifrequency(BaseGetPeriodRangesStrategy):
         starts = {f: None for f in freq}
         ends = {f: None for f in freq}
 
+        if type(time_header_coord) == list:
+            th_coord = time_header_coord[0]
+        else:
+            th_coord = time_header_coord
+
         if alignment == "vertical":
-            col = column_index_from_string(ws[time_header_coord].column)
+            col = column_index_from_string(ws[th_coord].column)
 
             # capture starting times
             rows = ws.rows[ini - 1:ini + len(freq) - 1]
@@ -101,7 +106,7 @@ class GetPeriodRangesMultifrequency(BaseGetPeriodRangesStrategy):
                     ends[f] = cell.value
 
         elif alignment == "horizontal":
-            row = ws[time_header_coord].row
+            row = ws[th_coord].row
 
             # capture starting times
             cols = ws.columns[ini - 1:ini + len(freq) - 1]

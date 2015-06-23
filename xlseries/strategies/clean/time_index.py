@@ -107,6 +107,7 @@ class BaseCleanTiStrategy(object):
         time value."""
 
         p = params
+        # create iterator of time index values
         iter_time_index = self._time_index_iterator(
             ws, p["alignment"], p["time_header_coord"], p["data_starts"],
             p["data_ends"])
@@ -117,11 +118,8 @@ class BaseCleanTiStrategy(object):
             if self._must_be_time_value(curr_time, next_time, last_time):
 
                 try:
-                    # print curr_time, type(curr_time)
                     curr_time = self._parse_time(params, curr_time, last_time,
                                                  next_time)
-                    # print curr_time, type(curr_time)
-
 
                     # correct typos checking for a healthy time progression
                     curr_time = self._correct_progression(last_time,

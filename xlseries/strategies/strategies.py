@@ -128,9 +128,12 @@ class ParameterDiscovery(BaseStrategy):
             params = self.params[i_series]
             name, values = None, None
             for strategy in get_data_strategies.get_strategies():
+                # print strategy, "is being asked.."
                 if strategy.accepts(ws, params):
+                    # print "accepted!"
                     strategy_obj = strategy()
                     names_and_values = strategy_obj.get_data(ws, params)
+                    # print names_and_values
                     break
 
             # raise exception if no strategy accepts the input
@@ -149,7 +152,7 @@ class ParameterDiscovery(BaseStrategy):
                 # print period_range, name, values
                 hashable_pr = self._hash_period_range(period_range)
 
-                dfs_dict[hashable_pr]["columns"].append(name)
+                self._add_name(name, dfs_dict[hashable_pr]["columns"])
                 dfs_dict[hashable_pr]["data"].append(values)
 
         # 3. Build data frames
@@ -228,6 +231,19 @@ class ParameterDiscovery(BaseStrategy):
                         "\nFrequency:", freq,
                         "\nTime header coord:", time_header_coord])
         raise Exception(msg)
+
+    def _add_name(self, name, columns, index=1):
+        if self._indexed_name(name, index) not in columns:
+            columns.append(self._indexed_name(name, index))
+        else:
+            self._add_name(name, columns, index + 1)
+
+    def _indexed_name(self, name, index):
+        if index <= 1:
+            return name
+        else:
+            return name + "." + unicode(index)
+
 
 
 def get_strategies():

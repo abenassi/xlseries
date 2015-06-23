@@ -10,7 +10,7 @@ Tests for `get_data_strategies` module.
 import unittest
 import nose
 
-from xlseries.strategies.get.data import GetSingleFrequencyDataContinuous
+from xlseries.strategies.get.data import GetSingleFrequencyContinuous
 from xlseries.strategies.clean.time_index import CleanSingleColumn
 from xlseries.utils.comparing import compare_list_values
 from xlseries.utils.case_loaders import load_parameters_case
@@ -34,7 +34,7 @@ class MissingsTestCase(unittest.TestCase):
     def test_fill_implicit_missings(self):
         test_wb = load_original_case(2)
         params = load_parameters_case(2)
-        strategy = GetSingleFrequencyDataContinuous
+        strategy = GetSingleFrequencyContinuous
 
         ws = test_wb.active
 

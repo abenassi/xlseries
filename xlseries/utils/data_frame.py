@@ -273,13 +273,16 @@ def _check_columns(cols1, cols2):
 
     for col1 in cols1:
         if col1 not in cols2:
-            msg = "".join(["'", col1, "'", "\nnot in\n",
+            msg = "".join(["'", col1, "'", "\nnot in cols2\n",
                            "\n".join(list(cols2))])
             raise Exception(msg)
 
     for col2 in cols2:
         if col2 not in cols1:
-            # raise Exception(repr(col2) + " not in " + repr(cols1))
+            msg = "".join(["'", col2, "'", "\nnot in cols1\n",
+                           "\n".join(list(cols1))])
+            raise Exception(msg)
+
             return False
 
     return True
