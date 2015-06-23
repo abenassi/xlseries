@@ -5,18 +5,21 @@
 data
 
 This module contains strategies to get data from a spreadsheet.
+
+Warning! Do not import other classes directly "from module import Class",
+except if they are custom exceptions.
+Rather import the module in which the Class is defined and use it like
+"module.Class". All the classes defined in this modul namespace are
+automatically taken by "get_strategies" and exposed to the user.
 """
 
 from __future__ import unicode_literals
-import sys
-import inspect
 from pprint import pprint
 import arrow
 import datetime
 import numpy as np
-from openpyxl.cell import column_index_from_string
-from openpyxl.cell import get_column_letter
 from unidecode import unidecode
+import collections
 
 import xlseries.utils.strategies_helpers
 from xlseries.utils.time_manipulation import increment_time
@@ -53,38 +56,40 @@ class BaseGetDataStrategy(object):
         return unidecode(ws[header_coord].value).strip()
 
     def _get_values(self, ws, params):
+        p = params
 
         # create iterator of values
-        iter_values = self._values_iterator(ws, params["alignment"],
-                                            params["headers_coord"],
-                                            params["data_starts"],
-                                            params["data_ends"])
+        iter_values = self._values_iterator(ws, p["alignment"],
+                                            p["headers_coord"],
+                                            p["data_starts"],
+                                            p["data_ends"])
 
-        values_dict = {}
+        values_dict = collections.OrderedDict()
         for value, index in iter_values:
-            # print value, index
             new_value = self._handle_new_value(values_dict.values(), value,
-                                               params["missings"],
-                                               params["missing_value"],
-                                               params["blank_rows"])
+                                               p["missings"],
+                                               p["missing_value"],
+                                               p["blank_rows"])
 
-            if self._value_to_be_added(new_value, index, ws, params):
-                frequency = self._get_frequency(params["frequency"])
+            if self._value_to_be_added(new_value, index, ws, p):
+                frequency = self._get_frequency(p["frequency"])
                 if frequency not in values_dict:
                     values_dict[frequency] = []
                 values_dict[frequency].append(new_value)
 
         # fill the missing values if they are implicit
-        if (params["missings"] and params["missing_value"] == "Implicit" and
-                not params["multifrequency"]):
-            a = values_dict[frequency]
-            a = self._fill_implicit_missings(ws,
-                                             values_dict[frequency],
-                                             params["frequency"],
-                                             params["time_header_coord"],
-                                             params["data_starts"],
-                                             params["data_ends"])
-            values_dict[frequency] = a
+        # it doesn't work with multifrequency series
+        if (p["missings"] and p["missing_value"] == "Implicit" and
+                len(p["frequency"]) == 1):
+            values = values_dict.values()[0]
+            values = self._fill_implicit_missings(ws,
+                                                  values,
+                                                  p["frequency"],
+                                                  p["time_header_coord"],
+                                                  p["data_starts"],
+                                                  p["data_ends"],
+                                                  p["alignment"])
+            return [values]
 
         return values_dict.values()
 
@@ -115,6 +120,31 @@ class BaseGetDataStrategy(object):
                             "'horizontal', not " + repr(alignment))
 
     @classmethod
+    def _time_index_iterator(cls, ws, alignment, time_header_coord, ini, end):
+
+        if alignment == "vertical":
+            for row in xrange(ini, end + 1):
+                col = cls._time_header_cell(ws, time_header_coord).column
+                yield ws.cell(coordinate=col + unicode(row)).value
+
+        elif alignment == "horizontal":
+            for col in xrange(ini, end + 1):
+                row = cls._time_header_cell(ws, time_header_coord).row
+                yield ws.cell(column=col, row=row).value
+
+        else:
+            raise Exception("Series alignment must be 'vertical' or " +
+                            "'horizontal', not " + repr(alignment))
+
+    @classmethod
+    def _time_header_cell(cls, ws, time_header_coord):
+        """Returns the column where clean time index shouls be written."""
+        if type(time_header_coord) == list:
+            return ws[time_header_coord[0]]
+        else:
+            return ws[time_header_coord]
+
+    @classmethod
     def _valid_value(cls, value):
         """Check if a value is likely to be a series data value."""
 
@@ -137,27 +167,25 @@ class BaseSingleFrequency():
     # PRIVATE
     @classmethod
     def _fill_implicit_missings(cls, ws, values, frequency, time_header_coord,
-                                ini_row, end_row):
+                                ini, end, alignment):
         """Fill time holes in the series with missing data."""
 
-        col = ws[time_header_coord].column
+        iter_ti = cls._time_index_iterator(ws, alignment, time_header_coord,
+                                           ini, end)
 
         new_values = []
-        ini_time_value = arrow.get(ws.cell(coordinate=col +
-                                           unicode(ini_row)).value)
-        exp_time_value = ini_time_value
-        for row, (i_value, value) in zip(xrange(ini_row, end_row + 1),
-                                         enumerate(values)):
-            obs_time_value = arrow.get(
-                ws.cell(coordinate=col + unicode(row)).value)
+        exp_time = None
+        for obs_time, (i_value, value) in zip(iter_ti, enumerate(values)):
+            obs_time = arrow.get(obs_time)
+            exp_time = exp_time or obs_time
 
             # fill time holes in the series with missing data
-            while exp_time_value < obs_time_value:
+            while exp_time < obs_time:
                 new_values.append(np.nan)
-                exp_time_value = increment_time(exp_time_value, 1, frequency)
+                exp_time = increment_time(exp_time, 1, frequency)
 
             new_values.append(values[i_value])
-            exp_time_value = increment_time(exp_time_value, 1, frequency)
+            exp_time = increment_time(exp_time, 1, frequency)
 
         return new_values
 
@@ -275,7 +303,7 @@ class BaseNonContinuous():
 
     @classmethod
     def _handle_new_value(cls, values, value, missings, missing_value,
-                            blank_rows):
+                          blank_rows):
 
         new_value = None
         if missings:

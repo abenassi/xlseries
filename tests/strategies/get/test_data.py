@@ -9,13 +9,13 @@ Tests for `get_data_strategies` module.
 
 import unittest
 import nose
+from openpyxl import Workbook
+import arrow
+import numpy as np
 
 from xlseries.strategies.get.data import GetSingleFrequencyContinuous
-from xlseries.strategies.clean.time_index import CleanSingleColumn
+from xlseries.strategies.get.data import GetMultiFrequencyContinuous
 from xlseries.utils.comparing import compare_list_values
-from xlseries.utils.case_loaders import load_parameters_case
-from xlseries.utils.case_loaders import load_original_case
-from xlseries.utils.case_loaders import load_expected_case
 
 
 # @unittest.skip("skip")
@@ -31,33 +31,64 @@ class MissingsTestCase(unittest.TestCase):
 
         return values
 
-    def test_fill_implicit_missings(self):
-        test_wb = load_original_case(2)
-        params = load_parameters_case(2)
+    def test_fill_implicit_missings_vertical(self):
         strategy = GetSingleFrequencyContinuous
+        wb = Workbook()
+        ws = wb.active
 
-        ws = test_wb.active
+        ws["A1"] = arrow.get(2015, 6, 13).datetime
+        ws["A2"] = arrow.get(2015, 6, 14).datetime
+        ws["A3"] = arrow.get(2015, 6, 15).datetime
+        ws["A4"] = arrow.get(2015, 6, 18).datetime
+        ws["A5"] = arrow.get(2015, 6, 19).datetime
+        ws["A6"] = arrow.get(2015, 6, 20).datetime
+        ws["A7"] = arrow.get(2015, 6, 22).datetime
+        ws["A8"] = arrow.get(2015, 6, 23).datetime
 
-        ini_row = 5
-        end_row = 2993
-        col = 4
-
-        values = self._get_values(ws, ini_row, end_row, col)
+        values = range(8)
         frequency = "D"
-        time_header_coord = "C4"
-
-        CleanSingleColumn().clean_time_index(ws, params[0])
+        time_header_coord = "A1"
+        ini_row = 1
+        end_row = 8
+        exp_values = [0, 1, 2, np.NaN, np.NaN, 3, 4, 5, np.NaN, 6, 7]
 
         new_values = strategy._fill_implicit_missings(ws, values, frequency,
                                                       time_header_coord,
                                                       ini_row,
-                                                      end_row)
-
-        exp_dfs = load_expected_case(2)
-        exp_values = [value[0] for value in exp_dfs[0].values]
+                                                      end_row,
+                                                      "vertical")
 
         self.assertEqual(len(new_values), len(exp_values))
+        self.assertTrue(compare_list_values(new_values, exp_values))
 
+    def test_fill_implicit_missings_horizontal(self):
+        strategy = GetSingleFrequencyContinuous
+        wb = Workbook()
+        ws = wb.active
+
+        ws["A1"] = arrow.get(2015, 6, 13).datetime
+        ws["B1"] = arrow.get(2015, 6, 14).datetime
+        ws["C1"] = arrow.get(2015, 6, 15).datetime
+        ws["D1"] = arrow.get(2015, 6, 18).datetime
+        ws["E1"] = arrow.get(2015, 6, 19).datetime
+        ws["F1"] = arrow.get(2015, 6, 20).datetime
+        ws["G1"] = arrow.get(2015, 6, 22).datetime
+        ws["H1"] = arrow.get(2015, 6, 23).datetime
+
+        values = range(8)
+        frequency = "D"
+        time_header_coord = "A1"
+        ini_col = 1
+        end_col = 8
+        exp_values = [0, 1, 2, np.NaN, np.NaN, 3, 4, 5, np.NaN, 6, 7]
+
+        new_values = strategy._fill_implicit_missings(ws, values, frequency,
+                                                      time_header_coord,
+                                                      ini_col,
+                                                      end_col,
+                                                      "horizontal")
+
+        self.assertEqual(len(new_values), len(exp_values))
         self.assertTrue(compare_list_values(new_values, exp_values))
 
 
