@@ -9,6 +9,7 @@ import copy
 
 from xlseries.strategies.discover.parameters import Parameters
 from xlseries.strategies.discover.parameters import InvalidParameter
+from xlseries.strategies.discover.parameters import CriticalParameterMissing
 
 """
 test_parameters
@@ -100,6 +101,14 @@ class ParametersTest(unittest.TestCase):
         valid_values = {"continuity": [True, False]}
         with self.assertRaises(InvalidParameter):
             self.params._validate_parameters(params, valid_values)
+
+    def test_ensure_critical_parameters_exception(self):
+        params = {"data_starts": None}
+        critical = ["data_starts"]
+        valid_values = {"data_starts": [int]}
+        with self.assertRaises(CriticalParameterMissing):
+            Parameters._ensure_critical_parameters(params, critical,
+                                                   valid_values)
 
 
 if __name__ == '__main__':

@@ -24,6 +24,16 @@ class InvalidParameter(ValueError):
         super(InvalidParameter, self).__init__(msg)
 
 
+class CriticalParameterMissing(Exception):
+
+    """Raised when a critial parameter is not provided by the user."""
+
+    def __init__(self, param_name):
+        msg = u"{param_name} is a critical parameter. It has to be " + \
+            "provided by the user.".format(param_name=param_name)
+        super(CriticalParameterMissing, self).__init__(msg)
+
+
 class Parameters(object):
 
     """Object that collects input parameters from parsing strategies."""
@@ -44,6 +54,9 @@ class Parameters(object):
         "time_composed": [True, False],
         "frequency": ["Y", "Q", "M", "W", "D"]
     }
+
+    CRITICAL = ["headers_coord", "data_starts", "data_ends",
+                "time_header_coord", "frequency"]
 
     def __init__(self, params=None):
 
@@ -133,6 +146,9 @@ class Parameters(object):
     def _load_from_dict(cls, params):
         """Sanitize parameter inputs in a dict."""
 
+        # ensure critical parameters
+        cls._ensure_critical_parameters(params, cls.CRITICAL, cls.VALID_VALUES)
+
         # check that the input is valid
         cls._validate_parameters(params, cls.VALID_VALUES)
 
@@ -220,6 +236,10 @@ class Parameters(object):
 
         for param_name, param_value in params.iteritems():
 
+            # if a parameter is not provided, its validity cannot be checked
+            if not param_value:
+                continue
+
             if type(param_value) == list:
                 iter_param_values = param_value
             else:
@@ -239,6 +259,7 @@ class Parameters(object):
     @classmethod
     def _valid_freq(cls, value, valid_values):
         """Check that a frequency is composed of valid frequency characters."""
+
         for char in value:
             if char not in valid_values:
                 return False
@@ -261,3 +282,14 @@ class Parameters(object):
                 return True
 
         return False
+
+    @classmethod
+    def _ensure_critical_parameters(cls, params, critical, valid_values):
+        for param_name, param_value in params.iteritems():
+            if (not param_value and param_name in critical and
+                    None not in valid_values[param_name]):
+                raise CriticalParameterMissing(param_name)
+
+
+
+
