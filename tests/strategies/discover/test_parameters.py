@@ -8,6 +8,7 @@ import json
 import copy
 
 from xlseries.strategies.discover.parameters import Parameters
+from xlseries.strategies.discover.parameters import InvalidParameter
 
 """
 test_parameters
@@ -81,6 +82,24 @@ class ParametersTest(unittest.TestCase):
                                                        ["A1", "A2"]])
 
         self.assertEqual(params[0]["time_header_coord"], ["A1", "A2"])
+
+    def test_valid_param_value(self):
+        self.assertTrue(self.params._valid_param_value(True, [True, False]))
+        self.assertTrue(self.params._valid_param_value(True, []))
+        self.assertFalse(self.params._valid_param_value("A1", [True, False]))
+        self.assertFalse(self.params._valid_param_value(None, [True, False]))
+
+    def test_valid_freq(self):
+        valid_freqs = ["Y", "Q", "M", "W", "D"]
+        self.assertTrue(self.params._valid_freq("YQQQQ", valid_freqs))
+        self.assertTrue(self.params._valid_freq("D", valid_freqs))
+        self.assertFalse(self.params._valid_freq("YQQX", valid_freqs))
+
+    def test_validate_parameters_exception(self):
+        params = {"continuity": "A1"}
+        valid_values = {"continuity": [True, False]}
+        with self.assertRaises(InvalidParameter):
+            self.params._validate_parameters(params, valid_values)
 
 
 if __name__ == '__main__':

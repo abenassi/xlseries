@@ -1,6 +1,5 @@
 {"alignment": "vertical",
  "blank_rows": false,
- "composed_headers": false,
  "continuity": true,
  "data_ends": 256,
  "data_starts": 2,
@@ -8,12 +7,8 @@
  "headers_coord": ["B1", "C1", "D1"],
  "missings": true,
  "missing_value": null,
- "multifrequency": false,
- "progressive_aggregation": false,
  "series_names": null,
  "time_composed": false,
  "time_alignment": 0,
  "time_multicolumn": true,
- "time_header": false,
- "time_header_coord": ["A1", "A2"],
- "time_header_next_to_data": null}
+ "time_header_coord": ["A1", "A2"]}

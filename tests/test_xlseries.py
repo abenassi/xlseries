@@ -12,8 +12,8 @@ import nose
 import os
 from functools import wraps
 
-from xlseries.utils.case_loaders import load_original_case
-from xlseries.utils.case_loaders import load_parameters_case
+from xlseries.utils.path_finders import get_orig_cases_path
+from xlseries.utils.path_finders import get_param_cases_path
 from xlseries.utils.case_loaders import load_expected_case
 from xlseries.xlseries import XlSeries
 from xlseries.utils.data_frame import compare_data_frames
@@ -42,8 +42,8 @@ class TestXlSeriesWithAllParameters(unittest.TestCase):
         Args:
             case_num: The test case number to run.
         """
-        test_wb = load_original_case(case_num)
-        params = load_parameters_case(case_num)
+        test_wb = get_orig_cases_path(case_num)
+        params = get_param_cases_path(case_num)
         exp_dfs = load_expected_case(case_num)
 
         # get dfs from the strategy

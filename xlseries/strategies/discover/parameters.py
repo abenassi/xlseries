@@ -12,14 +12,26 @@ This module contains the parameters object used by parsing strategies.
 """
 
 
+class InvalidParameter(ValueError):
+
+    """Raised when a parameter is of a non valid value."""
+
+    def __init__(self, param_name, value, valid_values):
+        msg = u"""{value} {value_type} is not a valid value for {param_name}
+                   parameter. The valid values are {valid_values}.
+        """.format(param_name=param_name, value=value,
+                   valid_values=valid_values, value_type=type(value))
+        super(InvalidParameter, self).__init__(msg)
+
+
 class Parameters(object):
 
     """Object that collects input parameters from parsing strategies."""
 
     VALID_VALUES = {
         "alignment": ["vertical", "horizontal"],
-        "series_names": [str],
-        "headers_coord": [str],
+        "series_names": [str, unicode, None],
+        "headers_coord": [str, unicode],
         "data_starts": [int],
         "data_ends": [int],
         "continuity": [True, False],
@@ -28,7 +40,7 @@ class Parameters(object):
         "missing_value": [],
         "time_alignment": [int],
         "time_multicolumn": [True, False],
-        "time_header_coord": [str],
+        "time_header_coord": [str, unicode],
         "time_composed": [True, False],
         "frequency": ["Y", "Q", "M", "W", "D"]
     }
@@ -121,6 +133,9 @@ class Parameters(object):
     def _load_from_dict(cls, params):
         """Sanitize parameter inputs in a dict."""
 
+        # check that the input is valid
+        cls._validate_parameters(params, cls.VALID_VALUES)
+
         # convert in lists ranges of headers (eg. "B8-B28")
         if "headers_coord" in params:
             h_c = params["headers_coord"]
@@ -200,6 +215,49 @@ class Parameters(object):
         return new_list
 
     @classmethod
-    def _validate_parameters(cls):
+    def _validate_parameters(cls, params, valid_values):
         """Check that all values of the parameters are valid."""
-        pass
+
+        for param_name, param_value in params.iteritems():
+
+            if type(param_value) == list:
+                iter_param_values = param_value
+            else:
+                iter_param_values = [param_value]
+
+            for value in iter_param_values:
+                if param_name == "frequency":
+                    if not cls._valid_freq(value, valid_values["frequency"]):
+                        raise InvalidParameter(param_name, value)
+
+                else:
+                    if not cls._valid_param_value(value,
+                                                  valid_values[param_name]):
+                        raise InvalidParameter(param_name, value,
+                                               valid_values[param_name])
+
+    @classmethod
+    def _valid_freq(cls, value, valid_values):
+        """Check that a frequency is composed of valid frequency characters."""
+        for char in value:
+            if char not in valid_values:
+                return False
+        return True
+
+    @classmethod
+    def _valid_param_value(cls, value, valid_values):
+        """Check that a value is valid.
+
+        Check against a list of valid values or valid types of values."""
+
+        if not valid_values:
+            return True
+
+        for valid_value in valid_values:
+            if type(valid_value) == type and type(value) == valid_value:
+                return True
+
+            elif value == valid_value:
+                return True
+
+        return False

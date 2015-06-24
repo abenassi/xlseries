@@ -1,6 +1,5 @@
 {"alignment": ["vertical", "vertical", "vertical"],
  "blank_rows": [false, false, false],
- "composed_headers": [false, false, false],
  "continuity": [true, true, true],
  "data_ends": [256, 256, 256],
  "data_starts": [2, 2, 2],
@@ -8,11 +7,8 @@
  "headers_coord": ["B1", "C1", "C2"],
  "missings": [true, true, true],
  "missing_value": [null, null, null],
- "progressive_aggregation": [false, false, false],
  "series_names": [null, null, null],
  "time_composed": [false, false, false],
  "time_multicolumn": [false, false, false],
  "time_alignment": [0, 0, 0],
- "time_header": [false, false, false],
- "time_header_coord": ["A1", "A1", "A1"],
- "time_header_next_to_data": [null, null, null]}
+ "time_header_coord": ["A1", "A1", "A1"]}
