@@ -48,12 +48,12 @@ series = XlSeries(get_orig_cases_path(1))
 dfs = series.get_data_frames(get_param_cases_path(1))
 ```
 
-* **Excel file**: Up to this development point, the excel file must have only one spreadsheet (anyway, only the active one will be used by `xlseries`) and should not be more *complicated* than test cases [1](#test-case-1), [2](#test-case-2), [3](#test-case-3), [4](#test-case-4) or [5](#test-case-5) (the ones currently passing the tests).
+* **Excel file**: Up to this development point, the excel file must have only one spreadsheet (anyway, only the active one will be used by `xlseries`) and should not be more *complicated* than the [7 test cases](#test-cases):
 
 ![](https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case_1_2_3.png)
 ![](https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case_4_5.png)
 
-* **Json parameters**: A full JSON file with parameters must be provided. In future development stages more and more [parameters](#parameters) will be discovered by the package and the user will not need to provide them.
+* **Json parameters**: A full JSON file or python dictionary with parameters must be provided. In future development stages more and more [parameters](#parameters) will be discovered by the package and the user will not need to provide them but as a way to increase the speed.
 
 To give it a try, you can use this [ipython notebook template](docs/notebooks/Example use case.ipynb). If you want to see the test cases that are passing all the tests and get an idea of how far is going `xlseries` at the moment, check out this [ipython notebook with test cases](docs/notebooks/Test cases.ipynb).
 
