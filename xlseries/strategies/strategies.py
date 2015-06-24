@@ -119,6 +119,8 @@ class ParameterDiscovery(BaseStrategy):
                 return self._generate_attempts(non_discovered, params)
             else:
                 return [params]
+        else:
+            return [params]
 
     def _clean_data(self, ws, params):
         """Ensure data is clean to be processed with the parameters."""
@@ -213,7 +215,7 @@ class ParameterDiscovery(BaseStrategy):
     # 1. DISCOVER PARAMETERS methods
     @classmethod
     def _discover_missing_params(cls, params):
-        pass
+        return None
 
     @classmethod
     def _generate_attempts(cls, non_discovered, params):
