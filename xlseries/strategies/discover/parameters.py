@@ -16,6 +16,23 @@ class Parameters(object):
 
     """Object that collects input parameters from parsing strategies."""
 
+    VALID_VALUES = {
+        "alignment": ["vertical", "horizontal"],
+        "series_names": [str],
+        "headers_coord": [str],
+        "data_starts": [int],
+        "data_ends": [int],
+        "continuity": [True, False],
+        "blank_rows": [True, False],
+        "missings": [True, False],
+        "missing_value": [],
+        "time_alignment": [int],
+        "time_multicolumn": [True, False],
+        "time_header_coord": [str],
+        "time_composed": [True, False],
+        "frequency": ["Y", "Q", "M", "W", "D"]
+    }
+
     def __init__(self, params=None):
 
         # general
@@ -181,3 +198,8 @@ class Parameters(object):
             new_list = None
 
         return new_list
+
+    @classmethod
+    def _validate_parameters(cls):
+        """Check that all values of the parameters are valid."""
+        pass
