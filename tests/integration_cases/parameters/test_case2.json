@@ -3,17 +3,17 @@
         "True", 
         "False"
     ], 
+    "missings": [
+        "True", 
+        "False"
+    ], 
     "time_header": [
         "True", 
         "False"
     ], 
     "composed_headers": false, 
-    "time_composed": false, 
+    "time_multicolumn": false, 
     "series_names": null, 
-    "missing_value": [
-        "Implicit", 
-        "None"
-    ], 
     "time_header_coord": [
         "C4", 
         "F4"
@@ -22,12 +22,11 @@
         2993, 
         2986
     ], 
-    "time_multicolumn": false, 
+    "time_composed": false, 
     "frequency": [
         "D", 
         "M"
     ], 
-    "multifrequency": false, 
     "data_starts": [
         5, 
         22
@@ -40,9 +39,9 @@
         "D4", 
         "F4"
     ], 
-    "missings": [
-        "True", 
-        "False"
+    "missing_value": [
+        "Implicit", 
+        "None"
     ], 
     "alignment": "vertical", 
     "time_alignment": [

@@ -1,15 +1,14 @@
 {
     "continuity": true, 
+    "missings": false, 
     "time_header": false, 
     "composed_headers": false, 
-    "time_composed": true, 
+    "time_multicolumn": false, 
     "series_names": null, 
-    "missing_value": null, 
     "time_header_coord": "A6", 
     "data_ends": 44, 
-    "time_multicolumn": false, 
+    "time_composed": true, 
     "frequency": "Y", 
-    "multifrequency": false, 
     "data_starts": 2, 
     "blank_rows": true, 
     "headers_coord": [
@@ -29,7 +28,7 @@
         "A50-A52", 
         "A55"
     ], 
-    "missings": false, 
+    "missing_value": null, 
     "alignment": "horizontal", 
     "time_alignment": 0
 }

@@ -162,7 +162,7 @@ class BaseSingleFrequency():
 
     @classmethod
     def _accepts(cls, ws, params):
-        return not params["multifrequency"]
+        return len(params["frequency"]) == 1
 
     # PRIVATE
     @classmethod
@@ -201,7 +201,7 @@ class BaseMultiFrequency():
 
     @classmethod
     def _accepts(cls, ws, params):
-        return params["multifrequency"]
+        return len(params["frequency"]) > 1
 
     def _get_frequency(self, frequency):
         freq, self.last_frequency = self._next_frequency(frequency,

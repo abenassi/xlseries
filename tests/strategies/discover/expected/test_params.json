@@ -8,7 +8,6 @@
  "headers_coord": ["B1", "C1", "C2"],
  "missings": [true, true, true],
  "missing_value": [null, null, null],
- "multifrequency": [false, false, false],
  "progressive_aggregation": [false, false, false],
  "series_names": [null, null, null],
  "time_composed": [false, false, false],

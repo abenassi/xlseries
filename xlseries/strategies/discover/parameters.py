@@ -31,7 +31,6 @@ class Parameters(object):
         self.data_ends = None
         self.continuity = None
         self.blank_rows = None
-        self.multifrequency = None
         self.missings = None
         self.missing_value = None
 
