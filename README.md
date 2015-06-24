@@ -112,22 +112,20 @@ Each time series has it's own parameters. Parameters can be passed to `XlSeries.
 *Parameters for [test case 2](../tests/intergration_cases/parameters/test_case2.json)*
 ```json
 {"alignment": "vertical",
- "blank_rows": ["False", "True"],
- "composed_headers": "False",
+ "blank_rows": [false, true],
+ "composed_headers": false,
  "data_starts": [5, 22],
  "data_ends": [2993, 2986],
  "frequency": ["D", "M"],
  "headers_coord": ["D4", "F4"],
- "continuity": ["True", "False"],
- "missings": ["True", "False"],
- "missing_value": ["Implicit", "None"],
- "multifrequency": "False",
- "series_names": "None",
- "time_composed": "False",
+ "continuity": [true, false],
+ "missings": [true, false],
+ "missing_value": ["Implicit", null],
+ "series_names": null,
+ "time_composed": false,
  "time_alignment": [0, -1],
- "time_multicolumn": "False",
- "time_format": ["datetime.datetime", "datetime.datetime"],
- "time_header": ["True", "False"],
+ "time_multicolumn": false,
+ "time_header": [true, false],
  "time_header_coord": ["C4", "F4"]}
 ```
 
