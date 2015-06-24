@@ -14,6 +14,7 @@ from pprint import pprint
 import pandas as pd
 import numpy as np
 from openpyxl.cell import column_index_from_string
+import copy
 
 import xlseries.utils.strategies_helpers
 from xlseries.strategies.discover.parameters import Parameters
@@ -74,79 +75,113 @@ class ParameterDiscovery(BaseStrategy):
         ws = self.wb.active
 
         # First: discover the parameters of the file
-        self._discover_parameters(ws)
+        attempts = self._discover_parameters(ws, self.params)
 
-        # Second: clean the data
-        self._clean_data(ws)
+        if len(attempts) == 1:
+            self.params = attempts[0]
 
-        # Third: get the date from a cleaned worksheet
-        return self._get_data(ws)
+            # Second: clean the data
+            self._clean_data(ws, self.params)
+
+            # Third: get the date from a cleaned worksheet
+            return self._get_data(ws, self.params)
+
+        else:
+            results = []
+            results_params = []
+            for params in attempts:
+                ws_temp = copy.deepcopy(ws)
+                try:
+                    self._clean_data(ws_temp, params)
+                    results.append(self._get_data(ws_temp, params))
+                    results_params.append(params)
+                except:
+                    continue
+
+            if len(results) == 0:
+                raise Exception("File couldn't be parsed with provided " +
+                                "parameters")
+            elif len(results) == 1:
+                return results[0]
+
+            else:
+                print "There is more than one result with given parameters."
+                return results
 
     # HIGH LEVEL TASKS
-    def _discover_parameters(self, ws):
+    def _discover_parameters(self, ws, params):
         """Discover the parameters of the worksheet."""
-        pass
 
-    def _clean_data(self, ws):
+        if not self._parameters_are_complete():
+            self._ask_critical_parameters()
+            non_discovered = self._discover_non_critical_parameters()
+
+            if non_discovered:
+                return self._generate_attempt_combinations(non_discovered,
+                                                           params)
+            else:
+                return [params]
+
+    def _clean_data(self, ws, params):
         """Ensure data is clean to be processed with the parameters."""
 
         # 1. Clean time index
 
         # if time index is multicolumn, only one time index is allowed
         if self.params["time_multicolumn"][0]:
-            self._clean_time_index(ws, self.params[0])
+            self._clean_time_index(ws, params[0])
 
         # if time index is not multicolumn, many time indexes are allowed
         else:
             time_indexes = set()
-            for i_series in xrange(len(self.params.time_header_coord)):
+            for i_series in xrange(len(params.time_header_coord)):
                 # avoid cleaning the same time index twice
-                time_header_coord = self.params["time_header_coord"][i_series]
+                time_header_coord = params["time_header_coord"][i_series]
                 if time_header_coord not in time_indexes:
                     time_indexes.add(time_header_coord)
-                    self._clean_time_index(ws, self.params[i_series])
+                    self._clean_time_index(ws, params[i_series])
 
         # 2. Clean data values
-        for i_series in xrange(len(self.params.headers_coord)):
+        for i_series in xrange(len(params.headers_coord)):
             self._clean_values(ws)
 
-    def _get_data(self, ws):
+    def _get_data(self, ws, params):
         """Parse data using parameters and return it in data frames."""
 
         # 1. Build data frames dict based on amount of period ranges founded
         dfs_dict = {}
-        for period_range in self._get_period_ranges(ws):
+        for period_range in self._get_period_ranges(ws, params):
             hashable_pr = self._hash_period_range(period_range)
             if hashable_pr not in dfs_dict:
                 dfs_dict[hashable_pr] = {"columns": [], "data": [],
                                          "period_range": period_range}
 
         # 2. Get name (column) and values of each data series
-        for i_series in xrange(len(self.params.headers_coord)):
+        for i_series in xrange(len(params.headers_coord)):
 
             # iterate strategies looking for someone that accepts it
-            params = self.params[i_series]
+            params_series = params[i_series]
             name, values = None, None
             for strategy in get_data_strategies.get_strategies():
                 # print strategy, "is being asked.."
-                if strategy.accepts(ws, params):
+                if strategy.accepts(ws, params_series):
                     # print "accepted!"
                     strategy_obj = strategy()
-                    names_and_values = strategy_obj.get_data(ws, params)
+                    names_and_values = strategy_obj.get_data(ws, params_series)
                     # print names_and_values
                     break
 
             # raise exception if no strategy accepts the input
             if not names_and_values:
-                msg = "There is no strategy to deal with " + str(params)
+                msg = "There is no strategy to deal with " + str(params_series)
                 raise Exception(msg)
 
-            prs = self._get_series_prs(ws, params["frequency"],
-                                       params["data_starts"],
-                                       params["time_header_coord"],
-                                       params["data_ends"],
-                                       params["time_alignment"],
-                                       params["alignment"])
+            prs = self._get_series_prs(ws, params_series["frequency"],
+                                       params_series["data_starts"],
+                                       params_series["time_header_coord"],
+                                       params_series["data_ends"],
+                                       params_series["time_alignment"],
+                                       params_series["alignment"])
 
             for period_range, (name, values) in zip(prs, names_and_values):
                 # print period_range, name, values
@@ -177,6 +212,23 @@ class ParameterDiscovery(BaseStrategy):
         """Returns a tuple describing a period range in a hashable way."""
         return period_range.freqstr, period_range[0], period_range[-1]
 
+    # 1. DISCOVER PARAMETERS methods
+    @classmethod
+    def _parameters_are_complete(cls):
+        pass
+
+    @classmethod
+    def _ask_critical_parameters(cls):
+        pass
+
+    @classmethod
+    def _discover_non_critical_parameters(cls):
+        pass
+
+    @classmethod
+    def _generate_attempt_combinations(cls, non_discovered, params):
+        return [params]
+
     # 2. CLEAN DATA methods
     @classmethod
     def _clean_time_index(cls, ws, params):
@@ -198,7 +250,7 @@ class ParameterDiscovery(BaseStrategy):
         return status_values
 
     # 3. GET DATA methods
-    def _get_period_ranges(self, ws):
+    def _get_period_ranges(self, ws, params):
         """Get period ranges for all series in the worksheet.
 
         Args:
@@ -207,9 +259,9 @@ class ParameterDiscovery(BaseStrategy):
 
         for (freq, ini_row, time_header_coord, end_row, time_alignement,
              alignment) in \
-            zip(self.params.frequency, self.params.data_starts,
-                self.params.time_header_coord, self.params.data_ends,
-                self.params.time_alignment, self.params.alignment):
+            zip(params.frequency, params.data_starts,
+                params.time_header_coord, params.data_ends,
+                params.time_alignment, params.alignment):
 
             for pr in self._get_series_prs(ws, freq, ini_row,
                                            time_header_coord,
@@ -243,7 +295,6 @@ class ParameterDiscovery(BaseStrategy):
             return name
         else:
             return name + "." + unicode(index)
-
 
 
 def get_strategies():
