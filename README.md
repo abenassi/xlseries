@@ -52,6 +52,7 @@ dfs = series.get_data_frames(get_param_cases_path(1))
 
 ![](https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case_1_2_3.png)
 ![](https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case_4_5.png)
+![](https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case_6_7.png)
 
 * **Json parameters**: A full JSON file or python dictionary with parameters must be provided. In future development stages more and more [parameters](#parameters) will be discovered by the package and the user will not need to provide them but as a way to increase the speed.
 
@@ -148,7 +149,7 @@ This list of parameters can still change any time, adding, removing or modifying
 * **time_multicolumn**: true (True), false (False) - *Indicates if a data series has a time index expressed in multiple columns that must be composed.*
 * **time_header_coord**: "A3" - *Excel coordinates for a time index header.*
 * **time_composed**: true (True), false (False) - *Indicates if a data series has a time index that has to be composed (not a straight forward date string) because some information about current date is taken from previous cells. Typically when year is only stated a the first quarter while the other three have only the quarter number.*
-* **frequency**: "Y", "Q", "M", "W", "D" or "YQQQ" and other multi-frequency patterns - *Indicates the time frequency of the series. It uses pretty much the same strings as `datetime.datetime` uses with the substantial aggregation of multi-frequency patterns, when a series has values in more than one frequency at the same row (typically a secondary series is the aggregated version of the other one).*
+* **frequency**: "Y", "Q", "M", "W", "D" or "YQQQQ" and other multi-frequency patterns - *Indicates the time frequency of the series. It uses pretty much the same strings as `datetime.datetime` uses with the substantial aggregation of multi-frequency patterns, when a series has values in more than one frequency at the same row (typically a secondary series is the aggregated version of the other one). "YQQQQ", for example, indicates the presence of series that shows first the annual average (or sum) and then the four quarters.*
 
 ## Development status
 
