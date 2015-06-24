@@ -26,7 +26,7 @@ class InvalidParameter(ValueError):
 
 class CriticalParameterMissing(Exception):
 
-    """Raised when a critial parameter is not provided by the user."""
+    """Raised when a critical parameter is not provided by the user."""
 
     def __init__(self, param_name):
         msg = u"{param_name} is a critical parameter. It has to be " + \
@@ -125,10 +125,11 @@ class Parameters(object):
     def get_series_params(self, i_series):
         """Returns parameters for only one series."""
 
-        series_params = Parameters()
+        series_params = Parameters().__dict__
 
         for param_name in series_params:
-            series_params[param_name] = self[param_name][i_series]
+            if self[param_name]:
+                series_params[param_name] = self[param_name][i_series]
 
         return series_params
 
@@ -161,13 +162,15 @@ class Parameters(object):
 
         # apply single provided parameters to all series
         num_series = cls._get_num_series(params)
-        for param in params:
-            if param != "time_header_coord":
-                params[param] = cls._apply_to_all(params[param], num_series)
+        for param_name in params:
+            if param_name != "time_header_coord":
+                params[param_name] = cls._apply_to_all(
+                    params[param_name], num_series,
+                    cls.VALID_VALUES[param_name])
             else:
-                params[param] = cls._apply_to_all_time_header(params[param],
-                                                              num_series,
-                                                              params)
+                params[param_name] = cls._apply_to_all_time_header(
+                    params[param_name], num_series, params,
+                    cls.VALID_VALUES[param_name])
 
         return params
 
@@ -184,10 +187,13 @@ class Parameters(object):
         return num_series
 
     @classmethod
-    def _apply_to_all(cls, param, num_series):
+    def _apply_to_all(cls, param, num_series, valid_values=None):
         """Creates list from single parameter repeating it for every series."""
 
-        if not type(param) == list and num_series:
+        if (param is None and valid_values and None not in valid_values):
+            return None
+
+        elif not type(param) == list and num_series:
             param_list = [param for i in xrange(num_series)]
 
         else:
@@ -196,7 +202,8 @@ class Parameters(object):
         return param_list
 
     @classmethod
-    def _apply_to_all_time_header(cls, param, num_series, params):
+    def _apply_to_all_time_header(cls, param, num_series, params,
+                                  valid_values=None):
         """Creates list from single parameter repeating it for every series."""
 
         if type(params["time_multicolumn"]) == list:
@@ -205,7 +212,7 @@ class Parameters(object):
             time_multicolumn = params["time_multicolumn"]
 
         if (not type(param) == list or not time_multicolumn):
-            return cls._apply_to_all(param, num_series)
+            return cls._apply_to_all(param, num_series, valid_values)
         else:
             return [param for i in xrange(num_series)]
 
@@ -237,7 +244,7 @@ class Parameters(object):
         for param_name, param_value in params.iteritems():
 
             # if a parameter is not provided, its validity cannot be checked
-            if not param_value:
+            if param_value is None:
                 continue
 
             if type(param_value) == list:
@@ -286,10 +293,6 @@ class Parameters(object):
     @classmethod
     def _ensure_critical_parameters(cls, params, critical, valid_values):
         for param_name, param_value in params.iteritems():
-            if (not param_value and param_name in critical and
+            if (param_value is None and param_name in critical and
                     None not in valid_values[param_name]):
                 raise CriticalParameterMissing(param_name)
-
-
-
-
