@@ -1,10 +1,9 @@
 {
     "continuity": true, 
-    "missings": true, 
-    "time_header": true, 
-    "composed_headers": true, 
     "time_multicolumn": false, 
+    "time_composed": true, 
     "series_names": null, 
+    "missing_value": "\u2026", 
     "time_header_coord": [
         "A4", 
         "A4", 
@@ -25,7 +24,6 @@
         93, 
         93
     ], 
-    "time_composed": true, 
     "frequency": "Q", 
     "data_starts": [
         5, 
@@ -48,7 +46,7 @@
         "D51", 
         "E51"
     ], 
-    "missing_value": "\u2026", 
+    "missings": true, 
     "alignment": "vertical", 
     "time_alignment": 0
 }

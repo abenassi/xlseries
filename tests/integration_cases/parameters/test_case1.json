@@ -1,13 +1,11 @@
 {
     "continuity": true, 
-    "missings": true, 
-    "time_header": false, 
-    "composed_headers": false, 
     "time_multicolumn": false, 
+    "time_composed": false, 
     "series_names": null, 
+    "missing_value": null, 
     "time_header_coord": "A1", 
     "data_ends": 256, 
-    "time_composed": false, 
     "frequency": "M", 
     "data_starts": 2, 
     "blank_rows": false, 
@@ -15,7 +13,7 @@
         "B1", 
         "C1"
     ], 
-    "missing_value": null, 
+    "missings": true, 
     "alignment": "vertical", 
     "time_alignment": 0
 }

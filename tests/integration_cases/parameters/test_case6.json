@@ -1,21 +1,19 @@
 {
     "continuity": false, 
-    "missings": false, 
-    "time_header": true, 
-    "composed_headers": true, 
     "time_multicolumn": true, 
+    "time_composed": true, 
     "series_names": null, 
+    "missing_value": null, 
     "time_header_coord": [
         "C4", 
         "C6"
     ], 
     "data_ends": 61, 
-    "time_composed": true, 
     "frequency": "YQQQQ", 
     "data_starts": 3, 
     "blank_rows": true, 
     "headers_coord": "B8-B28", 
-    "missing_value": null, 
+    "missings": false, 
     "alignment": "horizontal", 
     "time_alignment": 0
 }

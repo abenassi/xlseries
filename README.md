@@ -113,7 +113,6 @@ Each time series has it's own parameters. Parameters can be passed to `XlSeries.
 ```json
 {"alignment": "vertical",
  "blank_rows": [false, true],
- "composed_headers": false,
  "data_starts": [5, 22],
  "data_ends": [2993, 2986],
  "frequency": ["D", "M"],
@@ -125,7 +124,6 @@ Each time series has it's own parameters. Parameters can be passed to `XlSeries.
  "time_composed": false,
  "time_alignment": [0, -1],
  "time_multicolumn": false,
- "time_header": [true, false],
  "time_header_coord": ["C4", "F4"]}
 ```
 

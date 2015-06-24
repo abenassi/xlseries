@@ -24,7 +24,6 @@ class Parameters(object):
         # name
         self.series_names = None
         self.headers_coord = None
-        self.composed_headers = None
 
         # data
         self.data_starts = None
@@ -37,7 +36,6 @@ class Parameters(object):
         # time
         self.time_alignment = None
         self.time_multicolumn = None
-        self.time_header = None
         self.time_header_coord = None
         self.time_composed = None
         self.frequency = None
