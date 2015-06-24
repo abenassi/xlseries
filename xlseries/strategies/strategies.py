@@ -112,13 +112,11 @@ class ParameterDiscovery(BaseStrategy):
     def _discover_parameters(self, ws, params):
         """Discover the parameters of the worksheet."""
 
-        if not self._parameters_are_complete():
-            self._ask_critical_parameters()
-            non_discovered = self._discover_non_critical_parameters()
+        if not params.is_complete():
+            non_discovered = self._discover_missing_params(params)
 
             if non_discovered:
-                return self._generate_attempt_combinations(non_discovered,
-                                                           params)
+                return self._generate_attempts(non_discovered, params)
             else:
                 return [params]
 
@@ -214,19 +212,11 @@ class ParameterDiscovery(BaseStrategy):
 
     # 1. DISCOVER PARAMETERS methods
     @classmethod
-    def _parameters_are_complete(cls):
+    def _discover_missing_params(cls, params):
         pass
 
     @classmethod
-    def _ask_critical_parameters(cls):
-        pass
-
-    @classmethod
-    def _discover_non_critical_parameters(cls):
-        pass
-
-    @classmethod
-    def _generate_attempt_combinations(cls, non_discovered, params):
+    def _generate_attempts(cls, non_discovered, params):
         return [params]
 
     # 2. CLEAN DATA methods

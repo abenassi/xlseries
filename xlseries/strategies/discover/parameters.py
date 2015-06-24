@@ -131,7 +131,20 @@ class Parameters(object):
             if self[param_name]:
                 series_params[param_name] = self[param_name][i_series]
 
+            # missing parameters have to be deleted from slicing so they are
+            # not confused with possible valid None values
+            else:
+                del series_params[param_name]
+
         return series_params
+
+    def is_complete(self):
+        """Check if all the parameters have values (ie. no misssing params)."""
+        for param_name in self:
+            if self[param_name] is None:
+                return False
+
+        return True
 
     # PRIVATE
     @classmethod
