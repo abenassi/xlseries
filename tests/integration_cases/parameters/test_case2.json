@@ -1,18 +1,52 @@
-{"alignment": "vertical",
- "blank_rows": ["False", "True"],
- "composed_headers": "False",
- "data_starts": [5, 22],
- "data_ends": [2993, 2986],
- "frequency": ["D", "M"],
- "headers_coord": ["D4", "F4"],
- "continuity": ["True", "False"],
- "missings": ["True", "False"],
- "missing_value": ["Implicit", "None"],
- "multifrequency": "False",
- "series_names": "None",
- "time_composed": "False",
- "time_alignment": [0, -1],
- "time_multicolumn": "False",
- "time_format": ["datetime.datetime", "datetime.datetime"],
- "time_header": ["True", "False"],
- "time_header_coord": ["C4", "F4"]}
+{
+    "continuity": [
+        "True", 
+        "False"
+    ], 
+    "time_header": [
+        "True", 
+        "False"
+    ], 
+    "composed_headers": false, 
+    "time_composed": false, 
+    "series_names": null, 
+    "missing_value": [
+        "Implicit", 
+        "None"
+    ], 
+    "time_header_coord": [
+        "C4", 
+        "F4"
+    ], 
+    "data_ends": [
+        2993, 
+        2986
+    ], 
+    "time_multicolumn": false, 
+    "frequency": [
+        "D", 
+        "M"
+    ], 
+    "multifrequency": false, 
+    "data_starts": [
+        5, 
+        22
+    ], 
+    "blank_rows": [
+        "False", 
+        "True"
+    ], 
+    "headers_coord": [
+        "D4", 
+        "F4"
+    ], 
+    "missings": [
+        "True", 
+        "False"
+    ], 
+    "alignment": "vertical", 
+    "time_alignment": [
+        0, 
+        -1
+    ]
+}

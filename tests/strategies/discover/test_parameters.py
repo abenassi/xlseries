@@ -50,10 +50,6 @@ class ParametersTest(unittest.TestCase):
             Parameters(self.params)
 
     # @unittest.skip("skip")
-    def test_eval_param(self):
-        self.assertEqual(self.params._eval_param("True"), True)
-
-    # @unittest.skip("skip")
     def test_get_num_series(self):
         self.assertEqual(self.params._get_num_series(self.params.__dict__), 3)
         self.assertEqual(self.params._get_num_series({"param": None}), None)

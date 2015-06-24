@@ -40,7 +40,6 @@ class Parameters(object):
         self.time_multicolumn = None
         self.time_header = None
         self.time_header_coord = None
-        self.time_format = None
         self.time_composed = None
         self.frequency = None
 
@@ -60,7 +59,10 @@ class Parameters(object):
                     loaded_params_dict = self._load_from_json(params)
 
                 for key, value in loaded_params_dict.items():
-                    self.__dict__[key] = value
+                    if key in self.__dict__:
+                        self.__dict__[key] = value
+                    else:
+                        print key, "parameter is not recognized as valid."
 
     def __repr__(self):
         return pprint.pformat(self.__dict__)
@@ -112,10 +114,6 @@ class Parameters(object):
         else:
             params["headers_coord"] = None
 
-        # convert strings in python expressions
-        for param in params:
-            params[param] = cls._eval_param(params[param])
-
         # apply single provided parameters to all series
         num_series = cls._get_num_series(params)
         for param in params:
@@ -127,25 +125,6 @@ class Parameters(object):
                                                               params)
 
         return params
-
-    @classmethod
-    def _eval_param(cls, param):
-        """Evaluate a parameter or a list of parameters for expression."""
-
-        if type(param) == list:
-            new_list = []
-            for elem in param:
-                new_list.append(cls._eval_param(elem))
-
-            return new_list
-
-        else:
-            try:
-                new_param = eval(param)
-            except:
-                new_param = param
-
-            return new_param
 
     @classmethod
     def _get_num_series(cls, params):
