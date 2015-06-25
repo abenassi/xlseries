@@ -36,16 +36,42 @@ This package is still in an early development stage, it can't be reliably used f
 
 ```python
 from xlseries import XlSeries
-series = XlSeries("path_to_excel_file")
-dfs = series.get_data_frames("path_to_json_parameters")
+series = XlSeries("path_to_excel_file" or "openpyxl.Workbook instance")
+dfs = series.get_data_frames("path_to_json_parameters" or "parameters_dictionary")
 ```
 
 With the test case number 1:
 ```python
 from xlseries import XlSeries
 from xlseries.utils.path_finders import get_orig_cases_path, get_param_cases_path
-series = XlSeries(get_orig_cases_path(1))
-dfs = series.get_data_frames(get_param_cases_path(1))
+
+path_to_excel_file = get_orig_cases_path(1)
+path_to_json_parameters = get_param_cases_path(1)
+
+series = XlSeries(path_to_excel_file)
+dfs = series.get_data_frames(path_to_json_parameters)
+```
+
+or passing the parameters as a dictionary:
+
+```python
+parameters_dictionary = {
+    "alignment": "vertical",
+    "headers_coord": ["B1","C1"],
+    "data_starts": 2,
+    "data_ends": 256,
+    "frequency": "M",
+    "time_header_coord": "A1",
+    "time_multicolumn": False,
+    "time_composed": False,
+    "time_alignment": 0,
+    "continuity": True,
+    "blank_rows": False,
+    "missings": True,
+    "missing_value": None
+}
+series = XlSeries(path_to_excel_file)
+dfs = series.get_data_frames(parameters_dictionary)
 ```
 
 * **Excel file**: Up to this development point, the excel file must have only one spreadsheet (anyway, only the active one will be used by `xlseries`) and should not be more *complicated* than the [7 test cases](#test-cases):
@@ -54,9 +80,9 @@ dfs = series.get_data_frames(get_param_cases_path(1))
 ![](https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case_4_5.png)
 ![](https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case_6_7.png)
 
-* **Json parameters**: A full JSON file or python dictionary with parameters must be provided. In future development stages more and more [parameters](#parameters) will be discovered by the package and the user will not need to provide them but as a way to increase the speed.
+* **Parameters**: Together with the excel file, some parameters about the series must be provided. This could be passed to get_data_frames() as path to a JSON file or as a python dictionary. In future development stages more and more [parameters](#parameters) will be discovered by the package and the user will not need to provide them all, but as a way to increase the speed (less work will have to be done by the package if the user specify more parameters).
 
-To give it a try, you can use this [ipython notebook template](docs/notebooks/Example use case.ipynb). If you want to see the test cases that are passing all the tests and get an idea of how far is going `xlseries` at the moment, check out this [ipython notebook with test cases](docs/notebooks/Test cases.ipynb).
+To give it a try, you can use this [ipython notebook template](docs/notebooks/Example use case.ipynb). If you want to see the test cases that are passing all the tests and get an idea of how far is going `xlseries` at the moment, check out this [ipython notebook with the 7 test cases](docs/notebooks/Test cases.ipynb).
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -113,19 +139,38 @@ Each time series has it's own parameters. Parameters can be passed to `XlSeries.
 *Parameters for [test case 2](../tests/intergration_cases/parameters/test_case2.json)*
 ```json
 {"alignment": "vertical",
- "blank_rows": [false, true],
+ "headers_coord": ["D4", "F4"],
  "data_starts": [5, 22],
  "data_ends": [2993, 2986],
  "frequency": ["D", "M"],
- "headers_coord": ["D4", "F4"],
- "continuity": [true, false],
- "missings": [true, false],
- "missing_value": ["Implicit", null],
- "series_names": null,
+ "time_header_coord": ["C4", "F4"],
+ "time_multicolumn": false,
  "time_composed": false,
  "time_alignment": [0, -1],
- "time_multicolumn": false,
- "time_header_coord": ["C4", "F4"]}
+ "continuity": [true, false],
+ "blank_rows": [false, true],
+ "missings": [true, false],
+ "missing_value": ["Implicit", null],
+ "series_names": null}
+```
+
+or as a python dictionary that look like this:
+
+```python
+{"alignment": "vertical",
+ "headers_coord": ["D4", "F4"],
+ "data_starts": [5, 22],
+ "data_ends": [2993, 2986],
+ "frequency": ["D", "M"],
+ "time_header_coord": ["C4", "F4"],
+ "time_multicolumn": False,
+ "time_composed": False,
+ "time_alignment": [0, -1],
+ "continuity": [True, False],
+ "blank_rows": [False, True],
+ "missings": [True, False],
+ "missing_value": ["Implicit", None],
+ "series_names": None}
 ```
 
 If many series are to be scraped from a single excel file, parameters for each series should be written in lists, but *only if they differ* between series (as you can see in the previous example). It is not necessary to write parameters that repeat themselves in all the series (like the **alignment**, which is usually common to all the series in the spreadsheet).
@@ -137,25 +182,27 @@ This list of parameters can still change any time, adding, removing or modifying
 *Parameters without quotes are non-string values in the **json_way (python_way)***
 
 * **alignment**: "Vertical", "Horizontal" - *Alignment of the series in the spreadsheet.*
-* **series_names**: "Real GDP" - *Names of the series (this is not necessary if headers_coord is provided).*
 * **headers_coord**: "B4" - *Excel coordinates for a series header.*
 * **data_starts**: 4 - *The index of row or column where data starts.*
 * **data_ends**: 254 - *The index of row or column where data ends.*
+* **frequency**: "Y", "Q", "M", "W", "D" or "YQQQQ" and other multi-frequency patterns - *Indicates the time frequency of the series. It uses pretty much the same strings as `datetime.datetime` uses with the substantial aggregation of multi-frequency patterns, when a series has values in more than one frequency at the same row (typically a secondary series is the aggregated version of the other one). "YQQQQ", for example, indicates the presence of series that shows first the annual average (or sum) and then the four quarters.*
+* **time_header_coord**: "A3" - *Excel coordinates for a time index header.*
+* **time_multicolumn**: true (True), false (False) - *Indicates if a data series has a time index expressed in multiple columns that must be composed.*
+* **time_composed**: true (True), false (False) - *Indicates if a data series has a time index that has to be composed (not a straight forward date string) because some information about current date is taken from previous cells. Typically when year is only stated a the first quarter while the other three have only the quarter number.*
+* **time_alignment**: 0, -1, +1 - *0: Time index run parallel to data, -1: Time value is right before data value cell, +1: Time value is right after data value cell.*
 * **continuity**: true (True), false (False) - *Indicates if a data series is interrupted by strings that are not data.*
 * **blank_rows**: true (True), false (False) - *Indicates if a data series is interrupted by blank rows.*
 * **missings**: true (True), false (False) - *Indicates the presence of missing values in data.*
 * **missing_value**: "", ".", "NA", null (None), "Implicit" - *State the value that should be taken as "missing". "Implicit" is a special missing value that means that there are missing values not showed in the spreadsheet (time index is not continuous, typically in day frequency when weekends are not taken into account).*
-* **time_alignment**: 0, -1, +1 - *0: Time index run parallel to data, -1: Time value is right before data value cell, +1: Time value is right after data value cell.*
-* **time_multicolumn**: true (True), false (False) - *Indicates if a data series has a time index expressed in multiple columns that must be composed.*
-* **time_header_coord**: "A3" - *Excel coordinates for a time index header.*
-* **time_composed**: true (True), false (False) - *Indicates if a data series has a time index that has to be composed (not a straight forward date string) because some information about current date is taken from previous cells. Typically when year is only stated a the first quarter while the other three have only the quarter number.*
-* **frequency**: "Y", "Q", "M", "W", "D" or "YQQQQ" and other multi-frequency patterns - *Indicates the time frequency of the series. It uses pretty much the same strings as `datetime.datetime` uses with the substantial aggregation of multi-frequency patterns, when a series has values in more than one frequency at the same row (typically a secondary series is the aggregated version of the other one). "YQQQQ", for example, indicates the presence of series that shows first the annual average (or sum) and then the four quarters.*
+* **series_names**: "Real GDP" - *Names of the series (this is not necessary if headers_coord is provided). This parameter is not working yet, but it will be an alternative to specify the header coordinates. This will be useful to prevent against changes in the excel layout that may displace the headers from the original coordinate. If both parameters are specified (headers_coord and series_names), the second one will act as a "validation" of the names found in the headers_coord, providing a stricter safe check.*
 
 ## Development status
 
 ### Test cases
 
-There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/integration_cases). Each test case was chosen because it adds something new that `xlseries` isn't (or wasn't) able to deal with before. Next there is a list of new issues brought by each case, in addition to the previous ones.
+There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/integration_cases). Each test case was chosen because it adds something new that `xlseries` isn't (or wasn't) able to deal with before. Next, there is a list of new issues brought by each case, in addition to the previous ones. 
+
+If you find a *new test case* that cannot be solved by `xlseries` in its current development stage, I would greatly appreciate that you [send it to me](mailto:agusbenassi@gmail.com).
 
 #### Test case 1 
 
