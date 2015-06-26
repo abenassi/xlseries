@@ -35,7 +35,7 @@ def load_case_number():
     return fn_decorator
 
 
-# @unittest.skip("skip")
+@unittest.skip("skip")
 class TestXlSeriesWithAllParameters(unittest.TestCase):
 
     def run_case_with_parameters(self, case_num):
@@ -110,7 +110,7 @@ class TestXlSeriesWithoutSomeParameters(unittest.TestCase):
         params.__dict__["blank_rows"] = None
         params.__dict__["time_composed"] = None
         params.__dict__["alignment"] = None
-        # params.__dict__["time_multicolumn"] = None
+        params.__dict__["time_multicolumn"] = None
         # params.__dict__["time_alignment"] = None
 
         # get dfs from the strategy

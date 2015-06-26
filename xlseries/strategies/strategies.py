@@ -141,7 +141,7 @@ class ParameterDiscovery(BaseStrategy):
         # 1. Clean time index
 
         # if time index is multicolumn, only one time index is allowed
-        if self.params["time_multicolumn"][0]:
+        if params["time_multicolumn"][0]:
             self._clean_time_index(ws, params[0])
 
         # if time index is not multicolumn, many time indexes are allowed
