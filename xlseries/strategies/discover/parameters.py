@@ -119,7 +119,14 @@ class Parameters(object):
             yield param
 
     def __setitem__(self, param_name, param_value):
-        self.__dict__[param_name] = param_value
+        if not self._valid_param_value(param_value,
+                                       self.VALID_VALUES[param_name]):
+            raise InvalidParameter(param_name, param_value,
+                                   self.VALID_VALUES[param_name])
+
+        self.__dict__[param_name] = self._apply_to_all(
+            param_name, param_value, self._get_num_series(self.__dict__), self,
+            self.VALID_VALUES[param_name])
 
     # PUBLIC
     def get_series_params(self, i_series):
@@ -146,7 +153,20 @@ class Parameters(object):
 
         return True
 
+    def get_missings(self):
+        """Return parameters that were not passed by the user."""
+        missings = []
+        for param in self:
+            if self._is_missing(param):
+                missings.append(param)
+        return missings
+
     # PRIVATE
+    def _is_missing(self, param):
+        valid_values = self.VALID_VALUES[param]
+        return (self[param] is None and valid_values and
+                None not in valid_values)
+
     @classmethod
     def _load_from_json(cls, json_params):
         """Load json file parameters into a dictionary."""
@@ -176,14 +196,9 @@ class Parameters(object):
         # apply single provided parameters to all series
         num_series = cls._get_num_series(params)
         for param_name in params:
-            if param_name != "time_header_coord":
-                params[param_name] = cls._apply_to_all(
-                    params[param_name], num_series,
-                    cls.VALID_VALUES[param_name])
-            else:
-                params[param_name] = cls._apply_to_all_time_header(
-                    params[param_name], num_series, params,
-                    cls.VALID_VALUES[param_name])
+            params[param_name] = cls._apply_to_all(
+                param_name, params[param_name], num_series, params,
+                cls.VALID_VALUES[param_name])
 
         return params
 
@@ -200,17 +215,22 @@ class Parameters(object):
         return num_series
 
     @classmethod
-    def _apply_to_all(cls, param, num_series, valid_values=None):
+    def _apply_to_all(cls, param_name, param_value, num_series, params,
+                      valid_values=None):
         """Creates list from single parameter repeating it for every series."""
 
-        if (param is None and valid_values and None not in valid_values):
+        if param_name == "time_header_coord":
+            return cls._apply_to_all_time_header(param_value, num_series,
+                                                 params, valid_values)
+
+        if (param_value is None and valid_values and None not in valid_values):
             return None
 
-        elif not type(param) == list and num_series:
-            param_list = [param for i in xrange(num_series)]
+        elif not type(param_value) == list and num_series:
+            param_list = [param_value for i in xrange(num_series)]
 
         else:
-            param_list = param
+            param_list = param_value
 
         return param_list
 
@@ -225,7 +245,8 @@ class Parameters(object):
             time_multicolumn = params["time_multicolumn"]
 
         if (not type(param) == list or not time_multicolumn):
-            return cls._apply_to_all(param, num_series, valid_values)
+            return cls._apply_to_all("", param, num_series,
+                                     params, valid_values)
         else:
             return [param for i in xrange(num_series)]
 

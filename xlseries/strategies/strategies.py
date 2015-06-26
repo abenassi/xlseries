@@ -21,6 +21,7 @@ from xlseries.strategies.discover.parameters import Parameters
 import xlseries.strategies.clean.time_index as clean_ti_strategies
 import xlseries.strategies.get.data as get_data_strategies
 import xlseries.strategies.get.period_range as get_pr_strategies
+from xlseries.utils.data_frame import compare_data_frames
 
 
 # EXCEPTIONS
@@ -90,7 +91,8 @@ class ParameterDiscovery(BaseStrategy):
             results = []
             results_params = []
             for params in attempts:
-                ws_temp = copy.deepcopy(ws)
+                wb_temp = copy.copy(self.wb)
+                ws_temp = wb_temp.active
                 try:
                     self._clean_data(ws_temp, params)
                     results.append(self._get_data(ws_temp, params))
@@ -98,15 +100,26 @@ class ParameterDiscovery(BaseStrategy):
                 except:
                     continue
 
-            if len(results) == 0:
+            unique_results = []
+            for res in results:
+                repeated = False
+                for unique_res in unique_results:
+                    for df_a, df_b in zip(res, unique_res):
+                        if compare_data_frames(df_a, df_b):
+                            repeated = True
+                            break
+                if not repeated:
+                    unique_results.append(res)
+
+            if len(unique_results) == 0:
                 raise Exception("File couldn't be parsed with provided " +
                                 "parameters")
-            elif len(results) == 1:
-                return results[0]
+            elif len(unique_results) == 1:
+                return unique_results[0]
 
             else:
                 print "There is more than one result with given parameters."
-                return results
+                return unique_results
 
     # HIGH LEVEL TASKS
     def _discover_parameters(self, ws, params):
@@ -215,11 +228,44 @@ class ParameterDiscovery(BaseStrategy):
     # 1. DISCOVER PARAMETERS methods
     @classmethod
     def _discover_missing_params(cls, params):
-        return None
+        return params.get_missings()
 
     @classmethod
     def _generate_attempts(cls, non_discovered, params):
-        return [params]
+
+        if not non_discovered:
+            return [params]
+
+        missings_dict = {missing_param: params.VALID_VALUES[missing_param]
+                         for missing_param in non_discovered}
+
+        attempts = []
+        for combination in cls._param_combinations_generator(missings_dict):
+            new_params = copy.deepcopy(params)
+
+            for param_name, param_value in combination.iteritems():
+                new_params[param_name] = param_value
+
+            attempts.append(new_params)
+
+        return attempts
+
+    @classmethod
+    def _param_combinations_generator(cls, missings_dict):
+
+        if len(missings_dict) == 1:
+            missing_param, valid_values = missings_dict.popitem()
+            for valid_value in valid_values:
+                yield {missing_param: valid_value}
+
+        else:
+            missing_param, valid_values = missings_dict.popitem()
+            for comb in cls._param_combinations_generator(missings_dict):
+                for valid_value in valid_values:
+                    new_comb = comb.copy()
+                    new_comb[missing_param] = valid_value
+                    yield new_comb
+
 
     # 2. CLEAN DATA methods
     @classmethod

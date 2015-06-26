@@ -15,6 +15,7 @@ from functools import wraps
 from xlseries.utils.path_finders import get_orig_cases_path
 from xlseries.utils.path_finders import get_param_cases_path
 from xlseries.utils.case_loaders import load_expected_case
+from xlseries.utils.case_loaders import load_parameters_case
 from xlseries.xlseries import XlSeries
 from xlseries.utils.data_frame import compare_data_frames
 
@@ -34,6 +35,7 @@ def load_case_number():
     return fn_decorator
 
 
+# @unittest.skip("skip")
 class TestXlSeriesWithAllParameters(unittest.TestCase):
 
     def run_case_with_parameters(self, case_num):
@@ -90,7 +92,7 @@ class TestXlSeriesWithAllParameters(unittest.TestCase):
         self.run_case_with_parameters(case_num)
 
 
-@unittest.skip("skip")
+# @unittest.skip("skip")
 class TestXlSeriesWithoutSomeParameters(unittest.TestCase):
 
     def run_case_without_some_parameters(self, case_num):
@@ -99,26 +101,58 @@ class TestXlSeriesWithoutSomeParameters(unittest.TestCase):
         Args:
             case_num: The test case number to run.
         """
-        pass
+        test_wb = get_orig_cases_path(case_num)
+        params = load_parameters_case(case_num)
+        exp_dfs = load_expected_case(case_num)
 
+        params.__dict__["missings"] = None
+        params.__dict__["continuity"] = None
+        params.__dict__["blank_rows"] = None
+        params.__dict__["time_composed"] = None
+        params.__dict__["alignment"] = None
+        # params.__dict__["time_multicolumn"] = None
+        # params.__dict__["time_alignment"] = None
+
+        # get dfs from the strategy
+        series = XlSeries(test_wb)
+        test_dfs = series.get_data_frames(params)
+
+        for test_df, exp_df in zip(test_dfs, exp_dfs):
+            print test_df.columns, exp_df.columns
+            self.assertTrue(compare_data_frames(test_df, exp_df))
+
+    # @unittest.skip("skip")
+    @load_case_number()
     def test_case1(self, case_num):
         self.run_case_without_some_parameters(case_num)
 
+    # @unittest.skip("skip")
+    @load_case_number()
     def test_case2(self, case_num):
         self.run_case_without_some_parameters(case_num)
 
+    # @unittest.skip("skip")
+    @load_case_number()
     def test_case3(self, case_num):
         self.run_case_without_some_parameters(case_num)
 
+    # @unittest.skip("skip")
+    @load_case_number()
     def test_case4(self, case_num):
         self.run_case_without_some_parameters(case_num)
 
+    # @unittest.skip("skip")
+    @load_case_number()
     def test_case5(self, case_num):
         self.run_case_without_some_parameters(case_num)
 
+    # @unittest.skip("skip")
+    @load_case_number()
     def test_case6(self, case_num):
         self.run_case_without_some_parameters(case_num)
 
+    # @unittest.skip("skip")
+    @load_case_number()
     def test_case7(self, case_num):
         self.run_case_without_some_parameters(case_num)
 

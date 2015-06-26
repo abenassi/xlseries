@@ -237,6 +237,8 @@ def compare_data_frames(df1, df2):
     Returns:
         True (everything is the same in df1 and df2) or False.
     """
+    assert isinstance(df1, pd.DataFrame), "df1 is not a DataFrame" + repr(df1)
+    assert isinstance(df2, pd.DataFrame), "df2 is not a DataFrame" + repr(df2)
 
     msg = "Different index size"
     assert df1.index.size == df2.index.size, _diff_msg(msg, df1.index.size,

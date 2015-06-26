@@ -13,6 +13,7 @@ import nose
 import pandas as pd
 from functools import wraps
 
+from xlseries.strategies.discover.parameters import Parameters
 from xlseries.utils.case_loaders import load_original_case
 from xlseries.utils.case_loaders import load_parameters_case
 from xlseries.utils.case_loaders import load_expected_case
@@ -25,6 +26,7 @@ from xlseries.strategies.strategies import ParameterDiscovery
 class ParameterDiscoveryTestCase(unittest.TestCase):
 
     # @unittest.skip("skip")
+
     def test_get_period_ranges(self):
 
         test_wb = load_original_case(2)
@@ -40,9 +42,87 @@ class ParameterDiscoveryTestCase(unittest.TestCase):
         self.assertTrue(compare_period_ranges(pr_d, period_ranges[0]))
         self.assertTrue(compare_period_ranges(pr_m, period_ranges[1]))
 
-    def test_parameters_are_complete(self):
-        pass
+    def test_generate_attempts(self):
+        params = Parameters({
+            "alignment": "vertical",
+            "headers_coord": ["B1", "C1"],
+            "data_starts": 2,
+            "data_ends": 256,
+            "frequency": "M",
+            "time_header_coord": "A1",
+            "time_multicolumn": True,
+            "time_composed": True,
+            "time_alignment": 0,
+            "continuity": True,
+            "blank_rows": True,
+            "missings": None,
+            "missing_value": None,
+            "series_names": None
+        })
 
+        non_discovered = ["missings"]
+        attempts = ParameterDiscovery._generate_attempts(non_discovered,
+                                                         params)
+        p1 = Parameters({
+            "alignment": "vertical",
+            "headers_coord": ["B1", "C1"],
+            "data_starts": 2,
+            "data_ends": 256,
+            "frequency": "M",
+            "time_header_coord": "A1",
+            "time_multicolumn": True,
+            "time_composed": True,
+            "time_alignment": 0,
+            "continuity": True,
+            "blank_rows": True,
+            "missings": True,
+            "missing_value": None,
+            "series_names": None
+        })
+        p2 = Parameters({
+            "alignment": "vertical",
+            "headers_coord": ["B1", "C1"],
+            "data_starts": 2,
+            "data_ends": 256,
+            "frequency": "M",
+            "time_header_coord": "A1",
+            "time_multicolumn": True,
+            "time_composed": True,
+            "time_alignment": 0,
+            "continuity": True,
+            "blank_rows": True,
+            "missings": False,
+            "missing_value": None,
+            "series_names": None
+        })
+
+        self.assertEqual(len(attempts), 2)
+
+        for param_name in attempts[0]:
+            self.assertEqual(p1[param_name], attempts[0][param_name])
+        for param_name in attempts[1]:
+            self.assertEqual(p2[param_name], attempts[1][param_name])
+
+    def test_param_combinations_generator(self):
+
+        missings_dict = {
+            "missings": [True, False],
+            "blank_rows": [True, False]
+        }
+        exp_combinations = [
+            {"missings": True, "blank_rows": True},
+            {"missings": True, "blank_rows": False},
+            {"missings": False, "blank_rows": True},
+            {"missings": False, "blank_rows": False}
+        ]
+
+        combs = list(ParameterDiscovery._param_combinations_generator(
+            missings_dict))
+
+        for exp_comb in exp_combinations:
+            self.assertIn(exp_comb, combs)
+        for comb in combs:
+            self.assertIn(comb, exp_combinations)
 
 
 if __name__ == '__main__':
