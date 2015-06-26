@@ -105,7 +105,7 @@ class TestXlSeriesWithoutSomeParameters(unittest.TestCase):
         params = load_parameters_case(case_num)
         exp_dfs = load_expected_case(case_num)
 
-        params.__dict__["missings"] = None
+        # params.__dict__["missings"] = None
         params.__dict__["continuity"] = None
         params.__dict__["blank_rows"] = None
         params.__dict__["time_composed"] = None
@@ -113,9 +113,17 @@ class TestXlSeriesWithoutSomeParameters(unittest.TestCase):
         params.__dict__["time_multicolumn"] = None
         # params.__dict__["time_alignment"] = None
 
-        # get dfs from the strategy
+        # test first in safe mode
         series = XlSeries(test_wb)
-        test_dfs = series.get_data_frames(params)
+        test_dfs = series.get_data_frames(params, True)
+
+        for test_df, exp_df in zip(test_dfs, exp_dfs):
+            print test_df.columns, exp_df.columns
+            self.assertTrue(compare_data_frames(test_df, exp_df))
+
+        # test then not in safe mode
+        series = XlSeries(test_wb)
+        test_dfs = series.get_data_frames(params, False)
 
         for test_df, exp_df in zip(test_dfs, exp_dfs):
             print test_df.columns, exp_df.columns

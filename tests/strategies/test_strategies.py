@@ -124,6 +124,53 @@ class ParameterDiscoveryTestCase(unittest.TestCase):
         for comb in combs:
             self.assertIn(comb, exp_combinations)
 
+    def test_param_combinations_generator_with_default_values(self):
+
+        missings_dict = {
+            "missings": [True, False],
+            "blank_rows": [True, False]
+        }
+        exp_combinations = [
+            {"missings": True, "blank_rows": True},
+            {"missings": False, "blank_rows": True},
+            {"missings": True, "blank_rows": False},
+            {"missings": False, "blank_rows": False}
+        ]
+        default_values = {"missings": True, "blank_rows": True}
+        likeliness_order = ["blank_rows", "missings"]
+
+        combs = list(ParameterDiscovery._param_combinations_generator(
+            missings_dict, default_values, likeliness_order))
+
+        for comb, exp_comb in zip(combs, exp_combinations):
+            self.assertEqual(comb, exp_comb)
+
+    def test_param_combinations_generator_total_results(self):
+
+        missings_dict = {"alignment": ["vertical", "horizontal"],
+                         "continuity": [True, False],
+                         "blank_rows": [True, False],
+                         "missings": [True, False],
+                         "time_multicolumn": [True, False],
+                         "time_composed": [True, False]}
+        default_values = Parameters.DEFAULT_VALUES
+        likeliness_order = Parameters.LIKELINESS_ORDER
+
+        with_def = list(ParameterDiscovery._param_combinations_generator(
+            missings_dict, default_values, likeliness_order))
+        no_def = list(ParameterDiscovery._param_combinations_generator(
+            missings_dict))
+
+        self.assertEqual(len(with_def), len(no_def))
+
+        for comb_with_no_def in no_def:
+            self.assertIn(comb_with_no_def, with_def)
+
+        for comb_with_def in with_def:
+            self.assertIn(comb_with_def, no_def)
+
+
+
 
 if __name__ == '__main__':
     # unittest.main()

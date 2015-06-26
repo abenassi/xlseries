@@ -47,10 +47,6 @@ class ParametersTest(unittest.TestCase):
         params = Parameters(params_dict)
         self.assertEqual(params.__dict__, self.params_exp.__dict__)
 
-    def test_load_from_parameters_object(self):
-        with self.assertRaises(Exception):
-            Parameters(self.params)
-
     # @unittest.skip("skip")
     def test_get_num_series(self):
         self.assertEqual(self.params._get_num_series(self.params.__dict__), 3)

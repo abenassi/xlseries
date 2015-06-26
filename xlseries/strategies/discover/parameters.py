@@ -4,6 +4,7 @@ import json
 import pprint
 import copy
 from xlseries.utils.xl_methods import xl_coordinates_range
+from collections import OrderedDict
 
 """
 parameters
@@ -39,7 +40,7 @@ class Parameters(object):
     """Object that collects input parameters from parsing strategies."""
 
     VALID_VALUES = {
-        "alignment": ["vertical", "horizontal"],
+        "alignment": [u"vertical", u"horizontal"],
         "series_names": [str, unicode, None],
         "headers_coord": [str, unicode],
         "data_starts": [int],
@@ -48,12 +49,27 @@ class Parameters(object):
         "blank_rows": [True, False],
         "missings": [True, False],
         "missing_value": [],
-        "time_alignment": [int],
+        "time_alignment": [-1, 0, 1],
         "time_multicolumn": [True, False],
         "time_header_coord": [str, unicode],
         "time_composed": [True, False],
         "frequency": ["Y", "Q", "M", "W", "D"]
     }
+
+    DEFAULT_VALUES = {
+        "alignment": u"vertical",
+        "continuity": True,
+        "blank_rows": False,
+        "missings": False,
+        "missing_value": None,
+        "time_alignment": 0,
+        "time_multicolumn": False,
+        "time_composed": False
+    }
+
+    LIKELINESS_ORDER = ["time_alignment", "alignment", "continuity",
+                        "blank_rows", "missings", "time_multicolumn",
+                        "time_composed"]
 
     CRITICAL = ["headers_coord", "data_starts", "data_ends",
                 "time_header_coord", "frequency"]
@@ -84,24 +100,22 @@ class Parameters(object):
 
         if params:
             if type(params) == Parameters:
-                # self.__dict__ = params.__dict__
-                raise Exception("The object passed is already an instance of" +
-                                "Parameters.")
+                # add loaded parameters keeping Parameters object defaults
+                loaded_params_dict = self._load_from_dict(params.__dict__)
+
+            elif type(params) == dict:
+                # add loaded parameters keeping Parameters object defaults
+                loaded_params_dict = self._load_from_dict(params)
 
             else:
-                if type(params) == dict:
-                    # add loaded parameters keeping Parameters object defaults
-                    loaded_params_dict = self._load_from_dict(params)
+                # add loaded parameters keeping Parameters object defaults
+                loaded_params_dict = self._load_from_json(params)
 
+            for key, value in loaded_params_dict.items():
+                if key in self.__dict__:
+                    self.__dict__[key] = value
                 else:
-                    # add loaded parameters keeping Parameters object defaults
-                    loaded_params_dict = self._load_from_json(params)
-
-                for key, value in loaded_params_dict.items():
-                    if key in self.__dict__:
-                        self.__dict__[key] = value
-                    else:
-                        print key, "parameter is not recognized as valid."
+                    print key, "parameter is not recognized as valid."
 
     def __repr__(self):
         return pprint.pformat(self.__dict__)
@@ -128,6 +142,9 @@ class Parameters(object):
             param_name, param_value, self._get_num_series(self.__dict__), self,
             self.VALID_VALUES[param_name])
 
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
+
     # PUBLIC
     def get_series_params(self, i_series):
         """Returns parameters for only one series."""
@@ -149,6 +166,10 @@ class Parameters(object):
         """Check if all the parameters have values (ie. no misssing params)."""
         for param_name in self:
             if self[param_name] is None:
+                return False
+
+        for param_name in self:
+            if len(self[param_name]) != self._get_num_series(self.__dict__):
                 return False
 
         return True

@@ -15,6 +15,8 @@ import pandas as pd
 import numpy as np
 from openpyxl.cell import column_index_from_string
 import copy
+import json
+from pprint import pprint
 
 import xlseries.utils.strategies_helpers
 from xlseries.strategies.discover.parameters import Parameters
@@ -57,7 +59,7 @@ class BaseStrategy(object):
     def accepts(cls, wb):
         return cls._accepts(wb)
 
-    def get_data_frames(self, safe_mode=False):
+    def get_data_frames(self, safe_mode):
         return self._get_data_frames(safe_mode)
 
 
@@ -70,13 +72,15 @@ class ParameterDiscovery(BaseStrategy):
     def _accepts(cls, wb):
         return True
 
-    def _get_data_frames(self, safe_mode=False):
+    def _get_data_frames(self, safe_mode):
         """Extract time data series and return them as data frames."""
 
         ws = self.wb.active
 
         # First: discover the parameters of the file
         attempts = self._discover_parameters(ws, self.params)
+        # for a in attempts:
+            # pprint(a[0])
 
         if len(attempts) == 1:
             self.params = attempts[0]
@@ -106,10 +110,13 @@ class ParameterDiscovery(BaseStrategy):
             for res in results:
                 repeated = False
                 for unique_res in unique_results:
+                    repeated = True
                     for df_a, df_b in zip(res, unique_res):
-                        if compare_data_frames(df_a, df_b):
-                            repeated = True
-                            break
+                        if not compare_data_frames(df_a, df_b):
+                            repeated = False
+                    if repeated:
+                        break
+
                 if not repeated:
                     unique_results.append(res)
 
@@ -240,34 +247,73 @@ class ParameterDiscovery(BaseStrategy):
 
         missings_dict = {missing_param: params.VALID_VALUES[missing_param]
                          for missing_param in non_discovered}
-
+        # print missings_dict
         attempts = []
-        for combination in cls._param_combinations_generator(missings_dict):
+        for combination in cls._param_combinations_generator(
+                # missings_dict, params.DEFAULT_VALUES,
+                # params.LIKELINESS_ORDER):
+                # missings_dict, copy.deepcopy(params.DEFAULT_VALUES),
+                # copy.deepcopy(params.LIKELINESS_ORDER)):
+                missings_dict):
             new_params = copy.deepcopy(params)
 
             for param_name, param_value in combination.iteritems():
                 new_params[param_name] = param_value
 
+            assert new_params.is_complete(), repr(params) + " is not complete."
             attempts.append(new_params)
 
+        # import pickle
+        # pickle.dump({"a": attempts}, open("attempts_problem.txt", "wb"))
         return attempts
 
     @classmethod
-    def _param_combinations_generator(cls, missings_dict):
+    def _param_combinations_generator(cls, missings_dict, default_values=None,
+                                      likeliness_order=None):
+        missings_dict_c = missings_dict.copy()
 
-        if len(missings_dict) == 1:
-            missing_param, valid_values = missings_dict.popitem()
-            for valid_value in valid_values:
+        if len(missings_dict_c) == 1:
+            missing_param, valid_values = missings_dict_c.popitem()
+            valid_values_c = copy.deepcopy(valid_values)
+
+            # yield default value first
+            if default_values:
+                index = valid_values_c.index(default_values[missing_param])
+                valid_value = valid_values_c.pop(index)
+                yield {missing_param: valid_value}
+
+            for valid_value in valid_values_c:
                 yield {missing_param: valid_value}
 
         else:
-            missing_param, valid_values = missings_dict.popitem()
-            for comb in cls._param_combinations_generator(missings_dict):
-                for valid_value in valid_values:
+            if not likeliness_order:
+                missing_param, valid_values = missings_dict_c.popitem()
+                likeliness_order_c = None
+            else:
+                likeliness_order_c = copy.deepcopy(likeliness_order)
+                missing_param = likeliness_order_c.pop()
+                while missing_param not in missings_dict_c:
+                    missing_param = likeliness_order_c.pop()
+                valid_values = missings_dict_c[missing_param]
+                del missings_dict_c[missing_param]
+
+            for comb in cls._param_combinations_generator(missings_dict_c,
+                                                          default_values,
+                                                          likeliness_order_c):
+
+                # yield default value first
+                valid_values_c = copy.deepcopy(valid_values)
+                if default_values:
+                    index = valid_values_c.index(default_values[missing_param])
+                    valid_value = valid_values_c.pop(index)
                     new_comb = comb.copy()
                     new_comb[missing_param] = valid_value
                     yield new_comb
 
+                for valid_value in valid_values_c:
+                    new_comb = comb.copy()
+                    new_comb[missing_param] = valid_value
+                    yield new_comb
 
     # 2. CLEAN DATA methods
     @classmethod

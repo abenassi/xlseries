@@ -29,7 +29,7 @@ class XlSeries(object):
             self.wb = load_workbook(xl_path_or_wb, data_only=True)
 
     # PUBLIC
-    def get_data_frames(self, params_path_or_obj, safe_mode=False):
+    def get_data_frames(self, params_path_or_obj, safe_mode=True):
         """Returns pandas data frames of time series found in the xl file.
 
         Args:
@@ -45,4 +45,4 @@ class XlSeries(object):
         for strategy in strategies.get_strategies():
             if strategy.accepts(self.wb):
                 strategy_obj = strategy(self.wb, params_path_or_obj)
-                return strategy_obj.get_data_frames()
+                return strategy_obj.get_data_frames(safe_mode)
