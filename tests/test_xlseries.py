@@ -35,7 +35,7 @@ def load_case_number():
     return fn_decorator
 
 
-@unittest.skip("skip")
+# @unittest.skip("skip")
 class TestXlSeriesWithAllParameters(unittest.TestCase):
 
     def run_case_with_parameters(self, case_num):

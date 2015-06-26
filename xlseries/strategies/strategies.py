@@ -57,8 +57,8 @@ class BaseStrategy(object):
     def accepts(cls, wb):
         return cls._accepts(wb)
 
-    def get_data_frames(self):
-        return self._get_data_frames()
+    def get_data_frames(self, safe_mode=False):
+        return self._get_data_frames(safe_mode)
 
 
 class ParameterDiscovery(BaseStrategy):
@@ -70,7 +70,7 @@ class ParameterDiscovery(BaseStrategy):
     def _accepts(cls, wb):
         return True
 
-    def _get_data_frames(self):
+    def _get_data_frames(self, safe_mode=False):
         """Extract time data series and return them as data frames."""
 
         ws = self.wb.active
@@ -97,6 +97,8 @@ class ParameterDiscovery(BaseStrategy):
                     self._clean_data(ws_temp, params)
                     results.append(self._get_data(ws_temp, params))
                     results_params.append(params)
+                    if not safe_mode:
+                        break
                 except:
                     continue
 

@@ -9,7 +9,6 @@ DataFrames. This is the only module that the user should use.
 """
 
 from openpyxl import load_workbook, Workbook
-from evaluation import evaluation
 from strategies import strategies
 
 
@@ -30,35 +29,20 @@ class XlSeries(object):
             self.wb = load_workbook(xl_path_or_wb, data_only=True)
 
     # PUBLIC
-    def get_data_frames(self, params_path_or_obj=None, all_results=True):
+    def get_data_frames(self, params_path_or_obj, safe_mode=False):
         """Returns pandas data frames of time series found in the xl file.
 
         Args:
-            params_path_or_obj: Path to a json file with parameters to parse
-                the excel file. It can also be the parameters object already
-                loaded.
-            all_results: If True all results are returned ordered by evaluation
-                result. Otherwise only the best result is returned. TODO: This
-                feature is not implemented yet!!
+            params_path_or_obj (str or Parameters): Path to a json file with
+                parameters to parse the excel file.
+            safe_mode (bool): When some parameters are not passed by the user,
+                the safe mode will check all possible combinations, returning
+                more than one result if many are found. If safe_mode is set to
+                False, the first succesful result will be returned without
+                checking the other possible combinations of parameters.
         """
 
-        results = []
-
         for strategy in strategies.get_strategies():
-
             if strategy.accepts(self.wb):
                 strategy_obj = strategy(self.wb, params_path_or_obj)
-                strategy_results = strategy_obj.get_data_frames()
-                # print "strat results", strategy_results
-
-                for result in strategy_results:
-                    # TODO: in the future the results will be evaluated and
-                    # ordered by score, to compare similar results returned by
-                    # different strategies, for now the loop just breaks after
-                    # the first succesful strategy
-
-                    # eval_result = evaluation.evaluate(result)
-                    results.append(result)
-                break
-
-        return results
+                return strategy_obj.get_data_frames()
