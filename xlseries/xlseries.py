@@ -10,6 +10,9 @@ DataFrames. This is the only module that the user should use.
 
 from openpyxl import load_workbook, Workbook
 from strategies import strategies
+import warnings
+
+warnings.filterwarnings("ignore")
 
 
 class XlSeries(object):
