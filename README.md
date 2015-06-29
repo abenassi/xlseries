@@ -174,7 +174,7 @@ Disclaimer: The list and description of parameters can change any time, as this 
 When parameters differ between series (and if they are not *optional*), they must be treated as **critical** and be provided by the user. In that sense, the critical parameters that test case 2 needs to run are:
 
 ```python
-{"headers_coord": ["D4", "F4"]
+{"headers_coord": ["D4", "F4"],
  "data_starts": [5, 22],
  "frequency": ["D", "M"],
  "time_header_coord": ["C4", "F4"],

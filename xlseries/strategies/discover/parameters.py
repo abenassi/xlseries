@@ -320,7 +320,7 @@ class Parameters(object):
         later stage."""
 
         for use_default in cls.USE_DEFAULT:
-            if (params[use_default] is None and
+            if ((use_default not in params or params[use_default] is None) and
                     None not in cls.VALID_VALUES[use_default]):
                 params[use_default] = cls.DEFAULT_VALUES[use_default]
 
