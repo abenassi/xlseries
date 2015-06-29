@@ -110,13 +110,6 @@ class TestXlSeriesWithoutSomeParameters(unittest.TestCase):
             for specific_param, value in specific_params.iteritems():
                 params[specific_param] = value
 
-        # test in safe mode
-        # series = XlSeries(test_wb)
-        # test_dfs = series.get_data_frames(params, True)
-
-        # for test_df, exp_df in zip(test_dfs, exp_dfs):
-        #     self.assertTrue(compare_data_frames(test_df, exp_df))
-
         # test not in safe mode
         series = XlSeries(test_wb)
         test_dfs = series.get_data_frames(params, False)

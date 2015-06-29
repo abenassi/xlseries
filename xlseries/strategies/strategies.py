@@ -258,9 +258,7 @@ class ParameterDiscovery(BaseStrategy):
         # print missings_dict
         attempts = []
         for combination in cls._param_combinations_generator(
-                # missings_dict, params.DEFAULT_VALUES,
-                # params.LIKELINESS_ORDER):
-                missings_dict, params.DEFAULT_VALUES):
+                missings_dict, params.DEFAULT_VALUES, params.LIKELINESS_ORDER):
             new_params = copy.deepcopy(params)
 
             for param_name, param_value in combination.iteritems():
@@ -319,10 +317,20 @@ class ParameterDiscovery(BaseStrategy):
             else:
                 likeliness_order_c = copy.deepcopy(likeliness_order)
                 missing_param = likeliness_order_c.pop()
+
                 while missing_param not in missings_dict_c:
-                    missing_param = likeliness_order_c.pop()
+                    missing_param = likeliness_order_c.pop(0)
+
                 valid_values = missings_dict_c[missing_param]
                 del missings_dict_c[missing_param]
+
+                if len(valid_values) == 0:
+                    if default_values:
+                        valid_values = [default_values[missing_param]]
+                    else:
+                        msg = "A default value for " + missing_param + \
+                            " is required."
+                        raise Exception(msg)
 
             for comb in cls._param_combinations_generator(missings_dict_c,
                                                           default_values,
