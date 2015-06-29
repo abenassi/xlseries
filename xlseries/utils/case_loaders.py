@@ -26,7 +26,7 @@ def check_case_exp_result(case_num, dfs):
     print "OK"
 
 
-def load_original_case(case_num=1, **loader_args):
+def load_original_case(case_num=1, special_version=None, **loader_args):
     """Load an original integration test case file.
 
     Args:
@@ -37,7 +37,10 @@ def load_original_case(case_num=1, **loader_args):
         A Workbook with original test case excel file loaded in it.
     """
 
-    case_name = "test_case" + unicode(case_num) + ".xlsx"
+    if special_version:
+        case_name = "test_case" + unicode(case_num) + unicode(special_version) + ".xlsx"
+    else:
+        case_name = "test_case" + unicode(case_num) + ".xlsx"
     # raise Exception(get_orig_cases_dir())
     case_path = os.path.join(get_orig_cases_dir(), case_name)
 
@@ -47,7 +50,7 @@ def load_original_case(case_num=1, **loader_args):
     return load_workbook(case_path, **loader_args)
 
 
-def load_parameters_case(case_num=1):
+def load_parameters_case(case_num=1, special_version=None):
     """Load the parameters of an integration test case.
 
     Args:
@@ -57,13 +60,16 @@ def load_parameters_case(case_num=1):
         A Parameters object with test case parameters loaded.
     """
 
-    case_name = "test_case" + unicode(case_num) + ".json"
+    if special_version:
+        case_name = "test_case" + unicode(case_num) + unicode(special_version) + ".json"
+    else:
+        case_name = "test_case" + unicode(case_num) + ".json"
     case_path = os.path.join(get_param_cases_dir(), case_name)
 
     return Parameters(case_path)
 
 
-def load_critical_parameters_case(case_num=1):
+def load_critical_parameters_case(case_num=1, special_version=None):
     """Load the critical parameters of an integration test case.
 
     Args:
@@ -73,7 +79,10 @@ def load_critical_parameters_case(case_num=1):
         Parameters: object with test case critical parameters loaded.
     """
 
-    case_name = "test_case" + unicode(case_num) + ".json"
+    if special_version:
+        case_name = "test_case" + unicode(case_num) + unicode(special_version) + ".json"
+    else:
+        case_name = "test_case" + unicode(case_num) + ".json"
     case_path = os.path.join(get_param_cases_dir(), case_name)
     params = Parameters(case_path)
     params.remove_non_critical()
@@ -81,7 +90,7 @@ def load_critical_parameters_case(case_num=1):
     return params
 
 
-def load_expected_case(case_num=1):
+def load_expected_case(case_num=1, special_version=None):
     """Load an original integration case file.
 
     Args:
@@ -91,7 +100,10 @@ def load_expected_case(case_num=1):
         A Workbook with original test case excel file loaded in it.
     """
 
-    case_name = "test_case" + unicode(case_num) + ".xlsx"
+    if special_version:
+        case_name = "test_case" + unicode(case_num) + unicode(special_version) + ".xlsx"
+    else:
+        case_name = "test_case" + unicode(case_num) + ".xlsx"
     case_path = os.path.join(get_exp_cases_dir(), case_name)
 
     return get_data_frames(case_path)

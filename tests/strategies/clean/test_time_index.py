@@ -77,6 +77,12 @@ class CleanSingleColumnTestCase(unittest.TestCase):
         res = [i[0] for i in ti_iter]
         self.assertEqual(res, ["a", "b", "c"])
 
+        ti_iter = CleanSingleColumn._time_index_iterator(ws, alignment,
+                                                         time_header_coord,
+                                                         ini)
+        res = [i[0] for i in ti_iter]
+        self.assertEqual(res, ["a", "b", "c", None])
+
         ws["F1"].value = "d"
         ws["G1"].value = "e"
         ws["H1"].value = "f"
@@ -90,6 +96,12 @@ class CleanSingleColumnTestCase(unittest.TestCase):
                                                          ini, end)
         res = [i[0] for i in ti_iter]
         self.assertEqual(res, ["d", "e", "f"])
+
+        ti_iter = CleanSingleColumn._time_index_iterator(ws, alignment,
+                                                         time_header_coord,
+                                                         ini)
+        res = [i[0] for i in ti_iter]
+        self.assertEqual(res, ["d", "e", "f", None])
 
     def test_correct_progression(self):
 
@@ -136,6 +148,120 @@ class CleanSingleColumnTestCase(unittest.TestCase):
         self.assertEqual(new_time_value, exp_time_value)
 
     # @unittest.skip("skip")
+    def test_clean_time_index_case3(self):
+
+        wb = load_workbook(
+            os.path.join(abs_path("original"), "test_case3.xlsx"))
+        ws = wb.active
+
+        params = {"alignment": "vertical",
+                  "time_alignment": 0,
+                  "continuity": True,
+                  "blank_rows": False,
+                  "time_header_coord": "A4",
+                  "data_starts": 7,
+                  "data_ends": 119,
+                  "frequency": "Q",
+                  "missings": False,
+                  "missing_value": None,
+                  "time_multicolumn": False,
+                  "time_composed": True}
+
+        CleanSingleColumn().clean_time_index(ws, params)
+
+        wb_exp = load_workbook(
+            os.path.join(abs_path("expected"), "test_case3.xlsx"))
+
+        # wb.save("test_case2_after_cleaning_index.xlsx")
+        self.assertTrue(compare_cells(wb, wb_exp))
+
+    # @unittest.skip("skip")
+    def test_clean_time_index_case3_without_end(self):
+
+        wb = load_workbook(
+            os.path.join(abs_path("original"), "test_case3.xlsx"))
+        ws = wb.active
+
+        params = {"alignment": "vertical",
+                  "time_alignment": 0,
+                  "continuity": True,
+                  "blank_rows": False,
+                  "time_header_coord": "A4",
+                  "data_starts": 7,
+                  "data_ends": None,
+                  "frequency": "Q",
+                  "missings": False,
+                  "missing_value": None,
+                  "time_multicolumn": False,
+                  "time_composed": True}
+
+        end = CleanSingleColumn().clean_time_index(ws, params)
+
+        wb_exp = load_workbook(
+            os.path.join(abs_path("expected"), "test_case3.xlsx"))
+
+        # wb.save("test_case2_after_cleaning_index.xlsx")
+        self.assertTrue(compare_cells(wb, wb_exp))
+        self.assertEqual(end, 119)
+
+    # @unittest.skip("skip")
+    def test_clean_time_index_case1(self):
+
+        wb = load_workbook(
+            os.path.join(abs_path("original"), "test_case1.xlsx"))
+        ws = wb.active
+
+        params = {"alignment": "vertical",
+                  "time_alignment": 0,
+                  "continuity": True,
+                  "blank_rows": False,
+                  "time_header_coord": "A1",
+                  "data_starts": 2,
+                  "data_ends": 256,
+                  "frequency": "M",
+                  "missings": True,
+                  "missing_value": None,
+                  "time_multicolumn": False,
+                  "time_composed": False}
+
+        CleanSingleColumn().clean_time_index(ws, params)
+
+        wb_exp = load_workbook(
+            os.path.join(abs_path("expected"), "test_case1.xlsx"))
+
+        # wb.save("test_case2_after_cleaning_index.xlsx")
+        self.assertTrue(compare_cells(wb, wb_exp))
+
+    # @unittest.skip("skip")
+    def test_clean_time_index_case1_without_end(self):
+
+        wb = load_workbook(
+            os.path.join(abs_path("original"), "test_case1.xlsx"))
+        ws = wb.active
+
+        params = {"alignment": "vertical",
+                  "time_alignment": 0,
+                  "continuity": True,
+                  "blank_rows": False,
+                  "time_header_coord": "A1",
+                  "data_starts": 2,
+                  "data_ends": None,
+                  "frequency": "M",
+                  "missings": True,
+                  "missing_value": None,
+                  "time_multicolumn": False,
+                  "time_composed": False}
+
+        end = CleanSingleColumn().clean_time_index(ws, params)
+
+        wb_exp = load_workbook(
+            os.path.join(abs_path("expected"), "test_case1.xlsx"))
+
+        # wb.save("test_case2_after_cleaning_index.xlsx")
+        self.assertTrue(compare_cells(wb, wb_exp))
+        self.assertEqual(end, 256)
+
+    # @unittest.skip("skip")
     def test_clean_time_index_case2(self):
 
         wb = load_workbook(
@@ -163,6 +289,35 @@ class CleanSingleColumnTestCase(unittest.TestCase):
 
         # wb.save("test_case2_after_cleaning_index.xlsx")
         self.assertTrue(compare_cells(wb, wb_exp))
+
+    def test_clean_time_index_case2_without_end(self):
+
+        wb = load_workbook(
+            os.path.join(abs_path("original"), "test_case2.xlsx"))
+        ws = wb.active
+
+        params = {"alignment": "vertical",
+                  "time_alignment": 0,
+                  "time_format": datetime.datetime,
+                  "continuity": True,
+                  "blank_rows": True,
+                  "time_header_coord": "C4",
+                  "data_starts": 5,
+                  "data_ends": None,
+                  "frequency": "D",
+                  "missings": True,
+                  "missing_value": "Implicit",
+                  "time_multicolumn": False,
+                  "time_composed": False}
+
+        end = CleanSingleColumn().clean_time_index(ws, params)
+
+        wb_exp = load_workbook(
+            os.path.join(abs_path("expected"), "test_case2.xlsx"))
+
+        # wb.save("test_case2_after_cleaning_index.xlsx")
+        self.assertTrue(compare_cells(wb, wb_exp))
+        self.assertEqual(end, 2993)
 
     # @unittest.skip("skip")
     def test_clean_time_index_case5(self):
@@ -192,6 +347,36 @@ class CleanSingleColumnTestCase(unittest.TestCase):
 
         # wb.save("test_case5_after_cleaning_index.xlsx")
         self.assertTrue(compare_cells(wb, wb_exp))
+
+    # @unittest.skip("skip")
+    def test_clean_time_index_case5_without_end(self):
+
+        wb = load_workbook(
+            os.path.join(abs_path("original"), "test_case5.xlsx"))
+        ws = wb.active
+
+        params = {"alignment": "vertical",
+                  "time_alignment": 0,
+                  "time_format": str,
+                  "continuity": False,
+                  "blank_rows": True,
+                  "time_header_coord": "A18",
+                  "data_starts": 28,
+                  "data_ends": None,
+                  "frequency": "M",
+                  "missings": True,
+                  "missing_value": None,
+                  "time_multicolumn": False,
+                  "time_composed": True}
+
+        end = CleanSingleColumn().clean_time_index(ws, params)
+
+        wb_exp = load_workbook(
+            os.path.join(abs_path("expected"), "test_case5_without_end.xlsx"))
+
+        # wb.save("test_case5_after_cleaning_index.xlsx")
+        self.assertTrue(compare_cells(wb, wb_exp))
+        self.assertEqual(end, 1001)
 
     # @unittest.skip("skip")
     def test_clean_time_index_case7(self):
@@ -226,6 +411,41 @@ class CleanSingleColumnTestCase(unittest.TestCase):
 
         # wb.save("test_case5_after_cleaning_index.xlsx")
         self.assertTrue(compare_cells(wb, wb_exp))
+
+    def test_clean_time_index_case7_without_end(self):
+
+        wb = load_workbook(
+            os.path.join(abs_path("original"), "test_case7.xlsx"))
+        ws = wb.active
+
+        params = {"alignment": "horizontal",
+                  "blank_rows": True,
+                  "composed_headers": False,
+                  "data_starts": 2,
+                  "data_ends": None,
+                  "frequency": "Y",
+                  "continuity": False,
+                  "missings": False,
+                  "missing_value": "None",
+                  "multifrequency": False,
+                  "series_names": "None",
+                  "time_composed": True,
+                  "time_alignment": 0,
+                  "time_multicolumn": False,
+                  "time_format": int,
+                  "time_header": False,
+                  "time_header_coord": "A6"}
+
+        end = CleanSingleColumn().clean_time_index(ws, params)
+
+        wb_exp = load_workbook(
+            os.path.join(abs_path("expected"), "test_case7.xlsx"),
+            data_only=True)
+
+        # wb.save("test_case5_after_cleaning_index.xlsx")
+        self.assertTrue(compare_cells(wb, wb_exp))
+        self.assertEqual(end, 44)
+
 
     # @unittest.skip("skip")
     def test_forth_time_value_typo(self):
@@ -347,6 +567,41 @@ class CleanMultiColumnsMultiFreqTestCase(unittest.TestCase):
 
         # wb.save("test_case6_after_cleaning_index.xlsx")
         self.assertTrue(compare_cells(wb, wb_exp))
+
+    def test_clean_time_index_case6_without_end(self):
+
+        wb = load_workbook(
+            os.path.join(abs_path("original"), "test_case6.xlsx"))
+        ws = wb.active
+
+        params = {"alignment": "horizontal",
+                  "blank_rows": True,
+                  "composed_headers": True,
+                  "data_starts": 3,
+                  "data_ends": None,
+                  "frequency": "YQQQQ",
+                  "headers_coord": "B8-B28",
+                  "continuity": False,
+                  "missings": False,
+                  "missing_value": None,
+                  "multifrequency": True,
+                  "series_names": None,
+                  "time_composed": True,
+                  "time_alignment": 0,
+                  "time_multicolumn": True,
+                  "time_format": str,
+                  "time_header": True,
+                  "time_header_coord": ["C4", "C6"]}
+
+        end = CleanMultiColumnsMultiFreq().clean_time_index(ws, params)
+
+        wb_exp = load_workbook(
+            os.path.join(abs_path("expected"), "test_case6.xlsx"),
+            data_only=True)
+
+        # wb.save("test_case6_after_cleaning_index.xlsx")
+        self.assertTrue(compare_cells(wb, wb_exp))
+        self.assertEqual(end, 61)
 
 
 class BaseMultiFrequencyTestCase(unittest.TestCase):

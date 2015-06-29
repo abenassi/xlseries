@@ -8,15 +8,10 @@ This module contains the high level strategies used by `xlseries` to parse
 time data series inside excel files into Pandas DataFrames.
 """
 
-import sys
-import inspect
 from pprint import pprint
 import pandas as pd
 import numpy as np
-from openpyxl.cell import column_index_from_string
 import copy
-import json
-from pprint import pprint
 
 import xlseries.utils.strategies_helpers
 from xlseries.strategies.discover.parameters import Parameters
@@ -24,7 +19,7 @@ import xlseries.strategies.clean.time_index as clean_ti_strategies
 import xlseries.strategies.get.data as get_data_strategies
 import xlseries.strategies.get.period_range as get_pr_strategies
 from xlseries.utils.data_frame import compare_data_frames
-from xlseries.utils.xl_methods import make_wb_copy, compare_cells
+from xlseries.utils.xl_methods import make_wb_copy
 
 
 # EXCEPTIONS
@@ -117,7 +112,9 @@ class ParameterDiscovery(BaseStrategy):
                 for unique_res in unique_results:
                     repeated = True
                     for df_a, df_b in zip(res, unique_res):
-                        if not compare_data_frames(df_a, df_b):
+                        try:
+                            compare_data_frames(df_a, df_b)
+                        except AssertionError:
                             repeated = False
                     if repeated:
                         break
@@ -156,10 +153,14 @@ class ParameterDiscovery(BaseStrategy):
         """Ensure data is clean to be processed with the parameters."""
 
         # 1. Clean time index
-
+        # import pdb; pdb.set_trace()
         # if time index is multicolumn, only one time index is allowed
         if params["time_multicolumn"][0]:
-            self._clean_time_index(ws, params[0])
+            end = self._clean_time_index(ws, params[0])
+
+            # if not provided, the end is when time index finish
+            if not params["data_ends"][0]:
+                params["data_ends"] = end
 
         # if time index is not multicolumn, many time indexes are allowed
         else:
@@ -169,14 +170,30 @@ class ParameterDiscovery(BaseStrategy):
                 time_header_coord = params["time_header_coord"][i_series]
                 if time_header_coord not in time_indexes:
                     time_indexes.add(time_header_coord)
-                    self._clean_time_index(ws, params[i_series])
+                    end = self._clean_time_index(ws, params[i_series])
+
+                    # if not provided, the end is when time index finish
+                    if not params["data_ends"][i_series]:
+                        # print "checking theres no end", i_series, params["data_ends"][i_series]
+                        # print "returned end", end
+                        start = params["data_starts"][i_series]
+
+                        for i_series in xrange(len(params.time_header_coord)):
+                            if params["data_starts"][i_series] == start:
+                                params["data_ends"][i_series] = end
+
+        # msg = "got HERE!" + repr(params)
+        # raise Exception(msg)
 
         # 2. Clean data values
         for i_series in xrange(len(params.headers_coord)):
             self._clean_values(ws)
 
+        # print "getting out of clean data", params
+
     def _get_data(self, ws, params):
         """Parse data using parameters and return it in data frames."""
+        # print "gettin in get data", params
 
         # 1. Build data frames dict based on amount of period ranges founded
         dfs_dict = {}
@@ -198,7 +215,10 @@ class ParameterDiscovery(BaseStrategy):
                     # print "accepted!"
                     strategy_obj = strategy()
                     names_and_values = strategy_obj.get_data(ws, params_series)
-                    # print names_and_values
+
+                    names, values = names_and_values[0]
+                    # print names, len(values), params_series
+
                     break
 
             # raise exception if no strategy accepts the input
@@ -359,8 +379,7 @@ class ParameterDiscovery(BaseStrategy):
             if strategy.accepts(ws, params):
                 # print strategy, "is dealing with time index"
                 strategy_obj = strategy()
-                strategy_obj.clean_time_index(ws, params)
-                return
+                return strategy_obj.clean_time_index(ws, params)
 
         msg = "Time index in '" + ws.title + "'' could not be cleaned."
         raise TimeIndexNotClean(msg)

@@ -9,11 +9,10 @@ Tests for `xlseries` module.
 
 import unittest
 import nose
-import os
 from functools import wraps
 
 from xlseries.utils.path_finders import get_orig_cases_path
-from xlseries.utils.path_finders import get_param_cases_path
+from xlseries.utils.case_loaders import load_original_case
 from xlseries.utils.case_loaders import load_expected_case
 from xlseries.utils.case_loaders import load_parameters_case
 from xlseries.xlseries import XlSeries
@@ -38,15 +37,16 @@ def load_case_number():
 # @unittest.skip("skip")
 class TestXlSeriesWithAllParameters(unittest.TestCase):
 
-    def run_case_with_parameters(self, case_num):
+    def run_case_with_parameters(self, case_num, special_case=None):
         """Run a test case with parameters using ParameterDiscovery strategy.
 
         Args:
             case_num: The test case number to run.
         """
-        test_wb = get_orig_cases_path(case_num)
-        params = get_param_cases_path(case_num)
-        exp_dfs = load_expected_case(case_num)
+        test_wb = load_original_case(case_num)
+        params = load_parameters_case(case_num)
+        params["data_ends"] = None
+        exp_dfs = load_expected_case(case_num, special_case)
 
         # get dfs from the strategy
         series = XlSeries(test_wb)
@@ -79,7 +79,9 @@ class TestXlSeriesWithAllParameters(unittest.TestCase):
     # @unittest.skip("skip")
     @load_case_number()
     def test_case5(self, case_num):
-        self.run_case_with_parameters(case_num)
+        special_case = None
+        special_case = "_without_end"
+        self.run_case_with_parameters(case_num, special_case=special_case)
 
     # @unittest.skip("skip")
     @load_case_number()
@@ -95,7 +97,8 @@ class TestXlSeriesWithAllParameters(unittest.TestCase):
 # @unittest.skip("skip")
 class TestXlSeriesWithoutSomeParameters(unittest.TestCase):
 
-    def run_case_without_some_parameters(self, case_num, specific_params=None):
+    def run_case_without_some_parameters(self, case_num, specific_params=None,
+                                         special_case=None):
         """Run a test case deleting some parameters.
 
         Args:
@@ -103,16 +106,17 @@ class TestXlSeriesWithoutSomeParameters(unittest.TestCase):
         """
         test_wb = get_orig_cases_path(case_num)
         params = load_parameters_case(case_num)
-        exp_dfs = load_expected_case(case_num)
+        exp_dfs = load_expected_case(case_num, special_case)
 
         params.remove_non_critical()
         if specific_params:
             for specific_param, value in specific_params.iteritems():
                 params[specific_param] = value
 
-        # test not in safe mode
+        # change safe_mode to True, for complete test in safe_mode (very slow)
+        safe_mode = False
         series = XlSeries(test_wb)
-        test_dfs = series.get_data_frames(params, False)
+        test_dfs = series.get_data_frames(params, safe_mode)
 
         for test_df, exp_df in zip(test_dfs, exp_dfs):
             self.assertTrue(compare_data_frames(test_df, exp_df))
@@ -135,13 +139,16 @@ class TestXlSeriesWithoutSomeParameters(unittest.TestCase):
     # @unittest.skip("skip")
     @load_case_number()
     def test_case4(self, case_num):
-        specific_params = {"missing_value": u'\u2026'}
-        self.run_case_without_some_parameters(case_num, specific_params)
+        self.run_case_without_some_parameters(
+            case_num, specific_params={"missing_value": u'\u2026'})
 
     # @unittest.skip("skip")
     @load_case_number()
     def test_case5(self, case_num):
-        self.run_case_without_some_parameters(case_num)
+        special_case = None
+        special_case = "_without_end"
+        self.run_case_without_some_parameters(
+            case_num, special_case=special_case)
 
     # @unittest.skip("skip")
     @load_case_number()

@@ -42,7 +42,7 @@ class Parameters(object):
         "series_names": [str, unicode, None],
         "headers_coord": [str, unicode],
         "data_starts": [int],
-        "data_ends": [int],
+        "data_ends": [int, None],
         "continuity": [True, False],
         "blank_rows": [True, False],
         "missings": [True, False],
@@ -62,17 +62,23 @@ class Parameters(object):
         "missing_value": None,
         "time_alignment": 0,
         "time_multicolumn": False,
-        "time_composed": False
+        "time_composed": False,
+        "data_ends": None,
+        "series_names": None
     }
 
     LIKELINESS_ORDER = ["time_alignment", "alignment", "continuity",
                         "blank_rows", "missings", "time_multicolumn",
                         "time_composed"]
 
-    CRITICAL = ["headers_coord", "data_starts", "data_ends",
+    CRITICAL = ["headers_coord", "data_starts",
                 "time_header_coord", "frequency"]
 
-    OPTIONAL = ["series_names"]
+    OPTIONAL = ["series_names", "data_ends"]
+
+    USE_DEFAULT = ["time_alignment"]
+
+    TYPE_PARAMETERS = "<class 'xlseries.strategies.discover.parameters.Parameters'>"
 
     def __init__(self, params=None):
 
@@ -99,7 +105,8 @@ class Parameters(object):
         self.frequency = None
 
         if params:
-            if type(params) == Parameters:
+            if (type(params) == Parameters or
+                    unicode(type(params)) == self.TYPE_PARAMETERS):
                 # add loaded parameters keeping Parameters object defaults
                 loaded_params_dict = self._load_from_dict(params.__dict__)
 
@@ -113,6 +120,7 @@ class Parameters(object):
                 loaded_params_dict = self._load_from_json(params)
 
             else:
+                print type(params)
                 msg = repr(params) + unicode(type(params)) + "not recognized."
                 raise Exception(msg)
 
@@ -222,6 +230,13 @@ class Parameters(object):
         """Remove all non critical parameters."""
         map(self.remove, self.get_non_critical_params(differents))
 
+        # restore optionals
+        for optional_param in self.OPTIONAL:
+            self[optional_param] = None
+
+        # restore defaults
+        self._missings_to_default(self)
+
     def remove(self, param):
         """Remove a parameters setting it to 'missing'."""
         self.__dict__[param] = None
@@ -271,6 +286,8 @@ class Parameters(object):
         # check that the input is valid
         cls._validate_parameters(params, cls.VALID_VALUES)
 
+        cls._missings_to_default(params)
+
         # convert in lists ranges of headers (eg. "B8-B28")
         if "headers_coord" in params:
             h_c = params["headers_coord"]
@@ -285,7 +302,27 @@ class Parameters(object):
                 param_name, params[param_name], num_series, params,
                 cls.VALID_VALUES[param_name])
 
+        # apply Nones to optional parameters
+        for param_name in cls.OPTIONAL:
+            if param_name not in params or not params[param_name]:
+                params[param_name] = cls._apply_to_all(
+                    param_name, cls.DEFAULT_VALUES[param_name], num_series,
+                    params, cls.VALID_VALUES[param_name])
+
         return params
+
+    @classmethod
+    def _missings_to_default(cls, params):
+        """Set missing parameters in the USE_DEFAULT list to their defaults.
+
+        These parameters, when not provided by the user, will use their
+        defaults rather than stay missing to be guessed by the package in a
+        later stage."""
+
+        for use_default in cls.USE_DEFAULT:
+            if (params[use_default] is None and
+                    None not in cls.VALID_VALUES[use_default]):
+                params[use_default] = cls.DEFAULT_VALUES[use_default]
 
     @classmethod
     def _get_num_series(cls, params):
@@ -324,7 +361,9 @@ class Parameters(object):
                                   valid_values=None):
         """Creates list from single parameter repeating it for every series."""
 
-        if type(params["time_multicolumn"]) == list:
+        if "time_multicolumn" not in params:
+            time_multicolumn = cls.DEFAULT_VALUES["time_multicolumn"]
+        elif type(params["time_multicolumn"]) == list:
             time_multicolumn = params["time_multicolumn"][0]
         else:
             time_multicolumn = params["time_multicolumn"]

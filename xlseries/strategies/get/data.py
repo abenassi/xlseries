@@ -71,7 +71,9 @@ class BaseGetDataStrategy(object):
                                                p["missing_value"],
                                                p["blank_rows"])
 
+            # print "after handling new value", new_value
             if self._value_to_be_added(new_value, index, ws, p):
+                # print "value has to be added"
                 frequency = self._get_frequency(p["frequency"])
                 if frequency not in values_dict:
                     values_dict[frequency] = []
@@ -284,6 +286,7 @@ class BaseNonContinuous():
 
         Value shouldn't be None and the row should correspond to a valid time
         value in the time index."""
+        # print "checking with the time index..."
 
         if params["alignment"] == "vertical":
             time_col = ws[params["time_header_coord"]].column
@@ -304,6 +307,9 @@ class BaseNonContinuous():
     @classmethod
     def _handle_new_value(cls, values, value, missings, missing_value,
                           blank_rows):
+        if ((type(value) == str or type(value) == unicode) and
+                value.strip() == ""):
+            value = None
 
         new_value = None
         if missings:

@@ -44,18 +44,18 @@ class GetPeriodRangesSingleFrequency(BaseGetPeriodRangesStrategy):
         return len(freq) == 1
 
     @classmethod
-    def _get_period_ranges(cls, ws, freq, ini, time_header_coord, end,
-                           time_alignement, alignment):
+    def _get_period_ranges(cls, ws, freq, data_starts, time_header_coord,
+                           data_ends, time_alignement, alignment):
 
         if alignment == "vertical":
             col = column_index_from_string(ws[time_header_coord].column)
-            start = ws.cell(row=ini + time_alignement, column=col).value
-            end = ws.cell(row=end + time_alignement, column=col).value
+            start = ws.cell(row=data_starts + time_alignement, column=col).value
+            end = ws.cell(row=data_ends + time_alignement, column=col).value
 
         elif alignment == "horizontal":
             row = ws[time_header_coord].row
-            start = ws.cell(column=ini + time_alignement, row=row).value
-            end = ws.cell(column=end + time_alignement, row=row).value
+            start = ws.cell(column=data_starts + time_alignement, row=row).value
+            end = ws.cell(column=data_ends + time_alignement, row=row).value
 
         else:
             raise Exception("Series alignment must be 'vertical' or " +

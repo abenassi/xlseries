@@ -17,10 +17,12 @@ automatically taken by "get_strategies" and exposed to the user.
 import arrow
 from pprint import pprint
 from pprint import pformat
-from openpyxl.cell import get_column_letter
+from openpyxl.cell import get_column_letter, column_index_from_string
 import datetime
 
 from xlseries.strategies.clean.parse_time import DayOutOfRange, MonthOutOfRange
+from xlseries.strategies.clean.parse_time import NoTimeValue
+from xlseries.strategies.clean.parse_time import NoPossibleTimeValue
 import xlseries.utils.strategies_helpers
 from xlseries.utils.time_manipulation import increment_time
 import xlseries.strategies.clean.parse_time as parse_time_strategies
@@ -83,6 +85,8 @@ class BaseCleanTiStrategy(object):
 
     """BaseCleanTiStrategy class for all time index cleaning strategies."""
 
+    NO_TIME_VALUE_LIMIT = 40
+
     def __init__(self, time_parser=None):
         self.time_parser = time_parser
 
@@ -108,14 +112,18 @@ class BaseCleanTiStrategy(object):
 
         p = params
         # create iterator of time index values
+        # raise Exception(p["data_ends"])
         iter_time_index = self._time_index_iterator(
             ws, p["alignment"], p["time_header_coord"], p["data_starts"],
             p["data_ends"])
 
         last_time = None
+        no_time_value_count = 0
         for curr_time, next_time, write_time_cell in iter_time_index:
+
             # only clean if the value is expected to be a time value
             if self._must_be_time_value(curr_time, next_time, last_time):
+                no_time_value_count = 0
 
                 try:
                     curr_time = self._parse_time(params, curr_time, last_time,
@@ -130,7 +138,6 @@ class BaseCleanTiStrategy(object):
 
                     # write the clean value to the spreadsheet
                     write_time_cell.value = curr_time.datetime
-                    # print write_time_cell.value, type(write_time_cell.value)
                     last_time = curr_time
 
                 # this is the only case that _must_be_time_value is not
@@ -139,15 +146,73 @@ class BaseCleanTiStrategy(object):
                 except (DayOutOfRange, MonthOutOfRange):
                     write_time_cell.value = None
 
+                except (ParseTimeImplementationError, NoPossibleTimeValue,
+                        NoTimeValue, AssertionError):
+                    # raise Exception("index is breaking...")
+                    if not p["data_ends"]:
+                        # raise Exception("we recognized there's no end")
+                        if p["alignment"] == "vertical":
+                            while (type(write_time_cell.value) != datetime.datetime and
+                                    write_time_cell.row > p["data_starts"]):
+                                write_time_cell = write_time_cell.offset(row=-1)
+                            end = write_time_cell.row - p["time_alignment"]
+
+                            assert end > p["data_starts"], "End must be greater than start!"
+                            return end
+
+                        else:
+                            while (type(write_time_cell.value) != datetime.datetime and
+                                    write_time_cell.column > p["data_starts"]):
+                                write_time_cell = write_time_cell.offset(column=-1)
+
+
+                            end = column_index_from_string(write_time_cell.column)  - p["time_alignment"]
+
+                            assert end > p["data_starts"], "End must be greater than start!"
+                            return end
+                    else:
+                        raise
+
+                except:
+                    raise
+
+            elif no_time_value_count < self.NO_TIME_VALUE_LIMIT:
+                no_time_value_count += 1
+
+            else:
+                break
+
+        if p["alignment"] == "vertical":
+            while (type(write_time_cell.value) != datetime.datetime and
+                    write_time_cell.row > p["data_starts"]):
+                write_time_cell = write_time_cell.offset(row=-1)
+
+            end = write_time_cell.row - p["time_alignment"]
+
+            assert end > p["data_starts"], "End must be greater than start!"
+            return end
+
+        else:
+            while (type(write_time_cell.value) != datetime.datetime and
+                    write_time_cell.column > p["data_starts"]):
+                write_time_cell = write_time_cell.offset(column=-1)
+
+            end = column_index_from_string(write_time_cell.column)  - p["time_alignment"]
+
+            assert end > p["data_starts"], "End must be greater than start!"
+            return end
+
     @classmethod
     def _must_be_time_value(cls, value, next_time, last_time):
         return ((value is not None) and (len(unicode(value).strip()) > 0))
 
     # PRIVATE time index iterator methods
     @classmethod
-    def _time_index_iterator(cls, ws, alignment, time_header_coord, ini, end):
+    def _time_index_iterator(cls, ws, alignment, time_header_coord, ini,
+                             end=None):
 
         if alignment == "vertical":
+            end = end or ws.get_highest_row()
             for row in xrange(ini, end + 1):
                 curr_time = cls._get_time_value(ws, time_header_coord,
                                                 f_row=row)
@@ -159,6 +224,7 @@ class BaseCleanTiStrategy(object):
                 yield (curr_time, next_time, write_time_cell)
 
         elif alignment == "horizontal":
+            end = end or ws.get_highest_column()
             for col in xrange(ini, end + 1):
                 curr_time = cls._get_time_value(ws, time_header_coord,
                                                 f_col=get_column_letter(col))
@@ -214,7 +280,8 @@ class BaseCleanTiStrategy(object):
                 assert type(time_value) == arrow.Arrow, msg
                 # print time_value, self.time_parser, curr_time
                 # if curr_time.strip() == "17-12.09":
-                    # print self.time_parser, "is dealing with", curr_time, time_value
+                    # print self.time_parser, "is dealing with", curr_time,
+                    # time_value
                 return time_value
 
             except (DayOutOfRange, MonthOutOfRange) as inst:
@@ -226,7 +293,8 @@ class BaseCleanTiStrategy(object):
         # if last parser doesn't work (or there is None), search again
         for strategy in parse_time_strategies.get_strategies():
             if strategy.accepts(params, curr_time, last_time, next_time):
-                # print strategy, "is dealing with time parsing", curr_time, params
+                # print strategy, "is dealing with time parsing", curr_time,
+                # params
                 self.time_parser = strategy()
                 time_value = self.time_parser.parse_time(params, curr_time,
                                                          last_time, next_time)
@@ -553,8 +621,6 @@ class CleanSingleColumnWithOffset(BaseSingleColumn, BaseSingleFrequency,
 
     @classmethod
     def _accepts(cls, ws, params):
-        # single = BaseSingleColumn._accepts(ws, params)
-        # offset = BaseOffsetTi._accepts(ws, params)
         return cls._base_cond(ws, params)
 
 
@@ -565,8 +631,6 @@ class CleanMultiColumnsMultiFreq(BaseMultipleColumns, BaseMultiFrequency,
 
     @classmethod
     def _accepts(cls, ws, params):
-        # multicol = BaseMultipleColumns._accepts(ws, params)
-        # multifreq = BaseMultiFrequency._accepts(ws, params)
         return cls._base_cond(ws, params)
 
 

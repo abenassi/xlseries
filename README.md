@@ -36,8 +36,8 @@ This package is still in an early development stage, it can't be reliably used f
 
 ```python
 from xlseries import XlSeries
-series = XlSeries("path_to_excel_file" or "openpyxl.Workbook instance")
-dfs = series.get_data_frames("path_to_json_parameters" or "parameters_dictionary")
+series = XlSeries("path_to_excel_file" or openpyxl.Workbook instance)
+dfs = series.get_data_frames("path_to_json_parameters" or parameters_dictionary)
 ```
 
 With the test case number 1:
@@ -52,23 +52,14 @@ series = XlSeries(path_to_excel_file)
 dfs = series.get_data_frames(path_to_json_parameters)
 ```
 
-or passing the parameters as a dictionary:
+or passing only the critical parameters as a dictionary:
 
 ```python
 parameters_dictionary = {
-    "alignment": "vertical",
     "headers_coord": ["B1","C1"],
     "data_starts": 2,
-    "data_ends": 256,
     "frequency": "M",
-    "time_header_coord": "A1",
-    "time_multicolumn": False,
-    "time_composed": False,
-    "time_alignment": 0,
-    "continuity": True,
-    "blank_rows": False,
-    "missings": True,
-    "missing_value": None
+    "time_header_coord": "A1"
 }
 series = XlSeries(path_to_excel_file)
 dfs = series.get_data_frames(parameters_dictionary)
@@ -80,9 +71,12 @@ dfs = series.get_data_frames(parameters_dictionary)
 ![](https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case_4_5.png)
 ![](https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case_6_7.png)
 
-* **Parameters**: Together with the excel file, some parameters about the series must be provided. This could be passed to get_data_frames() as path to a JSON file or as a python dictionary. In future development stages more and more [parameters](#parameters) will be discovered by the package and the user will not need to provide them all, but as a way to increase the speed (less work will have to be done by the package if the user specify more parameters).
+* **Parameters**: Together with the excel file, some parameters about the series must be provided. These could be passed to get_data_frames() as a path to a *JSON file* or as a *python dictionary*. `xlseries` use about 14 parameters to characterize the time series of a spreadsheet, but only 4 of them are *critical* most of the time: the rest can be guessed by the package. The only difference between specifying more or less parameters than the 4 critical is the total time that `xlseries` will need to complete the task (more parameters, less time).
+  * Go to the [parameters](#parameters) section for a more detailed explanation about how to use them, and when you need to specify more than the basic 4 (`headers_coord`, `data_starts`, `frequency` and `time_header_coord`).
 
-To give it a try, you can use this [ipython notebook template](docs/notebooks/Example use case.ipynb). If you want to see the test cases that are passing all the tests and get an idea of how far is going `xlseries` at the moment, check out this [ipython notebook with the 7 test cases](docs/notebooks/Test cases.ipynb).
+Take a look to this [ipython notebook template](docs/notebooks/Example use case.ipynb) to get started!. 
+
+If you want to dig inside the test cases and get an idea of how far is going `xlseries` at the moment, check out this [ipython notebook with the 7 test cases](docs/notebooks/Test cases.ipynb).
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -136,7 +130,7 @@ Some of the best institutions that collect and organize data are:
 
 Each time series has it's own parameters. Parameters can be passed to `XlSeries.get_data_frames()` as a path to a json file that looks like this: 
 
-*Parameters for [test case 2](../tests/intergration_cases/parameters/test_case2.json)*
+*Complete parameters for [test case 2](../tests/intergration_cases/parameters/test_case2.json)*
 ```json
 {"alignment": "vertical",
  "headers_coord": ["D4", "F4"],
@@ -175,34 +169,63 @@ or as a python dictionary that look like this:
 
 If many series are to be scraped from a single excel file, parameters for each series should be written in lists, but *only if they differ* between series (as you can see in the previous example). It is not necessary to write parameters that repeat themselves in all the series (like the **alignment**, which is usually common to all the series in the spreadsheet).
 
-This list of parameters can still change any time, adding, removing or modifying some of them when the understanding of the problem grows.
+Disclaimer: The list and description of parameters can change any time, as this project is still under heavy development.
 
-*List of parameters*
+When parameters differ between series (and if they are not *optional*), they must be treated as **critical** and be provided by the user. In that sense, the critical parameters that test case 2 needs to run are:
 
-*Parameters without quotes are non-string values in the **json_way (python_way)***
+```python
+{"headers_coord": ["D4", "F4"]
+ "data_starts": [5, 22],
+ "frequency": ["D", "M"],
+ "time_header_coord": ["C4", "F4"],
+ "time_alignment": [0, -1],
+ "continuity": [True, False],
+ "blank_rows": [False, True],
+ "missings": [True, False],
+ "missing_value": ["Implicit", None]}
+```
+
+*In the following descriptions, parameters without quotes are non-string values in the **json_way (python_way)***
+
+### Critical parameters
+
+The user **must** specify at least these 4 parameters:
+
+* **headers_coord**: "B4" - *Excel coordinates for a series header.*
+* **time_header_coord**: "A3" - *Excel coordinates for a time index header.*
+* **data_starts**: 4 - *The index of row or column where data starts.*
+* **frequency**: "Y", "Q", "M", "W", "D" or "YQQQQ" and other multi-frequency patterns - *Indicates the time frequency of the series. It uses pretty much the same strings as `datetime.datetime` uses with the substantial aggregation of multi-frequency patterns, when a series has values in more than one frequency at the same row (typically a secondary series is the aggregated version of the other one). "YQQQQ", for example, indicates the presence of series that shows first the annual average (or sum) and then the four quarters.*
+
+### Parameters that can be guessed
+
+The following parameters can be guessed by the package, but only if they **don't differ between series**. Any parameters whose values differ between the series to be scraped (the ones specified in `headers_coord`) must also be specified.
 
 * **alignment**: "Vertical", "Horizontal" - *Alignment of the series in the spreadsheet.*
-* **headers_coord**: "B4" - *Excel coordinates for a series header.*
-* **data_starts**: 4 - *The index of row or column where data starts.*
-* **data_ends**: 254 - *The index of row or column where data ends.*
-* **frequency**: "Y", "Q", "M", "W", "D" or "YQQQQ" and other multi-frequency patterns - *Indicates the time frequency of the series. It uses pretty much the same strings as `datetime.datetime` uses with the substantial aggregation of multi-frequency patterns, when a series has values in more than one frequency at the same row (typically a secondary series is the aggregated version of the other one). "YQQQQ", for example, indicates the presence of series that shows first the annual average (or sum) and then the four quarters.*
-* **time_header_coord**: "A3" - *Excel coordinates for a time index header.*
 * **time_multicolumn**: true (True), false (False) - *Indicates if a data series has a time index expressed in multiple columns that must be composed.*
 * **time_composed**: true (True), false (False) - *Indicates if a data series has a time index that has to be composed (not a straight forward date string) because some information about current date is taken from previous cells. Typically when year is only stated a the first quarter while the other three have only the quarter number.*
 * **time_alignment**: 0, -1, +1 - *0: Time index run parallel to data, -1: Time value is right before data value cell, +1: Time value is right after data value cell.*
 * **continuity**: true (True), false (False) - *Indicates if a data series is interrupted by strings that are not data.*
 * **blank_rows**: true (True), false (False) - *Indicates if a data series is interrupted by blank rows.*
 * **missings**: true (True), false (False) - *Indicates the presence of missing values in data.*
-* **missing_value**: "", ".", "NA", null (None), "Implicit" - *State the value that should be taken as "missing". "Implicit" is a special missing value that means that there are missing values not showed in the spreadsheet (time index is not continuous, typically in day frequency when weekends are not taken into account).*
-* **series_names**: "Real GDP" - *Names of the series (this is not necessary if headers_coord is provided). This parameter is not working yet, but it will be an alternative to specify the header coordinates. This will be useful to prevent against changes in the excel layout that may displace the headers from the original coordinate. If both parameters are specified (headers_coord and series_names), the second one will act as a "validation" of the names found in the headers_coord, providing a stricter safe check.*
+
+The parameter `missing_value` should be specified every time that a special kind of missing value that is not "", null (None) or "." could appear in the series and should be taken as a missing value instead of an error or the end of the series.
+
+* **missing_value**: "", ".", "NA", null (None), "Implicit" or other values - *State the value that should be taken as "missing". "Implicit" is a special missing value that means that there are missing values not showed in the spreadsheet (time index is not continuous, typically in day frequency when weekends are not taken into account).*
+
+### Optional parameters
+
+* **data_ends**: 254 - *The index of row or column where data ends.* This should only be specified in one of the following situations:
+  - The user only wants to pull data up to a certain row or column.
+  - The user wants to pull data up to a point that differs to the end of the time index (the package use the end of the time index to set the end of data)
+* **series_names**: "Real GDP" - *Names of the series (this is not necessary if headers_coord is provided). This parameter is **not working yet**, but it will be an alternative to specify the header coordinates. This will be useful to prevent against changes in the excel layout that may displace the headers from the original coordinate. If both parameters are specified (headers_coord and series_names), the second one will act as a "validation" of the names found in the headers_coord, providing a stricter safe check.* Again, this parameter is still an idea for a future version, do not attempt to use it yet.
 
 ## Development status
 
 ### Test cases
 
-There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/integration_cases). Each test case was chosen because it adds something new that `xlseries` isn't (or wasn't) able to deal with before. Next, there is a list of new issues brought by each case, in addition to the previous ones. 
+There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/integration_cases). Each test case was chosen because it adds something new that `xlseries` wasn't able to deal with it before. Next, there is a list of new issues brought by each case, in addition to the previous ones. 
 
-If you find a *new test case* that cannot be solved by `xlseries` in its current development stage, I would greatly appreciate that you [send it to me](mailto:agusbenassi@gmail.com).
+If you find a *new test case* that cannot be solved by `xlseries` in its current development stage, I would **greatly appreciate** you [sending it to me](mailto:agusbenassi@gmail.com).
 
 #### Test case 1 
 
@@ -296,7 +319,7 @@ If you find a *new test case* that cannot be solved by `xlseries` in its current
 
 ### Progress
 
-Up to this moment the package can handle cases [1](#test-case-1), [2](#test-case-2), [3](#test-case-3), [4](#test-case-4) or [5](#test-case-5) with parameters. Once the seven cases can be handled with given parameters for each case, strategies for discovering parameters will start to be implemented.
+Up to this moment the package can handle these 7 test cases, providing some critical parameters. New test cases that may appear (with different issues than the ones covered by these ones) should be easily supported adding some code (to deal with new ways to express time values, new time index structures, new multifrequency patterns, etc) and, eventually, a new parameter (although this should be very weird.)
 
 The ultimate goal is that for **any** given excel file the user can possibly have, `xlseries` be able to extract all time series in the spreadsheet and return pandas data frames.
 
@@ -308,7 +331,7 @@ I aim to keep the design of this package strongly modularized and decoupled to a
 
 A non-exhaustive list of ways that you can contribute:
 
-* Bring more test cases that posses parsing challenges not covered by the current test cases. You can add a test case following the example of the other test cases. These can be *integration test cases* (an entire excel worksheet taken from the real world) or *unit test cases* like a new type of time string to parse that is not covered by current time-like strings used as test cases.
+* Bring **more test cases** that posses parsing challenges not covered by the current test cases. You can add a test case following the example of the other test cases. These can be *integration test cases* (an entire excel worksheet taken from the real world) or *unit test cases* like a new type of time string to parse that is not covered by current time-like strings used as test cases.
 
 * Work in the [parse_time strategies](https://github.com/abenassi/xlseries/blob/master/xlseries/strategies/clean/parse_time.py). These strategies are the most important part of how time indexes are parsed into something that has a datetime.datetime type. You can add more parsers to cover existing cases, improve the ones that already exist giving them more generality or adding new test cases to then implement the parser strategies for them.
 
@@ -316,10 +339,10 @@ A non-exhaustive list of ways that you can contribute:
 
 * Start building meta-heuristics to (1) evaluate and compare alternative outputs for the same spreadsheet (pandas data frames) and ranking them by *quality* and (2) build evaluators to determine if a pandas data frame is to be considered a well scraped time data series or not.
 
-* Start working in the still virgin area of *discovering the parameters*. The package still need a list of [parameters](https://github.com/abenassi/xlseries/blob/master/xlseries/strategies/discover/parameters.py) to process the excel files. Many approaches will have to be researched to start building strategies for discovering the parameters of an excel file with time data series:
+* Start working in the still virgin area of *discovering the parameters*. The package still need a list of critical [parameters](https://github.com/abenassi/xlseries/blob/master/xlseries/strategies/discover/parameters.py) to process the excel files. Many approaches will have to be researched to start building strategies for discovering the parameters of an excel file with time data series:
     - Every parameter has a new module with a bunch of possible strategies to discover it.
     - Machine learning that takes low level input parameters (size of sheet, types of cell values, cell values formatting, etc.) and output the discovered higher level parameter.
-    - Trying random parameters and examining the output of the package as a way to discover the correct parameter.
+    - Trying random parameters and examining the output of the package as a way to discover the correct parameter (this is the only approach explored up to this moment).
 
 * Start writing the docs.
 

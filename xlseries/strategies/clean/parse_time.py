@@ -25,6 +25,7 @@ import xlseries.utils.strategies_helpers
 
 
 # EXCEPTIONS
+
 class NoPossibleTimeValue(ValueError):
 
     """Raised if the value is not a possible time value."""
@@ -33,6 +34,20 @@ class NoPossibleTimeValue(ValueError):
         msg = " ".join([unicode(type(value)), unicode(value),
                         "is not a possible time value."])
         super(NoPossibleTimeValue, self).__init__(msg)
+
+
+class TimeIsNotComposed(ValueError):
+
+    """Raised if a valid time value try to be parsed as composed.
+
+    If a spreadsheet has time values already, time_composed parameter should be
+    False."""
+
+    def __init__(self, value):
+        msg = " ".join([unicode(type(value)), unicode(value),
+                        "is not a composed time, time_composed should be set"
+                        "False."])
+        super(TimeIsNotComposed, self).__init__(msg)
 
 
 class NoTimeValue(ValueError):
@@ -101,7 +116,10 @@ class BaseParseTimeStrategy(object):
             curr_time = unidecode(curr_time)
 
         if cls._already_time_value(curr_time):
-            return True
+            if params["time_composed"]:
+                raise TimeIsNotComposed(curr_time)
+            else:
+                return True
         else:
             if not cls._possible_time_value(curr_time):
                 raise NoPossibleTimeValue(curr_time)
