@@ -16,7 +16,7 @@ import glob
 import string
 
 from time_manipulation import infer_freq
-from xlseries.utils.comparing import approx_equal
+from comparing import approx_equal
 
 
 class NoSerializedDataFrameFound(Exception):

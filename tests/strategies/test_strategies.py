@@ -99,9 +99,9 @@ class ParameterDiscoveryTestCase(unittest.TestCase):
         self.assertEqual(len(attempts), 2)
 
         for param_name in attempts[0]:
-            self.assertEqual(p1[param_name], attempts[0][param_name])
+            self.assertEqual(p2[param_name], attempts[0][param_name])
         for param_name in attempts[1]:
-            self.assertEqual(p2[param_name], attempts[1][param_name])
+            self.assertEqual(p1[param_name], attempts[1][param_name])
 
     def test_param_combinations_generator(self):
 

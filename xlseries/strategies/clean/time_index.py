@@ -212,7 +212,9 @@ class BaseCleanTiStrategy(object):
                 time_value = self.time_parser.parse_time(params, curr_time,
                                                          last_time, next_time)
                 assert type(time_value) == arrow.Arrow, msg
-
+                # print time_value, self.time_parser, curr_time
+                # if curr_time.strip() == "17-12.09":
+                    # print self.time_parser, "is dealing with", curr_time, time_value
                 return time_value
 
             except (DayOutOfRange, MonthOutOfRange) as inst:
@@ -224,6 +226,7 @@ class BaseCleanTiStrategy(object):
         # if last parser doesn't work (or there is None), search again
         for strategy in parse_time_strategies.get_strategies():
             if strategy.accepts(params, curr_time, last_time, next_time):
+                # print strategy, "is dealing with time parsing", curr_time, params
                 self.time_parser = strategy()
                 time_value = self.time_parser.parse_time(params, curr_time,
                                                          last_time, next_time)

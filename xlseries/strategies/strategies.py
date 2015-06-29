@@ -24,6 +24,7 @@ import xlseries.strategies.clean.time_index as clean_ti_strategies
 import xlseries.strategies.get.data as get_data_strategies
 import xlseries.strategies.get.period_range as get_pr_strategies
 from xlseries.utils.data_frame import compare_data_frames
+from xlseries.utils.xl_methods import make_wb_copy, compare_cells
 
 
 # EXCEPTIONS
@@ -48,7 +49,7 @@ class BaseStrategy(object):
     def __init__(self, wb, params_path_or_obj=None):
         self.wb = wb
 
-        if type(params_path_or_obj) == Parameters:
+        if isinstance(params_path_or_obj, Parameters):
             self.params = params_path_or_obj
         else:
             self.params = Parameters(params_path_or_obj)
@@ -79,6 +80,7 @@ class ParameterDiscovery(BaseStrategy):
 
         # First: discover the parameters of the file
         attempts = self._discover_parameters(ws, self.params)
+        # import pdb; pdb.set_trace()
         # for a in attempts:
             # pprint(a[0])
 
@@ -95,7 +97,10 @@ class ParameterDiscovery(BaseStrategy):
             results = []
             results_params = []
             for params in attempts:
-                wb_temp = copy.copy(self.wb)
+                wb_temp = make_wb_copy(self.wb)
+
+                # assert compare_cells(wb_temp, self.wb), "bad copy!"
+
                 ws_temp = wb_temp.active
                 try:
                     self._clean_data(ws_temp, params)
@@ -117,18 +122,21 @@ class ParameterDiscovery(BaseStrategy):
                     if repeated:
                         break
 
+                # if True or not repeated:
                 if not repeated:
                     unique_results.append(res)
-
+            # raise Exception()
             if len(unique_results) == 0:
                 raise Exception("File couldn't be parsed with provided " +
-                                "parameters")
+                                "parameters" + repr(self.params))
             elif len(unique_results) == 1:
+                # print "returning tuple (REMOVE later)"
+                # return unique_results[0], results_params
                 return unique_results[0]
 
             else:
                 print "There is more than one result with given parameters."
-                return unique_results
+                return unique_results, results_params
 
     # HIGH LEVEL TASKS
     def _discover_parameters(self, ws, params):
@@ -252,15 +260,17 @@ class ParameterDiscovery(BaseStrategy):
         for combination in cls._param_combinations_generator(
                 # missings_dict, params.DEFAULT_VALUES,
                 # params.LIKELINESS_ORDER):
-                # missings_dict, copy.deepcopy(params.DEFAULT_VALUES),
-                # copy.deepcopy(params.LIKELINESS_ORDER)):
-                missings_dict):
+                missings_dict, params.DEFAULT_VALUES):
             new_params = copy.deepcopy(params)
 
             for param_name, param_value in combination.iteritems():
                 new_params[param_name] = param_value
 
-            assert new_params.is_complete(), repr(params) + " is not complete."
+            msg = repr(new_params) + \
+                " is not complete.\nMissing parameters " + \
+                repr(new_params.get_missings())
+            assert new_params.is_complete(), msg
+
             attempts.append(new_params)
 
         # import pickle
@@ -276,6 +286,14 @@ class ParameterDiscovery(BaseStrategy):
             missing_param, valid_values = missings_dict_c.popitem()
             valid_values_c = copy.deepcopy(valid_values)
 
+            if len(valid_values_c) == 0:
+                if default_values:
+                    valid_values_c = [default_values[missing_param]]
+                else:
+                    msg = "A default value for " + missing_param + \
+                        " is required."
+                    raise Exception(msg)
+
             # yield default value first
             if default_values:
                 index = valid_values_c.index(default_values[missing_param])
@@ -289,6 +307,15 @@ class ParameterDiscovery(BaseStrategy):
             if not likeliness_order:
                 missing_param, valid_values = missings_dict_c.popitem()
                 likeliness_order_c = None
+
+                if len(valid_values) == 0:
+                    if default_values:
+                        valid_values = [default_values[missing_param]]
+                    else:
+                        msg = "A default value for " + missing_param + \
+                            " is required."
+                        raise Exception(msg)
+
             else:
                 likeliness_order_c = copy.deepcopy(likeliness_order)
                 missing_param = likeliness_order_c.pop()
@@ -322,6 +349,7 @@ class ParameterDiscovery(BaseStrategy):
 
         for strategy in clean_ti_strategies.get_strategies():
             if strategy.accepts(ws, params):
+                # print strategy, "is dealing with time index"
                 strategy_obj = strategy()
                 strategy_obj.clean_time_index(ws, params)
                 return

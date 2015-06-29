@@ -10,8 +10,9 @@ DataFrames. This is the only module that the user should use.
 
 from openpyxl import load_workbook, Workbook
 from strategies import strategies
-import warnings
+from utils.xl_methods import make_wb_copy
 
+import warnings
 warnings.filterwarnings("ignore")
 
 
@@ -25,9 +26,9 @@ class XlSeries(object):
     """
 
     def __init__(self, xl_path_or_wb):
+
         if type(xl_path_or_wb) == Workbook:
             self.wb = xl_path_or_wb
-
         else:
             self.wb = load_workbook(xl_path_or_wb, data_only=True)
 
@@ -44,8 +45,11 @@ class XlSeries(object):
                 False, the first succesful result will be returned without
                 checking the other possible combinations of parameters.
         """
+        # wb will be changed, so it has to be a copy to preserve the original
+        wb_copy = make_wb_copy(self.wb)
+        # wb_copy = self.wb
 
         for strategy in strategies.get_strategies():
-            if strategy.accepts(self.wb):
-                strategy_obj = strategy(self.wb, params_path_or_obj)
+            if strategy.accepts(wb_copy):
+                strategy_obj = strategy(wb_copy, params_path_or_obj)
                 return strategy_obj.get_data_frames(safe_mode)

@@ -3,13 +3,27 @@
 
 """
 xl_methods
-----------------------------------
 
 Useful methods for excel operations and related manipulations.
 """
 
 from openpyxl import Workbook
-from xlseries.utils.comparing import approx_equal
+from comparing import approx_equal
+
+
+def make_wb_copy(wb):
+    """Return a copy of an openpyxl workbook."""
+    wb_copy = Workbook()
+    wb_copy.remove_sheet(wb_copy.get_sheet_by_name("Sheet"))
+
+    for ws in wb:
+        ws_copy = wb_copy.create_sheet(title=ws.title)
+        for row in ws.rows:
+            for cell in row:
+                cell_copy = ws_copy[cell.column + unicode(cell.row)]
+                cell_copy.value = cell.value
+
+    return wb_copy
 
 
 def xl_coordinates_range(start, end=None):
@@ -95,7 +109,7 @@ def _safe_str(value):
     return RV
 
 
-def print_xl_range(ws, cells_range, width=15):
+def print_xl_range(ws, cells_range="A1:E10", width=15):
     """Print a representation of an excel cells range.
 
     Args:

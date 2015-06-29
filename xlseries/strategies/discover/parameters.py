@@ -2,9 +2,7 @@
 # -*- coding: utf-8 -*-
 import json
 import pprint
-import copy
 from xlseries.utils.xl_methods import xl_coordinates_range
-from collections import OrderedDict
 
 """
 parameters
@@ -74,6 +72,8 @@ class Parameters(object):
     CRITICAL = ["headers_coord", "data_starts", "data_ends",
                 "time_header_coord", "frequency"]
 
+    OPTIONAL = ["series_names"]
+
     def __init__(self, params=None):
 
         # general
@@ -107,9 +107,14 @@ class Parameters(object):
                 # add loaded parameters keeping Parameters object defaults
                 loaded_params_dict = self._load_from_dict(params)
 
-            else:
+            elif ((type(params) == str or type(params) == unicode) and
+                  params[-4:] == "json"):
                 # add loaded parameters keeping Parameters object defaults
                 loaded_params_dict = self._load_from_json(params)
+
+            else:
+                msg = repr(params) + unicode(type(params)) + "not recognized."
+                raise Exception(msg)
 
             for key, value in loaded_params_dict.items():
                 if key in self.__dict__:
@@ -133,17 +138,31 @@ class Parameters(object):
             yield param
 
     def __setitem__(self, param_name, param_value):
-        if not self._valid_param_value(param_value,
-                                       self.VALID_VALUES[param_name]):
-            raise InvalidParameter(param_name, param_value,
-                                   self.VALID_VALUES[param_name])
+        num_series = self._get_num_series(self.__dict__)
+        if self._valid_param_list(param_name, param_value, num_series):
+            self.__dict__[param_name] = param_value
 
-        self.__dict__[param_name] = self._apply_to_all(
-            param_name, param_value, self._get_num_series(self.__dict__), self,
-            self.VALID_VALUES[param_name])
+        else:
+            if not self._valid_param_value(param_value,
+                                           self.VALID_VALUES[param_name]):
+                raise InvalidParameter(param_name, param_value,
+                                       self.VALID_VALUES[param_name])
+
+            self.__dict__[param_name] = self._apply_to_all(
+                param_name, param_value, self._get_num_series(
+                    self.__dict__), self,
+                self.VALID_VALUES[param_name])
 
     def __eq__(self, other):
-        return self.__dict__ == other.__dict__
+        for key in self:
+            if self[key] != other[key]:
+                return False
+
+        for key in other:
+            if self[key] != other[key]:
+                return False
+
+        return True
 
     # PUBLIC
     def get_series_params(self, i_series):
@@ -151,8 +170,8 @@ class Parameters(object):
 
         series_params = Parameters().__dict__
 
-        for param_name in series_params:
-            if self[param_name]:
+        for param_name in series_params.keys():
+            if self[param_name] is not None:
                 series_params[param_name] = self[param_name][i_series]
 
             # missing parameters have to be deleted from slicing so they are
@@ -164,29 +183,74 @@ class Parameters(object):
 
     def is_complete(self):
         """Check if all the parameters have values (ie. no misssing params)."""
-        for param_name in self:
-            if self[param_name] is None:
-                return False
+        num_series = self._get_num_series(self.__dict__)
 
         for param_name in self:
-            if len(self[param_name]) != self._get_num_series(self.__dict__):
+            if (param_name not in self.OPTIONAL and
+                (self[param_name] is None or
+                 len(self[param_name]) != num_series)):
                 return False
 
         return True
 
     def get_missings(self):
-        """Return parameters that were not passed by the user."""
+        """Return the names of parameters that were not passed by the user."""
         missings = []
         for param in self:
             if self._is_missing(param):
                 missings.append(param)
         return missings
 
+    def get_non_critical_params(self, differents=True):
+        """Return the name of non critical parameters.
+
+        Args:
+            differents (bool): If True, will also get non critical parameters
+                that have differences across series.
+        """
+        if not differents:
+            return [param for param in self if (self._non_critical(param) and
+                                                self._no_differences(param))]
+        else:
+            return [param for param in self if self._non_critical(param)]
+
+    def num_missings(self):
+        """Return the number of missing parameters."""
+        return sum((1 for param in self if self._is_missing(param)))
+
+    def remove_non_critical(self, differents=False):
+        """Remove all non critical parameters."""
+        map(self.remove, self.get_non_critical_params(differents))
+
+    def remove(self, param):
+        """Remove a parameters setting it to 'missing'."""
+        self.__dict__[param] = None
+
     # PRIVATE
+    def _valid_param_list(self, param_name, param_value, num_series):
+        """Return True if param_value is a valid list of parameters for
+        param_name."""
+        return (type(param_value) == list and
+                len(param_value) == num_series and
+                all(self._valid_param_value(param,
+                                            self.VALID_VALUES[param_name])
+                    for param in param_value)
+                )
+
+    def _non_critical(self, param):
+        """Return True if param is not critical."""
+        return param not in self.CRITICAL
+
+    def _no_differences(self, param):
+        """Return True if param is the same for all the series."""
+        if type(self[param]) == list:
+            return len(set(self[param])) == 1
+        else:
+            return True
+
     def _is_missing(self, param):
         valid_values = self.VALID_VALUES[param]
-        return (self[param] is None and valid_values and
-                None not in valid_values)
+        return (self[param] is None and None not in valid_values)
 
     @classmethod
     def _load_from_json(cls, json_params):

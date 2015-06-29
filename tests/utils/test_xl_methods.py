@@ -3,7 +3,6 @@
 
 """
 test_xl_methods
-----------------------------------
 
 Tests for `xl_methods` utils module.
 """
@@ -11,6 +10,8 @@ Tests for `xl_methods` utils module.
 import unittest
 import nose
 from xlseries.utils.xl_methods import xl_coordinates_range
+from xlseries.utils.xl_methods import make_wb_copy, compare_cells
+from xlseries.utils.case_loaders import load_original_case
 
 
 class XlMethodsTest(unittest.TestCase):
@@ -34,6 +35,11 @@ class XlMethodsTest(unittest.TestCase):
         obs = list(xl_coordinates_range("A5"))
         exp = ["A5"]
         self.assertEqual(obs, exp)
+
+    def test_make_wb_copy(self):
+        wb = load_original_case(2)
+        wb_copy = make_wb_copy(wb)
+        self.assertTrue(compare_cells(wb, wb_copy))
 
 
 if __name__ == '__main__':

@@ -3,7 +3,6 @@
 
 """
 comparing
-----------------------------------
 
 Auxiliar methods to compare approximate values.
 """
