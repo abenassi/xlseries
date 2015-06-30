@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import json
 import pprint
-from xlseries.utils.xl_methods import xl_coordinates_range
+from xlseries.utils.xl_methods import xl_coordinates_range, consecutive_cells
 
 """
 parameters
@@ -68,9 +68,18 @@ class Parameters(object):
         "series_names": None
     }
 
+    TEMPLATE_VALUES = {
+        "headers_coord": ["B1", "C1"],
+        "data_starts": 2,
+        "time_header_coord": "A1",
+        "frequency": "M"
+    }
+
     LIKELINESS_ORDER = ["time_alignment", "alignment", "continuity",
-                        "blank_rows", "missings", "time_multicolumn",
+                        "blank_rows", "missings",
                         "time_composed"]
+
+    GUESSED = ["time_multicolumn"]
 
     CRITICAL = ["headers_coord", "data_starts",
                 "time_header_coord", "frequency"]
@@ -195,10 +204,17 @@ class Parameters(object):
         num_series = self._get_num_series(self.__dict__)
 
         for param_name in self:
-            if (param_name not in self.OPTIONAL and
-                (self[param_name] is None or
-                 len(self[param_name]) != num_series)):
-                return False
+            if param_name == "time_header_coord":
+                if (param_name not in self.OPTIONAL and
+                    (self[param_name] is None or
+                     len(self[param_name]) < min(2, num_series))):
+                    return False
+
+            else:
+                if (param_name not in self.OPTIONAL and
+                    (self[param_name] is None or
+                     len(self[param_name]) != num_series)):
+                    return False
 
         return True
 
@@ -238,11 +254,82 @@ class Parameters(object):
         # restore defaults
         self._missings_to_default(self)
 
+        # restore guessed
+        self._guess()
+
     def remove(self, param):
         """Remove a parameters setting it to 'missing'."""
         self.__dict__[param] = None
 
+    @classmethod
+    def get_critical_params_template(cls):
+        """Return a template dictionary of critical params."""
+        return {param: value for param, value in
+                cls.TEMPLATE_VALUES.iteritems() if
+                param in cls.CRITICAL}
+
+    @classmethod
+    def get_complete_params_template(cls):
+        """Return a template dictionary of critical params."""
+        return dict(cls.TEMPLATE_VALUES.items() + cls.DEFAULT_VALUES.items())
+
+    def compact_repr(self):
+        """Return a dict of the parameters in their compact representation.
+
+        If a parameter is repeated in all the series, show the parameter
+        without repeating."""
+
+        params_compact = {}
+        for param_name in self:
+            if (not self._is_missing(param_name) and
+                    not self._is_optional(param_name) and
+                    not self._is_default(param_name)):
+
+                if self._is_repeated(self[param_name]):
+                    params_compact[param_name] = self[param_name][0]
+                else:
+                    params_compact[param_name] = self[param_name]
+
+        return params_compact
+
     # PRIVATE
+    def _guess(self):
+        """Guess parameters that depend on other parameters."""
+        num_series = self._get_num_series(self.__dict__)
+
+        if self._is_repeated(self["time_header_coord"]):
+            tch = self["time_header_coord"][0]
+        else:
+            tch = self["time_header_coord"]
+
+        self["time_multicolumn"] = self._guess_time_multicolumn(tch,
+                                                                num_series)
+
+    def _is_optional(self, param_name):
+        """True if parameter is optional and is set to None."""
+        if self._is_repeated(self[param_name]):
+            return param_name in self.OPTIONAL and self[param_name][0] is None
+        else:
+            return param_name in self.OPTIONAL and self[param_name] is None
+
+    def _is_default(self, param_name):
+        """True if parameter is a USE_DEFAULT and is set to its def value."""
+        if self._is_repeated(self[param_name]):
+            return (param_name in self.USE_DEFAULT and
+                    self.DEFAULT_VALUES[param_name] == self[param_name][0])
+        elif not type(param_name) == list:
+            return (param_name in self.USE_DEFAULT and
+                    self.DEFAULT_VALUES[param_name] == self[param_name])
+        else:
+            return False
+
+    @classmethod
+    def _is_repeated(cls, param_value):
+        if not type(param_value) == list:
+            return False
+
+        return all(i == param_value[0] for i in param_value)
+
     def _valid_param_list(self, param_name, param_value, num_series):
         """Return True if param_value is a valid list of parameters for
         param_name."""
@@ -298,7 +385,7 @@ class Parameters(object):
 
         # apply single provided parameters to all series
         num_series = cls._get_num_series(params)
-        for param_name in params:
+        for param_name in params.keys():
             params[param_name] = cls._apply_to_all(
                 param_name, params[param_name], num_series, params,
                 cls.VALID_VALUES[param_name])
@@ -358,22 +445,40 @@ class Parameters(object):
         return param_list
 
     @classmethod
-    def _apply_to_all_time_header(cls, param, num_series, params,
+    def _apply_to_all_time_header(cls, time_header_coord, num_series, params,
                                   valid_values=None):
         """Creates list from single parameter repeating it for every series."""
 
         if "time_multicolumn" not in params:
-            time_multicolumn = cls.DEFAULT_VALUES["time_multicolumn"]
+            time_multicolumn = cls._guess_time_multicolumn(time_header_coord,
+                                                           num_series)
+            params["time_multicolumn"] = cls._apply_to_all(
+                "time_multicolumn", time_multicolumn, num_series, params,
+                cls.VALID_VALUES["time_multicolumn"])
+
         elif type(params["time_multicolumn"]) == list:
             time_multicolumn = params["time_multicolumn"][0]
+
         else:
             time_multicolumn = params["time_multicolumn"]
 
-        if (not type(param) == list or not time_multicolumn):
-            return cls._apply_to_all("", param, num_series,
+        if (not type(time_header_coord) == list or not time_multicolumn):
+            return cls._apply_to_all("", time_header_coord, num_series,
                                      params, valid_values)
         else:
-            return [param for i in xrange(num_series)]
+            return [time_header_coord for i in xrange(num_series)]
+
+    @classmethod
+    def _guess_time_multicolumn(cls, time_header_coord, num_series):
+        if (type(time_header_coord) == list and
+                len(time_header_coord) != num_series):
+            return True
+        elif (type(time_header_coord) == list and
+                len(time_header_coord) == num_series and
+                consecutive_cells(time_header_coord)):
+            return True
+        else:
+            return False
 
     @classmethod
     def _unpack_header_ranges(cls, headers_coord):

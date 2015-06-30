@@ -6,10 +6,13 @@ import nose
 import os
 import json
 import copy
+from functools import wraps
 
 from xlseries.strategies.discover.parameters import Parameters
 from xlseries.strategies.discover.parameters import InvalidParameter
 from xlseries.strategies.discover.parameters import CriticalParameterMissing
+from xlseries.utils.case_loaders import load_critical_parameters_case
+
 
 """
 test_parameters
@@ -51,12 +54,6 @@ class ParametersTest(unittest.TestCase):
     def test_get_num_series(self):
         self.assertEqual(self.params._get_num_series(self.params.__dict__), 3)
         self.assertEqual(self.params._get_num_series({"param": None}), None)
-
-
-    @unittest.skip("skip")
-    def test_apply_to_all(self):
-        self.assertEqual(self.params._apply_to_all(True, 2), [True, True])
-        self.assertEqual(self.params._apply_to_all(True, None), True)
 
     def test_unpack_header_ranges(self):
 
@@ -129,6 +126,126 @@ class ParametersTest(unittest.TestCase):
                         "continuity", "blank_rows", "missings"]
 
         self.assertEqual(set(exp_missings), set(params.get_missings()))
+
+
+def load_case_number():
+    """Decorate a test loading the case number taken from test name."""
+
+    def fn_decorator(fn):
+        case_num = int(fn.__name__.split("_")[1][-1])
+
+        @wraps(fn)
+        def fn_decorated(*args, **kwargs):
+            kwargs["case_num"] = case_num
+            fn(*args, **kwargs)
+
+        return fn_decorated
+    return fn_decorator
+
+
+class ParametersCriticalDictTestCase(unittest.TestCase):
+
+    """Test Parameters loading dict with only critical parameters."""
+
+    CRITICAL_PARAMS = {
+
+        1: {'data_starts': 2,
+            'frequency': u'M',
+            'headers_coord': [u'B1', u'C1'],
+            'time_header_coord': u'A1'},
+
+        2: {'blank_rows': [False, True],
+            'continuity': [True, False],
+            'data_starts': [5, 22],
+            'frequency': [u'D', u'M'],
+            'headers_coord': [u'D4', u'F4'],
+            'missing_value': [u'Implicit', None],
+            'missings': [True, False],
+            'time_alignment': [0, -1],
+            'time_header_coord': [u'C4', u'F4']},
+
+        3: {'data_starts': 7,
+            'frequency': u'Q',
+            'headers_coord': [u'B4', u'C4', u'D4'],
+            'time_header_coord': u'A4'},
+
+        4: {'data_starts': [5, 5, 5, 5, 52, 52, 52, 52],
+            'frequency': u'Q',
+            'headers_coord': [u'B4', u'C4', u'D4', u'E4', u'B51', u'C51',
+                              u'D51', u'E51'],
+            'time_header_coord': [u'A4', u'A4', u'A4', u'A4', u'A51', u'A51',
+                                  u'A51', u'A51']},
+
+        5: {'data_starts': 28,
+            'frequency': u'M',
+            'headers_coord': [u'G22', u'H22'],
+            'time_header_coord': u'A18'},
+
+        6: {'data_starts': 3,
+            'frequency': u'YQQQQ',
+            'headers_coord': ['B8', 'B9', 'B10', 'B11', 'B12', 'B13', 'B14',
+                              'B15', 'B16', 'B17', 'B18', 'B19', 'B20', 'B21',
+                              'B22', 'B23', 'B24', 'B25', 'B26', 'B27', 'B28'],
+            'time_header_coord': [u'C4', u'C6']},
+
+        7: {'data_starts': 2,
+            'frequency': u'Y',
+            'headers_coord': [u'A8', 'A10', 'A11', 'A12', 'A14', 'A15', 'A16',
+                              'A18', 'A19', 'A20', 'A21', 'A22', 'A24',
+                              'A25', 'A26', u'A28', u'A30', u'A32', u'A34',
+                              'A36', 'A37', 'A38', 'A39', 'A41', 'A42',
+                              'A43', 'A44', u'A46', u'A48', 'A50', 'A51',
+                              'A52', u'A55'],
+            'time_header_coord': u'A6'}
+    }
+
+    def check_critical_dict_params(self, case_num):
+        """Check critical dict parameters loading.
+
+        Args:
+            case_num (int): The test case number to run.
+        """
+
+        params = Parameters(self.CRITICAL_PARAMS[case_num].copy())
+        exp_params = load_critical_parameters_case(case_num)
+
+        self.assertEqual(params, exp_params)
+
+    # @unittest.skip("skip")
+    @load_case_number()
+    def test_case1(self, case_num):
+        self.check_critical_dict_params(case_num)
+
+    # @unittest.skip("skip")
+    @load_case_number()
+    def test_case2(self, case_num):
+        self.check_critical_dict_params(case_num)
+
+    # @unittest.skip("skip")
+    @load_case_number()
+    def test_case3(self, case_num):
+        self.check_critical_dict_params(case_num)
+
+    # @unittest.skip("skip")
+    @load_case_number()
+    def test_case4(self, case_num):
+        self.check_critical_dict_params(case_num)
+
+    # @unittest.skip("skip")
+    @load_case_number()
+    def test_case5(self, case_num):
+        self.check_critical_dict_params(case_num)
+
+    # @unittest.skip("skip")
+    @load_case_number()
+    def test_case6(self, case_num):
+        self.check_critical_dict_params(case_num)
+
+    # @unittest.skip("skip")
+    @load_case_number()
+    def test_case7(self, case_num):
+        self.check_critical_dict_params(case_num)
+
 
 if __name__ == '__main__':
     nose.run(defaultTest=__name__)

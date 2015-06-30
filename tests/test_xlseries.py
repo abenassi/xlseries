@@ -41,7 +41,7 @@ class TestXlSeriesWithAllParameters(unittest.TestCase):
         """Run a test case with parameters using ParameterDiscovery strategy.
 
         Args:
-            case_num: The test case number to run.
+            case_num (int): The test case number to run.
         """
         test_wb = load_original_case(case_num)
         params = load_parameters_case(case_num)

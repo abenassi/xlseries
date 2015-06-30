@@ -12,6 +12,8 @@ case.
 from openpyxl import load_workbook, Workbook
 from strategies import strategies
 from utils.xl_methods import make_wb_copy
+from strategies.discover.parameters import Parameters
+from utils.xl_methods import open_xls_as_xlsx
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -34,8 +36,25 @@ class XlSeries(object):
         if type(xl_path_or_wb) == Workbook:
             self.wb = xl_path_or_wb
         else:
-            self.wb = load_workbook(xl_path_or_wb, data_only=True)
+            self.wb = self._load_wb(xl_path_or_wb)
         self.params = {}
+
+    @staticmethod
+    def _load_wb(xl_path):
+        """Load an xls or xlsx excel file.
+
+        Args:
+            xl_path (str): Path to an xls or xlsx file.
+
+        Returns:
+            Workbook: Loaded xl file in an openpyxl.Workbook object.
+        """
+        if xl_path[-5:] == ".xlsx":
+            return load_workbook(xl_path, data_only=True)
+        elif xl_path[-4:] == ".xls":
+            return open_xls_as_xlsx(xl_path, data_only=True)
+        else:
+            raise ValueError(xl_path + " is not an .xls or .xlsx file.")
 
     # PUBLIC
     def get_data_frames(self, params_path_or_obj, safe_mode=False,
@@ -77,3 +96,14 @@ class XlSeries(object):
                 dfs, params = scraper_obj.get_data_frames(safe_mode)
                 self.params[ws_name] = params
                 return dfs
+
+    @staticmethod
+    def critical_params_template():
+        """Return a template of critical params to fill and use."""
+        return Parameters.get_critical_params_template()
+
+    @staticmethod
+    def complete_params_template():
+        """Return a template of all the params to fill and use."""
+        return Parameters.get_complete_params_template()
+

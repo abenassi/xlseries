@@ -8,7 +8,106 @@ Useful methods for excel operations and related manipulations.
 """
 
 from openpyxl import Workbook
+from openpyxl.cell import column_index_from_string
+import xlrd
 from comparing import approx_equal
+
+
+def consecutive_cells(cell_list):
+    """True if cells are consecutive, False otherwise.
+
+    Args:
+        cell_list (list): List of strings that are coordinates.
+
+    Example:
+        >>> consecutive_cells(["A1", "A2", "A3"])
+        True
+        >>> consecutive_cells(["A1", "A2", "B2"])
+        False
+        >>> consecutive_cells(["A1", "B1", "C1"])
+        True
+        >>> consecutive_cells(["A1", "B1", "B2"])
+        False
+    """
+    wb = Workbook()
+    ws = wb.active
+
+    row = None
+    col = None
+    alignment = None
+
+    for cell in cell_list:
+
+        if not row and not col:
+            row = ws[cell].row
+            col = column_index_from_string(ws[cell].column)
+
+        elif not alignment:
+            if ws[cell].row == row:
+                alignment = "vertical"
+                if col + 1 == column_index_from_string(ws[cell].column):
+                    col += 1
+                else:
+                    return False
+
+            elif column_index_from_string(ws[cell].column) == col:
+                alignment = "horizontal"
+                if row + 1 == ws[cell].row:
+                    row += 1
+                else:
+                    return False
+
+        else:
+            if alignment == "vertical":
+                if not ws[cell].row == row:
+                    return False
+                if not col + 1 == column_index_from_string(ws[cell].column):
+                    return False
+                col += 1
+
+            else:
+                if not column_index_from_string(ws[cell].column) == col:
+                    return False
+                if not row + 1 == ws[cell].row:
+                    return False
+                row += 1
+
+    return True
+
+
+def open_xls_as_xlsx(filename, data_only=True):
+    """Open a xls file and return a openpyxl.Workbook.
+
+    Args:
+        filename: Path to an .xls file.
+
+    Returns:
+        Workbook: An openpyxl.Workbook.
+    """
+    assert filename[-4:] == ".xls", unicode(filename) + " is not an .xls file."
+
+    wb_old = xlrd.open_workbook(filename)
+    wb = Workbook(data_only=data_only)
+
+    ws = wb.get_active_sheet()
+    wb.remove_sheet(ws)
+
+    for ws_old in wb_old.sheets():
+        index = 0
+        nrows, ncols = 0, 0
+        while nrows * ncols == 0:
+            nrows = ws_old.nrows
+            ncols = ws_old.ncols
+            index += 1
+
+        ws = wb.create_sheet(title=ws_old.name)
+
+        for row in xrange(0, nrows):
+            for col in xrange(0, ncols):
+                ws.cell(row=row + 1, column=col + 1).value = ws_old.cell_value(
+                    row, col)
+
+    return wb
 
 
 def make_wb_copy(wb):

@@ -9,9 +9,14 @@ Tests for `xl_methods` utils module.
 
 import unittest
 import nose
+import os
+from openpyxl import load_workbook
+
 from xlseries.utils.xl_methods import xl_coordinates_range
 from xlseries.utils.xl_methods import make_wb_copy, compare_cells
+from xlseries.utils.xl_methods import open_xls_as_xlsx
 from xlseries.utils.case_loaders import load_original_case
+from xlseries.utils.path_finders import abs_path
 
 
 class XlMethodsTest(unittest.TestCase):
@@ -40,6 +45,14 @@ class XlMethodsTest(unittest.TestCase):
         wb = load_original_case(2)
         wb_copy = make_wb_copy(wb)
         self.assertTrue(compare_cells(wb, wb_copy))
+
+    def test_open_xls_as_xlsx(self):
+        wb_xls = open_xls_as_xlsx(abs_path("sh_ipcnu.xls"))
+        wb_exp = load_workbook(
+            os.path.join(abs_path("expected"), "sh_ipcnu.xlsx"),
+            data_only=True)
+
+        self.assertTrue(compare_cells(wb_xls, wb_exp))
 
 
 if __name__ == '__main__':
