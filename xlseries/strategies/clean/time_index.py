@@ -478,7 +478,7 @@ class BaseMultipleColumns():
             assert type(value) != datetime.datetime, msg
 
             if value:
-                time_value_list.append(unicode(value))
+                time_value_list.append(cls._safe_unicode(value))
 
         time_value = " ".join(time_value_list)
 
@@ -486,6 +486,14 @@ class BaseMultipleColumns():
             return time_value
         else:
             return None
+
+    @classmethod
+    def _safe_unicode(cls, value):
+        """Check if the value is a number before make it unicode."""
+        try:
+            return unicode(int(value))
+        except:
+            return unicode(value)
 
 
 class BaseOffsetTi():

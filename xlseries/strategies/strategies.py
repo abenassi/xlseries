@@ -222,6 +222,7 @@ class ParameterDiscovery(BaseXlSeriesScraper):
 
                 if strategy.accepts(ws, params_series):
                     strategy_obj = strategy()
+                    # import pdb; pdb.set_trace()
                     names_and_values = strategy_obj.get_data(ws, params_series)
                     names, values = names_and_values[0]
                     break
@@ -231,9 +232,15 @@ class ParameterDiscovery(BaseXlSeriesScraper):
                 msg = "There is no strategy to deal with " + str(params_series)
                 raise Exception(msg)
 
+            if (params_series["time_multicolumn"] and
+                    type(params_series["time_header_coord"]) == list):
+                time_header_coord = params_series["time_header_coord"][0]
+            else:
+                time_header_coord = params_series["time_header_coord"]
+
             prs = self._get_series_prs(ws, params_series["frequency"],
                                        params_series["data_starts"],
-                                       params_series["time_header_coord"],
+                                       time_header_coord,
                                        params_series["data_ends"],
                                        params_series["time_alignment"],
                                        params_series["alignment"])
@@ -396,6 +403,7 @@ class ParameterDiscovery(BaseXlSeriesScraper):
         for cleaner in clean_ti_strategies.get_strategies():
             if cleaner.accepts(ws, params):
                 cleaner_obj = cleaner()
+                # import pdb; pdb.set_trace()
                 return cleaner_obj.clean_time_index(ws, params)
 
         msg = "Time index in '" + ws.title + "'' could not be cleaned."
@@ -431,8 +439,14 @@ class ParameterDiscovery(BaseXlSeriesScraper):
                 params.time_header_coord, params.data_ends,
                 params.time_alignment, params.alignment):
 
+            # if time is multicolumn, pass only the first column
+            if params.time_multicolumn and type(time_header_coord) == list:
+                time_header_coord_single = time_header_coord[0]
+            else:
+                time_header_coord_single = time_header_coord
+
             for pr in self._get_series_prs(ws, freq, ini_row,
-                                           time_header_coord,
+                                           time_header_coord_single,
                                            end_row, time_alignement,
                                            alignment):
                 yield pr

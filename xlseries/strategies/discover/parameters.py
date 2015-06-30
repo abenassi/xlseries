@@ -50,7 +50,7 @@ class Parameters(object):
         "missing_value": [],
         "time_alignment": [-1, 0, 1],
         "time_multicolumn": [True, False],
-        "time_header_coord": [str, unicode],
+        "time_header_coord": [str, unicode, list],
         "time_composed": [True, False],
         "frequency": ["Y", "Q", "M", "W", "D"]
     }
@@ -448,6 +448,14 @@ class Parameters(object):
     def _apply_to_all_time_header(cls, time_header_coord, num_series, params,
                                   valid_values=None):
         """Creates list from single parameter repeating it for every series."""
+
+        if (type(time_header_coord) == list and
+                type(time_header_coord[0]) == list):
+            if len(time_header_coord) == num_series:
+                return time_header_coord
+            else:
+                raise ValueError("time_header_coord list of lists has to be" +
+                                 " of " + unicode(num_series) + " length.")
 
         if "time_multicolumn" not in params:
             time_multicolumn = cls._guess_time_multicolumn(time_header_coord,

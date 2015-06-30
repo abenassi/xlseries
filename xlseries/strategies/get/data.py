@@ -288,13 +288,19 @@ class BaseNonContinuous():
         value in the time index."""
         # print "checking with the time index..."
 
+        # keep the first column in case time index is multicolumn
+        if params["time_multicolumn"]:
+            time_header_coord = params["time_header_coord"][0]
+        else:
+            time_header_coord = params["time_header_coord"]
+
         if params["alignment"] == "vertical":
-            time_col = ws[params["time_header_coord"]].column
+            time_col = ws[time_header_coord].column
             time_coord = time_col + unicode(index + params["time_alignment"])
             time_value = ws[time_coord].value
 
         elif params["alignment"] == "horizontal":
-            time_row = ws[params["time_header_coord"]].row
+            time_row = ws[time_header_coord].row
             time_value = ws.cell(column=index + params["time_alignment"],
                                  row=time_row).value
 
