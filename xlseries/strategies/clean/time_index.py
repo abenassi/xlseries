@@ -101,8 +101,7 @@ class BaseCleanTiStrategy(object):
     # PRIVATE main methods
     @classmethod
     def _accepts(cls, ws, params):
-        raise NotImplementedError("Base cleaning time index strategy " +
-                                  "doesn't accept inputs.")
+        return cls._base_cond(ws, params)
 
     def _clean_time_index(self, ws, params):
         """Parse time strings into time values, cleaning the time index.
@@ -411,11 +410,21 @@ class BaseCleanTiStrategy(object):
 
         return None
 
+
+class BaseAccepts():
+
+    """Provide the basic accepts conditions resolution."""
+
+    @classmethod
+    def _accepts(cls, ws, params):
+        return cls._base_cond(ws, params)
+
     @classmethod
     def _base_cond(cls, ws, params):
         """Check that all base classes accept the input."""
         for base in cls.__bases__:
             if (base is not BaseCleanTiStrategy and
+                base is not cls and
                     not base._accepts(ws, params)):
                 return False
         return True
@@ -496,6 +505,15 @@ class BaseOffsetTi():
         return base_cond and type(value) != float
 
 
+class BaseNoOffsetTi():
+
+    """Clean time indexes where time alignment is 0, the most common case."""
+
+    @classmethod
+    def _accepts(cls, ws, params):
+        return params["time_alignment"] == 0
+
+
 class BaseSingleFrequency():
 
     """Only accepts single frequency series."""
@@ -568,50 +586,21 @@ class BaseMultiFrequency():
         return freq, last_frequency
 
 
-class CleanSingleColumn(BaseSingleColumn, BaseSingleFrequency,
-                        BaseCleanTiStrategy):
-
-    """Clean time indexes that use a single column, different than the one
-    used by the datea and with no offset time alignment."""
-
-    @classmethod
-    def _accepts(cls, ws, params):
-        return (cls._base_cond(ws, params) and params["time_alignment"] == 0)
-
-
-class CleanMultipleColumns(BaseMultipleColumns, BaseSingleFrequency,
-                           BaseCleanTiStrategy):
-
-    """Clean time indexes that use multiple columns concatenating values."""
-
-    @classmethod
-    def _accepts(cls, ws, params):
-        return (cls._base_cond(ws, params) and params["time_alignment"] == 0)
-
-
-class CleanSingleColumnWithOffset(BaseSingleColumn, BaseSingleFrequency,
-                                  BaseOffsetTi, BaseCleanTiStrategy):
-
-    """Clean time indexes that use a single column, different than the one
-    used by the datea and with no offset time alignment."""
-
-    @classmethod
-    def _accepts(cls, ws, params):
-        return cls._base_cond(ws, params)
-
-
-class CleanMultiColumnsMultiFreq(BaseMultipleColumns, BaseMultiFrequency,
-                                 BaseCleanTiStrategy):
-
-    """Clean a time index with multiple columns and multifrequency series."""
-
-    @classmethod
-    def _accepts(cls, ws, params):
-        return cls._base_cond(ws, params)
-
-
 def get_strategies():
-    return xlseries.utils.strategies_helpers.get_strategies()
+    custom = xlseries.utils.strategies_helpers.get_strategies()
+
+    combinations = []
+    for offset in [BaseNoOffsetTi, BaseOffsetTi]:
+        for freq in [BaseSingleFrequency, BaseMultiFrequency]:
+            for col in [BaseSingleColumn, BaseMultipleColumns]:
+
+                name = col.__name__ + freq.__name__ + offset.__name__
+                bases = (BaseAccepts, col, freq, offset, BaseCleanTiStrategy)
+                parser = type(name, bases, {})
+
+                combinations.append(parser)
+
+    return custom + combinations
 
 if __name__ == '__main__':
     pprint(sorted(xlseries.utils.strategies_helpers.get_strategies_names()))

@@ -14,19 +14,31 @@ import datetime
 import os
 from openpyxl import load_workbook, Workbook
 
-from xlseries.strategies.clean.time_index import CleanSingleColumn
-from xlseries.strategies.clean.time_index import CleanMultiColumnsMultiFreq
-from xlseries.strategies.clean.time_index import CleanMultipleColumns
 from xlseries.strategies.clean.time_index import BaseCleanTiStrategy
+from xlseries.strategies.clean.time_index import BaseAccepts
+from xlseries.strategies.clean.time_index import BaseNoOffsetTi
 from xlseries.strategies.clean.time_index import BaseSingleColumn
-from xlseries.strategies.clean.time_index import BaseMultiFrequency
 from xlseries.strategies.clean.time_index import BaseMultipleColumns
+from xlseries.strategies.clean.time_index import BaseSingleFrequency
+from xlseries.strategies.clean.time_index import BaseMultiFrequency
 from xlseries.strategies.clean.time_index import TimeValueGoingBackwards
 from xlseries.strategies.clean.time_index import TimeValueGoingForth
 from xlseries.utils.xl_methods import compare_cells
 from xlseries.utils.case_loaders import load_parameters_case
 from xlseries.utils.path_finders import abs_path
-from xlseries.strategies.discover.parameters import Parameters
+
+
+bases = (BaseAccepts, BaseSingleColumn, BaseSingleFrequency,
+         BaseNoOffsetTi, BaseCleanTiStrategy)
+CleanSingleColumn = type("CleanSingleColumn", bases, {})
+
+bases = (BaseAccepts, BaseMultipleColumns, BaseSingleFrequency,
+         BaseNoOffsetTi, BaseCleanTiStrategy)
+CleanMultipleColumns = type("CleanMultipleColumns", bases, {})
+
+bases = (BaseAccepts, BaseMultipleColumns, BaseMultiFrequency,
+         BaseNoOffsetTi, BaseCleanTiStrategy)
+CleanMultiColumnsMultiFreq = type("CleanMultiColumnsMultiFreq", bases, {})
 
 
 # @unittest.skip("skip")
@@ -71,6 +83,7 @@ class CleanSingleColumnTestCase(unittest.TestCase):
         time_header_coord = "A1"
         ini = 1
         end = 3
+
         ti_iter = CleanSingleColumn._time_index_iterator(ws, alignment,
                                                          time_header_coord,
                                                          ini, end)
@@ -445,7 +458,6 @@ class CleanSingleColumnTestCase(unittest.TestCase):
         # wb.save("test_case5_after_cleaning_index.xlsx")
         self.assertTrue(compare_cells(wb, wb_exp))
         self.assertEqual(end, 44)
-
 
     # @unittest.skip("skip")
     def test_forth_time_value_typo(self):
