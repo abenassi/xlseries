@@ -128,7 +128,7 @@ class BaseParseTimeStrategy(object):
                 raise NoTimeValue(last_time)
 
             return cls._accepts(params, unicode(curr_time), last_time,
-                next_time)
+                                next_time)
 
     def parse_time(self, params, curr_time, last_time=None, next_time=None):
         """Parse a time string or value into a proper time value.
@@ -277,7 +277,6 @@ class ParseSimpleTime(BaseParseTimeStrategy):
         # if it doesn't work, try with everyone
         formats = list(self._get_possible_time_formats(str_value))
         for time_format in formats:
-            # print curr_time, last_time, next_time, time_format, formats
             try:
                 time_value = arrow.get(str_value, time_format)
             except Exception:

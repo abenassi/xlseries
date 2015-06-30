@@ -35,19 +35,17 @@ class XlSeries(object):
             self.wb = xl_path_or_wb
         else:
             self.wb = load_workbook(xl_path_or_wb, data_only=True)
+        self.params = {}
 
     # PUBLIC
-    def get_data_frames(self, params_path_or_obj, safe_mode=False):
+    def get_data_frames(self, params_path_or_obj, safe_mode=False,
+                        ws_name=None):
         """Scrape time series from an excel file into a pandas.DataFrame.
 
         Args:
             params_path_or_obj (str, dict or Parameters): Parameters to scrape
                 an excel file with time series:
                     dict: Python dictionary with parameters like
-                        {"headers_coord": ["B1","C1"],
-                         "data_starts": 2,
-                         "frequency": "M",
-                         "time_header_coord": "A1"}
                     str: Path to a JSON file with parameters.
                     Parameters: A Parameters object already built.
             safe_mode (bool): When some parameters are not passed by the user,
@@ -60,11 +58,22 @@ class XlSeries(object):
             list: A list of pandas.DataFrame objects with time series scraped
                 from the excel file. Every DataFrame in the list corresponds to
                 a different frequency.
+
+        Example:
+            params = {"headers_coord": ["B1","C1"],
+                      "data_starts": 2,
+                      "frequency": "M",
+                      "time_header_coord": "A1"}
+            dfs = XlSeries(wb).get_data_frames(params)
+
         """
         # wb will be changed, so it has to be a copy to preserve the original
         wb_copy = make_wb_copy(self.wb)
+        ws_name = ws_name or wb_copy.active.title
 
-        for strategy in strategies.get_strategies():
-            if strategy.accepts(wb_copy):
-                strategy_obj = strategy(wb_copy, params_path_or_obj)
-                return strategy_obj.get_data_frames(safe_mode)
+        for scraper in strategies.get_strategies():
+            if scraper.accepts(wb_copy):
+                scraper_obj = scraper(wb_copy, params_path_or_obj, ws_name)
+                dfs, params = scraper_obj.get_data_frames(safe_mode)
+                self.params[ws_name] = params
+                return dfs

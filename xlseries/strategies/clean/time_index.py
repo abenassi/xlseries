@@ -112,7 +112,6 @@ class BaseCleanTiStrategy(object):
 
         p = params
         # create iterator of time index values
-        # raise Exception(p["data_ends"])
         iter_time_index = self._time_index_iterator(
             ws, p["alignment"], p["time_header_coord"], p["data_starts"],
             p["data_ends"])
@@ -148,28 +147,12 @@ class BaseCleanTiStrategy(object):
 
                 except (ParseTimeImplementationError, NoPossibleTimeValue,
                         NoTimeValue, AssertionError):
-                    # raise Exception("index is breaking...")
+
                     if not p["data_ends"]:
-                        # raise Exception("we recognized there's no end")
-                        if p["alignment"] == "vertical":
-                            while (type(write_time_cell.value) != datetime.datetime and
-                                    write_time_cell.row > p["data_starts"]):
-                                write_time_cell = write_time_cell.offset(row=-1)
-                            end = write_time_cell.row - p["time_alignment"]
-
-                            assert end > p["data_starts"], "End must be greater than start!"
-                            return end
-
-                        else:
-                            while (type(write_time_cell.value) != datetime.datetime and
-                                    write_time_cell.column > p["data_starts"]):
-                                write_time_cell = write_time_cell.offset(column=-1)
-
-
-                            end = column_index_from_string(write_time_cell.column)  - p["time_alignment"]
-
-                            assert end > p["data_starts"], "End must be greater than start!"
-                            return end
+                        return self._estimate_end(p["alignment"],
+                                                  write_time_cell,
+                                                  p["data_starts"],
+                                                  p["time_alignment"])
                     else:
                         raise
 
@@ -182,29 +165,34 @@ class BaseCleanTiStrategy(object):
             else:
                 break
 
-        if p["alignment"] == "vertical":
-            while (type(write_time_cell.value) != datetime.datetime and
-                    write_time_cell.row > p["data_starts"]):
-                write_time_cell = write_time_cell.offset(row=-1)
-
-            end = write_time_cell.row - p["time_alignment"]
-
-            assert end > p["data_starts"], "End must be greater than start!"
-            return end
-
-        else:
-            while (type(write_time_cell.value) != datetime.datetime and
-                    write_time_cell.column > p["data_starts"]):
-                write_time_cell = write_time_cell.offset(column=-1)
-
-            end = column_index_from_string(write_time_cell.column)  - p["time_alignment"]
-
-            assert end > p["data_starts"], "End must be greater than start!"
-            return end
+        return self._estimate_end(p["alignment"], write_time_cell,
+                                  p["data_starts"], p["time_alignment"])
 
     @classmethod
     def _must_be_time_value(cls, value, next_time, last_time):
         return ((value is not None) and (len(unicode(value).strip()) > 0))
+
+    @classmethod
+    def _estimate_end(cls, alignment, last_cell, start, time_alignment):
+
+        if alignment == "vertical":
+            while (type(last_cell.value) != datetime.datetime and
+                    last_cell.row > start):
+                last_cell = last_cell.offset(row=-1)
+
+            end = last_cell.row - time_alignment
+            assert end > start, "End must be greater than start!"
+            return end
+
+        else:
+            while (type(last_cell.value) != datetime.datetime and
+                    last_cell.column > start):
+                last_cell = last_cell.offset(
+                    column=-1)
+
+            end = column_index_from_string(last_cell.column) - time_alignment
+            assert end > start, "End must be greater than start!"
+            return end
 
     # PRIVATE time index iterator methods
     @classmethod
@@ -278,10 +266,7 @@ class BaseCleanTiStrategy(object):
                 time_value = self.time_parser.parse_time(params, curr_time,
                                                          last_time, next_time)
                 assert type(time_value) == arrow.Arrow, msg
-                # print time_value, self.time_parser, curr_time
-                # if curr_time.strip() == "17-12.09":
-                    # print self.time_parser, "is dealing with", curr_time,
-                    # time_value
+
                 return time_value
 
             except (DayOutOfRange, MonthOutOfRange) as inst:
@@ -293,8 +278,6 @@ class BaseCleanTiStrategy(object):
         # if last parser doesn't work (or there is None), search again
         for strategy in parse_time_strategies.get_strategies():
             if strategy.accepts(params, curr_time, last_time, next_time):
-                # print strategy, "is dealing with time parsing", curr_time,
-                # params
                 self.time_parser = strategy()
                 time_value = self.time_parser.parse_time(params, curr_time,
                                                          last_time, next_time)
@@ -545,7 +528,6 @@ class BaseMultiFrequency():
         freq, self.last_frequency = self._next_frequency(frequency,
                                                          self.last_frequency)
         last_time = self.last_time[freq]
-        # print freq, self.last_frequency, last_time, curr_time
 
         superclass = BaseCleanTiStrategy
         curr_time = superclass._correct_progression(last_time, curr_time,
@@ -579,12 +561,9 @@ class BaseMultiFrequency():
             freq = frequency[0]
             last_frequency = freq
         else:
-            # print frequency.partition(last_frequency)
             freq = frequency.partition(last_frequency)[2][0]
             assert len(freq) == 1, "Freq must have only one character."
             last_frequency += freq
-
-        # print freq, last_frequency
 
         return freq, last_frequency
 
@@ -597,9 +576,7 @@ class CleanSingleColumn(BaseSingleColumn, BaseSingleFrequency,
 
     @classmethod
     def _accepts(cls, ws, params):
-        # single = BaseSingleColumn._accepts(ws, params)
-        return (cls._base_cond(ws, params) and
-                params["time_alignment"] == 0)
+        return (cls._base_cond(ws, params) and params["time_alignment"] == 0)
 
 
 class CleanMultipleColumns(BaseMultipleColumns, BaseSingleFrequency,
@@ -609,8 +586,7 @@ class CleanMultipleColumns(BaseMultipleColumns, BaseSingleFrequency,
 
     @classmethod
     def _accepts(cls, ws, params):
-        return (cls._base_cond(ws, params) and
-                params["time_alignment"] == 0)
+        return (cls._base_cond(ws, params) and params["time_alignment"] == 0)
 
 
 class CleanSingleColumnWithOffset(BaseSingleColumn, BaseSingleFrequency,

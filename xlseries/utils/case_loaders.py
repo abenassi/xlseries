@@ -19,29 +19,34 @@ from path_finders import get_exp_cases_dir
 
 
 def check_case_exp_result(case_num, dfs):
-    exp_dfs = load_expected_case(case_num)
-    for df, exp_df in zip(dfs, exp_dfs):
-        msg = "Different result."
-        assert compare_data_frames(df, exp_df), msg
+    """Check that a list of dfs is the expected result of a test case.
+
+    Run a compare_data_frames check between each pair of data frames. If there
+    is a difference, and AssertionError will be raised. Prints OK if no
+    difference is found.
+
+    Args:
+        case_num (int): Number of test case.
+        dfs (list): List of DataFrame objects.
+    """
+    for df, exp_df in zip(dfs, load_expected_case(case_num)):
+        compare_data_frames(df, exp_df)
+
     print "OK"
 
 
-def load_original_case(case_num=1, special_version=None, **loader_args):
+def load_original_case(case_num=1, special_case=None, **loader_args):
     """Load an original integration test case file.
 
     Args:
-        case_num: Number of the case to load.
+        case_num (int): Number of the case to load.
+        special_case (str): Name of a special version of the test case, if any.
         loader_args: Aditional key word arguments to load the excel file.
 
     Returns:
-        A Workbook with original test case excel file loaded in it.
+        Workbook: Original test case excel file loaded in it.
     """
-
-    if special_version:
-        case_name = "test_case" + unicode(case_num) + unicode(special_version) + ".xlsx"
-    else:
-        case_name = "test_case" + unicode(case_num) + ".xlsx"
-    # raise Exception(get_orig_cases_dir())
+    case_name = _gen_filename(case_num, special_case, "xlsx")
     case_path = os.path.join(get_orig_cases_dir(), case_name)
 
     # look at data rather than formulae
@@ -50,60 +55,55 @@ def load_original_case(case_num=1, special_version=None, **loader_args):
     return load_workbook(case_path, **loader_args)
 
 
-def load_parameters_case(case_num=1, special_version=None):
+def load_parameters_case(case_num=1, special_case=None):
     """Load the parameters of an integration test case.
 
     Args:
-        case_num: Number of the case to load.
+        case_num (int): Number of the case to load.
+        special_case (str): Name of a special version of the test case, if any.
 
     Returns:
-        A Parameters object with test case parameters loaded.
+        Parameters: Test case parameters loaded.
     """
-
-    if special_version:
-        case_name = "test_case" + unicode(case_num) + unicode(special_version) + ".json"
-    else:
-        case_name = "test_case" + unicode(case_num) + ".json"
+    case_name = _gen_filename(case_num, special_case, "json")
     case_path = os.path.join(get_param_cases_dir(), case_name)
 
     return Parameters(case_path)
 
 
-def load_critical_parameters_case(case_num=1, special_version=None):
+def load_critical_parameters_case(case_num=1, special_case=None):
     """Load the critical parameters of an integration test case.
 
     Args:
         case_num (int): Number of the case to load.
+        special_case (str): Name of a special version of the test case, if any.
 
     Returns:
         Parameters: object with test case critical parameters loaded.
     """
-
-    if special_version:
-        case_name = "test_case" + unicode(case_num) + unicode(special_version) + ".json"
-    else:
-        case_name = "test_case" + unicode(case_num) + ".json"
-    case_path = os.path.join(get_param_cases_dir(), case_name)
-    params = Parameters(case_path)
+    params = load_parameters_case(case_num, special_case)
     params.remove_non_critical()
 
     return params
 
 
-def load_expected_case(case_num=1, special_version=None):
+def load_expected_case(case_num=1, special_case=None):
     """Load an original integration case file.
 
     Args:
-        case_num: Number of the case to load.
+        case_num (int): Number of the case to load.
+        special_case (str): Name of a special version of the test case, if any.
 
     Returns:
-        A Workbook with original test case excel file loaded in it.
+        Workbook: Original test case excel file loaded in it.
     """
-
-    if special_version:
-        case_name = "test_case" + unicode(case_num) + unicode(special_version) + ".xlsx"
-    else:
-        case_name = "test_case" + unicode(case_num) + ".xlsx"
+    case_name = _gen_filename(case_num, special_case, "xlsx")
     case_path = os.path.join(get_exp_cases_dir(), case_name)
 
     return get_data_frames(case_path)
+
+
+def _gen_filename(case_num=1, special_case="", file_format="xlsx"):
+        special_case = special_case or ""
+        return "test_case{}{}.{}".format(case_num, special_case, file_format)
+

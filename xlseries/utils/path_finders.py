@@ -3,7 +3,6 @@
 
 """
 path_finders
-----------------------------------
 
 Auxiliar methods to quickly find a directory in the package.
 """
@@ -22,11 +21,12 @@ def abs_path(relative_path, parent_level=1):
     """Generate absolute path based on file's directory.
 
     Args:
-        relative_path: Relative path from the directory of the file in which a
-            function is called.
+        relative_path (str): Relative path from the directory of the file in
+            which a function is called.
+        parent_level (int): How many level goes up in the tree to find parent.
 
     Returns:
-        An absolute path joining the relative path and the files directory.
+        Str: Absolute path joining the relative path and the files directory.
     """
 
     parent_frame = inspect.stack()[parent_level][0]
@@ -36,12 +36,12 @@ def abs_path(relative_path, parent_level=1):
     return os.path.join(parent_dir, relative_path)
 
 
-def get_param_cases_dir():
-    return get_param_cases_path()
-
-
 def get_param_cases_path(case_num=None):
-    """Return the path to integration test cases parameters."""
+    """Return the path to integration test cases parameters files.
+
+    Args:
+        case_num (int): Number of test case.
+    """
 
     relative_path = os.path.sep.join(["tests",
                                       "integration_cases",
@@ -59,12 +59,16 @@ def get_param_cases_path(case_num=None):
         return os.path.join(base_dir, file_name)
 
 
-def get_orig_cases_dir():
-    return get_orig_cases_path()
+def get_param_cases_dir():
+    return get_param_cases_path()
 
 
 def get_orig_cases_path(case_num=None):
-    """Return the path to integration excel original test cases."""
+    """Return the path to the original excel file of an integration test case.
+
+    Args:
+        case_num (int): Number of test case.
+    """
 
     relative_path = os.path.sep.join(["tests",
                                       "integration_cases",
@@ -82,12 +86,16 @@ def get_orig_cases_path(case_num=None):
         return os.path.join(base_dir, file_name)
 
 
-def get_exp_cases_dir():
-    return get_exp_cases_path()
+def get_orig_cases_dir():
+    return get_orig_cases_path()
 
 
 def get_exp_cases_path(case_num=None):
-    """Return the path to integration excel expected test cases."""
+    """Return the path to integration excel expected test cases.
+
+    Args:
+        case_num (int): Number of test case.
+    """
 
     relative_path = os.path.sep.join(["tests",
                                       "integration_cases",
@@ -105,12 +113,16 @@ def get_exp_cases_path(case_num=None):
         return os.path.join(base_dir, file_name)
 
 
-def get_screenshot_cases_dir():
+def get_exp_cases_dir():
     return get_exp_cases_path()
 
 
 def get_screenshot_cases_path(case_num=None):
-    """Return the path to integration excel screenshots of test cases."""
+    """Return the path to integration excel screenshots of test cases
+
+    Args:
+        case_num (int): Number of test case.
+    """
 
     relative_path = os.path.sep.join(["docs",
                                       "xl_screenshots"])
@@ -125,6 +137,10 @@ def get_screenshot_cases_path(case_num=None):
     else:
         file_name = "test_case" + unicode(case_num) + ".png"
         return os.path.join(base_dir, file_name)
+
+
+def get_screenshot_cases_dir():
+    return get_screenshot_cases_path()
 
 
 def get_package_dir(package_name, inside_path):

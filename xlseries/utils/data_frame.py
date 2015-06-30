@@ -95,7 +95,8 @@ def get_data_frame(serial_df_path, index=0, use_period_range=True):
             be used.
 
     Returns:
-        A pandas data frame."""
+        A pandas data frame.
+    """
 
     serial_df_path, extension = _parse_path_and_extension(serial_df_path)
 
@@ -230,12 +231,18 @@ def dfs_to_json_and_csv(base_dir=os.getcwd()):
 def compare_data_frames(df1, df2):
     """Compare two data frames.
 
+    An assertion is raised if data frames differ in index size, frequency,
+    columns, index values or data values.
+
     Args:
         df1: First data frame to compare.
         df2: Second data frame to compare.
 
     Returns:
-        True (everything is the same in df1 and df2) or False.
+        True: When everything is the same in df1 and df2.
+
+    Raises:
+        AssertionError: When something is different between data frames.
     """
     assert isinstance(df1, pd.DataFrame), "df1 is not a DataFrame" + repr(df1)
     assert isinstance(df2, pd.DataFrame), "df2 is not a DataFrame" + repr(df2)
@@ -322,6 +329,9 @@ def compare_period_ranges(pr1, pr2):
     Args:
         pr1: First period range to compare.
         pr2: Second period range to compare.
+
+    Returns:
+        Bool: True when period ranges are equal or False otherwise.
     """
 
     try:
@@ -335,33 +345,3 @@ def compare_period_ranges(pr1, pr2):
         print inst
         return False
 
-
-def compare_data_frames_pandas(df1, df2):
-    """Wrapper to compare two data frames using assert_frame_equal.
-
-    Quickly compare two data frames using pandas testing tools. this method is
-    not very handy to know exactly where and how two data frames are differing.
-    compare_data_frames should be used instead.
-
-    Args:
-        df1: First data frame to compare.
-        df2: Second data frame to compare.
-
-    """
-
-    try:
-        # returns None when data frames are equal
-        assert_frame_equal(df1, df2,
-                           check_dtype=True,
-                           check_index_type=True,
-                           check_column_type=True,
-                           check_frame_type=True,
-                           check_less_precise=True,
-                           check_names=True,
-                           by_blocks=True,
-                           check_exact=True)
-        return True
-
-    except Exception as inst:
-        print inst
-        return False

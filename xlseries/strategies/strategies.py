@@ -4,8 +4,8 @@
 """
 strategies
 
-This module contains the high level strategies used by `xlseries` to parse
-time data series inside excel files into Pandas DataFrames.
+This module contains the highest level strategies used by `xlseries` to parse
+time data series from excel files into Pandas DataFrames.
 """
 
 from pprint import pprint
@@ -30,25 +30,26 @@ class TimeIndexNotClean(Exception):
 
 
 # STRATEGIES
-class BaseStrategy(object):
+class BaseXlSeriesScraper(object):
 
-    """BaseStrategy class for higher level strategies.
+    """Base class for the highest level algorithms of `xlseries`.
 
     Attributes:
-        wb: An openpyxl workbook loaded with "data_only=True" parameter.
-        input_params: An optional attribute with parameters ready to be used
-            in parsing wb. If not passed, the strategy will have to discover
-            them or adopt a different approach to parse wb.
+        wb (Workbook): An openpyxl workbook loaded with "data_only=True"
+            parameter (this avoids reading formulae).
+        params (Parameters): An optional attribute with parameters ready to be
+            used in parsing wb. If not passed, the strategy will have to
+            discover them or adopt a different approach to parse wb.
     """
 
-    def __init__(self, wb, params_path_or_obj=None):
+    def __init__(self, wb, params_path_or_obj=None, ws_name=None):
         self.wb = wb
+        self.ws_name = ws_name
 
         if isinstance(params_path_or_obj, Parameters):
             self.params = params_path_or_obj
         else:
             self.params = Parameters(params_path_or_obj)
-        # raise Exception(self.params)
 
     # PUBLIC INTERFACE
     @classmethod
@@ -59,59 +60,73 @@ class BaseStrategy(object):
         return self._get_data_frames(safe_mode)
 
 
-class ParameterDiscovery(BaseStrategy):
+class ParameterDiscovery(BaseXlSeriesScraper):
 
-    """Strategy that aims to discover key parsing parameters."""
+    """Scraper that aims to discover and use key parsing parameters.
+
+    The idea in ParameterDiscovery is that Every excel file with time series
+    can be safely characterized by a small set of parameters. If the parameters
+    are provided, there is a certain way of extracting the time series from
+    any file. New cases may need to add small strategies for cleaning values,
+    cleaning the time index or getting the clean data, but always using the
+    same set of parameters as a way to characterize the excel file.
+    """
 
     # PRIVATE INTERFACE METHODS
     @classmethod
     def _accepts(cls, wb):
+        # for the moment, this is the only strategy
         return True
 
     def _get_data_frames(self, safe_mode):
         """Extract time data series and return them as data frames."""
 
-        ws = self.wb.active
+        ws = self.wb.get_sheet_by_name(self.ws_name)
 
-        # First: discover the parameters of the file
+        # FIRST: discover missing parameters generating attempts
         attempts = self._discover_parameters(ws, self.params)
-        # import pdb; pdb.set_trace()
-        # for a in attempts:
-            # pprint(a[0])
 
+        # there is only one attempt, probably the user passed all the params
         if len(attempts) == 1:
             self.params = attempts[0]
 
-            # Second: clean the data
+            # SECOND: clean the data
             self._clean_data(ws, self.params)
 
-            # Third: get the date from a cleaned worksheet
-            return self._get_data(ws, self.params)
+            # THIRD: get the data from a cleaned worksheet
+            dfs = self._get_data(ws, self.params)
+            return (dfs, self.params)
 
+        # there is multiple combinations of parameters to try
         else:
             results = []
-            results_params = []
             for params in attempts:
                 wb_temp = make_wb_copy(self.wb)
+                ws_temp = wb_temp.get_sheet_by_name(self.ws_name)
 
-                # assert compare_cells(wb_temp, self.wb), "bad copy!"
-
-                ws_temp = wb_temp.active
                 try:
+                    # SECOND: clean the data
                     self._clean_data(ws_temp, params)
-                    results.append(self._get_data(ws_temp, params))
-                    results_params.append(params)
+
+                    # THIRD: get the data from a cleaned worksheet
+                    dfs = self._get_data(ws_temp, params)
+                    results.append((dfs, params))
+
+                    # stops with the first successful result
                     if not safe_mode:
                         break
+
                 except:
                     continue
 
+            # remove duplicates
             unique_results = []
             for res in results:
-                repeated = False
+                repeated = False  # first result will not be repeated!
+
                 for unique_res in unique_results:
                     repeated = True
-                    for df_a, df_b in zip(res, unique_res):
+                    for df_a, df_b in zip(res[0], unique_res[0]):
                         try:
                             compare_data_frames(df_a, df_b)
                         except AssertionError:
@@ -122,18 +137,19 @@ class ParameterDiscovery(BaseStrategy):
                 # if True or not repeated:
                 if not repeated:
                     unique_results.append(res)
-            # raise Exception()
+
+            # return results
             if len(unique_results) == 0:
                 raise Exception("File couldn't be parsed with provided " +
                                 "parameters" + repr(self.params))
             elif len(unique_results) == 1:
-                # print "returning tuple (REMOVE later)"
-                # return unique_results[0], results_params
                 return unique_results[0]
 
             else:
                 print "There is more than one result with given parameters."
-                return unique_results, results_params
+                dfs = [res[0] for res in unique_results]
+                params = [res[1] for res in unique_results]
+                return (dfs, params)
 
     # HIGH LEVEL TASKS
     def _discover_parameters(self, ws, params):
@@ -153,7 +169,7 @@ class ParameterDiscovery(BaseStrategy):
         """Ensure data is clean to be processed with the parameters."""
 
         # 1. Clean time index
-        # import pdb; pdb.set_trace()
+
         # if time index is multicolumn, only one time index is allowed
         if params["time_multicolumn"][0]:
             end = self._clean_time_index(ws, params[0])
@@ -166,6 +182,7 @@ class ParameterDiscovery(BaseStrategy):
         else:
             time_indexes = set()
             for i_series in xrange(len(params.time_header_coord)):
+
                 # avoid cleaning the same time index twice
                 time_header_coord = params["time_header_coord"][i_series]
                 if time_header_coord not in time_indexes:
@@ -174,28 +191,20 @@ class ParameterDiscovery(BaseStrategy):
 
                     # if not provided, the end is when time index finish
                     if not params["data_ends"][i_series]:
-                        # print "checking theres no end", i_series, params["data_ends"][i_series]
-                        # print "returned end", end
                         start = params["data_starts"][i_series]
 
                         for i_series in xrange(len(params.time_header_coord)):
                             if params["data_starts"][i_series] == start:
                                 params["data_ends"][i_series] = end
 
-        # msg = "got HERE!" + repr(params)
-        # raise Exception(msg)
-
         # 2. Clean data values
         for i_series in xrange(len(params.headers_coord)):
             self._clean_values(ws)
 
-        # print "getting out of clean data", params
-
     def _get_data(self, ws, params):
         """Parse data using parameters and return it in data frames."""
-        # print "gettin in get data", params
 
-        # 1. Build data frames dict based on amount of period ranges founded
+        # 1. Build data frames dict based on number of period ranges founded
         dfs_dict = {}
         for period_range in self._get_period_ranges(ws, params):
             hashable_pr = self._hash_period_range(period_range)
@@ -210,15 +219,11 @@ class ParameterDiscovery(BaseStrategy):
             params_series = params[i_series]
             name, values = None, None
             for strategy in get_data_strategies.get_strategies():
-                # print strategy, "is being asked.."
+
                 if strategy.accepts(ws, params_series):
-                    # print "accepted!"
                     strategy_obj = strategy()
                     names_and_values = strategy_obj.get_data(ws, params_series)
-
                     names, values = names_and_values[0]
-                    # print names, len(values), params_series
-
                     break
 
             # raise exception if no strategy accepts the input
@@ -234,7 +239,6 @@ class ParameterDiscovery(BaseStrategy):
                                        params_series["alignment"])
 
             for period_range, (name, values) in zip(prs, names_and_values):
-                # print period_range, name, values
                 hashable_pr = self._hash_period_range(period_range)
 
                 self._add_name(name, dfs_dict[hashable_pr]["columns"])
@@ -265,17 +269,22 @@ class ParameterDiscovery(BaseStrategy):
     # 1. DISCOVER PARAMETERS methods
     @classmethod
     def _discover_missing_params(cls, params):
+        """This method would call strategies to discover some of the missing
+        parameters, but for now it just return them all."""
         return params.get_missings()
 
     @classmethod
     def _generate_attempts(cls, non_discovered, params):
+        """Generate combinations of the valid values of non discovered missing
+        parameters and create attempts of parameters to try scrape the file."""
 
+        # no missings? only one attempt then!
         if not non_discovered:
             return [params]
 
         missings_dict = {missing_param: params.VALID_VALUES[missing_param]
                          for missing_param in non_discovered}
-        # print missings_dict
+
         attempts = []
         for combination in cls._param_combinations_generator(
                 missings_dict, params.DEFAULT_VALUES, params.LIKELINESS_ORDER):
@@ -291,13 +300,19 @@ class ParameterDiscovery(BaseStrategy):
 
             attempts.append(new_params)
 
-        # import pickle
-        # pickle.dump({"a": attempts}, open("attempts_problem.txt", "wb"))
         return attempts
 
     @classmethod
     def _param_combinations_generator(cls, missings_dict, default_values=None,
                                       likeliness_order=None):
+        """Generator of valid values combinations of missing parameters.
+
+        Args:
+            missings_dict (dict): {missing_parameter: valid_values_of_it}
+            default_values (dict): {parameter_name: default_value}
+            likeliness_order (list): Parameters ordered by likeliness of their
+                default value.
+        """
         missings_dict_c = missings_dict.copy()
 
         if len(missings_dict_c) == 1:
@@ -373,29 +388,41 @@ class ParameterDiscovery(BaseStrategy):
     # 2. CLEAN DATA methods
     @classmethod
     def _clean_time_index(cls, ws, params):
-        """This is changing ws..."""
+        """Clean time index from strings, typos and errors.
 
-        for strategy in clean_ti_strategies.get_strategies():
-            if strategy.accepts(ws, params):
-                # print strategy, "is dealing with time index"
-                strategy_obj = strategy()
-                return strategy_obj.clean_time_index(ws, params)
+        Modify ws changing cell values in the time index for the correspondent
+        time value in datetime.datetime format."""
+
+        for cleaner in clean_ti_strategies.get_strategies():
+            if cleaner.accepts(ws, params):
+                cleaner_obj = cleaner()
+                return cleaner_obj.clean_time_index(ws, params)
 
         msg = "Time index in '" + ws.title + "'' could not be cleaned."
         raise TimeIndexNotClean(msg)
 
     @classmethod
     def _clean_values(cls, ws):
-        status_values = True
-
-        return status_values
+        """TODO: This method should clean the missing values, instead of
+        leaving that burden to get data methods..."""
+        pass
 
     # 3. GET DATA methods
     def _get_period_ranges(self, ws, params):
         """Get period ranges for all series in the worksheet.
 
         Args:
-            ws: A clean worksheet with time data series.
+            ws (Worksheet): A clean worksheet with time values in its time
+                index.
+            freq (str): Frequency (Y, Q, M, D, YQQQQ...).
+            ini (int): Row or column where data starts.
+            time_header_coord (str): Coordinate of the first cell that would be
+                the header of the time index ("A1") even if it hasn't got an
+                explicit header name.
+            end (int): Row or column where data ends.
+            time_alignement (int): Indicates if data runs parallel to the time
+                index or is offset (-1, 0 or 1).
+            alignment (str): "vertical" or "horizontal" series.
         """
 
         for (freq, ini_row, time_header_coord, end_row, time_alignement,
@@ -412,6 +439,25 @@ class ParameterDiscovery(BaseStrategy):
 
     def _get_series_prs(self, ws, freq, ini_row, time_header_coord, end_row,
                         time_alignement, alignment):
+        """Get the period ranges of one time index.
+
+        In single frequency series this would be just one period range. In
+        multifrequency series this would be one perior range for each single
+        frequency.
+
+        Args:
+            ws (Worksheet): A clean worksheet with time values in its time
+                index.
+            freq (str): Frequency (Y, Q, M, D, YQQQQ...).
+            ini (int): Row or column where data starts.
+            time_header_coord (str): Coordinate of the first cell that would be
+                the header of the time index ("A1") even if it hasn't got an
+                explicit header name.
+            end (int): Row or column where data ends.
+            time_alignement (int): Indicates if data runs parallel to the time
+                index or is offset (-1, 0 or 1).
+            alignment (str): "vertical" or "horizontal" series.
+        """
 
         for strategy in get_pr_strategies.get_strategies():
             if strategy.accepts(ws, freq):
@@ -426,12 +472,23 @@ class ParameterDiscovery(BaseStrategy):
         raise Exception(msg)
 
     def _add_name(self, name, columns, index=1):
+        """Add a new name to the data frame columns.
+
+        If name is repeated, and index number is added an incremented until the
+        name is not repeated any more.
+
+        Args:
+            name (str): Field name.
+            columns (list): Fields of the data frame.
+            index (int): Index number for repeated fields.
+        """
         if self._indexed_name(name, index) not in columns:
             columns.append(self._indexed_name(name, index))
         else:
             self._add_name(name, columns, index + 1)
 
     def _indexed_name(self, name, index):
+        """Return and indexed name."""
         if index <= 1:
             return name
         else:

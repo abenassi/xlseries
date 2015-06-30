@@ -12,7 +12,17 @@ from comparing import approx_equal
 
 
 def make_wb_copy(wb):
-    """Return a copy of an openpyxl workbook."""
+    """Return a copy of an openpyxl workbook.
+
+    Only taking into account sheet titles and cell values. Formatting is not
+    being copied.
+
+    Args:
+        wb (Workbook): A workbook to make a copy from.
+
+    Returns:
+        Workbook: A copy made from wb.
+    """
     wb_copy = Workbook()
     wb_copy.remove_sheet(wb_copy.get_sheet_by_name("Sheet"))
 
@@ -39,10 +49,10 @@ def xl_coordinates_range(start, end=None):
 
     >>> for coord in xl_coordinates_range("A1", "B2"):
     ...     print coord
-    'A1'
-    'A2'
-    'B1'
-    'B2'
+    A1
+    B1
+    A2
+    B2
     """
 
     ws = Workbook().active

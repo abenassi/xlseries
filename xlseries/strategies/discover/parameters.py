@@ -7,7 +7,8 @@ from xlseries.utils.xl_methods import xl_coordinates_range
 """
 parameters
 
-This module contains the parameters object used by parsing strategies.
+This module contains the parameters object used by ParameterDiscovery strategy
+and all the secondary ones used for it.
 """
 
 

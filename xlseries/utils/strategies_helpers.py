@@ -3,7 +3,6 @@
 
 """
 strategies_helpers
-----------------------------------
 
 This module contains auxiliary methods to retrieve the strategies available
 in any module where these methods are called. The following filters apply to
