@@ -34,8 +34,9 @@ class CriticalParameterMissing(Exception):
 
     def __init__(self, param_name):
         msg = u"{param_name} is a critical parameter. It has to be " + \
-            "provided by the user.".format(param_name=param_name)
-        super(CriticalParameterMissing, self).__init__(msg)
+            "provided by the user."
+        super(CriticalParameterMissing, self).__init__(
+            msg.format(param_name=param_name))
 
 
 class InputParametersNotRecognized(Exception):
@@ -508,8 +509,8 @@ class Parameters(object):
 
             if len(set(rows)) == 1 and len(set(cols)) == len(cols):
                 msg = "Row {} where data starts, must fe after {} where " + \
-                    "headers are.".format(data_starts, rows[0])
-                assert data_starts > rows[0], msg
+                    "headers are."
+                assert data_starts > rows[0], msg.format(data_starts, rows[0])
 
             elif len(set(cols)) == 1 and len(set(rows)) == len(rows):
                 msg = "Column {} where data starts, must fe after {} where" + \

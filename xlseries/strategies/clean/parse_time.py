@@ -127,8 +127,16 @@ class BaseParseTimeStrategy(object):
             if not (type(last_time) == arrow.Arrow or last_time is None):
                 raise NoTimeValue(last_time)
 
-            return cls._accepts(params, unicode(curr_time), last_time,
-                                next_time)
+            if type(curr_time) == float:
+                float_to_uni = cls._accepts(params, unicode(curr_time),
+                                     last_time, next_time)
+                float_to_int = cls._accepts(params, unicode(int(curr_time)),
+                                            last_time, next_time)
+                # print float_to_uni, float_to_int
+                return float_to_uni or float_to_int
+            else:
+                return cls._accepts(params, unicode(curr_time), last_time,
+                                    next_time)
 
     def parse_time(self, params, curr_time, last_time=None, next_time=None):
         """Parse a time string or value into a proper time value.
@@ -152,10 +160,16 @@ class BaseParseTimeStrategy(object):
         elif type(curr_time) == datetime.datetime:
             return arrow.get(curr_time)
 
-        elif (type(curr_time) == str or type(curr_time) == float or
-              type(curr_time) == int):
+        elif (type(curr_time) == str or type(curr_time) == int):
             return self._parse_time(params, unicode(curr_time), last_time,
                                     next_time)
+        elif type(curr_time) == float:
+            try:
+                return self._parse_time(params, unicode(int(curr_time)),
+                                        last_time, next_time)
+            except:
+                return self._parse_time(params, unicode(curr_time),
+                                        last_time, next_time)
         else:
             assert type(curr_time) == unicode, "Current is not unicode."
 
