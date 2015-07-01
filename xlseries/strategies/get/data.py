@@ -57,7 +57,6 @@ class BaseGetDataStrategy(object):
 
     def _get_values(self, ws, params):
         p = params
-        # print p["alignment"], p["headers_coord"], p["data_starts"], p["data_ends"]
         # create iterator of values
         iter_values = self._values_iterator(ws, p["alignment"],
                                             p["headers_coord"],
@@ -71,9 +70,7 @@ class BaseGetDataStrategy(object):
                                                p["missing_value"],
                                                p["blank_rows"])
 
-            # print "after handling new value", new_value
             if self._value_to_be_added(new_value, index, ws, p):
-                # print "value has to be added"
                 frequency = self._get_frequency(p["frequency"])
                 if frequency not in values_dict:
                     values_dict[frequency] = []
@@ -81,7 +78,7 @@ class BaseGetDataStrategy(object):
 
         # fill the missing values if they are implicit
         # it doesn't work with multifrequency series
-        if (p["missings"] and p["missing_value"] == "Implicit" and
+        if (p["missings"] and "Implicit" in p["missing_value"] and
                 len(p["frequency"]) == 1):
             values = values_dict.values()[0]
             values = self._fill_implicit_missings(ws,
@@ -267,7 +264,7 @@ class BaseContinuous():
             return None
 
         if missings:
-            if value != missing_value:
+            if value not in missing_value:
                 args_without_values = locals()
                 del args_without_values["values"]
                 try:
@@ -295,7 +292,6 @@ class BaseNonContinuous():
 
         Value shouldn't be None and the row should correspond to a valid time
         value in the time index."""
-        # print "checking with the time index..."
 
         # keep the first column in case time index is multicolumn
         if params["time_multicolumn"]:
@@ -328,7 +324,7 @@ class BaseNonContinuous():
 
         new_value = None
         if missings:
-            if value == missing_value:
+            if value in missing_value:
                 new_value = np.nan
             elif cls._valid_value(value):
                 new_value = float(value)

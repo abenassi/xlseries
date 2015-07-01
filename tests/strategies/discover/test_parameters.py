@@ -168,6 +168,31 @@ class ParametersTest(unittest.TestCase):
         headers = ["A1", "A3", "A5", "B7"]
         self.assertEqual(Parameters._guess_alignment(headers), None)
 
+    def test_apply_to_all_missing_value(self):
+        missing_value = "-"
+        num_series = 3
+        res = Parameters._apply_to_all_missing_value(missing_value, num_series)
+        exp = [["-"], ["-"], ["-"]]
+        self.assertEqual(res, exp)
+
+        missing_value = ["-"]
+        num_series = 3
+        res = Parameters._apply_to_all_missing_value(missing_value, num_series)
+        exp = [["-"], ["-"], ["-"]]
+        self.assertEqual(res, exp)
+
+        missing_value = ["-", "."]
+        num_series = 3
+        res = Parameters._apply_to_all_missing_value(missing_value, num_series)
+        exp = [["-", "."], ["-", "."], ["-", "."]]
+        self.assertEqual(res, exp)
+
+        missing_value = []
+        num_series = 3
+        res = Parameters._apply_to_all_missing_value(missing_value, num_series)
+        exp = [[], [], []]
+        self.assertEqual(res, exp)
+
 
 def load_case_number():
     """Decorate a test loading the case number taken from test name."""
@@ -216,7 +241,8 @@ class ParametersCriticalDictTestCase(unittest.TestCase):
             'headers_coord': [u'B4', u'C4', u'D4', u'E4', u'B51', u'C51',
                               u'D51', u'E51'],
             'time_header_coord': [u'A4', u'A4', u'A4', u'A4', u'A51', u'A51',
-                                  u'A51', u'A51']},
+                                  u'A51', u'A51'],
+            'missing_value': [u'\u2026']},
 
         5: {'data_starts': 28,
             'frequency': u'M',

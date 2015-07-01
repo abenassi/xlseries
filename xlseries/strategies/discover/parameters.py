@@ -96,7 +96,7 @@ class Parameters(object):
         "missings": False,
         "time_composed": False,
         "time_multicolumn": False,
-        "missing_value": None,
+        "missing_value": [None, "-", "...", ".", ""],
         "data_ends": None,
         "series_names": None
     }
@@ -113,7 +113,7 @@ class Parameters(object):
     OPTIONAL = ["series_names", "data_ends"]
 
     # parameters whose default value will be used, if missing
-    USE_DEFAULT = ["time_alignment"]
+    USE_DEFAULT = ["time_alignment", "missing_value"]
 
     # auxiliar way to reckon a Parameters object passed to constructor
     TYPE_PARAMETERS = "<class 'xlseries.strategies.discover.parameters.Parameters'>"
@@ -580,6 +580,8 @@ class Parameters(object):
         if param_name == "time_header_coord":
             return cls._apply_to_all_time_header(param_value, num_series,
                                                  params, valid_values)
+        elif param_name == "missing_value":
+            return cls._apply_to_all_missing_value(param_value, num_series)
 
         if (param_value is None and valid_values and None not in valid_values):
             return None
@@ -621,16 +623,33 @@ class Parameters(object):
         else:
             return [time_header_coord for i in xrange(num_series)]
 
+    @classmethod
+    def _apply_to_all_missing_value(cls, missing_value, num_series):
+        """Creates list from single parameter repeating it for every series."""
+
+        if not type(missing_value) == list:
+            return [[missing_value] for i in xrange(num_series)]
+
+        elif (type(missing_value) == list and
+              (len(missing_value) == 0 or type(missing_value[0]) != list)):
+            return [missing_value for i in xrange(num_series)]
+
+        else:
+            msg = "If missing values are specified for every single " + \
+                "series, you must specify them for the " + unicode(num_series)
+            assert len(missing_value) == num_series, msg
+            return missing_value
+
     # PRIVATE AUXILIAR for public methods or broadly used
     @classmethod
     def _get_num_series(cls, params):
         """Count number of series present in parameters."""
 
         num_series = None
-        for param in params.values():
-            if type(param) == list:
-                if not num_series or len(param) > num_series:
-                    num_series = len(param)
+        for param_name, param_value in params.iteritems():
+            if type(param_value) == list and param_name != "missing_value":
+                if not num_series or len(param_value) > num_series:
+                    num_series = len(param_value)
 
         return num_series
 
@@ -675,7 +694,7 @@ class Parameters(object):
 
     def _no_differences(self, param):
         """Return True if param is the same for all the series."""
-        if type(self[param]) == list:
+        if type(self[param]) == list and type(self[param][0]) != list:
             return len(set(self[param])) == 1
         else:
             return True
