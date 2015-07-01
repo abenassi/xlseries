@@ -587,6 +587,10 @@ class Parameters(object):
         elif not type(param_value) == list and num_series:
             param_list = [param_value for i in xrange(num_series)]
 
+        elif (type(param_value) == list and len(param_value) == 1 and
+                num_series):
+            param_list = [param_value[0] for i in xrange(num_series)]
+
         else:
             param_list = param_value
 
@@ -604,13 +608,6 @@ class Parameters(object):
             else:
                 raise ValueError("time_header_coord list of lists has to be" +
                                  " of " + unicode(num_series) + " length.")
-
-        if "time_multicolumn" not in params:
-            time_multicolumn = cls._guess_time_multicolumn(time_header_coord,
-                                                           num_series)
-            params["time_multicolumn"] = cls._apply_to_all(
-                "time_multicolumn", time_multicolumn, num_series, params,
-                cls.VALID_VALUES["time_multicolumn"])
 
         elif type(params["time_multicolumn"]) == list:
             time_multicolumn = params["time_multicolumn"][0]
