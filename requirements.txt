@@ -6,3 +6,4 @@ parsley==1.2
 arrow==0.5.4
 unidecode==0.4.17
 pandas==0.16.0
+pycallgraph==1.0.1

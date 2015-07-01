@@ -17,8 +17,11 @@ with open("requirements.txt") as f:
 test_requirements = [
     "nose",
     "coverage",
-    "pycallgraph"
+    "pycallgraph",
+    "mock"
 ]
+
+
 
 setup(
     name='xlseries',
@@ -29,10 +32,14 @@ setup(
     author_email='agusbenassi@gmail.com',
     url='https://github.com/abenassi/xlseries',
     packages=[
-        'xlseries'
+        'xlseries',
+        'xlseries.strategies',
+        'xlseries.strategies.clean',
+        'xlseries.strategies.discover',
+        'xlseries.strategies.get',
+        'xlseries.utils'
     ],
-    package_dir={'xlseries':
-                 'xlseries'},
+    package_dir={'xlseries': 'xlseries'},
     include_package_data=True,
     install_requires=requirements,
     license="BSD",
