@@ -58,7 +58,35 @@
                    "1997 (2)",
                    "(3) 1998 (4)",
                    "   (5)  1999   (6)   "
-                   ]
+                   ],
+
+    "external_case1": ["1991    Ene.",
+                       "        Feb.",
+                       "        Mar.",
+                       "        Abr.",
+                       "        May.",
+                       "        Jun.",
+                       "        Jul.",
+                       "        Ago.",
+                       "        Set.",
+                       "        Oct.",
+                       "        Nov.",
+                       "        Dic."
+                      ],
+
+    "external_case2": ["1991    Enero.",
+                       "        Febrero (1)",
+                       "        Marzo (2).",
+                       "        Abril",
+                       "        Mayo",
+                       "        Junio.",
+                       "        Julio.",
+                       "        Agosto (3).",
+                       "        Septiembre",
+                       "        Octubre",
+                       "        Noviembre",
+                       "        Diciembre"
+                      ]
 
 
 

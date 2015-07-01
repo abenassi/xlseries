@@ -15,6 +15,7 @@ import os
 from functools import wraps
 import re
 from mock import patch
+import parsley
 
 from xlseries.strategies.clean.parse_time import ParseComposedYear1
 from xlseries.strategies.clean.parse_time import ParseComposedYearQuarter1
@@ -108,6 +109,13 @@ class ParseSimpleTimeTest(unittest.TestCase):
             self.assertRaises(NoTimeValue, ParseSimpleTime()._parse_time,
                               params[0], value, last_time, next_value)
 
+    def test_parse_time_case4_invalid_date(self):
+        no_time = u"Var. 4° Trim.13 / 4° Trim.12"
+        last = arrow.get(2013, 10, 1).datetime
+
+        with self.assertRaises(parsley.ParseError):
+            ParseComposedQuarter2().parse_time({}, no_time, last)
+
     def test_time_make_sense(self):
 
         params = load_parameters_case(2)
@@ -175,14 +183,17 @@ class ParseComposedTimeTest(unittest.TestCase):
 
         return new_values
 
-    def run_parse_time_case(self, case_num, strategy):
+    def run_parse_time_case(self, case_num, strategy, external=False):
         """Run a parse time test case using provided strategy.
 
         Args:
             case_num: Number of case to load.
             strategy: Strategy to parse the case.
         """
-        case = "test_case" + unicode(case_num)
+        if not external:
+            case = "test_case" + unicode(case_num)
+        else:
+            case = "external_case" + unicode(case_num)
 
         with open(os.path.join(abs_path("original"),
                                "parse_time.json")) as f:
@@ -244,6 +255,18 @@ class ParseComposedTimeTest(unittest.TestCase):
     def test_parse_time_case7(self, case_num):
         """Parse a list of time values from case7 using _parse_time method."""
         self.run_parse_time_case(case_num, ParseComposedYear1)
+
+    @load_case_number()
+    # @unittest.skip("skip")
+    def test_parse_time_external_case1(self, case_num):
+        """Parse a list of time values from external case 1."""
+        self.run_parse_time_case(case_num, ParseComposedMonth1, True)
+
+    @load_case_number()
+    # @unittest.skip("skip")
+    def test_parse_time_external_case2(self, case_num):
+        """Parse a list of time values from external case 2."""
+        self.run_parse_time_case(case_num, ParseComposedMonth1, True)
 
 if __name__ == '__main__':
     nose.run(defaultTest=__name__)

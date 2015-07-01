@@ -475,12 +475,10 @@ class ParseComposedQuarter2(BasePEG, BaseComposedQuarter):
     ...         "u' 3 Trim 07 2'",
     ...         "4° Trim 07 ",
     ...         "1° Trim 08 "]
-    >>> params = {"time_format": str}
-    >>>
     >>> last = None
     >>> time_parser = ParseComposedQuarter2()
     >>> for str_date in orig:
-    ...     new = time_parser.parse_time(params, str_date, last)
+    ...     new = time_parser.parse_time({}, str_date, last)
     ...     last = new
     ...     print new
     2007-04-01T00:00:00+00:00
@@ -498,7 +496,7 @@ class ParseComposedQuarter2(BasePEG, BaseComposedQuarter):
                 q = not_digit* ws digit:q not_digit* ws -> int(q)
                 y = (ws | not_digit) <digit{2}>:y (ws | not_digit) -> y
 
-                date = q:q not_digit* y:y anything* -> (dob_year(y), q_to_m(q), 1)
+                date = q:q not_digit* y:y ws anything{0, 3} -> (dob_year(y), q_to_m(q), 1)
                 """, {"q_to_m": cls._quarter_num_to_month,
                       "dob_year": cls._dob_year_to_four})
 
@@ -600,10 +598,12 @@ class ParseComposedMonth1(BasePEG, BaseComposedMonth):
     info of the structure showed in the example.
 
     >>> orig = ["1991    Ene. ",
-    ...         "1991    Feb.",
-    ...         "1991    Mar.",
-    ...         "Abr.    1991",
-    ...         "May.    1991"]
+    ...         "1991    Febrero",
+    ...         "1991    Marzo. (1)",
+    ...         "Abril.    1991 (2)",
+    ...         "Mayo.  (3)  1991",
+    ...         "Jun.        ",
+    ...         "Julio.     *  "]
     >>> params = {"time_format": str}
     >>>
     >>> last = None
@@ -617,6 +617,8 @@ class ParseComposedMonth1(BasePEG, BaseComposedMonth):
     1991-03-01T00:00:00+00:00
     1991-04-01T00:00:00+00:00
     1991-05-01T00:00:00+00:00
+    1991-06-01T00:00:00+00:00
+    1991-07-01T00:00:00+00:00
     """
 
     @classmethod
@@ -624,14 +626,17 @@ class ParseComposedMonth1(BasePEG, BaseComposedMonth):
         """Return a parsley parsing expression grammar."""
         return parsley.makeGrammar("""
                 not_digit = anything:x ?(x not in "0123456789 ")
+                not_d_or_p = anything:x ?(x not in "0123456789()")
 
                 y = (ws | not_digit) <digit{4}>:y (ws | not_digit) -> int(y)
-                m = ws <letter{3}>:m '.'? -> m
+                m = ws <letter{3, 50}>:m '.'? -> m
+                ref = ws '(' digit{1, 3} ')' ws
 
-                y_m = y:y m:m anything* -> (y, month(m), 1)
-                m_y = m:m y:y anything* -> (y, month(m), 1)
+                y_m = y:y ref? m:m anything* -> (y, month(m), 1)
+                m_y = m:m ref? y:y anything* -> (y, month(m), 1)
+                only_m = m:m anything* -> (None, month(m), 1)
 
-                date = y_m | m_y
+                date = y_m | m_y | only_m
                 """, {"month": cls._month_str_to_num})
 
 
@@ -645,7 +650,9 @@ class ParseComposedMonth2(BasePEG, BaseComposedMonth):
     ...         "1991,02  ",
     ...         "1991.02  ",
     ...         " 03,1991  ",
-    ...         "04,1991  "]
+    ...         "04       ",
+    ...         "05       ",
+    ...         "06       "]
     >>> params = {"time_format": str}
     >>>
     >>> last = None
@@ -660,6 +667,8 @@ class ParseComposedMonth2(BasePEG, BaseComposedMonth):
     1991-02-01T00:00:00+00:00
     1991-03-01T00:00:00+00:00
     1991-04-01T00:00:00+00:00
+    1991-05-01T00:00:00+00:00
+    1991-06-01T00:00:00+00:00
     """
 
     @classmethod
@@ -673,8 +682,9 @@ class ParseComposedMonth2(BasePEG, BaseComposedMonth):
 
                 y_m = y:y not_digit* m:m anything* -> (y, m, 1)
                 m_y = m:m not_digit* y:y anything* -> (y, m, 1)
+                only_m = m:m anything* -> (None, m, 1)
 
-                date = y_m | m_y
+                date = y_m | m_y | only_m
                 """, {})
 
 

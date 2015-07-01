@@ -116,7 +116,7 @@ class TestXlSeriesWithoutSomeParameters(unittest.TestCase):
         # change safe_mode to True, for complete test in safe_mode (very slow)
         safe_mode = False
         series = XlSeries(test_wb)
-        test_dfs = series.get_data_frames(params, safe_mode)
+        test_dfs = series.get_data_frames(params, safe_mode=safe_mode)
 
         for test_df, exp_df in zip(test_dfs, exp_dfs):
             self.assertTrue(compare_data_frames(test_df, exp_df))

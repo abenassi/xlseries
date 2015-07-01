@@ -13,9 +13,18 @@ from openpyxl import Workbook
 import arrow
 import numpy as np
 
-from xlseries.strategies.get.data import GetSingleFrequencyContinuous
-from xlseries.strategies.get.data import GetMultiFrequencyContinuous
+from xlseries.strategies.get.data import BaseAccepts
+from xlseries.strategies.get.data import BaseGetDataStrategy
+from xlseries.strategies.get.data import BaseSingleFrequency
+from xlseries.strategies.get.data import BaseMultiFrequency
+from xlseries.strategies.get.data import BaseContinuous
 from xlseries.utils.comparing import compare_list_values
+
+bases = (BaseAccepts, BaseSingleFrequency, BaseContinuous, BaseGetDataStrategy)
+GetSingleFrequencyContinuous = type("CleanSingleColumn", bases, {})
+
+bases = (BaseAccepts, BaseMultiFrequency, BaseContinuous, BaseGetDataStrategy)
+GetMultiFrequencyContinuous = type("CleanSingleColumn", bases, {})
 
 
 # @unittest.skip("skip")

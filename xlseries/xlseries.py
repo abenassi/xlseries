@@ -57,16 +57,18 @@ class XlSeries(object):
             raise ValueError(xl_path + " is not an .xls or .xlsx file.")
 
     # PUBLIC
-    def get_data_frames(self, params_path_or_obj, safe_mode=False,
-                        ws_name=None):
+    def get_data_frames(self, params_path_or_obj, ws_name=None,
+                        safe_mode=False):
         """Scrape time series from an excel file into a pandas.DataFrame.
 
         Args:
-            params_path_or_obj (str, dict or Parameters): Parameters to scrape
-                an excel file with time series:
-                    dict: Python dictionary with parameters like
-                    str: Path to a JSON file with parameters.
-                    Parameters: A Parameters object already built.
+            params_path_or_obj (str, dict or Parameters): Scraping parameters.
+                str: Path to a JSON file with parameters.
+                dict: Python dictionary with parameters like
+                Parameters: A Parameters object already built.
+
+            ws_name (str): Name of the worksheet that will be scraped.
+
             safe_mode (bool): When some parameters are not passed by the user,
                 the safe mode will check all possible combinations, returning
                 more than one result if many are found. If safe_mode is set to
@@ -88,7 +90,16 @@ class XlSeries(object):
         """
         # wb will be changed, so it has to be a copy to preserve the original
         wb_copy = make_wb_copy(self.wb)
-        ws_name = ws_name or wb_copy.active.title
+        ws_names = wb_copy.get_sheet_names()
+
+        if not ws_name:
+            ws_name = ws_names[0]
+            if len(ws_names) > 1:
+                msg = "There are {} worksheets: {}\nThe first {} will be " + \
+                    "analyzed"
+                print msg.format(len(ws_names), ws_names, ws_name)
+                print "Remember you can choose a different one passing a " + \
+                    "ws_name keyword argument."
 
         for scraper in strategies.get_strategies():
             if scraper.accepts(wb_copy):
@@ -99,11 +110,18 @@ class XlSeries(object):
 
     @staticmethod
     def critical_params_template():
-        """Return a template of critical params to fill and use."""
+        """Return a template of critical params to fill and use.
+
+        Returns:
+            dict: A dictionary to fill with values.
+        """
         return Parameters.get_critical_params_template()
 
     @staticmethod
     def complete_params_template():
-        """Return a template of all the params to fill and use."""
-        return Parameters.get_complete_params_template()
+        """Return a template of all the params to fill and use
 
+        Returns:
+            dict: A dictionary to fill with values.
+        """
+        return Parameters.get_complete_params_template()

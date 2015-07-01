@@ -57,7 +57,7 @@ class BaseGetDataStrategy(object):
 
     def _get_values(self, ws, params):
         p = params
-
+        # print p["alignment"], p["headers_coord"], p["data_starts"], p["data_ends"]
         # create iterator of values
         iter_values = self._values_iterator(ws, p["alignment"],
                                             p["headers_coord"],
@@ -94,15 +94,6 @@ class BaseGetDataStrategy(object):
             return [values]
 
         return values_dict.values()
-
-    @classmethod
-    def _base_cond(cls, ws, params):
-        """Check that all base classes accept the input."""
-        for base in cls.__bases__:
-            if (base is not BaseGetDataStrategy and
-                    not base._accepts(ws, params)):
-                return False
-        return True
 
     @classmethod
     def _values_iterator(cls, ws, alignment, header_coord, ini, end):
@@ -158,6 +149,24 @@ class BaseGetDataStrategy(object):
             RV = False
 
         return RV
+
+
+class BaseAccepts():
+
+    """Provide the basic accepts conditions resolution."""
+
+    @classmethod
+    def _accepts(cls, ws, params):
+        return cls._base_cond(ws, params)
+
+    @classmethod
+    def _base_cond(cls, ws, params):
+        """Check that all base classes accept the input."""
+        for base in cls.__bases__:
+            if (base is not BaseGetDataStrategy and
+                    not base._accepts(ws, params)):
+                return False
+        return True
 
 
 class BaseSingleFrequency():
@@ -333,44 +342,20 @@ class BaseNonContinuous():
         return new_value
 
 
-class GetSingleFrequencyContinuous(BaseSingleFrequency, BaseContinuous,
-                                   BaseGetDataStrategy):
-
-    """Get data with a single frequency and continous layout."""
-    pass
-
-
-class GetSingleFrequencyNonContinuous(BaseSingleFrequency, BaseNonContinuous,
-                                      BaseGetDataStrategy):
-
-    """Get data with a single frequency and data layout interrupted.
-
-    The interruption is due to strange strings or values that should not be
-    taken into account when gathering values. Series interrupted only by blank
-    rows do not need this strategy."""
-    pass
-
-
-class GetMultiFrequencyContinuous(BaseMultiFrequency, BaseContinuous,
-                                  BaseGetDataStrategy):
-
-    """Get data from a multifrequency series and continous layout."""
-    pass
-
-
-class GetMultiFrequencyNonContinuous(BaseMultiFrequency, BaseNonContinuous,
-                                     BaseGetDataStrategy):
-
-    """Get data from a multifrequency series and data layout interrupted.
-
-    The interruption is due to strange strings or values that should not be
-    taken into account when gathering values. Series interrupted only by blank
-    rows do not need this strategy."""
-    pass
-
-
 def get_strategies():
-    return xlseries.utils.strategies_helpers.get_strategies()
+    custom = xlseries.utils.strategies_helpers.get_strategies()
+
+    combinations = []
+    for freq in [BaseSingleFrequency, BaseMultiFrequency]:
+        for cont in [BaseContinuous, BaseNonContinuous]:
+
+            name = freq.__name__ + cont.__name__
+            bases = (BaseAccepts, freq, cont, BaseGetDataStrategy)
+            parser = type(name, bases, {})
+
+            combinations.append(parser)
+
+    return custom + combinations
 
 if __name__ == '__main__':
     pprint(sorted(xlseries.utils.strategies_helpers.get_strategies_names()))

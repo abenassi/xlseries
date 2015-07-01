@@ -203,7 +203,7 @@ class ParameterDiscovery(BaseXlSeriesScraper):
 
     def _get_data(self, ws, params):
         """Parse data using parameters and return it in data frames."""
-
+        # import pdb; pdb.set_trace()
         # 1. Build data frames dict based on number of period ranges founded
         dfs_dict = {}
         for period_range in self._get_period_ranges(ws, params):

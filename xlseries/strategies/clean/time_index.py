@@ -72,10 +72,10 @@ class ParseTimeImplementationError(NotImplementedError):
 
     def __init__(self, curr_time, last_time, next_time, params):
         msg = " ".join(["No strategy to parse time.",
-                        "\nCurrent:", unicode(
+                        "\nCurrent:", repr(
                             curr_time), repr(type(curr_time)),
-                        "\nLast:", unicode(last_time), repr(type(last_time)),
-                        "\nNext:", unicode(next_time), repr(type(next_time)),
+                        "\nLast:", repr(last_time), repr(type(last_time)),
+                        "\nNext:", repr(next_time), repr(type(next_time)),
                         "\nParameters: ", pformat(params)])
         super(ParseTimeImplementationError, self).__init__(msg)
 

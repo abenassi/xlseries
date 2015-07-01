@@ -15,7 +15,8 @@ with open("requirements.txt") as f:
     requirements = [req.strip() for req in f.readlines()]
 
 test_requirements = [
-    "nosetests"
+    "nosetests",
+    "coverage"
 ]
 
 setup(

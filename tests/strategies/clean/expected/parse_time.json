@@ -58,6 +58,34 @@
                    "arrow.get(1997, 1, 1)",
                    "arrow.get(1998, 1, 1)",
                    "arrow.get(1999, 1, 1)"
-                    ]
+                    ],
+
+    "external_case1": ["arrow.get(1991, 1, 1)",
+                       "arrow.get(1991, 2, 1)",
+                       "arrow.get(1991, 3, 1)",
+                       "arrow.get(1991, 4, 1)",
+                       "arrow.get(1991, 5, 1)",
+                       "arrow.get(1991, 6, 1)",
+                       "arrow.get(1991, 7, 1)",
+                       "arrow.get(1991, 8, 1)",
+                       "arrow.get(1991, 9, 1)",
+                       "arrow.get(1991, 10, 1)",
+                       "arrow.get(1991, 11, 1)",
+                       "arrow.get(1991, 12, 1)"
+                       ],
+
+    "external_case2": ["arrow.get(1991, 1, 1)",
+                       "arrow.get(1991, 2, 1)",
+                       "arrow.get(1991, 3, 1)",
+                       "arrow.get(1991, 4, 1)",
+                       "arrow.get(1991, 5, 1)",
+                       "arrow.get(1991, 6, 1)",
+                       "arrow.get(1991, 7, 1)",
+                       "arrow.get(1991, 8, 1)",
+                       "arrow.get(1991, 9, 1)",
+                       "arrow.get(1991, 10, 1)",
+                       "arrow.get(1991, 11, 1)",
+                       "arrow.get(1991, 12, 1)"
+                       ]
 
 }
