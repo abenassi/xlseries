@@ -26,11 +26,14 @@ test_requirements = [
 setup(
     name='xlseries',
     version='0.1.0',
-    description="Python package to scrape data series from excel files.",
+    description="Python package to scrape time series data from excel files.",
     long_description=readme,
     author="Agustin Benassi",
     author_email='agusbenassi@gmail.com',
+    maintainer="Agustin Benassi",
+    maintainer_email='agusbenassi@gmail.com',
     url='https://github.com/abenassi/xlseries',
+    download_url='https://github.com/abenassi/xlseries/archive/master.zip',
     packages=[
         'xlseries',
         'xlseries.strategies',
@@ -42,7 +45,7 @@ setup(
     package_dir={'xlseries': 'xlseries'},
     include_package_data=True,
     install_requires=requirements,
-    license="BSD",
+    license="GPLv3+",
     zip_safe=False,
     keywords='xlseries',
     classifiers=[
@@ -51,7 +54,8 @@ setup(
         'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
         'Natural Language :: English',
         'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7'
+        'Programming Language :: Python :: 2.7',
+        'Topic :: Office/Business'
     ],
     test_suite='nose.collector',
     tests_require=test_requirements
