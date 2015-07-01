@@ -49,12 +49,14 @@ class GetPeriodRangesSingleFrequency(BaseGetPeriodRangesStrategy):
 
         if alignment == "vertical":
             col = column_index_from_string(ws[time_header_coord].column)
-            start = ws.cell(row=data_starts + time_alignement, column=col).value
+            start = ws.cell(row=data_starts + time_alignement,
+                            column=col).value
             end = ws.cell(row=data_ends + time_alignement, column=col).value
 
         elif alignment == "horizontal":
             row = ws[time_header_coord].row
-            start = ws.cell(column=data_starts + time_alignement, row=row).value
+            start = ws.cell(
+                column=data_starts + time_alignement, row=row).value
             end = ws.cell(column=data_ends + time_alignement, row=row).value
 
         else:

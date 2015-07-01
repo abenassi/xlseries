@@ -7,6 +7,7 @@ import os
 import json
 import copy
 from functools import wraps
+from pprint import pprint
 
 from xlseries.strategies.discover.parameters import Parameters
 from xlseries.strategies.discover.parameters import InvalidParameter
@@ -48,6 +49,8 @@ class ParametersTest(unittest.TestCase):
         with open(get_orig_params_path("test_params.json")) as f:
             params_dict = json.load(f)
         params = Parameters(params_dict)
+        pprint(params.__dict__)
+        pprint(self.params_exp.__dict__)
         self.assertEqual(params.__dict__, self.params_exp.__dict__)
 
     # @unittest.skip("skip")
@@ -68,6 +71,14 @@ class ParametersTest(unittest.TestCase):
 
         exp = None
         self.assertEqual(self.params._unpack_header_ranges("None"), exp)
+
+        exp = [["A1", "A2"], ["A1", "A2"]]
+        orig = [["A1", "A2"], ["A1", "A2"]]
+        self.assertEqual(self.params._unpack_header_ranges(orig), exp)
+
+        exp = [["A1", "A2", "A3"], ["A1", "A2", "A3"]]
+        orig = [["A1-A3"], ["A1-A3"]]
+        self.assertEqual(self.params._unpack_header_ranges(orig), exp)
 
     def test_get_series_params(self):
         params = Parameters(get_orig_params_path(
@@ -102,8 +113,8 @@ class ParametersTest(unittest.TestCase):
         critical = ["data_starts"]
         valid_values = {"data_starts": [int]}
         with self.assertRaises(CriticalParameterMissing):
-            Parameters._ensure_critical_parameters(params, critical,
-                                                   valid_values)
+            Parameters._check_has_critical(params, critical,
+                                           valid_values)
 
     def test_get_missings(self):
         params = Parameters({
@@ -122,10 +133,40 @@ class ParametersTest(unittest.TestCase):
             "missing_value": None,
             "series_names": None
         })
-        exp_missings = ["alignment", "time_multicolumn", "time_composed",
-                        "continuity", "blank_rows", "missings"]
+        exp_missings = ["time_composed", "continuity",
+                        "blank_rows", "missings"]
 
         self.assertEqual(set(exp_missings), set(params.get_missings()))
+
+    def test_check_consistency(self):
+        params_dict = {"data_starts": 1,
+                       "headers_coord": ["A2", "B2", "C2", "D2"]}
+        with self.assertRaises(AssertionError):
+            Parameters._check_consistency(params_dict)
+
+        params_dict = {"data_starts": 1,
+                       "headers_coord": ["B1", "B2", "B3", "B4"]}
+        with self.assertRaises(AssertionError):
+            Parameters._check_consistency(params_dict)
+
+    def test_guess_alignment(self):
+        headers = ["A1", "B1", "C1"]
+        self.assertEqual(Parameters._guess_alignment(headers), "vertical")
+
+        headers = ["A1", "B1", "D1", "E1"]
+        self.assertEqual(Parameters._guess_alignment(headers), "vertical")
+
+        headers = ["A1", "A2"]
+        self.assertEqual(Parameters._guess_alignment(headers), "horizontal")
+
+        headers = ["A1", "A3", "A5", "A7"]
+        self.assertEqual(Parameters._guess_alignment(headers), "horizontal")
+
+        headers = ["A1", "A3", "A5"]
+        self.assertEqual(Parameters._guess_alignment(headers), None)
+
+        headers = ["A1", "A3", "A5", "B7"]
+        self.assertEqual(Parameters._guess_alignment(headers), None)
 
 
 def load_case_number():
@@ -143,6 +184,7 @@ def load_case_number():
     return fn_decorator
 
 
+# @unittest.skip("skip")
 class ParametersCriticalDictTestCase(unittest.TestCase):
 
     """Test Parameters loading dict with only critical parameters."""
@@ -208,6 +250,9 @@ class ParametersCriticalDictTestCase(unittest.TestCase):
 
         params = Parameters(self.CRITICAL_PARAMS[case_num].copy())
         exp_params = load_critical_parameters_case(case_num)
+
+        # override the guessing of Parameters
+        params.remove("alignment")
 
         self.assertEqual(params, exp_params)
 
