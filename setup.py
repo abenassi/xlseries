@@ -15,8 +15,9 @@ with open("requirements.txt") as f:
     requirements = [req.strip() for req in f.readlines()]
 
 test_requirements = [
-    "nosetests",
-    "coverage"
+    "nose",
+    "coverage",
+    "pycallgraph"
 ]
 
 setup(
@@ -28,7 +29,7 @@ setup(
     author_email='agusbenassi@gmail.com',
     url='https://github.com/abenassi/xlseries',
     packages=[
-        'xlseries',
+        'xlseries'
     ],
     package_dir={'xlseries':
                  'xlseries'},
@@ -45,6 +46,6 @@ setup(
         "Programming Language :: Python :: 2",
         'Programming Language :: Python :: 2.7'
     ],
-    test_suite='nosetests',
+    test_suite='nose.collector',
     tests_require=test_requirements
 )
