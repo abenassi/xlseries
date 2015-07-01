@@ -13,7 +13,9 @@ And return them turned into [pandas](http://pandas.pydata.org/pandas-docs/dev/in
 
 ## Installation
 
-This package is still in an early development stage, it can't be reliably used for the moment and the design may still be object of radical changes. Anyway, if you want to give it a try or [contribute](#contributions) follow these instructions to install it on your machine.
+This package is still in a heavy development stage and the design may still be object of radical changes. Anyway, if you want to give it a try or [contribute](#contributions) follow these instructions to install it on your machine.
+
+If you want to have the complete repository with the tests:
 
 **If you are using Anaconda as your python distribution**
 
@@ -32,12 +34,16 @@ This package is still in an early development stage, it can't be reliably used f
 4. `pip install -r requirements.txt` *Install dependencies*
 5. `deactivate` *Deactivate when you are done*
 
+If you just want to use it and don't care about the tests:
+
+`pip install xlseries` in your environment, instead of cloning and pip installing in developer mode.
+
 ## Quick start
 
 ```python
 from xlseries import XlSeries
-series = XlSeries("path_to_excel_file" or openpyxl.Workbook instance)
-dfs = series.get_data_frames("path_to_json_parameters" or parameters_dictionary)
+xl = XlSeries("path_to_excel_file" or openpyxl.Workbook instance)
+dfs = xl.get_data_frames("path_to_json_parameters" or parameters_dictionary)
 ```
 
 With the test case number 1:
@@ -45,10 +51,11 @@ With the test case number 1:
 from xlseries import XlSeries
 from xlseries.utils.path_finders import get_orig_cases_path, get_param_cases_path
 
-path_to_excel_file = get_orig_cases_path(1)
+# this will only work if you clone the repo with all the test files
+path_to_excel_file = get_orig_cases_path(1)  
 path_to_json_parameters = get_param_cases_path(1)
 
-series = XlSeries(path_to_excel_file)
+xl = XlSeries(path_to_excel_file)
 dfs = series.get_data_frames(path_to_json_parameters)
 ```
 
@@ -61,11 +68,54 @@ parameters_dictionary = {
     "frequency": "M",
     "time_header_coord": "A1"
 }
-series = XlSeries(path_to_excel_file)
-dfs = series.get_data_frames(parameters_dictionary)
+dfs = xl.get_data_frames(parameters_dictionary)
 ```
 
-* **Excel file**: Up to this development point, the excel file must have only one spreadsheet (anyway, only the active one will be used by `xlseries`) and should not be more *complicated* than the [7 test cases](#test-cases):
+you can specify what worksheet you want to scrape (otherwise the first one will be used):
+
+```python
+dfs = xl.get_data_frames(parameters_dictionary, ws_name="my_worksheet")
+```
+
+you can ask an XlSeries object for a template dictionary of the critical parameters you need to fill:
+
+```python
+>>> params = xl.critical_params_template()
+>>> params
+{'data_starts': 2,
+ 'frequency': 'M',
+ 'headers_coord': ['B1', 'C1', 'E1-G1'],
+ 'time_header_coord': 'A1'}
+>>> params["headers_coord"] = ["B1","C1"]
+>>> dfs = xl.get_data_frames(params, ws_name="my_worksheet")
+```
+
+if this doesn't work and you want to see exactly where the scraping is failing, you may want to fill out all the parameters and try again to see where the exception is raised:
+
+```python
+>>> params = xl.complete_params_template()
+>>> params
+{'alignment': u'vertical',
+ 'blank_rows': False,
+ 'continuity': True,
+ 'data_ends': None,
+ 'data_starts': 2,
+ 'frequency': 'M',
+ 'headers_coord': ['B1', 'C1', 'E1-G1'],
+ 'missing_value': [None, '-', '...', '.', ''],
+ 'missings': False,
+ 'series_names': None,
+ 'time_alignment': 0,
+ 'time_composed': False,
+ 'time_header_coord': 'A1',
+ 'time_multicolumn': False}
+>>> params["headers_coord"] = ["B1","C1"]
+>>> params["data_ends"] = 256
+>>> params["missings"] = True
+>>> dfs = xl.get_data_frames(params, ws_name="my_worksheet")
+```
+
+* **Excel file**: Up to this development point the excel file should not be more *complicated* than the [7 test cases](#test-cases):
 
 ![](https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case_1_2_3.png)
 ![](https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case_4_5.png)
@@ -86,11 +136,15 @@ If you want to dig inside the test cases and get an idea of how far is going `xl
   - [International organisms](#international-organisms)
   - [Some common problems using data in third world-countries (and in others too!)](#some-common-problems-using-data-in-third-world-countries-and-in-others-too)
 - [Parameters](#parameters)
+  - [Critical parameters](#critical-parameters)
+  - [Parameters that can be guessed](#parameters-that-can-be-guessed)
+  - [Optional parameters](#optional-parameters)
 - [Development status](#development-status)
   - [Test cases](#test-cases)
   - [Progress](#progress)
 - [Contributions](#contributions)
 - [Brainstorming and design thoughts about the package](#brainstorming-and-design-thoughts-about-the-package)
+- [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -355,6 +409,18 @@ For all contributions, we intend to follow the [Google Ptyhon Style Guide](https
 ## Brainstorming and design thoughts about the package
 
 Proximately these two files will be moved to issues, to encourage the participation of other people! You can check out some [design thoughts](../DESIGN_THOUGHTS.md) to look into some decisions that were made (and some decisions that are still being evaluated) and some [brainstorming ideas](../BRAINSTORMING.md) about possible strategies to discover parameters and other stuff like that.
+
+## License
+
+Copyright 2015 Agustin Benassi
+
+Released under GPL3, like GNU readline.
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/.
 
 
 
