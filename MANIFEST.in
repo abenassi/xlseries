@@ -1,9 +1,13 @@
 include AUTHORS.rst
-include CONTRIBUTING.rst
-include HISTORY.rst
 include LICENSE
-include README.rst
+include README.md
+include BRAINSTORMING.md
+include DESIGN_THOUGHTS.md
+include Makefile
+include requirements.txt
+include run_all_tests.py
 
+recursive-include data *
 recursive-include tests *
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]
