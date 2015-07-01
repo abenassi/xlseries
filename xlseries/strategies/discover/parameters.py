@@ -191,9 +191,10 @@ class Parameters(object):
                                               cls.DEFAULT_VALUES)
 
         # convert ranges of headers (eg. "B8-B28") in lists
-        if "headers_coord" in params_def:
-            params_def["headers_coord"] = cls._unpack_header_ranges(
-                params_def["headers_coord"])
+        params_def["headers_coord"] = cls._unpack_header_ranges(
+            params_def["headers_coord"])
+        params_def["time_header_coord"] = cls._unpack_header_ranges(
+            params_def["time_header_coord"])
 
         cls._check_consistency(params_def)
 
