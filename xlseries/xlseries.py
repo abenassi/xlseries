@@ -10,10 +10,14 @@ case.
 """
 
 from openpyxl import load_workbook, Workbook
+import imp
+import os
+
 from strategies import strategies
 from utils.xl_methods import make_wb_copy
 from strategies.discover.parameters import Parameters
 from utils.xl_methods import open_xls_as_xlsx
+from utils.path_finders import get_package_dir
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -125,3 +129,10 @@ class XlSeries(object):
             dict: A dictionary to fill with values.
         """
         return Parameters.get_complete_params_template()
+
+
+def run_all_tests():
+    base_dir = get_package_dir("xlseries", __file__)
+    path = os.path.join(base_dir, "run_all_tests.py")
+    run_all_tests = imp.load_source("run_all_tests", path)
+    run_all_tests.main()

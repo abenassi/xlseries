@@ -23,7 +23,7 @@ If you want to install it in developer mode, clone the repository and:
 
 1. `conda create -n xlseries python=2` *Create new environment*
 2. `cd project_directory`
-3. `source activate xlseries` *Activate the environment*
+3. `source activate xlseries` (on Mac) or `activate xlseries` (on Windows) *Activate the environment*
 4. `pip install -e .` *Install the package in developer mode*
 5. `pip install -r requirements.txt` *Install dependencies*
 6. `deactivate` *Deactivate when you are done*
