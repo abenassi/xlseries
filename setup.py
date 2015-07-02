@@ -8,7 +8,7 @@ except ImportError:
     from distutils.core import setup
 
 
-with open('README.md') as readme_file:
+with open('PYPI_LONG_DESCRIPTION.rst') as readme_file:
     readme = readme_file.read()
 
 with open("requirements.txt") as f:
@@ -25,7 +25,7 @@ test_requirements = [
 
 setup(
     name='xlseries',
-    version='0.1.2',
+    version='0.1.3',
     description="Python package to scrape time series data from excel files.",
     long_description=readme,
     author="Agustin Benassi",
