@@ -369,6 +369,7 @@ If you find a *new test case* that cannot be solved by `xlseries` in its current
 <img src="https://raw.githubusercontent.com/abenassi/xlseries/master/docs/xl_screenshots/test_case7_a.png" height="200px">
 </div>
 * Progressive aggregation identifiable with strings indentation
+* Yearly series
       
       
       
