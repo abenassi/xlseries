@@ -5,7 +5,7 @@ xlseries
 [![Coverage Status](https://coveralls.io/repos/abenassi/xlseries/badge.svg?branch=master)](https://coveralls.io/r/abenassi/xlseries?branch=master)
 [![Build Status](https://travis-ci.org/abenassi/xlseries.svg?branch=master)](https://travis-ci.org/abenassi/xlseries)
 [![PyPI](https://badge.fury.io/py/xlseries.svg)](http://badge.fury.io/py/xlseries)
-<a href='http://ko-fi.com?i=934NLRIV80O8' target='_blank'><img style='border:0px; height:3px' src='https://az743702.vo.msecnd.net/cdn/btn1.png' border='0' alt='Buy Me A Coffee at Ko-Fi.com' /></a> 
+[![Buy me a coffee](https://img.shields.io/badge/donate-buy%20me%20a%20coffe-blue.svg)](http://ko-fi.com?i=934NLRIV80O8)
 
 A python package to scrape [time series](https://en.wikipedia.org/wiki/Time_series) from *any* excel file. Like these ones:
 
