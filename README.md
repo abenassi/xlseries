@@ -58,7 +58,7 @@ path_to_excel_file = get_orig_cases_path(1)
 path_to_json_parameters = get_param_cases_path(1)
 
 xl = XlSeries(path_to_excel_file)
-dfs = series.get_data_frames(path_to_json_parameters)
+dfs = xl.get_data_frames(path_to_json_parameters)
 ```
 
 or passing only the critical parameters as a dictionary:
