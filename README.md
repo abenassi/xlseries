@@ -40,6 +40,13 @@ If you just want to use it without hacking on it:
 
 Avoid cloning the repository and **`pip install xlseries`** in your virtual environment, instead of `pip install -e .` and `pip install -r requirements.txt`.
 
+If you want to check the installation was successful and everything is working ok:
+
+```python
+from xlseries import run_all_tests
+run_all_tests()
+```
+
 ## Quick start
 
 ```python
