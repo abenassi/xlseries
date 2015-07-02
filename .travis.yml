@@ -1,29 +1,27 @@
-# Config file for automatic testing at travis-ci.org
-
 language: python
 sudo: required
 python:
-  - "2.7"
-
+- '2.7'
 matrix:
-    allow_failures:
-        - python: "2.6"
-        - python: "3.4"
-        - python: "pypy"
-
-
-# command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
+  allow_failures:
+  - python: '2.6'
+  - python: '3.4'
+  - python: pypy
 install:
-  - pip install -r requirements.txt
-  - python setup.py install
-  - pip install coveralls
-
-# command to run tests, e.g. python setup.py test
+- pip install -r requirements.txt
+- python setup.py install
+- pip install coveralls
 script:
- - nosetests
-
+- nosetests
 after_success: coveralls
-
 os:
-  - linux
-  - osx
+- linux
+- osx
+deploy:
+  provider: pypi
+  user: beni
+  password:
+    secure: cN79IpF3M1CimOUpQsXfqGdkDFuviEqtN8JGutwTMt4YO26w7xWIQFizMNXsfnc3ICo5FL0NLMwpw7ESG5g6EYNQSd+jmvnJBnCKmDNL1TR7803qv8b/JlIzh9GEwCFpqTqpTKq1dmeV2zTZqgskXlKQxmNwgRMnl6z8ag0lRbY=
+  on:
+    tags: true
+    repo: abenassi/xlseries
