@@ -17,7 +17,7 @@ And return them turned into [pandas](http://pandas.pydata.org/pandas-docs/dev/in
 
 This package is still in a heavy development stage and the design may still be object of radical changes. Anyway, if you want to give it a try or [contribute](#contributions) follow these instructions to install it on your machine.
 
-If you want to have the complete repository with the tests:
+If you want to install it in developer mode, clone the repository and:
 
 **If you are using Anaconda as your python distribution**
 
@@ -36,9 +36,9 @@ If you want to have the complete repository with the tests:
 4. `pip install -r requirements.txt` *Install dependencies*
 5. `deactivate` *Deactivate when you are done*
 
-If you just want to use it and don't care about the tests:
+If you just want to use it without hacking on it:
 
-`pip install xlseries` in your environment, instead of cloning and pip installing in developer mode.
+Avoid cloning the repository and **`pip install xlseries`** in your virtual environment, instead of `pip install -e .` and `pip install -r requirements.txt`.
 
 ## Quick start
 
