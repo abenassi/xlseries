@@ -186,7 +186,7 @@ Some of the best institutions that collect and organize data are:
 
 Each time series has it's own parameters. Parameters can be passed to `XlSeries.get_data_frames()` as a path to a json file that looks like this: 
 
-*Complete parameters for [test case 2](../tests/intergration_cases/parameters/test_case2.json)*
+*Complete parameters for [test case 2](../tests/intergration_cases/parameters/test_case2.json) in JSON formatting*
 ```json
 {"alignment": "vertical",
  "headers_coord": ["D4", "F4"],
