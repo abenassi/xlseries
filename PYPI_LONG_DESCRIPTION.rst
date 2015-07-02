@@ -1,22 +1,14 @@
-.. contents::
-   :depth: 3.0
-..
-
 xlseries
 ========
 
 A python package to scrape `time
 series <https://en.wikipedia.org/wiki/Time_series>`__ from *any* excel
-file. Like these ones:
-
-And return them turned into
-`pandas <http://pandas.pydata.org/pandas-docs/dev/index.html>`__ `data
-frames <http://pandas.pydata.org/pandas-docs/dev/generated/pandas.DataFrame.html>`__.
+file and return them turned into `pandas <http://pandas.pydata.org/pandas-docs/dev/index.html>`__ `data frames <http://pandas.pydata.org/pandas-docs/dev/generated/pandas.DataFrame.html>`__.
 
 Installation
 ------------
 
-If you want to have the complete repository with the tests:
+If you want to install in developer mode, `clone the repository <https://github.com/abenassi/xlseries.git>`__ and follow these instructions:
 
 **If you are using Anaconda as your python distribution**
 
@@ -35,7 +27,7 @@ If you want to have the complete repository with the tests:
 4. ``pip install -r requirements.txt`` *Install dependencies*
 5. ``deactivate`` *Deactivate when you are done*
 
-If you just want to use it and don't care about the tests:
+If you just want to use it:
 
 ``pip install xlseries`` in your environment, instead of cloning and pip
 installing in developer mode.
@@ -124,7 +116,7 @@ see where the exception is raised:
     >>> dfs = xl.get_data_frames(params, ws_name="my_worksheet")
 
 -  **Excel file**: Up to this development point the excel file should
-   not be more *complicated* than the `7 test cases <#test-cases>`__:
+   not be more *complicated* than the `7 test cases <https://github.com/abenassi/xlseries#test-cases>`__:
 
 -  **Parameters**: Together with the excel file, some parameters about
    the series must be provided. These could be passed to
@@ -134,18 +126,17 @@ see where the exception is raised:
    of the time: the rest can be guessed by the package. The only
    difference between specifying more or less parameters than the 4
    critical is the total time that ``xlseries`` will need to complete
-   the task (more parameters, less time).
--  Go to the `parameters <#parameters>`__ section for a more detailed
+   the task (more parameters, less time). Go to the `parameters <https://github.com/abenassi/xlseries#parameters>`__ section for a more detailed
    explanation about how to use them, and when you need to specify more
    than the basic 4 (``headers_coord``, ``data_starts``, ``frequency``
    and ``time_header_coord``).
 
 Take a look to this `ipython notebook
-template <docs/notebooks/Example%20use%20case.ipynb>`__ to get started!.
+template <https://github.com/abenassi/xlseries/blob/master/docs/notebooks/Example%20use%20case.ipynb>`__ to get started!.
 
 If you want to dig inside the test cases and get an idea of how far is
 going ``xlseries`` at the moment, check out this `ipython notebook with
-the 7 test cases <docs/notebooks/Test%20cases.ipynb>`__.
+the 7 test cases <https://github.com/abenassi/xlseries/blob/master/docs/notebooks/Test%20cases.ipynb>`__.
 
 For more details go to the official repository on github:
 https://github.com/abenassi/xlseries

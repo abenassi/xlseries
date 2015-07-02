@@ -23,3 +23,7 @@ script:
  - nosetests
 
 after_success: coveralls
+
+os:
+  - linux
+  - osx
