@@ -24,7 +24,7 @@ test_requirements = [
 
 setup(
     name='xlseries',
-    version='0.1.5',
+    version='0.1.6',
     description="Python package to scrape time series data from excel files.",
     long_description=readme,
     author="Agustin Benassi",
