@@ -22,7 +22,6 @@ test_requirements = [
 ]
 
 
-
 setup(
     name='xlseries',
     version='0.1.5',

@@ -7,8 +7,10 @@ include DESIGN_THOUGHTS.md
 include Makefile
 include requirements.txt
 include run_all_tests.py
+include docs/*
+include tests/*
 
-recursive-include data *
+recursive-include docs *
 recursive-include tests *
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]
