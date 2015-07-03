@@ -25,7 +25,6 @@ import xlseries.utils.strategies_helpers
 
 
 # EXCEPTIONS
-
 class NoPossibleTimeValue(ValueError):
 
     """Raised if the value is not a possible time value."""
@@ -225,7 +224,13 @@ class BaseParseTimeStrategy(object):
     @staticmethod
     def _dob_year_to_four(dob_year):
         """Convert a two digit year string in a four digits year string."""
-        return arrow.Arrow.strptime(dob_year, "%y").year
+        if type(dob_year) == str or type(dob_year) == unicode:
+            if len(dob_year) == 4:
+                return int(dob_year)
+            else:
+                return arrow.Arrow.strptime(dob_year, "%y").year
+        else:
+            return int(dob_year)
 
     @classmethod
     def _already_time_value(cls, value):
@@ -415,7 +420,7 @@ class BaseComposedQuarter():
     @staticmethod
     def _quarter_num_to_month(quarter_number):
         """Convert a quarter number in the number of first month."""
-
+        # print quarter_number
         if not quarter_number:
             return None
 
@@ -430,7 +435,7 @@ class BaseComposedQuarter():
             quarter_number = unicode(quarter_number)
             for orig, new in replacements.iteritems():
                 quarter_number = quarter_number.replace(orig, new)
-            quarter_number = int(quarter_number)
+            quarter_number = int(quarter_number.strip())
 
         if quarter_number == 1:
             month = 1
@@ -452,8 +457,12 @@ class ParseComposedQuarter1(BaseComposedQuarter, BasePEG):
     >>> orig = ["'1986    1º trim.",
     ...     "'            2º trim.",
     ...     "'            3º trim.",
-    ...     "'            4º trim."]
-    >>> params = {"time_format": str}
+    ...     "'            4º trim.",
+    ...     "'1987        I (1) ",
+    ...     "'            II * ",
+    ...     "'            III * (2) *",
+    ...     "'            IV "]
+    >>> params = {}
     >>>
     >>> last = None
     >>> time_parser = ParseComposedQuarter1()
@@ -465,19 +474,27 @@ class ParseComposedQuarter1(BaseComposedQuarter, BasePEG):
     1986-04-01T00:00:00+00:00
     1986-07-01T00:00:00+00:00
     1986-10-01T00:00:00+00:00
+    1987-01-01T00:00:00+00:00
+    1987-04-01T00:00:00+00:00
+    1987-07-01T00:00:00+00:00
+    1987-10-01T00:00:00+00:00
     """
 
     @classmethod
     def make_parsley_grammar(cls):
         """Return a parsley parsing expression grammar."""
         return parsley.makeGrammar("""
-                not_digit = anything:x ?(x not in "0123456789")
+            not_d_or_q = anything:x ?(x not in "0123456789IV()")
+            q_str = ('I' | 'V'):q -> q
+            q_int = digit:q ?(q in "1234") -> int(q)
+            ref = ws '(' digit{1, 3} ')' ws
+            q_num_or_let = (<q_str{1, 3}> | q_int):q -> q
 
-                year = not_digit* <digit{4}>:y ws -> int(y)
-                q_number = not_digit* digit:q_num not_digit* -> int(q_num)
+            quarter = not_d_or_q* q_num_or_let:q not_d_or_q* -> q
+            year = not_d_or_q* <digit{4}>:y not_d_or_q* -> int(y)
 
-                date = year?:y q_number:q_num -> (y, q_to_m(q_num), 1)
-                """, {"q_to_m": cls._quarter_num_to_month})
+            date = year?:y quarter:q ref? not_d_or_q* ref? ->(y, q_to_m(q), 1)
+            """, {"q_to_m": cls._quarter_num_to_month})
 
 
 class ParseComposedQuarter2(BasePEG, BaseComposedQuarter):
@@ -521,7 +538,7 @@ class ParseComposedYearQuarter1(BasePEG, BaseComposedQuarter):
 
     >>> orig = ["2008    Año *",
     ...         "Trimestre    I *",
-    ...         "             II *",
+    ...         "             II * (2)",
     ...         "             III *",
     ...         "             IV *"]
     >>> params = {"time_format": str}
@@ -555,13 +572,14 @@ class ParseComposedYearQuarter1(BasePEG, BaseComposedQuarter):
         """Return a parsley parsing expression grammar."""
         return parsley.makeGrammar("""
             not_digit = anything:x ?(x not in "0123456789")
-            not_d_or_q = anything:x ?(x not in "0123456789IV")
+            not_d_or_q = anything:x ?(x not in "0123456789IV()")
             q_letter = ('I' | 'V'):q -> q
+            ref = ws '(' digit{1, 3} ')' ws
 
             quarter = not_d_or_q* <q_letter{1, 3}>:q not_d_or_q* -> q
             year = not_digit* <digit{4}>:y not_digit* -> int(y)
 
-            date = year?:y quarter?:q ->(y, q_to_m(q), 1)
+            date = year?:y quarter?:q ref? not_d_or_q* ref? ->(y, q_to_m(q), 1)
             """, {"q_to_m": cls._quarter_num_to_month})
 
 
@@ -641,17 +659,19 @@ class ParseComposedMonth1(BasePEG, BaseComposedMonth):
         return parsley.makeGrammar("""
                 not_digit = anything:x ?(x not in "0123456789 ")
                 not_d_or_p = anything:x ?(x not in "0123456789()")
+                sep = ws anything:x ws ?(x in ".-/,")
 
-                y = (ws | not_digit) <digit{4}>:y (ws | not_digit) -> int(y)
+                y = (ws | not_digit) <digit{2, 4}>:y (ws | not_digit) -> y
                 m = ws <letter{3, 50}>:m '.'? -> m
                 ref = ws '(' digit{1, 3} ')' ws
 
-                y_m = y:y ref? m:m anything* -> (y, month(m), 1)
-                m_y = m:m ref? y:y anything* -> (y, month(m), 1)
+                y_m = y:y ref? sep? m:m anything* -> (year(y), month(m), 1)
+                m_y = m:m ref? sep? y:y anything* -> (year(y), month(m), 1)
                 only_m = m:m anything* -> (None, month(m), 1)
 
                 date = y_m | m_y | only_m
-                """, {"month": cls._month_str_to_num})
+                """, {"month": cls._month_str_to_num,
+                      "year": cls._dob_year_to_four})
 
 
 class ParseComposedMonth2(BasePEG, BaseComposedMonth):
@@ -689,9 +709,9 @@ class ParseComposedMonth2(BasePEG, BaseComposedMonth):
     def make_parsley_grammar(cls):
         """Return a parsley parsing expression grammar."""
         return parsley.makeGrammar("""
-                not_digit = anything:x ?(x not in "0123456789 ")
+                not_digit = anything:x ?(x not in "0123456789")
 
-                y = (ws | not_digit) <digit{4}>:y (ws | not_digit) -> int(y)
+                y = (ws | not_digit) <digit{4}>:y (ws | not_digit) -> y
                 m = (ws | not_digit) <digit{1, 2}>:m (ws | not_digit) -> int(m)
 
                 y_m = y:y not_digit* m:m anything* -> (y, m, 1)

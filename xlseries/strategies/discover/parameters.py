@@ -185,6 +185,13 @@ class Parameters(object):
 
         cls._check_has_critical(params_dict, cls.CRITICAL, cls.VALID_VALUES)
 
+        # curate frequency capitalization
+        if type(params_dict["frequency"]) == list:
+            params_dict["frequency"] = [i.upper() for i in
+                                        params_dict["frequency"]]
+        else:
+            params_dict["frequency"] = params_dict["frequency"].upper()
+
         cls._validate_parameters(params_dict, cls.VALID_VALUES)
 
         params_def = cls._missings_to_default(params_dict, cls.USE_DEFAULT,
@@ -476,10 +483,14 @@ class Parameters(object):
     def _unpack_header_ranges_generator(cls, coord_param):
 
         if type(coord_param) == str or type(coord_param) == unicode:
-            if "-" not in coord_param:
+            if "-" not in coord_param and ":" not in coord_param:
                 yield coord_param.upper()
             else:
-                start, end = coord_param.upper().split("-")
+                if "-" in coord_param:
+                    start, end = coord_param.upper().split("-")
+                elif ":" in coord_param:
+                    start, end = coord_param.upper().split(":")
+
                 for cell in xl_coordinates_range(start, end):
                     yield cell
 

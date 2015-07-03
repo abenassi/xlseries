@@ -122,7 +122,7 @@ class ParametersTest(unittest.TestCase):
             "headers_coord": ["B1", "C1"],
             "data_starts": 2,
             "data_ends": 256,
-            "frequency": "M",
+            "frequency": "m",
             "time_header_coord": "A1",
             "time_multicolumn": None,
             "time_composed": None,
@@ -217,7 +217,7 @@ class ParametersCriticalDictTestCase(unittest.TestCase):
     CRITICAL_PARAMS = {
 
         1: {'data_starts': 2,
-            'frequency': u'M',
+            'frequency': u'm',
             'headers_coord': [u'B1', u'C1'],
             'time_header_coord': u'A1'},
 
@@ -237,7 +237,7 @@ class ParametersCriticalDictTestCase(unittest.TestCase):
             'time_header_coord': u'A4'},
 
         4: {'data_starts': [5, 5, 5, 5, 52, 52, 52, 52],
-            'frequency': u'Q',
+            'frequency': u'q',
             'headers_coord': [u'B4', u'C4', u'D4', u'E4', u'B51', u'C51',
                               u'D51', u'E51'],
             'time_header_coord': [u'A4', u'A4', u'A4', u'A4', u'A51', u'A51',
@@ -250,7 +250,7 @@ class ParametersCriticalDictTestCase(unittest.TestCase):
             'time_header_coord': u'A18'},
 
         6: {'data_starts': 3,
-            'frequency': u'YQQQQ',
+            'frequency': u'yQQQQ',
             'headers_coord': ['B8', 'B9', 'B10', 'B11', 'B12', 'B13', 'B14',
                               'B15', 'B16', 'B17', 'B18', 'B19', 'B20', 'B21',
                               'B22', 'B23', 'B24', 'B25', 'B26', 'B27', 'B28'],

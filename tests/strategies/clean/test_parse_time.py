@@ -212,7 +212,7 @@ class ParseComposedTimeTest(unittest.TestCase):
 
         msg = " ".join([str(case), ":", str(new_values),
                         "are not equal to", str(exp_vals)])
-        assert new_values == exp_vals, msg
+        self.assertEqual(new_values, exp_vals, msg)
 
     @load_case_number()
     # @unittest.skip("skip")
@@ -265,6 +265,18 @@ class ParseComposedTimeTest(unittest.TestCase):
     @load_case_number()
     # @unittest.skip("skip")
     def test_parse_time_external_case2(self, case_num):
+        """Parse a list of time values from external case 2."""
+        self.run_parse_time_case(case_num, ParseComposedMonth1, True)
+
+    @load_case_number()
+    # @unittest.skip("skip")
+    def test_parse_time_external_case3(self, case_num):
+        """Parse a list of time values from external case 2."""
+        self.run_parse_time_case(case_num, ParseComposedQuarter1, True)
+
+    @load_case_number()
+    # @unittest.skip("skip")
+    def test_parse_time_external_case4(self, case_num):
         """Parse a list of time values from external case 2."""
         self.run_parse_time_case(case_num, ParseComposedMonth1, True)
 

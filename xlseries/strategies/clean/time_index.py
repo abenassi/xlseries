@@ -108,7 +108,7 @@ class BaseCleanTiStrategy(object):
 
         If a value in a cell should be a time value, replace it with the clean
         time value."""
-
+        # import pdb; pdb.set_trace()
         p = params
         # create iterator of time index values
         iter_time_index = self._time_index_iterator(
