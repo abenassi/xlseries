@@ -286,7 +286,7 @@ The parameter `missing_value` should be specified every time that a special kind
 
 ### Test cases
 
-There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/tests/integration_cases). Each test case was chosen because it adds something new that `xlseries` wasn't able to deal with it before. Next, there is a list of new issues brought by each case, in addition to the previous ones. 
+There are [7 test cases](https://github.com/abenassi/xlseries/tree/master/xlseries/tests/integration_cases). Each test case was chosen because it adds something new that `xlseries` wasn't able to deal with it before. Next, there is a list of new issues brought by each case, in addition to the previous ones. 
 
 If you find a *new test case* that cannot be solved by `xlseries` in its current development stage, I would **greatly appreciate** you [sending it to me](mailto:agusbenassi@gmail.com).
 
