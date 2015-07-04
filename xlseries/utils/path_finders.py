@@ -43,8 +43,7 @@ def get_param_cases_path(case_num=None):
         case_num (int): Number of test case.
     """
 
-    relative_path = os.path.sep.join(["xlseries",
-                                      "tests",
+    relative_path = os.path.sep.join(["tests",
                                       "integration_cases",
                                       "parameters"])
 
@@ -71,8 +70,7 @@ def get_orig_cases_path(case_num=None):
         case_num (int): Number of test case.
     """
 
-    relative_path = os.path.sep.join(["xlseries",
-                                      "tests",
+    relative_path = os.path.sep.join(["tests",
                                       "integration_cases",
                                       "original"])
 
@@ -99,8 +97,7 @@ def get_exp_cases_path(case_num=None):
         case_num (int): Number of test case.
     """
 
-    relative_path = os.path.sep.join(["xlseries",
-                                      "tests",
+    relative_path = os.path.sep.join(["tests",
                                       "integration_cases",
                                       "expected"])
 
@@ -158,9 +155,8 @@ def get_package_dir(package_name, inside_path):
 
     # go up in the tree folder looking for the root directory of the package
     if os.path.isabs(inside_path):
-        if os.path.split(inside_path)[1] == package_name and \
-                os.path.basename(os.path.split(inside_path)[0]) != package_name:
-            return inside_path
+        if os.path.basename(os.path.split(inside_path)[0]) == package_name:
+            return os.path.split(inside_path)[0]
 
         else:
             return get_package_dir(package_name, os.path.split(inside_path)[0])
