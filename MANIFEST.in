@@ -6,12 +6,9 @@ include BRAINSTORMING.md
 include DESIGN_THOUGHTS.md
 include Makefile
 include requirements.txt
-include run_all_tests.py
-include docs/*
-include tests/*
+include xlseries/tests/*
 
-recursive-include docs *
-recursive-include tests *
+recursive-include xlseries/tests *
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]
 

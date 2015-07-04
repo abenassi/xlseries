@@ -130,11 +130,3 @@ class XlSeries(object):
         """
         return Parameters.get_complete_params_template()
 
-
-def run_all_tests():
-    """Rurn all the tests in the package with coverage."""
-
-    base_dir = get_package_dir("xlseries", __file__)
-    path = os.path.join(base_dir, "run_all_tests.py")
-    run_all_tests = imp.load_source("run_all_tests", path)
-    run_all_tests.main()

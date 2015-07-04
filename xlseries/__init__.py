@@ -4,4 +4,3 @@ __author__ = 'Agustin Benassi'
 __email__ = 'agusbenassi@gmail.com'
 
 from xlseries import XlSeries
-from xlseries import run_all_tests

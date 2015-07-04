@@ -44,7 +44,7 @@ If you want to check the installation was successful and everything is working o
 
 ```python
 from xlseries import run_all_tests
-run_all_tests()
+run_all_tests.main()
 ```
 
 ## Quick start

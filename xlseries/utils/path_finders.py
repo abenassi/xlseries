@@ -43,7 +43,8 @@ def get_param_cases_path(case_num=None):
         case_num (int): Number of test case.
     """
 
-    relative_path = os.path.sep.join(["tests",
+    relative_path = os.path.sep.join(["xlseries",
+                                      "tests",
                                       "integration_cases",
                                       "parameters"])
 
@@ -70,7 +71,8 @@ def get_orig_cases_path(case_num=None):
         case_num (int): Number of test case.
     """
 
-    relative_path = os.path.sep.join(["tests",
+    relative_path = os.path.sep.join(["xlseries",
+                                      "tests",
                                       "integration_cases",
                                       "original"])
 
@@ -97,7 +99,8 @@ def get_exp_cases_path(case_num=None):
         case_num (int): Number of test case.
     """
 
-    relative_path = os.path.sep.join(["tests",
+    relative_path = os.path.sep.join(["xlseries",
+                                      "tests",
                                       "integration_cases",
                                       "expected"])
 
