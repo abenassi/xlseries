@@ -143,7 +143,7 @@ If you want to dig inside the test cases and get an idea of how far is going `xl
 
 - [Problem context (*or why this package is a good idea*)](#problem-context-or-why-this-package-is-a-good-idea)
   - [International organisms](#international-organisms)
-  - [Some common problems using data in third world-countries (and in others too!)](#some-common-problems-using-data-in-third-world-countries-and-in-others-too)
+  - [Some common problems using data in developing countries (and in others too!)](#some-common-problems-using-data-in-developing-countries-and-in-others-too)
 - [Parameters](#parameters)
   - [Critical parameters](#critical-parameters)
   - [Parameters that can be guessed](#parameters-that-can-be-guessed)
@@ -165,9 +165,9 @@ A package like this one, would be an invaluable tool for automating the process 
 
 ### International organisms
 
-There are many public organisms (generally, international organisms) that do a huge work in this field gathering and centralizing time series from many countries, but very often this sources are not good enough for researchers working in third-world country problematics due to a number of problems:
+There are many public organisms (generally, international organisms) that do a huge work in this field gathering and centralizing time series from many countries, but very often this sources are not good enough for researchers working in developing countries problematics due to a number of problems:
 
-1. Third-world countries data is frequently scarce, incomplete or doubtful in those big data collector organisms. These are better sources for first-world countries data.
+1. Developing countries data is frequently scarce, incomplete or doubtful in those big data collector organisms. These are better sources for developed countries data.
 2. International organisms do not use lots of valuable data coming from non official sources that are key to researchers.
 3. International organisms make decisions about the data to present a final time-series piece, but lots of comparisons, analysis and research-specific considerations can not be made if only one version of a data series is provided.
 4. International organisms have a specific target or framework for its data collection activity that sometimes aims to force cross country comparability or targets certain kinds of data.
@@ -178,7 +178,7 @@ Some of the best institutions that collect and organize data are:
 * [World Bank](http://data.worldbank.org/): API, python library, stata library, website search, entire database downloadable.
 * [OECD](http://stats.oecd.org/): API, webiste search.
 
-### Some common problems using data in third world-countries (and in others too!)
+### Some common problems using data in developing countries (and in others too!)
 
 * Normally, data is available in excel format. There is no structured APIs to access data programatically.
 * Excel layouts can be very different, even within a single source, and frequently complicated to parse.

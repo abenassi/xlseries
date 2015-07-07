@@ -46,7 +46,7 @@ setup(
     install_requires=requirements,
     license="GPLv3+",
     zip_safe=False,
-    keywords='xlseries',
+    keywords="xlseries excel time series data opendata scraper",
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
