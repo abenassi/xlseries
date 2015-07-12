@@ -204,6 +204,8 @@ class Parameters(object):
         params_def["time_header_coord"] = cls._unpack_header_ranges(
             params_def["time_header_coord"])
 
+        # import pdb
+        # pdb.set_trace()
         cls._check_consistency(params_def)
 
         # guess parameters based on other parameters
@@ -518,12 +520,24 @@ class Parameters(object):
             cols = [column_index_from_string(ws[coord].column)
                     for coord in params_def["headers_coord"]]
 
-            if len(set(rows)) == 1 and len(set(cols)) == len(cols):
+            probably_vertical, probably_horizontal = None, None
+            if "alignment" in params_def:
+                alignment = params_def["alignment"]
+            else:
+                alignment = None
+
+                if len(params_def["headers_coord"]) > 1:
+                    probably_vertical = (len(set(rows)) == 1 and
+                                         len(set(cols)) == len(cols))
+                    probably_horizontal = (len(set(cols)) == 1 and
+                                           len(set(rows)) == len(rows))
+
+            if alignment == "vertical" or probably_vertical:
                 msg = "Row {} where data starts, must fe after {} where " + \
                     "headers are."
                 assert data_starts > rows[0], msg.format(data_starts, rows[0])
 
-            elif len(set(cols)) == 1 and len(set(rows)) == len(rows):
+            if alignment == "horizontal" or probably_horizontal:
                 msg = "Column {} where data starts, must fe after {} where" + \
                     " headers are.".format(data_starts, cols[0])
                 assert data_starts > cols[0], msg
@@ -564,9 +578,9 @@ class Parameters(object):
         column is horizontal. If less than 4, the headers must be consecutive
         to be able to use this guessing. With >4 non consecutive ones are
         allowed."""
-
+        # import pdb; pdb.set_trace()
         ws = Workbook().active
-        if type(headers_coord) != list or len(headers_coord) < 1:
+        if type(headers_coord) != list or len(headers_coord) <= 1:
             return None
 
         if ((len(headers_coord) < 4 and consecutive_cells(headers_coord)) or

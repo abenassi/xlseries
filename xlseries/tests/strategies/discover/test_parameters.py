@@ -317,6 +317,23 @@ class ParametersCriticalDictTestCase(unittest.TestCase):
     def test_case7(self, case_num):
         self.check_critical_dict_params(case_num)
 
+    # @unittest.skip("skip")
+    def test_case_external1(self):
+        p = {'data_starts': 2,
+             'frequency': 'Q',
+             'headers_coord': 'A53',
+             'time_header_coord': 'A52'}
+        params = Parameters(p)
+        self.assertTrue(params["alignment"] is None)
+
+        p2 = {'alignment': 'horizontal',
+              'data_starts': 2,
+              'frequency': 'Q',
+              'headers_coord': 'A53',
+              'time_header_coord': 'A52'}
+        params = Parameters(p2)
+        self.assertEqual(params["alignment"][0], "horizontal")
+
 
 if __name__ == '__main__':
     nose.run(defaultTest=__name__)
