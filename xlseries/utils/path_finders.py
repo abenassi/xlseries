@@ -143,6 +143,12 @@ def get_screenshot_cases_dir():
     return get_screenshot_cases_path()
 
 
+def get_profiling_graphs_dir():
+    """Return the directory where profiling graphs are generated."""
+    return os.path.join(get_package_dir("xlseries", __file__), "tests",
+                        "profiling_graphs")
+
+
 def get_package_dir(package_name, inside_path):
     """Get the directory of a package given an inside path.
 

@@ -29,6 +29,10 @@ Example:
     import profiling
     profiling.group(4, 5)
 
+    # will run a profiling analysis over an external excel file (no test case)
+    import profiling
+    profiling.single_analysis_external_file(xl_path, params, ws_name)
+
 The output is a png file, but it can be changed to a Gephi output than can be
 analyzed with Gephi.
 
@@ -55,6 +59,7 @@ from pycallgraph.output import GraphvizOutput
 from xlseries import XlSeries
 from xlseries.utils.path_finders import get_orig_cases_path
 from xlseries.utils.path_finders import get_param_cases_path
+from xlseries.utils.path_finders import get_profiling_graphs_dir
 
 
 REL_WORKING_DIR = r"tests\integration_cases"
@@ -69,6 +74,18 @@ def _run_test_case(num=1):
     """
     xlseries = XlSeries(get_orig_cases_path(num))
     xlseries.get_data_frames(get_param_cases_path(num))
+
+
+def _run_xlseries(xl_path, params, ws_name=None):
+    """Run xlseries with an external excel file (not a test case).
+
+    Args:
+        xl_path (str): Path to the excel file to be scraped.
+        params (dict): Critical parameters needed to scrape the xl file.
+        ws_name (str): Name of the worksheet to be scraped from xl file.
+    """
+    xlseries = XlSeries(xl_path)
+    xlseries.get_data_frames(params, ws_name=ws_name)
 
 
 def _generate_name_output(ini, end=None, pre="profiling_case_", post=".png"):
@@ -89,7 +106,7 @@ def _generate_name_output(ini, end=None, pre="profiling_case_", post=".png"):
     else:
         fname = pre + str(ini) + post
 
-    return os.path.join("profiling_graphs", fname)
+    return os.path.join(get_profiling_graphs_dir(), fname)
 
 
 def single_analysis(ini, end=None, config=None):
@@ -110,6 +127,29 @@ def single_analysis(ini, end=None, config=None):
         print "Running test case number", num, "in a single analysis."
         with PyCallGraph(output=graphviz, config=config):
             _run_test_case(num)
+
+
+def single_analysis_external_file(xl_path, params, ws_name=None, config=None):
+    """Perform profiling analysis for an external excel file.
+
+    Instead of profile a proper test case, do the analysis in any xl file with
+    time series that you know can be scraped using passed params.
+
+    Args:
+        xl_path (str): Path to the excel file to be scraped.
+        params (dict): Critical parameters needed to scrape the xl file.
+        ws_name (str): Name of the worksheet to be scraped from xl file.
+        config (Config): Configuration object for PyCallGraph.
+    """
+    filename = xl_path.split("/")[-1].split(".")[0]
+
+    # graphviz = GephiOutput()
+    graphviz = GraphvizOutput()
+    graphviz.output_file = _generate_name_output(filename)
+
+    print "Running profiling analysis on", filename
+    with PyCallGraph(output=graphviz, config=config):
+        _run_xlseries(xl_path, params, ws_name)
 
 
 def single_analysis_with_yappi(ini, end=None):
