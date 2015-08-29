@@ -12,6 +12,7 @@ case.
 from openpyxl import load_workbook, Workbook
 import imp
 import os
+import platform
 
 from strategies import strategies
 from utils.xl_methods import make_wb_copy
@@ -37,6 +38,7 @@ class XlSeries(object):
             xl_path_or_wb (str or Workbook): Path to an excel file or a
                 Workbook object.
         """
+        self.xl_path_or_wb = xl_path_or_wb
         if type(xl_path_or_wb) == Workbook:
             self.wb = xl_path_or_wb
         else:
@@ -130,3 +132,19 @@ class XlSeries(object):
             dict: A dictionary to fill with values.
         """
         return Parameters.get_complete_params_template()
+
+    def open(self):
+        """Open excel file with system's default program."""
+
+        # save workbook if no path to excel file was given
+        if type(self.xl_path_or_wb) == Workbook:
+            filename = "temp_xl_file.xlsx"
+            self.xl_path_or_wb.save(filename)
+            path = filename
+        else:
+            path = self.xl_path_or_wb
+
+        if platform.system().lower() == "windows":
+            os.system(path)
+        else:
+            os.system("open " + path)
