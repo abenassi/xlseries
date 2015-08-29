@@ -19,7 +19,7 @@ import xlseries.strategies.clean.time_index as clean_ti_strategies
 import xlseries.strategies.get.data as get_data_strategies
 import xlseries.strategies.get.period_range as get_pr_strategies
 from xlseries.utils.data_frame import compare_data_frames
-from xlseries.utils.xl_methods import make_wb_copy
+from xlseries.utils.xl_methods import make_ws_copy
 
 
 # EXCEPTIONS
@@ -101,8 +101,8 @@ class ParameterDiscovery(BaseXlSeriesScraper):
         else:
             results = []
             for params in attempts:
-                wb_temp = make_wb_copy(self.wb)
-                ws_temp = wb_temp.get_sheet_by_name(self.ws_name)
+                # wb_temp = make_wb_copy(self.wb)
+                ws_temp = make_ws_copy(ws)
 
                 try:
                     # SECOND: clean the data

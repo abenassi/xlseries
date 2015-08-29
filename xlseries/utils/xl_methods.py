@@ -135,6 +135,30 @@ def make_wb_copy(wb):
     return wb_copy
 
 
+def make_ws_copy(ws):
+    """Return a copy of an openpyxl worksheet.
+
+    Only taking into account sheet titles and cell values. Formatting is not
+    being copied.
+
+    Args:
+        ws (worksheet): A workbook to make a copy from.
+
+    Returns:
+        worksheet: A copy made from ws.
+    """
+    wb_copy = Workbook()
+    wb_copy.remove_sheet(wb_copy.get_sheet_by_name("Sheet"))
+
+    ws_copy = wb_copy.create_sheet(title=ws.title)
+    for row in ws.rows:
+        for cell in row:
+            cell_copy = ws_copy[cell.column + unicode(cell.row)]
+            cell_copy.value = cell.value
+
+    return ws_copy
+
+
 def xl_coordinates_range(start, end=None):
     """Creates a generator of excel coordinates.
 
@@ -169,26 +193,35 @@ def compare_cells(wb1, wb2):
 
     # compare each cell of each worksheet
     for ws1, ws2 in zip(wb1.worksheets, wb2.worksheets):
-        for row1, row2 in zip(ws1.rows, ws2.rows):
-            for cell1, cell2 in zip(row1, row2):
+        compare_cells_ws(ws1, ws2)
+    return True
 
-                msg = "".join([_safe_str(cell1.value), " != ",
-                               _safe_str(cell2.value), "\nrow: ",
-                               str(cell1.row),
-                               " column: ", str(cell1.column)])
 
-                try:
-                    value1 = float(cell1.value)
-                    value2 = float(cell2.value)
+def compare_cells_ws(ws1, ws2):
+    """Compare two worksheets based on row iteration."""
 
-                except:
-                    value1 = normalize_value(cell1.value)
-                    value2 = normalize_value(cell2.value)
+    # compare each cell of each worksheet
+    for row1, row2 in zip(ws1.rows, ws2.rows):
+        for cell1, cell2 in zip(row1, row2):
 
-                if type(value1) == float and type(value2) == float:
-                    assert approx_equal(cell1.value, cell2.value, 0.00001), msg
-                else:
-                    assert value1 == value2, msg
+            msg = "".join([_safe_str(cell1.value), " != ",
+                           _safe_str(cell2.value), "\nrow: ",
+                           str(cell1.row),
+                           " column: ", str(cell1.column)])
+
+            try:
+                value1 = float(cell1.value)
+                value2 = float(cell2.value)
+
+            except:
+                value1 = normalize_value(cell1.value)
+                value2 = normalize_value(cell2.value)
+
+            if type(value1) == float and type(value2) == float:
+                assert approx_equal(cell1.value, cell2.value, 0.00001), msg
+            else:
+                assert value1 == value2, msg
+
     return True
 
 
