@@ -80,6 +80,16 @@ class ParseTimeImplementationError(NotImplementedError):
         super(ParseTimeImplementationError, self).__init__(msg)
 
 
+class SameTimeValue(ValueError):
+
+    """Raised if the value is the same as the last one."""
+
+    def __init__(self, value, last_value):
+        msg = " ".join(["Current value", unicode(value),
+                        "is the same as the last value", unicode(last_value)])
+        super(SameTimeValue, self).__init__(msg)
+
+
 # STRATEGIES
 class BaseCleanTiStrategy(object):
 
@@ -134,6 +144,12 @@ class BaseCleanTiStrategy(object):
                                                           p["missings"],
                                                           p["missing_value"])
 
+                    # avoid writing the same time value again, except in the
+                    # multifrequency case, where year could be equal to the
+                    # first quarter... TODO: better treatment for multifreq
+                    if curr_time == last_time and len(p["frequency"]) == 1:
+                        raise SameTimeValue(curr_time, last_time)
+
                     # write the clean value to the spreadsheet
                     write_time_cell.value = curr_time.datetime
                     last_time = curr_time
@@ -145,7 +161,7 @@ class BaseCleanTiStrategy(object):
                     write_time_cell.value = None
 
                 except (ParseTimeImplementationError, NoPossibleTimeValue,
-                        NoTimeValue, AssertionError):
+                        NoTimeValue, SameTimeValue, AssertionError):
 
                     if not p["data_ends"]:
                         return self._estimate_end(p["alignment"],
@@ -173,7 +189,6 @@ class BaseCleanTiStrategy(object):
 
     @classmethod
     def _estimate_end(cls, alignment, last_cell, start, time_alignment):
-
         if alignment == "vertical":
             while (type(last_cell.value) != datetime.datetime and
                     last_cell.row > start):
@@ -186,8 +201,7 @@ class BaseCleanTiStrategy(object):
         else:
             while (type(last_cell.value) != datetime.datetime and
                     last_cell.column > start):
-                last_cell = last_cell.offset(
-                    column=-1)
+                last_cell = last_cell.offset(column=-1)
 
             end = column_index_from_string(last_cell.column) - time_alignment
             assert end > start, "End must be greater than start!"

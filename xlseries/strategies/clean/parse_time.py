@@ -128,7 +128,7 @@ class BaseParseTimeStrategy(object):
 
             if type(curr_time) == float:
                 float_to_uni = cls._accepts(params, unicode(curr_time),
-                                     last_time, next_time)
+                                            last_time, next_time)
                 float_to_int = cls._accepts(params, unicode(int(curr_time)),
                                             last_time, next_time)
                 # print float_to_uni, float_to_int
@@ -154,21 +154,21 @@ class BaseParseTimeStrategy(object):
 
         # time format is correct
         if type(curr_time) == arrow.Arrow:
-            return curr_time
+            RV = curr_time
 
         elif type(curr_time) == datetime.datetime:
-            return arrow.get(curr_time)
+            RV = arrow.get(curr_time)
 
         elif (type(curr_time) == str or type(curr_time) == int):
-            return self._parse_time(params, unicode(curr_time), last_time,
-                                    next_time)
+            RV = self._parse_time(params, unicode(curr_time), last_time,
+                                  next_time)
         elif type(curr_time) == float:
             try:
-                return self._parse_time(params, unicode(int(curr_time)),
-                                        last_time, next_time)
+                RV = self._parse_time(params, unicode(int(curr_time)),
+                                      last_time, next_time)
             except:
-                return self._parse_time(params, unicode(curr_time),
-                                        last_time, next_time)
+                RV = self._parse_time(params, unicode(curr_time),
+                                      last_time, next_time)
         else:
             assert type(curr_time) == unicode, "Current is not unicode."
 
@@ -178,7 +178,9 @@ class BaseParseTimeStrategy(object):
             if not type(time_value) == arrow.Arrow:
                 raise NoTimeValue(time_value, last_time, next_time)
 
-            return time_value
+            RV = time_value
+
+        return RV
 
     def _parse_time(self, params, curr_time, last_time=None, next_time=None):
         """Base _parse_time() method.

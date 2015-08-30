@@ -49,7 +49,7 @@ class BaseGetDataStrategy(object):
                               params["context"])
         # print name
         values_list = self._get_values(ws, params)
-        # print values_list
+        # print params["data_ends"]
 
         return [(name, values) for values in values_list]
 

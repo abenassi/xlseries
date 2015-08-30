@@ -4,6 +4,7 @@ import json
 import pprint
 from openpyxl import Workbook
 from openpyxl.cell import column_index_from_string
+from unidecode import unidecode
 
 from xlseries.utils.xl_methods import xl_coordinates_range, consecutive_cells
 from xlseries.utils.xl_methods import common_row_or_column, coord_in_scope
@@ -64,7 +65,7 @@ class Parameters(object):
         "series_names": [str, unicode, None],
         "headers_coord": [str, unicode],
         "composed_headers_coord": [list, str, unicode, None],
-        "context": [dict, str, unicode, None],
+        "context": [dict, list, str, unicode, None],
 
         # data
         "data_starts": [int],
@@ -100,7 +101,7 @@ class Parameters(object):
         "missings": False,
         "time_composed": False,
         "time_multicolumn": False,
-        "missing_value": [None, "-", "...", ".", ""],
+        "missing_value": [None, "-", "...", ".", "/", "///", ""],
         "data_ends": None,
         "series_names": None,
         "composed_headers_coord": None,
@@ -447,16 +448,19 @@ class Parameters(object):
             for value in iter_param_values:
                 if param_name == "frequency":
                     if not cls._valid_freq(value, valid_values["frequency"]):
-                        raise InvalidParameter(param_name, value)
+                        raise InvalidParameter(param_name, value,
+                                               valid_values[param_name])
 
                 elif param_name == "context":
                     if not type(param_value) == dict:
-                        raise InvalidParameter(param_name, value)
+                        raise InvalidParameter(param_name, value,
+                                               valid_values[param_name])
                     else:
                         for context_value in param_value.values():
                             if not cls._valid_param_value(
                                     context_value, valid_values[param_name]):
-                                raise InvalidParameter(param_name, value,
+                                raise InvalidParameter(param_name,
+                                                       context_value,
                                                        valid_values[
                                                            param_name])
 
@@ -615,7 +619,7 @@ class Parameters(object):
         for hc_context, header_coord in zip(new_context, headers_coord):
             for context_item in ordered_context:
                 if coord_in_scope(header_coord, context_item[1]):
-                    hc_context.append(context_item[0])
+                    hc_context.append(unidecode(context_item[0]))
 
         return new_context
 

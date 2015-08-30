@@ -410,7 +410,6 @@ class ParameterDiscovery(BaseXlSeriesScraper):
         for cleaner in clean_ti_strategies.get_strategies():
             if cleaner.accepts(ws, params):
                 cleaner_obj = cleaner()
-                # import pdb; pdb.set_trace()
                 return cleaner_obj.clean_time_index(ws, params)
 
         msg = "Time index in '" + ws.title + "'' could not be cleaned."

@@ -50,9 +50,16 @@ class ParametersTest(unittest.TestCase):
         with open(get_orig_params_path("test_params.json")) as f:
             params_dict = json.load(f)
         params = Parameters(params_dict)
-        pprint(params.__dict__)
-        pprint(self.params_exp.__dict__)
-        self.assertEqual(params.__dict__, self.params_exp.__dict__)
+        # pprint(params.__dict__)
+        # pprint(self.params_exp.__dict__)
+
+        for exp_params_name in self.params_exp.__dict__:
+            self.assertEqual(params.__dict__[exp_params_name],
+                             self.params_exp.__dict__[exp_params_name])
+
+        for orig_params_name in params.__dict__:
+            self.assertEqual(params.__dict__[orig_params_name],
+                             self.params_exp.__dict__[orig_params_name])
 
     # @unittest.skip("skip")
     def test_get_num_series(self):
@@ -234,6 +241,21 @@ class ParametersClassMethodsTest(unittest.TestCase):
         context = {"GDP": "A5-A8"}
         headers_coord = ["B5", "B6", "B7", "B8"]
         exp_context = [["GDP"], ["GDP"], ["GDP"], ["GDP"]]
+        self.assertEqual(Parameters._process_context(context, headers_coord),
+                         exp_context)
+
+        context = {"GDP": ["A5-A6", "A8-A9"]}
+        headers_coord = ["B5", "B6", "B7", "B8", "B9"]
+        exp_context = [["GDP"], ["GDP"], [], ["GDP"], ["GDP"]]
+        self.assertEqual(Parameters._process_context(context, headers_coord),
+                         exp_context)
+
+        context = {"GDP": ["A5-A6", "A8-A9"],
+                   "Agricultural": "A5-A6",
+                   "Industrial": "A8-A9"}
+        headers_coord = ["B5", "B6", "B7", "B8", "B9"]
+        exp_context = [["GDP", "Agricultural"], ["GDP", "Agricultural"], [],
+                       ["GDP", "Industrial"], ["GDP", "Industrial"]]
         self.assertEqual(Parameters._process_context(context, headers_coord),
                          exp_context)
 
