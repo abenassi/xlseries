@@ -95,9 +95,8 @@ class XlSeries(object):
 
         """
         # wb will be changed, so it has to be a copy to preserve the original
-        # preservation is disabled!
-        # wb_copy = make_wb_copy(self.wb)
-        ws_names = self.wb.get_sheet_names()
+        wb_copy = make_wb_copy(self.wb)
+        ws_names = wb_copy.get_sheet_names()
 
         if not ws_name:
             ws_name = ws_names[0]
@@ -109,8 +108,8 @@ class XlSeries(object):
                     "ws_name keyword argument."
 
         for scraper in strategies.get_strategies():
-            if scraper.accepts(self.wb):
-                scraper_obj = scraper(self.wb, params_path_or_obj, ws_name)
+            if scraper.accepts(wb_copy):
+                scraper_obj = scraper(wb_copy, params_path_or_obj, ws_name)
                 dfs, params = scraper_obj.get_data_frames(safe_mode)
                 self.params[ws_name] = params
                 return dfs
