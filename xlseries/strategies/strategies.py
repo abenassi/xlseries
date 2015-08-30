@@ -110,6 +110,13 @@ class ParameterDiscovery(BaseXlSeriesScraper):
 
                     # THIRD: get the data from a cleaned worksheet
                     dfs = self._get_data(ws_temp, params)
+
+                    # don't return a list with only one element
+                    if type(dfs) == list and len(dfs) == 1:
+                        dfs = dfs[0]
+                    if type(params) == list and len(params) == 1:
+                        params = params[0]
+
                     results.append((dfs, params))
 
                     # stops with the first successful result
