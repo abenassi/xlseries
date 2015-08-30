@@ -6,6 +6,7 @@ from openpyxl import Workbook
 from openpyxl.cell import column_index_from_string
 
 from xlseries.utils.xl_methods import xl_coordinates_range, consecutive_cells
+from xlseries.utils.xl_methods import common_row_or_column, coord_in_scope
 
 """
 parameters
@@ -62,6 +63,8 @@ class Parameters(object):
         # headers
         "series_names": [str, unicode, None],
         "headers_coord": [str, unicode],
+        "composed_headers_coord": [list, str, unicode, None],
+        "context": [dict, str, unicode, None],
 
         # data
         "data_starts": [int],
@@ -99,7 +102,9 @@ class Parameters(object):
         "time_multicolumn": False,
         "missing_value": [None, "-", "...", ".", ""],
         "data_ends": None,
-        "series_names": None
+        "series_names": None,
+        "composed_headers_coord": None,
+        "context": None
     }
 
     # order in which default values are most common in xl time series
@@ -111,7 +116,8 @@ class Parameters(object):
     GUESSED = ["time_multicolumn"]
 
     # parameters that don't need to be specified
-    OPTIONAL = ["series_names", "data_ends"]
+    OPTIONAL = ["series_names", "data_ends", "composed_headers_coord",
+                "context"]
 
     # parameters whose default value will be used, if missing
     USE_DEFAULT = ["time_alignment", "missing_value"]
@@ -127,6 +133,8 @@ class Parameters(object):
         # name
         self.series_names = None
         self.headers_coord = None
+        self.composed_headers_coord = None
+        self.context = None
 
         # data
         self.data_starts = None
@@ -198,14 +206,22 @@ class Parameters(object):
                                               cls.VALID_VALUES,
                                               cls.DEFAULT_VALUES)
 
-        # convert ranges of headers (eg. "B8-B28") in lists
-        params_def["headers_coord"] = cls._unpack_header_ranges(
+        composed_hc, headers_coord = cls._process_headers_coord(
             params_def["headers_coord"])
+        params_def["headers_coord"] = headers_coord
+
+        # only activate the parameter if there is composed headers
+        if any(map(len, composed_hc)):
+            params_def["composed_headers_coord"] = composed_hc
+
         params_def["time_header_coord"] = cls._unpack_header_ranges(
             params_def["time_header_coord"])
 
-        # import pdb
-        # pdb.set_trace()
+        # resolve the context names for each header coordinate
+        if "context" in params_def and params_def["context"]:
+            params_def["context"] = cls._process_context(
+                params_def["context"], params_def["headers_coord"])
+
         cls._check_consistency(params_def)
 
         # guess parameters based on other parameters
@@ -235,7 +251,7 @@ class Parameters(object):
         return params_def
 
     def __repr__(self):
-        return pprint.pformat(self.__dict__)
+        return pprint.pformat(self.compact_repr())
 
     def __getitem__(self, item):
 
@@ -247,7 +263,21 @@ class Parameters(object):
 
     def __setitem__(self, param_name, param_value):
         num_series = self._get_num_series(self.__dict__)
-        if self._valid_param_list(param_name, param_value, num_series):
+
+        if param_name == "context" and param_value:
+            self.__dict__[param_name] = self._process_context(
+                param_value, self["headers_coord"])
+
+        elif param_name == "headers_coord":
+            composed_hc, headers_coord = self._process_headers_coord(
+                param_value)
+
+            self.__dict__[param_name] = headers_coord
+
+            if any(map(len, composed_hc)):
+                self["composed_headers_coord"] = composed_hc
+
+        elif self._valid_param_list(param_name, param_value, num_series):
             self.__dict__[param_name] = param_value
 
         else:
@@ -419,6 +449,17 @@ class Parameters(object):
                     if not cls._valid_freq(value, valid_values["frequency"]):
                         raise InvalidParameter(param_name, value)
 
+                elif param_name == "context":
+                    if not type(param_value) == dict:
+                        raise InvalidParameter(param_name, value)
+                    else:
+                        for context_value in param_value.values():
+                            if not cls._valid_param_value(
+                                    context_value, valid_values[param_name]):
+                                raise InvalidParameter(param_name, value,
+                                                       valid_values[
+                                                           param_name])
+
                 else:
                     if not cls._valid_param_value(value,
                                                   valid_values[param_name]):
@@ -493,8 +534,25 @@ class Parameters(object):
                 elif ":" in coord_param:
                     start, end = coord_param.upper().split(":")
 
-                for cell in xl_coordinates_range(start, end):
-                    yield cell
+                if "_" not in start and "_" not in end:
+                    for cell in xl_coordinates_range(start, end):
+                        yield cell
+
+                elif "_" in start and "_" in end:
+                    start = start.replace("(", "").replace(")", "")
+                    end = end.replace("(", "").replace(")", "")
+
+                    ranges = []
+                    for composed_start, composed_end in zip(start.split("_"),
+                                                            end.split("_")):
+                        ranges.append(xl_coordinates_range(composed_start,
+                                                           composed_end))
+                    for cell in zip(*ranges):
+                        yield "_".join(cell)
+
+                else:
+                    raise InvalidParameter("headers_coord", coord_param,
+                                           cls.VALID_VALUES["header_coord"])
 
         elif type(coord_param) == list:
             for elem in coord_param:
@@ -503,6 +561,85 @@ class Parameters(object):
                 else:
                     for unpacked in cls._unpack_header_ranges_generator(elem):
                         yield unpacked
+
+    @classmethod
+    def _separate_composed_headers(cls, headers_coord):
+        """Separate headers_coord from their composed additional headers.
+
+        Args:
+            headers_coord (list): Composed ["A1_B1", "A2_B2"] or
+                not composed ["A1", "B1"] header coordinates.
+
+        Returns:
+            tuple: (composed_headers_coord, headers_coord) where
+                composed_headers_coord (list of lists) contains lists of
+                additional headers coordinates for each headers_coord and the
+                last one is a list of single (not composed, eg "A1") header
+                coords.
+        """
+        clean_headers_coord = []
+        composed_headers_coord = []
+
+        for header_coord in headers_coord:
+
+            if "_" in header_coord:
+                coords = header_coord.split("_")
+                clean_headers_coord.append(coords[-1])
+                composed_headers_coord.append(coords[:-1])
+            else:
+                clean_headers_coord.append(header_coord)
+                composed_headers_coord.append([])
+
+        return composed_headers_coord, clean_headers_coord
+
+    @classmethod
+    def _process_context(cls, context, headers_coord):
+        """Establish the context of each header_coord.
+
+        Args:
+            context (dict): ....TODO
+            headers_coord (list): ...TODO
+
+        Returns:
+            list: ....TODO
+        """
+
+        # unpack context ranges first
+        for context_name, context_coords in context.iteritems():
+            context[context_name] = cls._unpack_header_ranges(context_coords)
+
+        ordered_context = sorted(context.iteritems(),
+                                 key=lambda tup: common_row_or_column(tup[1]))
+
+        new_context = [[] for hc in headers_coord]
+        for hc_context, header_coord in zip(new_context, headers_coord):
+            for context_item in ordered_context:
+                if coord_in_scope(header_coord, context_item[1]):
+                    hc_context.append(context_item[0])
+
+        return new_context
+
+    @classmethod
+    def _process_headers_coord(cls, headers_coord):
+        """Establish the context of each header_coord.
+
+        Args:
+            context (dict): ....TODO
+            headers_coord (list): ...TODO
+
+        Returns:
+            list: ....TODO
+        """
+
+        # convert ranges of headers (eg. "B8-B28") in lists
+        headers_coord = cls._unpack_header_ranges(
+            headers_coord)
+
+        # extract composed headers from headers_coord
+        composed_hc, headers_coord = cls._separate_composed_headers(
+            headers_coord)
+
+        return composed_hc, headers_coord
 
     # PRIVATE for build step 5: check consistency
     @classmethod
@@ -533,12 +670,12 @@ class Parameters(object):
                                            len(set(rows)) == len(rows))
 
             if alignment == "vertical" or probably_vertical:
-                msg = "Row {} where data starts, must fe after {} where " + \
+                msg = "Row {} where data starts, must be after {} where " + \
                     "headers are."
                 assert data_starts > rows[0], msg.format(data_starts, rows[0])
 
             if alignment == "horizontal" or probably_horizontal:
-                msg = "Column {} where data starts, must fe after {} where" + \
+                msg = "Column {} where data starts, must be after {} where" + \
                     " headers are.".format(data_starts, cols[0])
                 assert data_starts > cols[0], msg
 
@@ -576,7 +713,7 @@ class Parameters(object):
 
         If all the header coords are in the same row is vertical, in the same
         column is horizontal. If less than 4, the headers must be consecutive
-        to be able to use this guessing. With >4 non consecutive ones are
+        to be able to use this guessing. With > 4 non consecutive ones are
         allowed."""
         # import pdb; pdb.set_trace()
         ws = Workbook().active

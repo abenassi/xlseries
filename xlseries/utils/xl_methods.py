@@ -13,6 +13,70 @@ import xlrd
 from comparing import approx_equal
 
 
+def common_row_or_column(coords_list):
+    """Determine the common column or row index of a list of coords.
+
+        Args:
+            coords_list (list): List of consecutive coordinates.
+
+        Returns:
+            int: Number of the common row or column of the coordinates.
+        """
+    assert len(coords_list) >= 2, "There are less than 2 coords in the list."
+
+    wb = Workbook()
+    ws = wb.active
+
+    row = ws[coords_list[0]].row
+    col = ws[coords_list[0]].column
+
+    if all([ws[coord].row == row for coord in coords_list]):
+        return row
+
+    elif all([ws[coord].column == col for coord in coords_list]):
+        return column_index_from_string(col)
+
+    else:
+        raise Exception("There is no common row or column in " +
+                        repr(coords_list))
+
+
+def coord_in_scope(coord, coords):
+    """Determine a coord is at the right or below a list of consecutive coords.
+
+    Args:
+        coord (str): A coordinate (eg "B1") than can be in the coords scope.
+        coords (list): Coordinates (eg ["A1", "A2", "A3"] whose scope could
+            include coord
+
+    Returns:
+        bool: True if shares a col or row with the list of coords that is not
+            the common row or col of the list (can be both, if coord is one of
+            the coordinates in the list of coords).
+    """
+    assert len(coords) >= 2, "There are less than 2 coords in the list."
+
+    wb = Workbook()
+    ws = wb.active
+
+    row = ws[coords[0]].row
+    col = ws[coords[0]].column
+
+    if all([ws[scope_coord].row == row for scope_coord in coords]):
+        return (ws[coord].row >= row and
+                any([ws[scope_coord].column == ws[coord].column for
+                     scope_coord in coords]))
+
+    elif all([ws[scope_coord].column == col for scope_coord in coords]):
+        return (ws[coord].column >= col and
+                any([ws[scope_coord].row == ws[coord].row for
+                     scope_coord in coords]))
+
+    else:
+        raise Exception("There is no common row or column in " +
+                        repr(coords))
+
+
 def consecutive_cells(cell_list):
     """True if cells are consecutive, False otherwise.
 

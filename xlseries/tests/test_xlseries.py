@@ -23,7 +23,7 @@ def load_case_number():
     """Decorate a test loading the case number taken from test name."""
 
     def fn_decorator(fn):
-        case_num = int(fn.__name__.split("_")[1][-1])
+        case_num = int(fn.__name__.split("_")[-1][-1])
 
         @wraps(fn)
         def fn_decorated(*args, **kwargs):
@@ -37,7 +37,8 @@ def load_case_number():
 # @unittest.skip("skip")
 class TestXlSeriesWithAllParameters(unittest.TestCase):
 
-    def run_case_with_parameters(self, case_num, special_case=None):
+    def run_case_with_parameters(self, case_num, specific_params=None,
+                                 special_case=None):
         """Run a test case with parameters using ParameterDiscovery strategy.
 
         Args:
@@ -47,6 +48,10 @@ class TestXlSeriesWithAllParameters(unittest.TestCase):
         params = load_parameters_case(case_num)
         params["data_ends"] = None
         exp_dfs = load_expected_case(case_num, special_case)
+
+        if specific_params:
+            for specific_param, value in specific_params.iteritems():
+                params[specific_param] = value
 
         # get dfs from the strategy
         series = XlSeries(test_wb)
@@ -165,6 +170,34 @@ class TestXlSeriesWithoutSomeParameters(unittest.TestCase):
     @load_case_number()
     def test_case7(self, case_num):
         self.run_case_without_some_parameters(case_num)
+
+
+# @unittest.skip("skip")
+class TestXlSeriesVariations(TestXlSeriesWithAllParameters):
+
+    # @unittest.skip("skip")
+    @load_case_number()
+    def test_context_case6(self, case_num):
+        specific_params = {"context": {
+            "VABpb": "A8-A23",
+            "PIBpm": "A8-A27"
+        }}
+        self.run_case_with_parameters(case_num,
+                                      specific_params=specific_params,
+                                      special_case="_context")
+
+    @load_case_number()
+    def test_composed_header_case6(self, case_num):
+        specific_params = {
+            "context": {
+                "VABpb": "B8-B23",
+                "PIBpm": "B8-B27"
+            },
+            "headers_coord": "(A8_B8)-(A28_B28)"
+        }
+        self.run_case_with_parameters(case_num,
+                                      specific_params=specific_params,
+                                      special_case="_composed_headers")
 
 
 if __name__ == '__main__':

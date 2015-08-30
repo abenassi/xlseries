@@ -101,5 +101,39 @@ class MissingsTestCase(unittest.TestCase):
         self.assertTrue(compare_list_values(new_values, exp_values))
 
 
+class BaseGetDataStrategyTestCase(unittest.TestCase):
+
+    def setUp(self):
+        self.base_class = BaseGetDataStrategy
+
+        wb = Workbook()
+        self.ws = wb.active
+
+        self.ws["A1"] = "A"
+        self.ws["A2"] = "B"
+        self.ws["A3"] = "C"
+        self.ws["A4"] = "GDP"
+
+        self.ws["B1"] = "Agricultural"
+        self.ws["B2"] = "Industrial"
+        self.ws["B3"] = "Services"
+        self.ws["B4"] = "Gross Domestic Product"
+
+    def test_get_name_simple(self):
+        name = self.base_class._get_name(self.ws, header_coord="B1")
+        self.assertEqual(name, "Agricultural")
+
+    def test_get_name_composed(self):
+        name = self.base_class._get_name(self.ws, header_coord="B1",
+                                         composed_headers_coord=["A1"])
+        self.assertEqual(name, "A Agricultural")
+
+    def test_get_name_context(self):
+        name = self.base_class._get_name(self.ws, header_coord="B1",
+                                         composed_headers_coord=["A1"],
+                                         context=["GDP"])
+        self.assertEqual(name, "GDP - A Agricultural")
+
+
 if __name__ == '__main__':
     nose.run(defaultTest=__name__)

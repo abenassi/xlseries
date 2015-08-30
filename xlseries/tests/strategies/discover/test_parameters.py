@@ -32,6 +32,7 @@ def get_exp_params_path(file_name):
     return os.path.join(base_dir, "expected", file_name)
 
 
+# @unittest.skip("skip")
 class ParametersTest(unittest.TestCase):
 
     def setUp(self):
@@ -57,28 +58,6 @@ class ParametersTest(unittest.TestCase):
     def test_get_num_series(self):
         self.assertEqual(self.params._get_num_series(self.params.__dict__), 3)
         self.assertEqual(self.params._get_num_series({"param": None}), None)
-
-    def test_unpack_header_ranges(self):
-
-        exp = ["A5", "A6", "A7", "A8"]
-        self.assertEqual(self.params._unpack_header_ranges("a5-A8"), exp)
-
-        exp = ["A5", "B5", "C5"]
-        self.assertEqual(self.params._unpack_header_ranges("A5-c5"), exp)
-
-        exp = ["A5"]
-        self.assertEqual(self.params._unpack_header_ranges("a5"), exp)
-
-        exp = None
-        self.assertEqual(self.params._unpack_header_ranges("None"), exp)
-
-        exp = [["A1", "A2"], ["A1", "A2"]]
-        orig = [["A1", "A2"], ["A1", "A2"]]
-        self.assertEqual(self.params._unpack_header_ranges(orig), exp)
-
-        exp = [["A1", "A2", "A3"], ["A1", "A2", "A3"]]
-        orig = [["A1-A3"], ["A1-A3"]]
-        self.assertEqual(self.params._unpack_header_ranges(orig), exp)
 
     def test_get_series_params(self):
         params = Parameters(get_orig_params_path(
@@ -131,7 +110,9 @@ class ParametersTest(unittest.TestCase):
             "blank_rows": None,
             "missings": None,
             "missing_value": None,
-            "series_names": None
+            "series_names": None,
+            "composed_headers_coord": None,
+            "context": None
         })
         exp_missings = ["time_composed", "continuity",
                         "blank_rows", "missings"]
@@ -192,6 +173,69 @@ class ParametersTest(unittest.TestCase):
         res = Parameters._apply_to_all_missing_value(missing_value, num_series)
         exp = [[], [], []]
         self.assertEqual(res, exp)
+
+
+class ParametersClassMethodsTest(unittest.TestCase):
+
+    """Test class mehtods that don't need to load parameters to be tested."""
+
+    def test_unpack_header_ranges(self):
+
+        exp = ["A5", "A6", "A7", "A8"]
+        self.assertEqual(Parameters._unpack_header_ranges("a5-A8"), exp)
+
+        exp = ["A5", "B5", "C5"]
+        self.assertEqual(Parameters._unpack_header_ranges("A5-c5"), exp)
+
+        exp = ["A5"]
+        self.assertEqual(Parameters._unpack_header_ranges("a5"), exp)
+
+        exp = None
+        self.assertEqual(Parameters._unpack_header_ranges("None"), exp)
+
+        exp = [["A1", "A2"], ["A1", "A2"]]
+        orig = [["A1", "A2"], ["A1", "A2"]]
+        self.assertEqual(Parameters._unpack_header_ranges(orig), exp)
+
+        exp = [["A1", "A2", "A3"], ["A1", "A2", "A3"]]
+        orig = [["A1-A3"], ["A1-A3"]]
+        self.assertEqual(Parameters._unpack_header_ranges(orig), exp)
+
+    def test_unpack_composed_header_ranges(self):
+
+        exp = ["A5_B5", "A6_B6", "A7_B7", "A8_B8"]
+        self.assertEqual(
+            Parameters._unpack_header_ranges("(a5_B5)-(A8_B8)"), exp)
+
+        exp = [["A1_B1", "A2_B2", "A3_B3"], ["A1_B1", "A2_B2", "A3_B3"]]
+        orig = [["(A1_B1)-(A3_b3)"], ["(A1_B1)-(A3_b3)"]]
+        self.assertEqual(Parameters._unpack_header_ranges(orig), exp)
+
+    def test_separate_composed_headers(self):
+
+        headers_coord = ["A1_B1", "A2_B2", "A3_B3"]
+        exp = ([["A1"], ["A2"], ["A3"]], ["B1", "B2", "B3"])
+        self.assertEqual(Parameters._separate_composed_headers(headers_coord),
+                         exp)
+
+        headers_coord = ["A1_B1_C1", "A2_B2_C2", "A3_B3_C3"]
+        exp = ([["A1", "B1"], ["A2", "B2"], ["A3", "B3"]], ["C1", "C2", "C3"])
+        self.assertEqual(Parameters._separate_composed_headers(headers_coord),
+                         exp)
+
+    def test_process_context(self):
+
+        context = {"GDP": "A5-A8"}
+        headers_coord = ["A5", "A6", "A7", "A8"]
+        exp_context = [["GDP"], ["GDP"], ["GDP"], ["GDP"]]
+        self.assertEqual(Parameters._process_context(context, headers_coord),
+                         exp_context)
+
+        context = {"GDP": "A5-A8"}
+        headers_coord = ["B5", "B6", "B7", "B8"]
+        exp_context = [["GDP"], ["GDP"], ["GDP"], ["GDP"]]
+        self.assertEqual(Parameters._process_context(context, headers_coord),
+                         exp_context)
 
 
 def load_case_number():
@@ -334,6 +378,39 @@ class ParametersCriticalDictTestCase(unittest.TestCase):
         params = Parameters(p2)
         self.assertEqual(params["alignment"][0], "horizontal")
 
+
+# @unittest.skip("skip")
+class ParametersIntegrationTestCase(unittest.TestCase):
+
+    """Test Parameters loading sets of user inputed parameters.
+
+    Check that the sanitization and completion of the user inputed sets
+    of parameters is the one that should be expected."""
+
+    def test_composed_headers(self):
+        p = {'data_starts': 4,
+             'frequency': 'Q',
+             'headers_coord': '(A2_B2)-(A5_B5)',
+             'time_header_coord': 'A1'}
+        params = Parameters(p)
+
+        exp_headers_coord = ["B2", "B3", "B4", "B5"]
+        self.assertEqual(params["headers_coord"], exp_headers_coord)
+
+        exp_composed_headers_coord = [["A2"], ["A3"], ["A4"], ["A5"]]
+        self.assertEqual(params["composed_headers_coord"],
+                         exp_composed_headers_coord)
+
+    def test_context(self):
+        p = {'data_starts': 2,
+             'frequency': 'Q',
+             'headers_coord': 'A2-A5',
+             'time_header_coord': 'A1',
+             'context': {"GDP": "A2-A5"}}
+        params = Parameters(p)
+
+        exp_context = [["GDP"], ["GDP"], ["GDP"], ["GDP"]]
+        self.assertEqual(params["context"], exp_context)
 
 if __name__ == '__main__':
     nose.run(defaultTest=__name__)

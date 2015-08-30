@@ -44,7 +44,9 @@ class BaseGetDataStrategy(object):
         return cls._base_cond(ws, params)
 
     def _get_data(self, ws, params):
-        name = self._get_name(ws, params["headers_coord"])
+        name = self._get_name(ws, params["headers_coord"],
+                              params["composed_headers_coord"],
+                              params["context"])
         # print name
         values_list = self._get_values(ws, params)
         # print values_list
@@ -52,8 +54,42 @@ class BaseGetDataStrategy(object):
         return [(name, values) for values in values_list]
 
     @classmethod
-    def _get_name(cls, ws, header_coord):
-        return unidecode(ws[header_coord].value).strip()
+    def _get_name(cls, ws, header_coord, composed_headers_coord=None,
+                  context=None):
+        """Get the header name of a series.
+
+        Args:
+            ws (worksheet): A worksheet with time series.
+            header_coord (str): Coordinate of the header.
+            composed_headers_coord (list): Coordinates of the composed headers
+                that add information previous to the header.
+            context (list): Strings that provide the context of the header,
+                adding also more information in a higher level (categories).
+
+        Returns:
+            str: Complete name of a series.
+        """
+
+        name = unidecode(ws[header_coord].value).strip()
+
+        if composed_headers_coord:
+            msg = " ".join(["Composed is not list",
+                            repr(type(composed_headers_coord)),
+                            repr(composed_headers_coord)])
+            assert type(composed_headers_coord) == list, msg
+
+            name = " ".join([unidecode(ws[coord].value).strip() for
+                             coord in composed_headers_coord] + [name])
+
+        if context:
+            msg = " ".join(["Context is not list", repr(type(context)),
+                            repr(context)])
+            assert type(context) == list, msg
+
+            name = " - ".join([header_context.strip() for
+                               header_context in context] + [name])
+
+        return name
 
     def _get_values(self, ws, params):
         p = params
