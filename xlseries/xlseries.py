@@ -118,7 +118,11 @@ class XlSeries(object):
                 scraper_obj = scraper(wb_copy, params_path_or_obj, ws_name)
                 dfs, params = scraper_obj.get_data_frames(safe_mode)
                 self.params[ws_name] = params
-                return dfs
+
+                if type(dfs) == list and len(dfs) == 1:
+                    return dfs[0]
+                else:
+                    return dfs
 
     @staticmethod
     def critical_params_template():
