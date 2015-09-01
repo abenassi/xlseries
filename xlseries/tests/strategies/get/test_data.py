@@ -119,9 +119,14 @@ class BaseGetDataStrategyTestCase(unittest.TestCase):
         self.ws["B3"] = "Services"
         self.ws["B4"] = "Gross Domestic Product"
 
+        self.ws["C6"] = 1
+
     def test_get_name_simple(self):
         name = self.base_class._get_name(self.ws, header_coord="B1")
         self.assertEqual(name, "Agricultural")
+
+        name = self.base_class._get_name(self.ws, header_coord="C6")
+        self.assertEqual(name, "1")
 
     def test_get_name_composed(self):
         name = self.base_class._get_name(self.ws, header_coord="B1",

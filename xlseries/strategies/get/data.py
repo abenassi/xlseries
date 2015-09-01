@@ -70,7 +70,7 @@ class BaseGetDataStrategy(object):
             str: Complete name of a series.
         """
 
-        name = unidecode(ws[header_coord].value).strip()
+        name = unidecode(unicode(ws[header_coord].value)).strip()
 
         if composed_headers_coord:
             msg = " ".join(["Composed is not list",
