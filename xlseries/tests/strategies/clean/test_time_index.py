@@ -624,12 +624,22 @@ class BaseMultiFrequencyTestCase(unittest.TestCase):
         exp_freq_args = {"Y": None, "Q": None}
         self.assertEqual(freq_args, exp_freq_args)
 
+        freq_args = BaseMultiFrequency._init_last_time_dict("QQQQY")
+        exp_freq_args = {"Y": None, "Q": None}
+        self.assertEqual(freq_args, exp_freq_args)
+
     def test_next_frequency(self):
 
         next_f, last_f = BaseMultiFrequency._next_frequency("YQQQQ", "YQ")
         self.assertEqual(next_f, "Q")
 
         next_f, last_f = BaseMultiFrequency._next_frequency("YQQQQ", "YQQQQ")
+        self.assertEqual(next_f, "Y")
+
+        next_f, last_f = BaseMultiFrequency._next_frequency("QQQQY", "QQ")
+        self.assertEqual(next_f, "Q")
+
+        next_f, last_f = BaseMultiFrequency._next_frequency("QQQQY", "QQQQ")
         self.assertEqual(next_f, "Y")
 
 

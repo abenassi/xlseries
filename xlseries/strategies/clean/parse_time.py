@@ -204,15 +204,7 @@ class BaseParseTimeStrategy(object):
 
         result = self._parse_date_elements(curr_time)
 
-        # take new date elements found with the grammar
-        if last_time:
-            year = int(result[0] or last_time.year)
-            month = int(result[1] or last_time.month)
-            day = int(result[2] or last_time.day)
-        else:
-            year = int(result[0] or 1)
-            month = int(result[1] or 1)
-            day = int(result[2] or 1)
+        year, month, day = self._fill_parse_date_holes(result, last_time)
 
         # check date make sense
         if day not in range(1, 32):
@@ -256,6 +248,34 @@ class BaseParseTimeStrategy(object):
                 others could be None.
         """
         raise NotImplementedError("This method is implemented in subclasses.")
+
+    @classmethod
+    def _fill_parse_date_holes(cls, result, last_time):
+        """Analyze parsed result with last time to complete missings.
+
+        Every missing is replaced with the value of the last time value.
+
+        Args:
+            result (tuple): (year, month, day) Each element could be an integer
+                or None.
+            last_time (arrow.Arrow): Last time value parsed.
+
+        Returns:
+            tuple: (year, month, day) All the elements are integers, providing
+                all the information to create a new time value.
+        """
+
+        # take new date elements found with the grammar
+        if last_time:
+            year = int(result[0] or last_time.year)
+            month = int(result[1] or last_time.month)
+            day = int(result[2] or last_time.day)
+        else:
+            year = int(result[0] or 1)
+            month = int(result[1] or 1)
+            day = int(result[2] or 1)
+
+        return year, month, day
 
 
 class ParseSimpleTime(BaseParseTimeStrategy):
@@ -583,6 +603,75 @@ class ParseComposedYearQuarter1(BasePEG, BaseComposedQuarter):
 
             date = year?:y quarter?:q ref? not_d_or_q* ref? ->(y, q_to_m(q), 1)
             """, {"q_to_m": cls._quarter_num_to_month})
+
+
+class ParseComposedQuarterYear1(ParseComposedYearQuarter1):
+
+    """Parse multifrequency QQQQY time strings like the example below.
+
+    >>> orig = ["2003 I",
+    ...         "II",
+    ...         "III",
+    ...         "IV",
+    ...         "Año"]
+    >>> params = {"time_format": str}
+    >>>
+    >>> last = None
+    >>> time_parser = ParseComposedQuarterYear1()
+    >>> for str_date in orig:
+    ...     new = time_parser.parse_time(params, str_date, last)
+    ...     last = new
+    ...     print new
+    2003-01-01T00:00:00+00:00
+    2003-04-01T00:00:00+00:00
+    2003-07-01T00:00:00+00:00
+    2003-10-01T00:00:00+00:00
+    2003-01-01T00:00:00+00:00
+    """
+
+    @classmethod
+    def _accepts(cls, params, curr_time, last_time=None, next_time=None):
+        if not (params["time_composed"] and params["frequency"] == "QQQQY"):
+            return False
+
+        try:
+            cls.make_parsley_grammar()(curr_time).date()
+            return True
+        except:
+            return False
+
+    @classmethod
+    def _fill_parse_date_holes(cls, result, last_time):
+        """Analyze parsed result with last time to complete missings.
+
+        Every missing is replaced with the value of the last time value,
+        except if year and month are missing, and the last time value
+        represents the 4th quarter of a year. This will be interpreted as the
+        "year" part of the QQQQY multifrequency time index.
+
+        Args:
+            result (tuple): (year, month, day) Each element could be an integer
+                or None.
+            last_time (arrow.Arrow): Last time value parsed.
+
+        Returns:
+            tuple: (year, month, day) All the elements are integers, providing
+                all the information to create a new time value.
+        """
+
+        # take new date elements found with the grammar
+        if last_time:
+            if not result[0] and not result[1] and last_time.month == 10:
+                year = int(last_time.year)
+                month = 1
+            else:
+                year = int(result[0] or last_time.year)
+                month = int(result[1] or last_time.month)
+        else:
+            year = int(result[0] or 1)
+            month = int(result[1] or 1)
+
+        return year, month, 1
 
 
 class BaseComposedMonth():

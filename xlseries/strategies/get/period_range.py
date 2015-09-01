@@ -122,9 +122,13 @@ class GetPeriodRangesMultifrequency(BaseGetPeriodRangesStrategy):
             if freq_end == 0:
                 freq_end = len(freq)
 
-            cols = ws.columns[end - freq_end:end]
-            for cell, f in zip((col[row - 1] for col in reversed(cols)),
-                               freq[:freq_end][::-1]):
+            # ends will be searched backwards from the global end
+            cols = ws.columns[end - len(freq):end]
+            last_cols = (col[row - 1] for col in reversed(cols))
+
+            # freq must be reordered to match the last columns
+            last_freqs = freq[freq_end - 1:] + freq[:freq_end]
+            for cell, f in zip(last_cols, last_freqs[::-1]):
                 if not ends[f]:
                     ends[f] = cell.value
 

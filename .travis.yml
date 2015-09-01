@@ -16,7 +16,7 @@ script:
 after_success: coveralls
 os:
 - linux
-- osx
+# - osx
 deploy:
   provider: pypi
   user: beni

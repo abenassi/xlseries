@@ -201,6 +201,10 @@ class BaseCleanTiStrategy(object):
         else:
             while (type(last_cell.value) != datetime.datetime and
                     last_cell.column > start):
+                # print type(last_cell.value), last_cell.value, last_cell.row,
+                # last_cell.column, type(last_cell.offset(row=2).value),
+                # last_cell.offset(row=2).value, last_cell.offset(row=2).row,
+                # last_cell.offset(row=2).column
                 last_cell = last_cell.offset(column=-1)
 
             end = column_index_from_string(last_cell.column) - time_alignment
