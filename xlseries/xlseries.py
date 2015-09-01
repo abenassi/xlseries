@@ -103,9 +103,15 @@ class XlSeries(object):
             if len(ws_names) > 1:
                 msg = "There are {} worksheets: {}\nThe first {} will be " + \
                     "analyzed"
-                print msg.format(len(ws_names), ws_names, ws_name)
+                print msg.format(len(ws_names),
+                                 str([name.encode("utf-8")
+                                      for name in ws_names]),
+                                 ws_name.encode("utf-8"))
                 print "Remember you can choose a different one passing a " + \
                     "ws_name keyword argument."
+        else:
+            index = [name.encode("utf-8") for name in ws_names].index(ws_name)
+            ws_name = ws_names[index]
 
         for scraper in strategies.get_strategies():
             if scraper.accepts(wb_copy):
