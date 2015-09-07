@@ -8,6 +8,7 @@ import json
 import copy
 from functools import wraps
 from pprint import pprint
+from openpyxl import Workbook
 
 from xlseries.strategies.discover.parameters import Parameters
 from xlseries.strategies.discover.parameters import InvalidParameter
@@ -88,20 +89,6 @@ class ParametersTest(unittest.TestCase):
         self.assertTrue(self.params._valid_freq("D", valid_freqs))
         self.assertFalse(self.params._valid_freq("YQQX", valid_freqs))
 
-    def test_validate_parameters_exception(self):
-        params = {"continuity": "A1"}
-        valid_values = {"continuity": [True, False]}
-        with self.assertRaises(InvalidParameter):
-            self.params._validate_parameters(params, valid_values)
-
-    def test_ensure_critical_parameters_exception(self):
-        params = {"data_starts": None}
-        critical = ["data_starts"]
-        valid_values = {"data_starts": [int]}
-        with self.assertRaises(CriticalParameterMissing):
-            Parameters._check_has_critical(params, critical,
-                                           valid_values)
-
     def test_get_missings(self):
         params = Parameters({
             "alignment": None,
@@ -125,6 +112,75 @@ class ParametersTest(unittest.TestCase):
                         "blank_rows", "missings"]
 
         self.assertEqual(set(exp_missings), set(params.get_missings()))
+
+    def test_validate_parameters_exception(self):
+        params = {"continuity": "A1"}
+        valid_values = {"continuity": [True, False]}
+        with self.assertRaises(InvalidParameter):
+            self.params._validate_parameters(params, valid_values)
+
+    def test_remove_blank_headers(self):
+
+        wb = Workbook()
+        ws = wb.active
+
+        params = Parameters({
+            "headers_coord": ["A1", "B1", "C1"],
+            "data_starts": 2,
+            "data_ends": 256,
+            "frequency": "m",
+            "time_header_coord": "A1",
+        })
+        ws["A1"].value = "Importaciones"
+        ws["B1"].value = "Exportaciones"
+        params.remove_blank_headers(ws)
+
+        self.assertEqual(params["headers_coord"], ["A1", "B1"])
+        self.assertEqual(params["data_starts"], [2, 2])
+        self.assertEqual(params["data_ends"], [256, 256])
+
+        params = Parameters({
+            "headers_coord": ["A1_A2", "B1", "C1_C2"],
+            "data_starts": 2,
+            "data_ends": 256,
+            "frequency": "m",
+            "time_header_coord": "A1",
+        })
+        ws["A1"].value = "Importaciones"
+        ws["B1"].value = "Exportaciones"
+        ws["C1"].value = "Saldo"
+        params.remove_blank_headers(ws)
+
+        self.assertEqual(params["headers_coord"], ["A2", "B1", "C2"])
+        self.assertEqual(params["data_starts"], [2, 2, 2])
+        self.assertEqual(params["data_ends"], [256, 256, 256])
+
+    def test_remove_series(self):
+
+        params = Parameters({
+            "headers_coord": ["A1", "B1", "C1"],
+            "data_starts": 2,
+            "data_ends": 256,
+            "frequency": "m",
+            "time_header_coord": "A1",
+        })
+        params.remove_series(1)
+        self.assertEqual(params.headers_coord, ["A1", "C1"])
+        self.assertTrue(len(params.data_starts), 2)
+        self.assertTrue(len(params.time_header_coord), 2)
+
+
+class ParametersClassMethodsTest(unittest.TestCase):
+
+    """Test class mehtods that don't need to load parameters to be tested."""
+
+    def test_ensure_critical_parameters_exception(self):
+        params = {"data_starts": None}
+        critical = ["data_starts"]
+        valid_values = {"data_starts": [int]}
+        with self.assertRaises(CriticalParameterMissing):
+            Parameters._check_has_critical(params, critical,
+                                           valid_values)
 
     def test_check_consistency(self):
         params_dict = {"data_starts": 1,
@@ -180,11 +236,6 @@ class ParametersTest(unittest.TestCase):
         res = Parameters._apply_to_all_missing_value(missing_value, num_series)
         exp = [[], [], []]
         self.assertEqual(res, exp)
-
-
-class ParametersClassMethodsTest(unittest.TestCase):
-
-    """Test class mehtods that don't need to load parameters to be tested."""
 
     def test_unpack_header_ranges(self):
 

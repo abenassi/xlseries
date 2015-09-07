@@ -386,7 +386,26 @@ class Parameters(object):
 
     def remove_blank_headers(self, ws):
         """Remove series whose headers are None values in the worksheet."""
-        pass
+
+        for index, (header_coord, composed_hc) in enumerate(zip(
+                self.headers_coord, self.composed_headers_coord)):
+
+            not_header = not ws[header_coord].value
+            not_composed_headers = (not composed_hc or
+                                    not any([ws[hc].value for
+                                             hc in composed_hc]))
+
+            if not_header and not_composed_headers:
+                self.remove_series(index)
+
+    def remove_series(self, index):
+        """Remove all the parameters of a series, by its index."""
+        num_series = len(self)
+
+        for param_name in self:
+            if (type(self[param_name]) == list and
+                    len(self[param_name]) == num_series):
+                del self[param_name][index]
 
     @classmethod
     def get_critical_params_template(cls):
