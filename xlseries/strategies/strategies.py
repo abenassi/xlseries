@@ -45,7 +45,11 @@ class BaseXlSeriesScraper(object):
     def __init__(self, wb, params_path_or_obj=None, ws_name=None):
         self.wb = wb
         self.ws_name = ws_name
-        self.ws = self.wb.get_sheet_by_name(self.ws_name)
+
+        if self.ws_name:
+            self.ws = self.wb.get_sheet_by_name(self.ws_name)
+        else:
+            self.ws = self.wb.active
 
         if isinstance(params_path_or_obj, Parameters):
             self.params = params_path_or_obj
