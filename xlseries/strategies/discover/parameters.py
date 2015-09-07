@@ -384,6 +384,10 @@ class Parameters(object):
         """Remove a parameters setting it to 'missing'."""
         self.__dict__[param] = None
 
+    def remove_blank_headers(self, ws):
+        """Remove series whose headers are None values in the worksheet."""
+        pass
+
     @classmethod
     def get_critical_params_template(cls):
         """Return a template dictionary of critical params."""

@@ -45,11 +45,15 @@ class BaseXlSeriesScraper(object):
     def __init__(self, wb, params_path_or_obj=None, ws_name=None):
         self.wb = wb
         self.ws_name = ws_name
+        self.ws = self.wb.get_sheet_by_name(self.ws_name)
 
         if isinstance(params_path_or_obj, Parameters):
             self.params = params_path_or_obj
         else:
             self.params = Parameters(params_path_or_obj)
+
+        # remove header coordinates that don't have any cell value (blanks)
+        self.params.remove_blank_headers(self.ws)
 
     # PUBLIC INTERFACE
     @classmethod
@@ -57,7 +61,7 @@ class BaseXlSeriesScraper(object):
         return cls._accepts(wb)
 
     def get_data_frames(self, safe_mode):
-        return self._get_data_frames(safe_mode)
+        return self._get_data_frames(self.ws, self.params, safe_mode)
 
 
 class ParameterDiscovery(BaseXlSeriesScraper):
@@ -78,46 +82,45 @@ class ParameterDiscovery(BaseXlSeriesScraper):
         # for the moment, this is the only strategy
         return True
 
-    def _get_data_frames(self, safe_mode):
+    @classmethod
+    def _get_data_frames(cls, ws, params, safe_mode):
         """Extract time data series and return them as data frames."""
 
-        ws = self.wb.get_sheet_by_name(self.ws_name)
-
         # FIRST: discover missing parameters generating attempts
-        attempts = self._discover_parameters(ws, self.params)
+        attempts = cls._discover_parameters(ws, params)
 
         # there is only one attempt, probably the user passed all the params
         if len(attempts) == 1:
-            self.params = attempts[0]
+            params = attempts[0]
 
             # SECOND: clean the data
-            self._clean_data(ws, self.params)
+            cls._clean_data(ws, params)
 
             # THIRD: get the data from a cleaned worksheet
-            dfs = self._get_data(ws, self.params)
-            return (dfs, self.params)
+            dfs = cls._get_data(ws, params)
+            return (dfs, params)
 
         # there is multiple combinations of parameters to try
         else:
             results = []
-            for params in attempts:
-                # wb_temp = make_wb_copy(self.wb)
+            for params_attempt in attempts:
                 ws_temp = make_ws_copy(ws)
 
                 try:
                     # SECOND: clean the data
-                    self._clean_data(ws_temp, params)
+                    cls._clean_data(ws_temp, params_attempt)
 
                     # THIRD: get the data from a cleaned worksheet
-                    dfs = self._get_data(ws_temp, params)
+                    dfs = cls._get_data(ws_temp, params_attempt)
 
                     # don't return a list with only one element
                     if type(dfs) == list and len(dfs) == 1:
                         dfs = dfs[0]
-                    if type(params) == list and len(params) == 1:
-                        params = params[0]
+                    if (type(params_attempt) == list and
+                            len(params_attempt) == 1):
+                        params_attempt = params_attempt[0]
 
-                    results.append((dfs, params))
+                    results.append((dfs, params_attempt))
 
                     # stops with the first successful result
                     if not safe_mode:
@@ -148,7 +151,7 @@ class ParameterDiscovery(BaseXlSeriesScraper):
             # return results
             if len(unique_results) == 0:
                 raise Exception("File couldn't be parsed with provided " +
-                                "parameters" + repr(self.params))
+                                "parameters" + repr(params))
             elif len(unique_results) == 1:
                 return unique_results[0]
 
@@ -156,30 +159,32 @@ class ParameterDiscovery(BaseXlSeriesScraper):
                 print "There is more than one result with given parameters."
                 dfs = [res[0] for res in unique_results]
                 params = [res[1] for res in unique_results]
-                return (dfs, params)
+                return (dfs, params_attempt)
 
     # HIGH LEVEL TASKS
-    def _discover_parameters(self, ws, params):
+    @classmethod
+    def _discover_parameters(cls, ws, params):
         """Discover the parameters of the worksheet."""
 
         if not params.is_complete():
-            non_discovered = self._discover_missing_params(params)
+            non_discovered = cls._discover_missing_params(params)
 
             if non_discovered:
-                return self._generate_attempts(non_discovered, params)
+                return cls._generate_attempts(non_discovered, params)
             else:
                 return [params]
         else:
             return [params]
 
-    def _clean_data(self, ws, params):
+    @classmethod
+    def _clean_data(cls, ws, params):
         """Ensure data is clean to be processed with the parameters."""
 
         # 1. Clean time index
 
         # if time index is multicolumn, only one time index is allowed
         if params["time_multicolumn"][0]:
-            end = self._clean_time_index(ws, params[0])
+            end = cls._clean_time_index(ws, params[0])
 
             # if not provided, the end is when time index finish
             if not params["data_ends"][0]:
@@ -194,7 +199,7 @@ class ParameterDiscovery(BaseXlSeriesScraper):
                 time_header_coord = params["time_header_coord"][i_series]
                 if time_header_coord not in time_indexes:
                     time_indexes.add(time_header_coord)
-                    end = self._clean_time_index(ws, params[i_series])
+                    end = cls._clean_time_index(ws, params[i_series])
 
                     # if not provided, the end is when time index finish
                     if not params["data_ends"][i_series]:
@@ -206,15 +211,16 @@ class ParameterDiscovery(BaseXlSeriesScraper):
 
         # 2. Clean data values
         for i_series in xrange(len(params.headers_coord)):
-            self._clean_values(ws)
+            cls._clean_values(ws)
 
-    def _get_data(self, ws, params):
+    @classmethod
+    def _get_data(cls, ws, params):
         """Parse data using parameters and return it in data frames."""
         # import pdb; pdb.set_trace()
         # 1. Build data frames dict based on number of period ranges founded
         dfs_dict = {}
-        for period_range in self._get_period_ranges(ws, params):
-            hashable_pr = self._hash_period_range(period_range)
+        for period_range in cls._get_period_ranges(ws, params):
+            hashable_pr = cls._hash_period_range(period_range)
             if hashable_pr not in dfs_dict:
                 dfs_dict[hashable_pr] = {"columns": [], "data": [],
                                          "period_range": period_range}
@@ -245,17 +251,17 @@ class ParameterDiscovery(BaseXlSeriesScraper):
             else:
                 time_header_coord = params_series["time_header_coord"]
 
-            prs = self._get_series_prs(ws, params_series["frequency"],
-                                       params_series["data_starts"],
-                                       time_header_coord,
-                                       params_series["data_ends"],
-                                       params_series["time_alignment"],
-                                       params_series["alignment"])
+            prs = cls._get_series_prs(ws, params_series["frequency"],
+                                      params_series["data_starts"],
+                                      time_header_coord,
+                                      params_series["data_ends"],
+                                      params_series["time_alignment"],
+                                      params_series["alignment"])
 
             for period_range, (name, values) in zip(prs, names_and_values):
-                hashable_pr = self._hash_period_range(period_range)
+                hashable_pr = cls._hash_period_range(period_range)
 
-                self._add_name(name, dfs_dict[hashable_pr]["columns"])
+                cls._add_name(name, dfs_dict[hashable_pr]["columns"])
                 dfs_dict[hashable_pr]["data"].append(values)
 
         # 3. Build data frames
@@ -422,7 +428,8 @@ class ParameterDiscovery(BaseXlSeriesScraper):
         pass
 
     # 3. GET DATA methods
-    def _get_period_ranges(self, ws, params):
+    @classmethod
+    def _get_period_ranges(cls, ws, params):
         """Get period ranges for all series in the worksheet.
 
         Args:
@@ -451,13 +458,14 @@ class ParameterDiscovery(BaseXlSeriesScraper):
             else:
                 time_header_coord_single = time_header_coord
 
-            for pr in self._get_series_prs(ws, freq, ini_row,
-                                           time_header_coord_single,
-                                           end_row, time_alignement,
-                                           alignment):
+            for pr in cls._get_series_prs(ws, freq, ini_row,
+                                          time_header_coord_single,
+                                          end_row, time_alignement,
+                                          alignment):
                 yield pr
 
-    def _get_series_prs(self, ws, freq, ini_row, time_header_coord, end_row,
+    @classmethod
+    def _get_series_prs(cls, ws, freq, ini_row, time_header_coord, end_row,
                         time_alignement, alignment):
         """Get the period ranges of one time index.
 
@@ -491,7 +499,8 @@ class ParameterDiscovery(BaseXlSeriesScraper):
                         "\nTime header coord:", time_header_coord])
         raise Exception(msg)
 
-    def _add_name(self, name, columns, index=1):
+    @classmethod
+    def _add_name(cls, name, columns, index=1):
         """Add a new name to the data frame columns.
 
         If name is repeated, and index number is added an incremented until the
@@ -502,12 +511,13 @@ class ParameterDiscovery(BaseXlSeriesScraper):
             columns (list): Fields of the data frame.
             index (int): Index number for repeated fields.
         """
-        if self._indexed_name(name, index) not in columns:
-            columns.append(self._indexed_name(name, index))
+        if cls._indexed_name(name, index) not in columns:
+            columns.append(cls._indexed_name(name, index))
         else:
-            self._add_name(name, columns, index + 1)
+            cls._add_name(name, columns, index + 1)
 
-    def _indexed_name(self, name, index):
+    @classmethod
+    def _indexed_name(cls, name, index):
         """Return and indexed name."""
         if index <= 1:
             return name
