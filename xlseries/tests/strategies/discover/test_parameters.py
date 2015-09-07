@@ -155,6 +155,23 @@ class ParametersTest(unittest.TestCase):
         self.assertEqual(params["data_starts"], [2, 2, 2])
         self.assertEqual(params["data_ends"], [256, 256, 256])
 
+        ws["E4"].value = "dont remove!"
+        params = Parameters({
+            "headers_coord": ["A1", "E1", "E2", "E3", "E4"],
+            "data_starts": 2,
+            "data_ends": 256,
+            "frequency": "m",
+            "time_header_coord": "A1",
+        })
+        ws["A1"].value = "Importaciones"
+        ws["B1"].value = "Exportaciones"
+        ws["C1"].value = "Saldo"
+        params.remove_blank_headers(ws)
+
+        self.assertEqual(params["headers_coord"], ["A1", "E4"])
+        self.assertEqual(params["data_starts"], [2, 2])
+        self.assertEqual(params["data_ends"], [256, 256])
+
     def test_remove_series(self):
 
         params = Parameters({

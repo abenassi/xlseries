@@ -387,6 +387,7 @@ class Parameters(object):
     def remove_blank_headers(self, ws):
         """Remove series whose headers are None values in the worksheet."""
 
+        removed = 0
         for index, (header_coord, composed_hc) in enumerate(zip(
                 self.headers_coord, self.composed_headers_coord)):
 
@@ -396,7 +397,8 @@ class Parameters(object):
                                              hc in composed_hc]))
 
             if not_header and not_composed_headers:
-                self.remove_series(index)
+                self.remove_series(index - removed)
+                removed += 1
 
     def remove_series(self, index):
         """Remove all the parameters of a series, by its index."""
