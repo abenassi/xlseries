@@ -4,7 +4,6 @@ import json
 import pprint
 from openpyxl import Workbook
 from openpyxl.cell import column_index_from_string
-from unidecode import unidecode
 
 from xlseries.utils.xl_methods import xl_coordinates_range, consecutive_cells
 from xlseries.utils.xl_methods import common_row_or_column, coord_in_scope

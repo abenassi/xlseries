@@ -5,9 +5,7 @@ import unittest
 import nose
 import os
 import json
-import copy
 from functools import wraps
-from pprint import pprint
 from openpyxl import Workbook
 
 from xlseries.strategies.discover.parameters import Parameters

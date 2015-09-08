@@ -306,7 +306,7 @@ class BaseContinuous():
                 try:
                     return float(value)
                 except:
-                    print args_without_values
+                    # print args_without_values
                     raise Exception("Value is not valid " + unicode(value))
             else:
                 return np.nan
