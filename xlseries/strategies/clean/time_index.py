@@ -17,7 +17,7 @@ automatically taken by "get_strategies" and exposed to the user.
 import arrow
 from pprint import pprint
 from pprint import pformat
-from openpyxl.cell import get_column_letter, column_index_from_string
+from openpyxl.utils import get_column_letter, column_index_from_string
 import datetime
 
 from xlseries.strategies.clean.parse_time import DayOutOfRange, MonthOutOfRange

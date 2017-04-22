@@ -13,7 +13,7 @@ looking for accepting or refusing certain input.
 
 from __future__ import unicode_literals
 from pprint import pprint
-from openpyxl.cell import column_index_from_string
+from openpyxl.utils import column_index_from_string
 import pandas as pd
 
 import xlseries.utils.strategies_helpers

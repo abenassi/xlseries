@@ -7,8 +7,7 @@ def main():
     old_dir = os.getcwd()
     os.chdir(os.path.dirname(__file__))
 
-    args = ["nosetests", "--with-doctest", "--with-coverage",
-            "--cover-package=xlseries"]
+    args = ["nosetests", "--with-doctest"]
     nose.run(argv=args)
 
     os.chdir(old_dir)

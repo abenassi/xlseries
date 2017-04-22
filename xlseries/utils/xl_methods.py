@@ -8,7 +8,7 @@ Useful methods for excel operations and related manipulations.
 """
 
 from openpyxl import Workbook
-from openpyxl.cell import column_index_from_string
+from openpyxl.utils import column_index_from_string
 import xlrd
 from comparing import approx_equal
 
