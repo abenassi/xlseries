@@ -151,7 +151,9 @@ def open_xls_as_xlsx(filename, data_only=True):
     assert filename[-4:] == ".xls", unicode(filename) + " is not an .xls file."
 
     wb_old = xlrd.open_workbook(filename)
-    wb = Workbook(data_only=data_only)
+    # TODO: data_only attribute must be changed because is deprecated
+    # wb = Workbook(data_only=data_only)
+    wb = Workbook()
 
     ws = wb.get_active_sheet()
     wb.remove_sheet(ws)

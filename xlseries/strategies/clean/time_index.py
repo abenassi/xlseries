@@ -217,7 +217,7 @@ class BaseCleanTiStrategy(object):
                              end=None):
 
         if alignment == "vertical":
-            end = end or ws.get_highest_row()
+            end = end or ws.max_row
             for row in xrange(ini, end + 1):
                 curr_time = cls._get_time_value(ws, time_header_coord,
                                                 f_row=row)
@@ -229,7 +229,7 @@ class BaseCleanTiStrategy(object):
                 yield (curr_time, next_time, write_time_cell)
 
         elif alignment == "horizontal":
-            end = end or ws.get_highest_column()
+            end = end or ws.max_column
             for col in xrange(ini, end + 1):
                 curr_time = cls._get_time_value(ws, time_header_coord,
                                                 f_col=get_column_letter(col))

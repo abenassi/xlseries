@@ -159,7 +159,8 @@ class BaseParseTimeStrategy(object):
         elif type(curr_time) == datetime.datetime:
             RV = arrow.get(curr_time)
 
-        elif (type(curr_time) == str or type(curr_time) == int):
+        elif (type(curr_time) == str or type(curr_time) == int or
+              type(curr_time) == long):
             RV = self._parse_time(params, unicode(curr_time), last_time,
                                   next_time)
         elif type(curr_time) == float:

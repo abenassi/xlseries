@@ -43,7 +43,7 @@ def get_data_frames(serial_df_path, use_period_range=True):
     serial_df_path, extension = _parse_path_and_extension(serial_df_path)
 
     if extension == ".xlsx":
-        wb = load_workbook(serial_df_path, use_iterators=True)
+        wb = load_workbook(serial_df_path, read_only=True)
         ws_names = wb.get_sheet_names()
 
         for ws_index in xrange(len(ws_names)):
@@ -344,4 +344,3 @@ def compare_period_ranges(pr1, pr2):
     except Exception as inst:
         print inst
         return False
-
