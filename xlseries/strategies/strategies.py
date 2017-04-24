@@ -154,8 +154,13 @@ class ParameterDiscovery(BaseXlSeriesScraper):
 
             # return results
             if len(unique_results) == 0:
-                raise Exception("File couldn't be parsed with provided " +
-                                "parameters" + repr(params))
+                raise Exception("""
+File couldn't be parsed with provided parameters:
+{}
+
+Last attempt was:
+{}
+""".format(repr(params), repr(params_attempt)))
             elif len(unique_results) == 1:
                 return unique_results[0]
 

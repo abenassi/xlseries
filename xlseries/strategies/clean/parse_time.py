@@ -555,6 +555,41 @@ class ParseComposedQuarter2(BasePEG, BaseComposedQuarter):
                       "dob_year": cls._dob_year_to_four})
 
 
+class ParseComposedQuarter3(BasePEG, BaseComposedQuarter):
+
+    """Parse quarterly dates from strings composed by substrings with date
+    info of the structure showed in the example.
+
+    >>> orig = ["III 01",
+    ...         "IV 01",
+    ...         "I 02",
+    ...         "II 02"]
+    >>> last = None
+    >>> time_parser = ParseComposedQuarter3()
+    >>> for str_date in orig:
+    ...     new = time_parser.parse_time({}, str_date, last)
+    ...     last = new
+    ...     print new
+    2001-07-01T00:00:00+00:00
+    2001-10-01T00:00:00+00:00
+    2002-01-01T00:00:00+00:00
+    2002-04-01T00:00:00+00:00
+    """
+
+    @classmethod
+    def make_parsley_grammar(cls):
+        """Return a parsley parsing expression grammar."""
+        return parsley.makeGrammar("""
+                not_digit = anything:x ?(x not in "0123456789 ")
+
+                q = <not_digit*>:q -> q
+                y = <digit{2}>:y -> y
+
+                date = ws q:q ws y:y ws anything{0, 3} -> (dob_year(y), q_to_m(q), 1)
+                """, {"q_to_m": cls._quarter_num_to_month,
+                      "dob_year": cls._dob_year_to_four})
+
+
 class ParseComposedYearQuarter1(BasePEG, BaseComposedQuarter):
 
     """Parse multifrequency YQQQQ time strings like the example below.
