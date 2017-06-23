@@ -10,3 +10,4 @@ mock>=1.0.1
 coverage>=3.7.1
 pycallgraph>=1.0.1
 numpy>=1.9.2
+PyYAML==3.11
