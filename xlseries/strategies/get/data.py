@@ -46,7 +46,8 @@ class BaseGetDataStrategy(object):
     def _get_data(self, ws, params):
         name = self._get_name(ws, params["headers_coord"],
                               params["composed_headers_coord"],
-                              params["context"])
+                              params["context"],
+                              params["series_names"])
         # print name
         values_list = self._get_values(ws, params)
         # print params["data_ends"]
@@ -55,7 +56,7 @@ class BaseGetDataStrategy(object):
 
     @classmethod
     def _get_name(cls, ws, header_coord, composed_headers_coord=None,
-                  context=None):
+                  context=None, series_names=None):
         """Get the header name of a series.
 
         Args:
@@ -65,29 +66,34 @@ class BaseGetDataStrategy(object):
                 that add information previous to the header.
             context (list): Strings that provide the context of the header,
                 adding also more information in a higher level (categories).
+            series_names (str): An alternative name for the series.
 
         Returns:
             str: Complete name of a series.
         """
 
-        name = unidecode(unicode(ws[header_coord].value)).strip()
+        if series_names:
+            name = series_names
 
-        if composed_headers_coord:
-            msg = " ".join(["Composed is not list",
-                            repr(type(composed_headers_coord)),
-                            repr(composed_headers_coord)])
-            assert type(composed_headers_coord) == list, msg
+        else:
+            name = unidecode(unicode(ws[header_coord].value)).strip()
 
-            name = " ".join([unidecode(ws[coord].value).strip() for
-                             coord in composed_headers_coord] + [name])
+            if composed_headers_coord:
+                msg = " ".join(["Composed is not list",
+                                repr(type(composed_headers_coord)),
+                                repr(composed_headers_coord)])
+                assert type(composed_headers_coord) == list, msg
 
-        if context:
-            msg = " ".join(["Context is not list", repr(type(context)),
-                            repr(context)])
-            assert type(context) == list, msg
+                name = " ".join([unidecode(ws[coord].value).strip() for
+                                 coord in composed_headers_coord] + [name])
 
-            name = " - ".join([header_context.strip() for
-                               header_context in context] + [name])
+            if context:
+                msg = " ".join(["Context is not list", repr(type(context)),
+                                repr(context)])
+                assert type(context) == list, msg
+
+                name = " - ".join([header_context.strip() for
+                                   header_context in context] + [name])
 
         return name
 
