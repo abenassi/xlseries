@@ -174,7 +174,8 @@ class BaseCleanTiStrategy(object):
                 except:
                     raise
 
-            elif no_time_value_count < self.NO_TIME_VALUE_LIMIT:
+            elif (no_time_value_count < self.NO_TIME_VALUE_LIMIT and
+                  (not p["continuity"] or p["blank_rows"])):
                 no_time_value_count += 1
 
             else:
@@ -276,7 +277,6 @@ class BaseCleanTiStrategy(object):
             An arrow.Arrow object expressing a date.
         """
         msg = "parse_time strategies must assure a valid time value!"
-
         # first, try to use the parser used last time
         if self.time_parser:
             try:

@@ -913,6 +913,7 @@ def get_strategies():
 
     return xlseries.utils.strategies_helpers.get_strategies()
 
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod()

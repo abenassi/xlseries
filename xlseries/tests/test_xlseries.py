@@ -169,7 +169,11 @@ class TestXlSeriesWithoutSomeParameters(unittest.TestCase):
     # @unittest.skip("skip")
     @load_case_number()
     def test_case6(self, case_num):
-        self.run_case_without_some_parameters(case_num)
+        self.run_case_without_some_parameters(
+            case_num, specific_params={
+                "continuity": False,
+                "blank_rows": True
+            })
 
     # @unittest.skip("skip")
     @load_case_number()
