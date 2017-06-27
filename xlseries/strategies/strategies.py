@@ -42,7 +42,8 @@ class BaseXlSeriesScraper(object):
             discover them or adopt a different approach to parse wb.
     """
 
-    def __init__(self, wb, params_path_or_obj=None, ws_name=None):
+    def __init__(self, wb, params_path_or_obj=None, ws_name=None,
+                 headers_validation=False):
         self.wb = wb
         self.ws_name = ws_name
 
@@ -56,8 +57,9 @@ class BaseXlSeriesScraper(object):
         else:
             self.params = Parameters(params_path_or_obj)
 
-        # remove header coordinates that don't have any cell value (blanks)
-        self.params.remove_blank_headers(self.ws)
+        if headers_validation:
+            # remove header coordinates that don't have any cell value (blanks)
+            self.params.remove_blank_headers(self.ws)
 
     # PUBLIC INTERFACE
     @classmethod

@@ -4,6 +4,7 @@ import json
 import pprint
 from openpyxl import Workbook
 from openpyxl.utils import column_index_from_string
+from copy import deepcopy
 
 from xlseries.utils.xl_methods import xl_coordinates_range, consecutive_cells
 from xlseries.utils.xl_methods import common_row_or_column, coord_in_scope
@@ -152,7 +153,8 @@ class Parameters(object):
         self.frequency = None
 
         if params_input:
-            built_params = self._build(self._get_params_dict(params_input))
+            built_params = self._build(self._get_params_dict(
+                deepcopy(params_input)))
 
             for param_name in self.VALID_VALUES:
                 if param_name in built_params:
@@ -165,7 +167,7 @@ class Parameters(object):
         """Return the user input parameters as a dictionary, if possible."""
 
         if type(params_input) == dict:
-            return params_input
+            return deepcopy(params_input)
 
         elif (type(params_input) == Parameters or
               unicode(type(params_input)) == cls.TYPE_PARAMETERS):
