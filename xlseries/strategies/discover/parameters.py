@@ -100,7 +100,7 @@ class Parameters(object):
         "missings": False,
         "time_composed": False,
         "time_multicolumn": False,
-        "missing_value": [None, "-", "...", ".", "/", "///", ""],
+        "missing_value": [None, "-", "...", ".", "/", "///", "", "s.d."],
         "data_ends": None,
         "series_names": None,
         "composed_headers_coord": None,
