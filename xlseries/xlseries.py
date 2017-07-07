@@ -64,7 +64,7 @@ class XlSeries(object):
 
     # PUBLIC
     def get_data_frames(self, params_path_or_obj, ws_name=None,
-                        safe_mode=False):
+                        safe_mode=False, preserve_wb_obj=True):
         """Scrape time series from an excel file into a pandas.DataFrame.
 
         Args:
@@ -81,6 +81,10 @@ class XlSeries(object):
                 False, the first succesful result will be returned without
                 checking the other possible combinations of parameters.
 
+            preserve_wb_obj (bool): If True makes a safe copy of a workbook to
+                preserve the original object without changes. Only use False if
+                changes to the workbook object are not a problem.
+
         Returns:
             list: A list of pandas.DataFrame objects with time series scraped
                 from the excel file. Every DataFrame in the list corresponds to
@@ -95,7 +99,10 @@ class XlSeries(object):
 
         """
         # wb will be changed, so it has to be a copy to preserve the original
-        wb_copy = make_wb_copy(self.wb)
+        if preserve_wb_obj:
+            wb_copy = make_wb_copy(self.wb)
+        else:
+            wb_copy = self.wb
         ws_names = wb_copy.get_sheet_names()
 
         if not ws_name:
