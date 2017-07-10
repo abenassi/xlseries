@@ -144,5 +144,16 @@
         "II 06",
         "III 06",
         "IV 06"
+    ],
+
+    "external_case8": [
+        "I 95",
+        "II",
+        "III",
+        "IV",
+        "I 96",
+        "II",
+        "III",
+        "IV"
     ]
 }

@@ -219,6 +219,9 @@ class BaseParseTimeStrategy(object):
     @staticmethod
     def _dob_year_to_four(dob_year):
         """Convert a two digit year string in a four digits year string."""
+        if not dob_year:
+            return None
+
         if type(dob_year) == str or type(dob_year) == unicode:
             if len(dob_year) == 4:
                 return int(dob_year)
@@ -585,7 +588,7 @@ class ParseComposedQuarter3(BasePEG, BaseComposedQuarter):
                 q = <not_digit*>:q -> q
                 y = <digit{2}>:y -> y
 
-                date = ws q:q ws y:y ws anything{0, 3} -> (dob_year(y), q_to_m(q), 1)
+                date = ws q:q ws y?:y ws anything{0, 3} -> (dob_year(y), q_to_m(q), 1)
                 """, {"q_to_m": cls._quarter_num_to_month,
                       "dob_year": cls._dob_year_to_four})
 

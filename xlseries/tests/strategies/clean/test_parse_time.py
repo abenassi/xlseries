@@ -208,7 +208,10 @@ class ParseComposedTimeTest(unittest.TestCase):
 
         rule = re.compile("(\d)")
         case_num_int = int(rule.match(case_num).group())
-        params = load_parameters_case(case_num_int)
+        if external:
+            params = load_parameters_case(1)
+        else:
+            params = load_parameters_case(case_num_int)
 
         new_values = self.parse_time_values(strategy, values, params)
 
@@ -291,14 +294,21 @@ class ParseComposedTimeTest(unittest.TestCase):
     @load_case_number()
     # @unittest.skip("skip")
     def test_parse_time_external_case6(self, case_num):
-        """Parse a list of time values from external case 5."""
+        """Parse a list of time values from external case 6."""
         self.run_parse_time_case(case_num, ParseComposedQuarter3, True)
 
     @load_case_number()
     # @unittest.skip("skip")
     def test_parse_time_external_case7(self, case_num):
-        """Parse a list of time values from external case 5."""
+        """Parse a list of time values from external case 7."""
         self.run_parse_time_case(case_num, ParseComposedQuarter3, True)
+
+    @load_case_number()
+    # @unittest.skip("skip")
+    def test_parse_time_external_case8(self, case_num):
+        """Parse a list of time values from external case 8."""
+        self.run_parse_time_case(case_num, ParseComposedQuarter3, True)
+
 
 if __name__ == '__main__':
     nose.run(defaultTest=__name__)
