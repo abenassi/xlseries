@@ -463,6 +463,11 @@ Last attempt was:
                 params.time_header_coord, params.data_ends,
                 params.time_alignment, params.alignment):
 
+            msg = "No end could be estimated! End: {} | Start: {}".format(
+                repr(end_row).ljust(6), ini_row
+            )
+            assert end_row and end_row > ini_row, msg
+
             # if time is multicolumn, pass only the first column
             if params.time_multicolumn and type(time_header_coord) == list:
                 time_header_coord_single = time_header_coord[0]

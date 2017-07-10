@@ -8,9 +8,11 @@
  "composed_headers_coord": null,
  "context": null,
  "missings": [true, true, true],
- "missing_value": [[null, "-", "...", ".", "/", "///", "", "s.d."],
- 					[null, "-", "...", ".", "/", "///", "", "s.d."],
- 					[null, "-", "...", ".", "/", "///", "", "s.d."]],
+ "missing_value": [
+ 	[null, "-", "...", ".", "/", "///", "", "s.d.", "s/d", "n,d,", "s.d", " "],
+ 	[null, "-", "...", ".", "/", "///", "", "s.d.", "s/d", "n,d,", "s.d", " "],
+ 	[null, "-", "...", ".", "/", "///", "", "s.d.", "s/d", "n,d,", "s.d", " "]
+ ],
  "series_names": [null, null, null],
  "time_composed": [false, false, false],
  "time_multicolumn": [false, false, false],

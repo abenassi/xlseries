@@ -102,7 +102,8 @@ class Parameters(object):
         "time_composed": False,
         "time_multicolumn": False,
         "missing_value": [
-            None, "-", "...", ".", "/", "///", "", "s.d.", "s/d", "n,d,", "s.d"
+            None, "-", "...", ".", "/", "///", "", "s.d.", "s/d", "n,d,",
+            "s.d", " "
         ],
         "data_ends": None,
         "series_names": None,

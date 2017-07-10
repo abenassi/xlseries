@@ -196,7 +196,10 @@ class BaseCleanTiStrategy(object):
                 last_cell = last_cell.offset(row=-1)
 
             end = last_cell.row - time_alignment
-            assert end > start, "End must be greater than start!"
+            msg = "End must be greater than start! End: {} / Start: {}".format(
+                repr(end).ljust(6), start
+            )
+            assert end and end > start, msg
             return end
 
         else:
@@ -209,7 +212,10 @@ class BaseCleanTiStrategy(object):
                 last_cell = last_cell.offset(column=-1)
 
             end = column_index_from_string(last_cell.column) - time_alignment
-            assert end > start, "End must be greater than start!"
+            msg = "End must be greater than start! End: {} | Start: {}".format(
+                end, start
+            )
+            assert end and end > start, msg
             return end
 
     # PRIVATE time index iterator methods
