@@ -211,6 +211,7 @@ Last attempt was:
                 if time_header_coord not in time_indexes:
                     time_indexes.add(time_header_coord)
                     end = cls._clean_time_index(ws, params[i_series])
+                    assert end, "Clean time index should have an end."
 
                     # if not provided, the end is when time index finish
                     if not params["data_ends"][i_series]:
@@ -543,6 +544,7 @@ Last attempt was:
 
 def get_strategies():
     return xlseries.utils.strategies_helpers.get_strategies()
+
 
 if __name__ == '__main__':
     pprint(sorted(xlseries.utils.strategies_helpers.get_strategies_names()))
