@@ -583,8 +583,8 @@ class ParseComposedQuarter3(BasePEG, BaseComposedQuarter):
     def make_parsley_grammar(cls):
         """Return a parsley parsing expression grammar."""
         return parsley.makeGrammar("""
-                separator = anything:x ?(x in "-/ ")
-                not_digit = anything:x ?(x not in "0123456789-/ ")
+                separator = anything:x ?(x in "-/. ")
+                not_digit = anything:x ?(x not in "0123456789-/. ")
 
                 q = <not_digit*>:q -> q
                 y = <digit{2}>:y -> y
