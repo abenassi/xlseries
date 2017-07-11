@@ -224,7 +224,7 @@ class BaseCleanTiStrategy(object):
                              end=None):
 
         if alignment == "vertical":
-            end = end or ws.max_row
+            end = end or cls._get_row_boundary(ws, time_header_coord, ini)
             for row in xrange(ini, end + 1):
                 curr_time = cls._get_time_value(ws, time_header_coord,
                                                 f_row=row)
@@ -236,7 +236,7 @@ class BaseCleanTiStrategy(object):
                 yield (curr_time, next_time, write_time_cell)
 
         elif alignment == "horizontal":
-            end = end or ws.max_column
+            end = end or cls._get_column_boundary(ws, time_header_coord, ini)
             for col in xrange(ini, end + 1):
                 curr_time = cls._get_time_value(ws, time_header_coord,
                                                 f_col=get_column_letter(col))
@@ -250,6 +250,12 @@ class BaseCleanTiStrategy(object):
         else:
             raise Exception("Series alignment must be 'vertical' or " +
                             "'horizontal', not " + repr(alignment))
+
+    @classmethod
+    def _get_row_boundary(cls, ws, time_header_coord, ini):
+        """Returns the pressumed last row of a column."""
+        raise NotImplementedError("Getting the row boundary must be " +
+                                  "implemented in a subclass.")
 
     @classmethod
     def _get_time_value(cls, ws, time_header_coord, f_row=None, f_col=None):
@@ -454,6 +460,56 @@ class BaseAccepts():
         return True
 
 
+class BaseSingleTable():
+
+    """Presumes the sheet has a single table on it."""
+
+    # PRIVATE INTERFACE METHODS
+    @classmethod
+    def _accepts(cls, ws, params):
+        return True
+
+    @classmethod
+    def _get_row_boundary(cls, ws, time_header_coord, ini):
+        """Returns the pressumed last row of a column."""
+        return ws.max_row
+
+    @classmethod
+    def _get_column_boundary(cls, ws, time_header_coord, ini):
+        """Returns the pressumed last column of a row."""
+        return ws.max_column
+
+
+class BaseMultiTable():
+
+    """Presumes the sheet has many tables on it."""
+
+    # PRIVATE INTERFACE METHODS
+    @classmethod
+    def _accepts(cls, ws, params):
+        return (
+            not params["blank_rows"] and
+            params["continuity"] and not
+            params["data_ends"]
+        )
+
+    @classmethod
+    def _get_row_boundary(cls, ws, time_header_coord, ini):
+        """Returns the last non empty row of a table, not the worksheet."""
+        i = 0
+        while ws[time_header_coord].offset(row=i).value:
+            i += 1
+        return ws[time_header_coord].offset(row=i).row
+
+    @classmethod
+    def _get_column_boundary(cls, ws, time_header_coord, ini):
+        """Returns the last non empty column of a table, not the worksheet."""
+        i = 0
+        while ws[time_header_coord].offset(column=i).value:
+            i += 1
+        return ws[time_header_coord].offset(column=i).column
+
+
 class BaseSingleColumn():
 
     """Clean time indexes that use a single column."""
@@ -622,17 +678,25 @@ def get_strategies():
     custom = xlseries.utils.strategies_helpers.get_strategies()
 
     combinations = []
-    for offset in [BaseNoOffsetTi, BaseOffsetTi]:
-        for freq in [BaseSingleFrequency, BaseMultiFrequency]:
-            for col in [BaseSingleColumn, BaseMultipleColumns]:
+    for table in [BaseSingleTable, BaseMultiTable]:
+        for offset in [BaseNoOffsetTi, BaseOffsetTi]:
+            for freq in [BaseSingleFrequency, BaseMultiFrequency]:
+                for col in [BaseSingleColumn, BaseMultipleColumns]:
 
-                name = col.__name__ + freq.__name__ + offset.__name__
-                bases = (BaseAccepts, col, freq, offset, BaseCleanTiStrategy)
-                parser = type(name, bases, {})
+                    name = "{}{}{}{}".format(
+                        table.__name__,
+                        col.__name__,
+                        freq.__name__,
+                        offset.__name__
+                    )
+                    bases = (BaseAccepts, table, col, freq,
+                             offset, BaseCleanTiStrategy)
+                    parser = type(name, bases, {})
 
-                combinations.append(parser)
+                    combinations.append(parser)
 
     return custom + combinations
+
 
 if __name__ == '__main__':
     pprint(sorted(xlseries.utils.strategies_helpers.get_strategies_names()))

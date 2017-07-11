@@ -17,6 +17,7 @@ from openpyxl import load_workbook, Workbook
 from xlseries.strategies.clean.time_index import BaseCleanTiStrategy
 from xlseries.strategies.clean.time_index import BaseAccepts
 from xlseries.strategies.clean.time_index import BaseNoOffsetTi
+from xlseries.strategies.clean.time_index import BaseSingleTable
 from xlseries.strategies.clean.time_index import BaseSingleColumn
 from xlseries.strategies.clean.time_index import BaseMultipleColumns
 from xlseries.strategies.clean.time_index import BaseSingleFrequency
@@ -28,15 +29,15 @@ from xlseries.utils.case_loaders import load_parameters_case
 from xlseries.utils.path_finders import abs_path
 
 
-bases = (BaseAccepts, BaseSingleColumn, BaseSingleFrequency,
+bases = (BaseAccepts, BaseSingleTable, BaseSingleColumn, BaseSingleFrequency,
          BaseNoOffsetTi, BaseCleanTiStrategy)
 CleanSingleColumn = type("CleanSingleColumn", bases, {})
 
-bases = (BaseAccepts, BaseMultipleColumns, BaseSingleFrequency,
-         BaseNoOffsetTi, BaseCleanTiStrategy)
+bases = (BaseAccepts, BaseSingleTable, BaseMultipleColumns,
+         BaseSingleFrequency, BaseNoOffsetTi, BaseCleanTiStrategy)
 CleanMultipleColumns = type("CleanMultipleColumns", bases, {})
 
-bases = (BaseAccepts, BaseMultipleColumns, BaseMultiFrequency,
+bases = (BaseAccepts, BaseSingleTable, BaseMultipleColumns, BaseMultiFrequency,
          BaseNoOffsetTi, BaseCleanTiStrategy)
 CleanMultiColumnsMultiFreq = type("CleanMultiColumnsMultiFreq", bases, {})
 
