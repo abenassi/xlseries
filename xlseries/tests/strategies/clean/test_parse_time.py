@@ -309,6 +309,12 @@ class ParseComposedTimeTest(unittest.TestCase):
         """Parse a list of time values from external case 8."""
         self.run_parse_time_case(case_num, ParseComposedQuarter3, True)
 
+    @load_case_number()
+    # @unittest.skip("skip")
+    def test_parse_time_external_case9(self, case_num):
+        """Parse a list of time values from external case 9."""
+        self.run_parse_time_case(case_num, ParseComposedQuarter3, True)
+
 
 if __name__ == '__main__':
     nose.run(defaultTest=__name__)

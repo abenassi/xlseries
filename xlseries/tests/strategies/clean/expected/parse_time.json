@@ -155,6 +155,21 @@
         "arrow.get(1996, 4, 1)",
         "arrow.get(1996, 7, 1)",
         "arrow.get(1996, 10, 1)"
+    ],
+
+    "external_case9": [
+        "arrow.get(2004, 1, 1)",
+        "arrow.get(2004, 4, 1)",
+        "arrow.get(2004, 7, 1)",
+        "arrow.get(2004, 10, 1)",
+        "arrow.get(2005, 1, 1)",
+        "arrow.get(2005, 4, 1)",
+        "arrow.get(2005, 7, 1)",
+        "arrow.get(2005, 10, 1)",
+        "arrow.get(2006, 1, 1)",
+        "arrow.get(2006, 4, 1)",
+        "arrow.get(2006, 7, 1)",
+        "arrow.get(2006, 10, 1)"
     ]
 
 }
