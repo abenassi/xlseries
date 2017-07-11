@@ -203,6 +203,7 @@ Last attempt was:
 
         # if time index is not multicolumn, many time indexes are allowed
         else:
+            time_indexes_ends = {}
             time_indexes = set()
             for i_series in xrange(len(params.time_header_coord)):
 
@@ -212,14 +213,16 @@ Last attempt was:
                     time_indexes.add(time_header_coord)
                     end = cls._clean_time_index(ws, params[i_series])
                     assert end, "Clean time index should have an end."
+                    time_indexes_ends[time_header_coord] = end
 
-                    # if not provided, the end is when time index finish
-                    if not params["data_ends"][i_series]:
-                        start = params["data_starts"][i_series]
+                # if not provided, the end is when time index finish
+                if not params["data_ends"][i_series]:
+                    # start = params["data_starts"][i_series]
 
-                        for i_series in xrange(len(params.time_header_coord)):
-                            if params["data_starts"][i_series] == start:
-                                params["data_ends"][i_series] = end
+                    # for i_series in xrange(len(params.time_header_coord)):
+                    #     if params["data_starts"][i_series] == start:
+                    params["data_ends"][i_series] = time_indexes_ends[
+                        time_header_coord]
 
         # 2. Clean data values
         for i_series in xrange(len(params.headers_coord)):
