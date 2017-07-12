@@ -37,7 +37,7 @@ class TimeManipulationTest(unittest.TestCase):
         exp_new_time = arrow.get(2016, 3, 1)
         self.assertEqual(new_time, exp_new_time)
 
-        new_time = increment_time(time, 1, "Y")
+        new_time = increment_time(time, 1, "A")
         exp_new_time = arrow.get(2016, 12, 1)
         self.assertEqual(new_time, exp_new_time)
 
@@ -51,8 +51,6 @@ class TimeManipulationTest(unittest.TestCase):
         freq_exp = "M"
         freq = infer_freq(2618767)
         self.assertEqual(freq, freq_exp)
-
-
 
 
 if __name__ == '__main__':

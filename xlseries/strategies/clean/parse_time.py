@@ -620,7 +620,7 @@ class ParseComposedYearQuarter1(BasePEG, BaseComposedQuarter):
 
     @classmethod
     def _accepts(cls, params, curr_time, last_time=None, next_time=None):
-        if not (params["time_composed"] and params["frequency"] == "YQQQQ"):
+        if not (params["time_composed"] and params["frequency"] == "AQQQQ"):
             return False
 
         try:
@@ -671,7 +671,7 @@ class ParseComposedQuarterYear1(ParseComposedYearQuarter1):
 
     @classmethod
     def _accepts(cls, params, curr_time, last_time=None, next_time=None):
-        if not (params["time_composed"] and params["frequency"] == "QQQQY"):
+        if not (params["time_composed"] and params["frequency"] == "QQQQA"):
             return False
 
         try:
@@ -861,7 +861,7 @@ class BaseComposedYear():
     @classmethod
     def _accepts(cls, params, curr_time, last_time=None, next_time=None):
 
-        if not (params["time_composed"] and params["frequency"] == "Y"):
+        if not (params["time_composed"] and params["frequency"] == "A"):
             return False
 
         try:

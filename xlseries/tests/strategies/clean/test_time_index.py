@@ -404,7 +404,7 @@ class CleanSingleColumnTestCase(unittest.TestCase):
                   "composed_headers": False,
                   "data_starts": 2,
                   "data_ends": 44,
-                  "frequency": "Y",
+                  "frequency": "A",
                   "continuity": False,
                   "missings": False,
                   "missing_value": "None",
@@ -437,7 +437,7 @@ class CleanSingleColumnTestCase(unittest.TestCase):
                   "composed_headers": False,
                   "data_starts": 2,
                   "data_ends": None,
-                  "frequency": "Y",
+                  "frequency": "A",
                   "continuity": False,
                   "missings": False,
                   "missing_value": "None",
@@ -558,7 +558,7 @@ class CleanMultiColumnsMultiFreqTestCase(unittest.TestCase):
                   "composed_headers": True,
                   "data_starts": 3,
                   "data_ends": 61,
-                  "frequency": "YQQQQ",
+                  "frequency": "AQQQQ",
                   "headers_coord": "B8-B28",
                   "continuity": False,
                   "missings": False,
@@ -592,7 +592,7 @@ class CleanMultiColumnsMultiFreqTestCase(unittest.TestCase):
                   "composed_headers": True,
                   "data_starts": 3,
                   "data_ends": None,
-                  "frequency": "YQQQQ",
+                  "frequency": "AQQQQ",
                   "headers_coord": "B8-B28",
                   "continuity": False,
                   "missings": False,
@@ -621,27 +621,27 @@ class BaseMultiFrequencyTestCase(unittest.TestCase):
 
     def test_init_progression_args(self):
 
-        freq_args = BaseMultiFrequency._init_last_time_dict("YQQQQ")
-        exp_freq_args = {"Y": None, "Q": None}
+        freq_args = BaseMultiFrequency._init_last_time_dict("AQQQQ")
+        exp_freq_args = {"A": None, "Q": None}
         self.assertEqual(freq_args, exp_freq_args)
 
-        freq_args = BaseMultiFrequency._init_last_time_dict("QQQQY")
-        exp_freq_args = {"Y": None, "Q": None}
+        freq_args = BaseMultiFrequency._init_last_time_dict("QQQQA")
+        exp_freq_args = {"A": None, "Q": None}
         self.assertEqual(freq_args, exp_freq_args)
 
     def test_next_frequency(self):
 
-        next_f, last_f = BaseMultiFrequency._next_frequency("YQQQQ", "YQ")
+        next_f, last_f = BaseMultiFrequency._next_frequency("AQQQQ", "AQ")
         self.assertEqual(next_f, "Q")
 
-        next_f, last_f = BaseMultiFrequency._next_frequency("YQQQQ", "YQQQQ")
-        self.assertEqual(next_f, "Y")
+        next_f, last_f = BaseMultiFrequency._next_frequency("AQQQQ", "AQQQQ")
+        self.assertEqual(next_f, "A")
 
-        next_f, last_f = BaseMultiFrequency._next_frequency("QQQQY", "QQ")
+        next_f, last_f = BaseMultiFrequency._next_frequency("QQQQA", "QQ")
         self.assertEqual(next_f, "Q")
 
-        next_f, last_f = BaseMultiFrequency._next_frequency("QQQQY", "QQQQ")
-        self.assertEqual(next_f, "Y")
+        next_f, last_f = BaseMultiFrequency._next_frequency("QQQQA", "QQQQ")
+        self.assertEqual(next_f, "A")
 
 
 if __name__ == '__main__':

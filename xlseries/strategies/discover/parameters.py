@@ -80,7 +80,7 @@ class Parameters(object):
         "time_multicolumn": [True, False],
         "time_header_coord": [str, unicode, list],
         "time_composed": [True, False],
-        "frequency": ["Y", "Q", "M", "W", "D"]
+        "frequency": ["A", "Q", "M", "W", "D"]
     }
 
     # critical values and some template values, as example
@@ -128,6 +128,12 @@ class Parameters(object):
 
     # auxiliar way to reckon a Parameters object passed to constructor
     TYPE_PARAMETERS = "<class 'xlseries.strategies.discover.parameters.Parameters'>"
+
+    FREQ_TRANSLATION = {
+        "Y": "A",
+        "YQQQQ": "AQQQQ",
+        "QQQQY": "QQQQA"
+    }
 
     def __init__(self, params_input=None):
 
@@ -198,12 +204,17 @@ class Parameters(object):
 
         cls._check_has_critical(params_dict, cls.CRITICAL, cls.VALID_VALUES)
 
-        # curate frequency capitalization
+        # curate frequency capitalization and translate
         if type(params_dict["frequency"]) == list:
-            params_dict["frequency"] = [i.upper() for i in
-                                        params_dict["frequency"]]
+            params_dict["frequency"] = [
+                cls.FREQ_TRANSLATION.get(i.upper(), i.upper()) for i in
+                params_dict["frequency"]
+            ]
         else:
-            params_dict["frequency"] = params_dict["frequency"].upper()
+            params_dict["frequency"] = cls.FREQ_TRANSLATION.get(
+                params_dict["frequency"].upper(),
+                params_dict["frequency"].upper()
+            )
 
         cls._validate_parameters(params_dict, cls.VALID_VALUES)
 

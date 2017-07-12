@@ -87,6 +87,26 @@ class ParametersTest(unittest.TestCase):
         self.assertTrue(self.params._valid_freq("D", valid_freqs))
         self.assertFalse(self.params._valid_freq("YQQX", valid_freqs))
 
+    def test_freq_translation(self):
+        params = Parameters({
+            "headers_coord": ["A1", "B1", "C1"],
+            "data_starts": 2,
+            "data_ends": 256,
+            "frequency": "y",
+            "time_header_coord": "A1",
+        })
+        self.assertEqual(params["frequency"], ["A", "A", "A"])
+
+    def test_freq_translation(self):
+        params = Parameters({
+            "headers_coord": ["A1", "B1", "C1"],
+            "data_starts": 2,
+            "data_ends": 256,
+            "frequency": "YQQQQ",
+            "time_header_coord": "A1",
+        })
+        self.assertEqual(params["frequency"], ["AQQQQ", "AQQQQ", "AQQQQ"])
+
     def test_get_missings(self):
         params = Parameters({
             "alignment": None,

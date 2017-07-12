@@ -374,7 +374,7 @@ class BaseCleanTiStrategy(object):
         max_forth_units = {"D": 20,
                            "M": 2,
                            "Q": 1,
-                           "Y": 1}
+                           "A": 1}
         if freq in max_forth_units:
             return max_forth_units[freq]
         else:

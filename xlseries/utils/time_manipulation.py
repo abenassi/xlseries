@@ -43,7 +43,7 @@ def increment_time(time, num, freq):
              "W": "weeks",
              "M": "months",
              "Q": "quarters",  # not a valid timedelta key
-             "Y": "years"}
+             "A": "years"}
 
     # calculate shifted time if frequency is valid
     if freq in freqs:
@@ -80,7 +80,7 @@ def infer_freq(av_seconds, tolerance=0.1):
     elif approx_equal(15552000, av_seconds, tolerance):
         raise Exception("Can't handle semesters!")
     elif approx_equal(31536000, av_seconds, tolerance):
-        freq = 'Y'
+        freq = 'A'
     else:
         raise Exception("Average seconds don't match any frequency.")
 
