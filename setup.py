@@ -2,24 +2,20 @@
 # -*- coding: utf-8 -*-
 
 
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup
+from setuptools import setup
+import os
 
+with open(os.path.abspath('README.md')) as readme_file:
+    readme = readme_file.read()
+
+with open(os.path.abspath("requirements.txt")) as f:
+    requirements = [req.strip() for req in f.readlines()]
+
+with open(os.path.abspath("requirements_dev.txt")) as f:
+    test_requirements = [req.strip() for req in f.readlines()]
 
 with open('PYPI_LONG_DESCRIPTION.rst') as readme_file:
     readme = readme_file.read()
-
-with open("requirements.txt") as f:
-    requirements = [req.strip() for req in f.readlines()]
-
-test_requirements = [
-    "nose",
-    "coverage",
-    "pycallgraph",
-    "mock"
-]
 
 
 setup(

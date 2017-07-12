@@ -2,17 +2,18 @@
 after_success: coveralls
 deploy:
   true:
+    python: 2.7
     repo: abenassi/xlseries
     tags: true
+  distributions: sdist bdist_wheel
   password:
-    secure: NSGUWgcZPjTeWw5Jrp5JcTR3E5/IYHl+ZZWhFJMD4i/H+aQwX5dVDrluhUzqlFh9+Ujxc7e9i1Rwmw8ncbIZtCMHzpt3uxAXcAkCtE6YG+b1MvMSMESmpquIiNZRVegko0+rzdxo2KyYrU5RG4DbI+D1WIT9hpkQyjlzlxWNIcdRU7exXMYmZ33QSExvD/m0YEUHG9R8rfpk0Y0+Tk04TTLeEd3vg4px99AlGbk4nPYGS0mw017LDIMQto+XB5Xfm3WzxhfeW48oh/pQLvtdosINwk5J1NZ/72OTGCPu8yjh9vlwJqsj7qlbQIzSSXB4+6oc3xbQx/rYfBO/v3Ta8hMnYqyH8nnAAyEDHW5yeeFnKzPHnZ7XQHX7DeYhiwCPN8k1PEbh1JDZlkHjicWfUAcX3jH/4TDaBE4g1/sLLxCVIDPrnFdVM5OUnTedxDVRtP+pTaXvKuKAgd2j4caZntXz0LyBvUYa5+qwW3r/1/mR2yCxDf3FtfUT2UK+f7PRVb2hRKHqGs7Nirh30gbGGY03Z9BYY3KlCT2vlWqwY39Q7/aHqDeqVDjkQtafDh92hf7fn3rI9juI1smhsGcUIbRsczCgQcWNngSQikT29I7UQ2Qs7stY1N0yMcF37aajIiQz568RKgyMHc1b/G1uNOd9ExqUBIX9Pj5KY620vww=
+    secure: UBlx9SxOKUqW/YWFwaJ5oTxZRdej3lRcXuoAvb0RqbJZvMhPPYFkxMJKCwqAqv3b1vWbHA1okQkwRARDfQNsfEPuwxGBqAD8QCjAo+vpSluuB5j4bmbstaGZ50LM3IUfsh+2jMXyRR2oysThvGY3mriCp79mWmGvI8bBYU+McAU=
   provider: pypi
   user: beni
 install:
 - pip install -r requirements.txt
 - pip install -r requirements_dev.txt
 - python setup.py install
-- pip install coveralls
 language: python
 matrix:
   allow_failures:
@@ -22,7 +23,7 @@ matrix:
 os:
 - linux
 python:
-- '2.7'
+- 2.7
 script:
 - nosetests
 sudo: false
