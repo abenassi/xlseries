@@ -287,9 +287,30 @@ Last attempt was:
             columns = df_inputs["columns"]
             data = np.array(df_inputs["data"]).transpose()
 
-            df = pd.DataFrame(index=period_range,
-                              columns=columns,
-                              data=data)
+            # try with business days if daily frequency fails
+            if period_range.freqstr == "D":
+                try:
+                    df = pd.DataFrame(index=period_range,
+                                      columns=columns,
+                                      data=data)
+                except ValueError:
+                    # rework period range in business days
+                    pr = period_range
+                    ini_date = "{}-{}-{}".format(pr[0].year,
+                                                 pr[0].month, pr[0].day)
+                    end_date = "{}-{}-{}".format(pr[-1].year,
+                                                 pr[-1].month, pr[-1].day)
+                    pr_B = pd.period_range(ini_date, end_date, freq="B")
+
+                    df = pd.DataFrame(index=pr_B,
+                                      columns=columns,
+                                      data=data)
+
+            # go straight if frequency is not daily
+            else:
+                df = pd.DataFrame(index=period_range,
+                                  columns=columns,
+                                  data=data)
 
             dfs.append(df)
 
