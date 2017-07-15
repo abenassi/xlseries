@@ -34,6 +34,14 @@ class BaseGetPeriodRangesStrategy(object):
         return cls._get_period_ranges(ws, freq, ini_row, time_header_coord,
                                       end_row, time_alignement, alignment)
 
+    @staticmethod
+    def _convert_freq(freq):
+        translator = {
+            "Y": "A",
+            "S": "6M"
+        }
+        return translator.get(freq, freq)
+
 
 class GetPeriodRangesSingleFrequency(BaseGetPeriodRangesStrategy):
 
@@ -63,7 +71,7 @@ class GetPeriodRangesSingleFrequency(BaseGetPeriodRangesStrategy):
             raise Exception("Series alignment must be 'vertical' or " +
                             "'horizontal', not " + repr(alignment))
 
-        return [pd.period_range(start, end, freq=freq)]
+        return [pd.period_range(start, end, freq=cls._convert_freq(freq))]
 
 
 class GetPeriodRangesMultifrequency(BaseGetPeriodRangesStrategy):
@@ -136,11 +144,13 @@ class GetPeriodRangesMultifrequency(BaseGetPeriodRangesStrategy):
             raise Exception("Series alignment must be 'vertical' or " +
                             "'horizontal', not " + repr(alignment))
 
-        return [pd.period_range(starts[f], ends[f], freq=f) for f in starts]
+        return [pd.period_range(starts[f], ends[f], freq=cls._convert_freq(f))
+                for f in starts]
 
 
 def get_strategies():
     return xlseries.utils.strategies_helpers.get_strategies()
+
 
 if __name__ == '__main__':
     pprint(sorted(xlseries.utils.strategies_helpers.get_strategies_names()))

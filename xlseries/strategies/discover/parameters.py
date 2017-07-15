@@ -80,7 +80,7 @@ class Parameters(object):
         "time_multicolumn": [True, False],
         "time_header_coord": [str, unicode, list],
         "time_composed": [True, False],
-        "frequency": ["A", "Q", "M", "W", "D"]
+        "frequency": ["A", "S", "Q", "M", "W", "D"]
     }
 
     # critical values and some template values, as example
