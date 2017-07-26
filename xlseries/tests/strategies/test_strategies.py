@@ -34,8 +34,8 @@ class ParameterDiscoveryTestCase(unittest.TestCase):
         strategy_obj = ParameterDiscovery(test_wb, params)
         ws = strategy_obj.wb.active
 
-        pr_d = pd.period_range("20020304", "20140410", freq="D")
-        pr_m = pd.period_range("20020301", "20140301", freq="M")
+        pr_d = pd.date_range("20020304", "20140410", freq="D")
+        pr_m = pd.date_range("20020301", "20140301", freq="MS")
 
         period_ranges = list(strategy_obj._get_period_ranges(ws, params))
 
@@ -168,8 +168,6 @@ class ParameterDiscoveryTestCase(unittest.TestCase):
 
         for comb_with_def in with_def:
             self.assertIn(comb_with_def, no_def)
-
-
 
 
 if __name__ == '__main__':

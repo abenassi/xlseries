@@ -137,9 +137,9 @@ def get_data_frame(serial_df_path, index=0, use_period_range=True):
                   df.index.size)
     av_seconds = time_delta.total_seconds()
 
-    period_range = pd.period_range(df.index[0],
-                                   df.index[-1],
-                                   freq=infer_freq(av_seconds))
+    period_range = pd.date_range(df.index[0],
+                                 df.index[-1],
+                                 freq=infer_freq(av_seconds))
 
     # select time representation
     if use_period_range:

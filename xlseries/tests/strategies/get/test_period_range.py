@@ -38,7 +38,7 @@ class GetPeriodRangesSingleFrequencyTestCase(unittest.TestCase):
         prs = test_class.get_period_ranges(ws, freq, ini_row,
                                            time_header_coord, end_row,
                                            time_alignement, alignment)
-        pr_q = pd.period_range("20000101", "20001001", freq="Q")
+        pr_q = pd.date_range("20000101", "20001001", freq="QS")
 
         self.assertTrue(compare_period_ranges(pr_q, prs[0]))
 
@@ -59,7 +59,7 @@ class GetPeriodRangesSingleFrequencyTestCase(unittest.TestCase):
         prs = test_class.get_period_ranges(ws, freq, ini_col,
                                            time_header_coord, end_col,
                                            time_alignement, alignment)
-        pr_q = pd.period_range("20000101", "20001001", freq="Q")
+        pr_q = pd.date_range("20000101", "20001001", freq="QS")
 
         self.assertTrue(compare_period_ranges(pr_q, prs[0]))
 
@@ -88,8 +88,8 @@ class GetPeriodRangesMultifrequencyTestCase(unittest.TestCase):
         prs = test_class.get_period_ranges(ws, freq, ini_row,
                                            time_header_coord, end_row,
                                            time_alignement, alignment)
-        pr_y = pd.period_range("20000101", "20010101", freq="A")
-        pr_q = pd.period_range("20000101", "20010701", freq="Q")
+        pr_y = pd.date_range("20000101", "20010101", freq="AS")
+        pr_q = pd.date_range("20000101", "20010701", freq="QS")
 
         self.assertTrue(compare_period_ranges(pr_y, prs[0]))
         self.assertTrue(compare_period_ranges(pr_q, prs[1]))
@@ -101,8 +101,8 @@ class GetPeriodRangesMultifrequencyTestCase(unittest.TestCase):
         prs = test_class.get_period_ranges(ws, freq, ini_row,
                                            time_header_coord, end_row,
                                            time_alignement, alignment)
-        pr_y = pd.period_range("20000101", "20010101", freq="A")
-        pr_q = pd.period_range("20000101", "20011001", freq="Q")
+        pr_y = pd.date_range("20000101", "20010101", freq="AS")
+        pr_q = pd.date_range("20000101", "20011001", freq="QS")
 
         self.assertTrue(compare_period_ranges(pr_y, prs[0]))
         self.assertTrue(compare_period_ranges(pr_q, prs[1]))
@@ -129,8 +129,8 @@ class GetPeriodRangesMultifrequencyTestCase(unittest.TestCase):
         prs = test_class.get_period_ranges(ws, freq, ini_col,
                                            time_header_coord, end_col,
                                            time_alignement, alignment)
-        pr_y = pd.period_range("20000101", "20010101", freq="A")
-        pr_q = pd.period_range("20000101", "20010701", freq="Q")
+        pr_y = pd.date_range("20000101", "20010101", freq="AS")
+        pr_q = pd.date_range("20000101", "20010701", freq="QS")
 
         self.assertTrue(compare_period_ranges(pr_y, prs[0]))
         self.assertTrue(compare_period_ranges(pr_q, prs[1]))
@@ -142,8 +142,8 @@ class GetPeriodRangesMultifrequencyTestCase(unittest.TestCase):
         prs = test_class.get_period_ranges(ws, freq, ini_col,
                                            time_header_coord, end_col,
                                            time_alignement, alignment)
-        pr_y = pd.period_range("20000101", "20010101", freq="A")
-        pr_q = pd.period_range("20000101", "20011001", freq="Q")
+        pr_y = pd.date_range("20000101", "20010101", freq="AS")
+        pr_q = pd.date_range("20000101", "20011001", freq="QS")
 
         self.assertTrue(compare_period_ranges(pr_y, prs[0]))
         self.assertTrue(compare_period_ranges(pr_q, prs[1]))

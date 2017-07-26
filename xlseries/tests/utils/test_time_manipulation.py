@@ -48,7 +48,7 @@ class TimeManipulationTest(unittest.TestCase):
 
     def test_infer_freq(self):
 
-        freq_exp = "M"
+        freq_exp = "MS"
         freq = infer_freq(2618767)
         self.assertEqual(freq, freq_exp)
 

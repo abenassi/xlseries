@@ -74,13 +74,13 @@ def infer_freq(av_seconds, tolerance=0.1):
     elif approx_equal(604800, av_seconds, tolerance):
         freq = 'W'
     elif approx_equal(2419200, av_seconds, tolerance):
-        freq = 'M'
+        freq = 'MS'
     elif approx_equal(7776000, av_seconds, tolerance):
-        freq = 'Q'
+        freq = 'QS'
     elif approx_equal(15552000, av_seconds, tolerance):
         raise Exception("Can't handle semesters!")
     elif approx_equal(31536000, av_seconds, tolerance):
-        freq = 'A'
+        freq = 'AS'
     else:
         raise Exception("Average seconds don't match any frequency.")
 
