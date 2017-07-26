@@ -306,6 +306,9 @@ class BaseContinuous():
             return None
 
         if missings:
+            if isinstance(value, str) or isinstance(value, unicode):
+                value = value.strip()
+
             if value not in missing_value:
                 args_without_values = locals()
                 del args_without_values["values"]

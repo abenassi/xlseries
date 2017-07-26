@@ -37,8 +37,11 @@ class BaseGetPeriodRangesStrategy(object):
     @staticmethod
     def _convert_freq(freq):
         translator = {
-            "Y": "A",
-            "S": "6M"
+            "A": "AS",
+            "Y": "AS",
+            "S": "6M",
+            "Q": "QS",
+            "M": "MS"
         }
         return translator.get(freq, freq)
 
@@ -71,7 +74,7 @@ class GetPeriodRangesSingleFrequency(BaseGetPeriodRangesStrategy):
             raise Exception("Series alignment must be 'vertical' or " +
                             "'horizontal', not " + repr(alignment))
 
-        return [pd.period_range(start, end, freq=cls._convert_freq(freq))]
+        return [pd.date_range(start, end, freq=cls._convert_freq(freq))]
 
 
 class GetPeriodRangesMultifrequency(BaseGetPeriodRangesStrategy):
@@ -144,7 +147,7 @@ class GetPeriodRangesMultifrequency(BaseGetPeriodRangesStrategy):
             raise Exception("Series alignment must be 'vertical' or " +
                             "'horizontal', not " + repr(alignment))
 
-        return [pd.period_range(starts[f], ends[f], freq=cls._convert_freq(f))
+        return [pd.date_range(starts[f], ends[f], freq=cls._convert_freq(f))
                 for f in starts]
 
 
