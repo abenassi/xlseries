@@ -915,11 +915,10 @@ class ParseComposedYear2(BasePEG, BaseComposedYear):
     """Parse yearly dates from agricultural campaings that follow a pattern
     like shown in the example.
 
-    >>> orig = ["1995/96 (1)",
-    ...         "1996/97 (2)",
-    ...         "1997/98    ",
-    ...         "(3)  1998/99",
-    ...         "(4)  1999/00"]
+    >>> orig = ["1995/96 (1) ",
+    ...         "1996/97 (2) ",
+    ...         "(3)  1997/98",
+    ...         "(4)  1998/99"]
     >>> params = {"time_format": str}
     >>>
     >>> last = None
@@ -932,7 +931,6 @@ class ParseComposedYear2(BasePEG, BaseComposedYear):
     1996-01-01T00:00:00+00:00
     1997-01-01T00:00:00+00:00
     1998-01-01T00:00:00+00:00
-    1999-01-01T00:00:00+00:00
     """
 
     @classmethod
