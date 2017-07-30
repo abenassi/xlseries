@@ -18,6 +18,7 @@ from mock import patch
 import parsley
 
 from xlseries.strategies.clean.parse_time import ParseComposedYear1
+from xlseries.strategies.clean.parse_time import ParseComposedYear2
 from xlseries.strategies.clean.parse_time import ParseComposedYearQuarter1
 from xlseries.strategies.clean.parse_time import ParseComposedQuarterYear1
 from xlseries.strategies.clean.parse_time import ParseComposedQuarter1
@@ -314,6 +315,12 @@ class ParseComposedTimeTest(unittest.TestCase):
     def test_parse_time_external_case9(self, case_num):
         """Parse a list of time values from external case 9."""
         self.run_parse_time_case(case_num, ParseComposedQuarter3, True)
+
+    @load_case_number()
+    # @unittest.skip("skip")
+    def test_parse_time_external_case10(self, case_num):
+        """Parse a list of time values from external case 9."""
+        self.run_parse_time_case(case_num, ParseComposedYear2, True)
 
 
 if __name__ == '__main__':

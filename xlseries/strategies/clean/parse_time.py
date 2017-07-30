@@ -873,7 +873,7 @@ class BaseComposedYear():
 
 class ParseComposedYear1(BasePEG, BaseComposedYear):
 
-    """Parse quarterly dates from strings composed by substrings with date
+    """Parse yearly dates from strings composed by substrings with date
     info of the structure showed in the example.
 
     >>> orig = ["1995    (1)",
@@ -905,6 +905,45 @@ class ParseComposedYear1(BasePEG, BaseComposedYear):
                 ref = not_d_or_p* '(' digit{1, 3} ')' not_d_or_p*
 
                 year = not_d_or_p* <digit{4}>:y not_d_or_p* -> int(y)
+
+                date = ref? year:y ref? -> (y, 1, 1)
+                """, {})
+
+
+class ParseComposedYear2(BasePEG, BaseComposedYear):
+
+    """Parse yearly dates from agricultural campaings that follow a pattern
+    like shown in the example.
+
+    >>> orig = ["1995/96 (1)",
+    ...         "1996/97 (2)",
+    ...         "1997/98    ",
+    ...         "(3)  1998/99",
+    ...         "(4)  1999/00"]
+    >>> params = {"time_format": str}
+    >>>
+    >>> last = None
+    >>> time_parser = ParseComposedYear2()
+    >>> for str_date in orig:
+    ...     new = time_parser.parse_time(params, str_date, last)
+    ...     last = new
+    ...     print new
+    1995-01-01T00:00:00+00:00
+    1996-01-01T00:00:00+00:00
+    1997-01-01T00:00:00+00:00
+    1998-01-01T00:00:00+00:00
+    1999-01-01T00:00:00+00:00
+    """
+
+    @classmethod
+    def make_parsley_grammar(cls):
+        """Return a parsley parsing expression grammar."""
+        return parsley.makeGrammar("""
+                not_digit = anything:x ?(x not in "0123456789")
+                not_d_or_p = anything:x ?(x not in "0123456789()")
+                ref = not_d_or_p* '(' digit{1, 3} ')' not_d_or_p*
+
+                year = <digit{4}>:y'/'<digit{2}> -> int(y)
 
                 date = ref? year:y ref? -> (y, 1, 1)
                 """, {})
