@@ -39,7 +39,7 @@ class BaseGetPeriodRangesStrategy(object):
         translator = {
             "A": "AS",
             "Y": "AS",
-            "S": "6M",
+            "S": "6MS",
             "Q": "QS",
             "M": "MS"
         }

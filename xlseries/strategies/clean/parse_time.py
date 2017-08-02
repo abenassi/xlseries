@@ -513,7 +513,7 @@ class ParseComposedQuarter1(BaseComposedQuarter, BasePEG):
             not_d_or_q = anything:x ?(x not in "0123456789IV()")
             q_str = ('I' | 'V'):q -> q
             q_int = digit:q ?(q in "1234") -> int(q)
-            ref = ws '(' digit{1, 3} ')' ws
+            ref = ws '(' digit{1, 3} ')' ws | '*'
             q_num_or_let = (<q_str{1, 3}> | q_int):q -> q
 
             quarter = not_d_or_q* q_num_or_let:q not_d_or_q* -> q
@@ -552,8 +552,9 @@ class ParseComposedQuarter2(BasePEG, BaseComposedQuarter):
 
                 q = not_digit* ws digit:q not_digit* ws -> int(q)
                 y = (ws | not_digit) <digit{2}>:y (ws | not_digit) -> y
+                ref = ws '(' digit{1, 3} ')' ws | '*'
 
-                date = q:q not_digit* y:y ws anything{0, 3} -> (dob_year(y), q_to_m(q), 1)
+                date = q:q not_digit* y:y ref? ws anything{0, 3} -> (dob_year(y), q_to_m(q), 1)
                 """, {"q_to_m": cls._quarter_num_to_month,
                       "dob_year": cls._dob_year_to_four})
 
@@ -585,11 +586,12 @@ class ParseComposedQuarter3(BasePEG, BaseComposedQuarter):
         return parsley.makeGrammar("""
                 separator = anything:x ?(x in "-/. ")
                 not_digit = anything:x ?(x not in "0123456789-/. ")
+                ref = ws '(' digit{1, 3} ')' ws | '*'
 
                 q = <not_digit*>:q -> q
                 y = <digit{2}>:y -> y
 
-                date = ws q:q separator* y?:y ws anything{0, 3} -> (dob_year(y), q_to_m(q), 1)
+                date = ws ref? q:q separator* y?:y ref? ws anything{0, 3} -> (dob_year(y), q_to_m(q), 1)
                 """, {"q_to_m": cls._quarter_num_to_month,
                       "dob_year": cls._dob_year_to_four})
 
@@ -636,7 +638,7 @@ class ParseComposedYearQuarter1(BasePEG, BaseComposedQuarter):
             not_digit = anything:x ?(x not in "0123456789")
             not_d_or_q = anything:x ?(x not in "0123456789IV()")
             q_letter = ('I' | 'V'):q -> q
-            ref = ws '(' digit{1, 3} ')' ws
+            ref = ws '(' digit{1, 3} ')' ws | '*'
 
             quarter = not_d_or_q* <q_letter{1, 3}>:q not_d_or_q* -> q
             year = not_digit* <digit{4}>:y not_digit* -> int(y)
@@ -794,7 +796,7 @@ class ParseComposedMonth1(BasePEG, BaseComposedMonth):
 
                 y = (ws | not_digit) <digit{2, 4}>:y (ws | not_digit) -> y
                 m = ws <letter{3, 50}>:m '.'? -> m
-                ref = ws '(' digit{1, 3} ')' ws
+                ref = ws '(' digit{1, 3} ')' ws | '*'
 
                 y_m = y:y ref? sep? m:m anything* -> (year(y), month(m), 1)
                 m_y = m:m ref? sep? y:y anything* -> (year(y), month(m), 1)
