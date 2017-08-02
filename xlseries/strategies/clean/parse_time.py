@@ -584,7 +584,7 @@ class ParseComposedQuarter3(BasePEG, BaseComposedQuarter):
     def make_parsley_grammar(cls):
         """Return a parsley parsing expression grammar."""
         return parsley.makeGrammar("""
-                separator = anything:x ?(x in "-/. ")
+                separator = anything:x ?(x in "-/.T ")
                 not_digit = anything:x ?(x not in "0123456789-/. ")
                 ref = ws '(' digit{1, 3} ')' ws | '*'
 
@@ -714,6 +714,88 @@ class ParseComposedQuarterYear1(ParseComposedYearQuarter1):
             month = int(result[1] or 1)
 
         return year, month, 1
+
+
+class BaseComposedSemester():
+
+    """Parse dates from strings composed by substrings with date info.
+    Only for semester series."""
+
+    @classmethod
+    def _accepts(cls, params, curr_time, last_time=None, next_time=None):
+
+        if params["time_composed"] and params["frequency"] == "S":
+            try:
+                cls.make_parsley_grammar()(curr_time).date()
+            except:
+                return False
+            return True
+        else:
+            return False
+
+    @staticmethod
+    def _semester_num_to_month(semester_number):
+        """Convert a semester number in the number of first month."""
+        # print quarter_number
+        if not semester_number:
+            return None
+
+        replacements = collections.OrderedDict()
+        replacements["II"] = "2"
+        replacements["I"] = "1"
+
+        # replace strings and convert to int
+        if type(semester_number) != int:
+            semester_number = unicode(semester_number)
+            for orig, new in replacements.iteritems():
+                semester_number = semester_number.replace(orig, new)
+            semester_number = int(semester_number.strip())
+
+        if semester_number == 1:
+            month = 1
+        else:
+            month = 7
+
+        return month
+
+
+class ParseComposedSemester(BasePEG, BaseComposedSemester):
+
+    """Parse semester dates from strings composed by substrings with date
+    info of the structure showed in the example.
+
+    >>> orig = ["(2)I.S.03",
+    ...         "II.S.03*",
+    ...         "I.S.04",
+    ...         "*II.S.04",
+    ...         "I.S.05(1)"]
+    >>> last = None
+    >>> time_parser = ParseComposedSemester()
+    >>> for str_date in orig:
+    ...     new = time_parser.parse_time({}, str_date, last)
+    ...     last = new
+    ...     print new
+    2003-01-01T00:00:00+00:00
+    2003-07-01T00:00:00+00:00
+    2004-01-01T00:00:00+00:00
+    2004-07-01T00:00:00+00:00
+    2005-01-01T00:00:00+00:00
+    """
+
+    @classmethod
+    def make_parsley_grammar(cls):
+        """Return a parsley parsing expression grammar."""
+        return parsley.makeGrammar("""
+                separator = anything:x ?(x in "-/.S ")
+                not_digit = anything:x ?(x not in "0123456789-/. ")
+                ref = ws '(' digit{1, 3} ')' ws | '*'
+
+                s = <not_digit*>:s -> s
+                y = <digit{2}>:y -> y
+
+                date = ws ref? s:s separator* y?:y ref? ws anything{0, 3} -> (dob_year(y), s_to_m(s), 1)
+                """, {"s_to_m": cls._semester_num_to_month,
+                      "dob_year": cls._dob_year_to_four})
 
 
 class BaseComposedMonth():

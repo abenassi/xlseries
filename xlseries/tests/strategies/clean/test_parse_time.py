@@ -24,6 +24,7 @@ from xlseries.strategies.clean.parse_time import ParseComposedQuarterYear1
 from xlseries.strategies.clean.parse_time import ParseComposedQuarter1
 from xlseries.strategies.clean.parse_time import ParseComposedQuarter2
 from xlseries.strategies.clean.parse_time import ParseComposedQuarter3
+from xlseries.strategies.clean.parse_time import ParseComposedSemester
 from xlseries.strategies.clean.parse_time import ParseComposedMonth1
 from xlseries.strategies.clean.parse_time import ParseComposedMonth2
 from xlseries.strategies.clean.parse_time import ParseSimpleTime
@@ -321,6 +322,12 @@ class ParseComposedTimeTest(unittest.TestCase):
     def test_parse_time_external_case10(self, case_num):
         """Parse a list of time values from external case 9."""
         self.run_parse_time_case(case_num, ParseComposedYear2, True)
+
+    @load_case_number()
+    # @unittest.skip("skip")
+    def test_parse_time_external_case11(self, case_num):
+        """Parse a list of time values from external case 9."""
+        self.run_parse_time_case(case_num, ParseComposedSemester, True)
 
 
 if __name__ == '__main__':
