@@ -111,8 +111,8 @@ class BaseParseTimeStrategy(object):
                 input.
         """
         # import pdb; pdb.set_trace()
-        if type(curr_time) == unicode:
-            curr_time = unidecode(curr_time)
+        if type(curr_time) == unicode or type(curr_time) == str:
+            curr_time = unidecode(curr_time).strip()
 
         if cls._already_time_value(curr_time):
             if params["time_composed"]:
@@ -150,7 +150,7 @@ class BaseParseTimeStrategy(object):
             An arrow.Arrow time value.
         """
         if type(curr_time) == unicode:
-            curr_time = unidecode(curr_time)
+            curr_time = unidecode(curr_time).strip()
 
         # time format is correct
         if type(curr_time) == arrow.Arrow:

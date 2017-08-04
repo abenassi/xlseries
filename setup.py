@@ -20,7 +20,7 @@ with open('PYPI_LONG_DESCRIPTION.rst') as readme_file:
 
 setup(
     name='xlseries',
-    version='0.1.21',
+    version='0.1.22',
     description="Python package to scrape time series data from excel files.",
     long_description=readme,
     author="Agustin Benassi",
