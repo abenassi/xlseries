@@ -13,6 +13,7 @@ from openpyxl import load_workbook, Workbook
 import imp
 import os
 import platform
+from unidecode import unidecode
 
 from strategies import strategies
 from utils.xl_methods import make_wb_copy
@@ -117,8 +118,7 @@ class XlSeries(object):
                 print "Remember you can choose a different one passing a " + \
                     "ws_name keyword argument."
         else:
-            index = [name.encode("utf-8") for name in ws_names].index(ws_name)
-            ws_name = ws_names[index]
+            ws_name = self._sanitize_ws_name(ws_name, ws_names)
 
         for scraper in strategies.get_strategies():
             if scraper.accepts(wb_copy):
@@ -130,6 +130,28 @@ class XlSeries(object):
                     return dfs[0]
                 else:
                     return dfs
+
+    @staticmethod
+    def _sanitize_ws_name(ws_name_orig, ws_names):
+        """Check the real ws name with certain tolerance to common mistakes."""
+
+        if ws_name_orig in ws_names:
+            return ws_name_orig
+
+        elif unicode(ws_name_orig) in ws_names:
+            return unicode(ws_name_orig)
+
+        # check other ws names that may match
+        else:
+            for ws_name in ws_names:
+                if unicode(ws_name_orig).strip() == unicode(ws_name).strip():
+                    return ws_name
+
+            for ws_name in ws_names:
+                if unidecode(ws_name_orig).strip() == unidecode(ws_name).strip():
+                    return ws_name
+
+        return ws_name_orig
 
     @staticmethod
     def critical_params_template():
