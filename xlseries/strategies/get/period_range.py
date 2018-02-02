@@ -75,7 +75,6 @@ class GetPeriodRangesSingleFrequency(BaseGetPeriodRangesStrategy):
             raise Exception("Series alignment must be 'vertical' or " +
                             "'horizontal', not " + repr(alignment))
 
-        print(start, end)
         return [pd.date_range(
             normalize_time_value(start),
             normalize_time_value(end),

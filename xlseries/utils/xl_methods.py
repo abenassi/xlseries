@@ -297,7 +297,6 @@ def compare_cells_ws(ws1, ws2):
 def normalize_value(value):
     """Strip spaces if the value is a string, convert None to empty string or
     let it pass otherwise."""
-    print(type(value), value)
 
     if type(value) == unicode or type(value) == str:
         return value.strip()
@@ -314,7 +313,6 @@ def normalize_value(value):
 def normalize_time_value(value):
     """Strip spaces if the value is a string, convert None to empty string or
     let it pass otherwise."""
-    print(type(value), value)
 
     if type(value) is datetime.datetime:
         return value.replace(tzinfo=None)

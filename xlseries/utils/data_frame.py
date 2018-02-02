@@ -334,8 +334,6 @@ def compare_period_ranges(pr1, pr2):
     Returns:
         Bool: True when period ranges are equal or False otherwise.
     """
-    print(type(pr1[0]), type(pr2[0]))
-    print(type(pr1[-1]), type(pr2[-1]))
     try:
         assert normalize_value(pr1.freq) == normalize_value(
             pr2.freq), "Different frequency"
