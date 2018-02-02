@@ -104,7 +104,7 @@ class XlSeries(object):
             wb_copy = make_wb_copy(self.wb)
         else:
             wb_copy = self.wb
-        ws_names = wb_copy.get_sheet_names()
+        ws_names = wb_copy.sheetnames
 
         if not ws_name:
             ws_name = ws_names[0]

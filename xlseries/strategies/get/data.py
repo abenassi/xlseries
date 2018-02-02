@@ -140,7 +140,7 @@ class BaseGetDataStrategy(object):
         if alignment == "vertical":
             col = ws[header_coord].column
             for row in xrange(ini, end + 1):
-                yield (ws.cell(coordinate=col + unicode(row)).value, row)
+                yield (ws[col + unicode(row)].value, row)
 
         elif alignment == "horizontal":
             row = ws[header_coord].row
@@ -157,7 +157,7 @@ class BaseGetDataStrategy(object):
         if alignment == "vertical":
             for row in xrange(ini, end + 1):
                 col = cls._time_header_cell(ws, time_header_coord).column
-                yield ws.cell(coordinate=col + unicode(row)).value
+                yield ws[col + unicode(row)].value
 
         elif alignment == "horizontal":
             for col in xrange(ini, end + 1):

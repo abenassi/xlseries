@@ -10,6 +10,9 @@ Useful methods for excel operations and related manipulations.
 from openpyxl import Workbook
 from openpyxl.utils import column_index_from_string
 import xlrd
+import datetime
+import pytz
+import pandas
 from comparing import approx_equal
 
 
@@ -155,8 +158,8 @@ def open_xls_as_xlsx(filename, data_only=True):
     # wb = Workbook(data_only=data_only)
     wb = Workbook()
 
-    ws = wb.get_active_sheet()
-    wb.remove_sheet(ws)
+    ws = wb.active
+    wb.remove(ws)
 
     for ws_old in wb_old.sheets():
         index = 0
@@ -189,7 +192,7 @@ def make_wb_copy(wb):
         Workbook: A copy made from wb.
     """
     wb_copy = Workbook()
-    wb_copy.remove_sheet(wb_copy.get_sheet_by_name("Sheet"))
+    wb_copy.remove(wb_copy["Sheet"])
 
     for ws in wb:
         ws_copy = wb_copy.create_sheet(title=ws.title)
@@ -214,7 +217,7 @@ def make_ws_copy(ws):
         worksheet: A copy made from ws.
     """
     wb_copy = Workbook()
-    wb_copy.remove_sheet(wb_copy.get_sheet_by_name("Sheet"))
+    wb_copy.remove(wb_copy["Sheet"])
 
     ws_copy = wb_copy.create_sheet(title=ws.title)
     for row in ws.rows:
@@ -294,11 +297,29 @@ def compare_cells_ws(ws1, ws2):
 def normalize_value(value):
     """Strip spaces if the value is a string, convert None to empty string or
     let it pass otherwise."""
+    print(type(value), value)
 
     if type(value) == unicode or type(value) == str:
         return value.strip()
     elif value is None:
         return ""
+    elif type(value) is datetime.datetime:
+        return value.replace(tzinfo=None)
+    elif type(value) is pandas.Timestamp:
+        return value.tz_localize(None)
+    else:
+        return value
+
+
+def normalize_time_value(value):
+    """Strip spaces if the value is a string, convert None to empty string or
+    let it pass otherwise."""
+    print(type(value), value)
+
+    if type(value) is datetime.datetime:
+        return value.replace(tzinfo=None)
+    elif type(value) is pandas.Timestamp:
+        return value.tz_localize(None)
     else:
         return value
 

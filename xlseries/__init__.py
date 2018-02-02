@@ -2,6 +2,6 @@
 
 __author__ = 'Agustin Benassi'
 __email__ = 'agusbenassi@gmail.com'
-__version__ = '0.1.23'
+__version__ = '0.1.24'
 
 from xlseries import XlSeries

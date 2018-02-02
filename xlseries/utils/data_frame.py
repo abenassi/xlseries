@@ -17,6 +17,7 @@ import string
 
 from time_manipulation import infer_freq
 from comparing import approx_equal
+from xl_methods import normalize_value
 
 
 class NoSerializedDataFrameFound(Exception):
@@ -44,7 +45,7 @@ def get_data_frames(serial_df_path, use_period_range=True):
 
     if extension == ".xlsx":
         wb = load_workbook(serial_df_path, read_only=True)
-        ws_names = wb.get_sheet_names()
+        ws_names = wb.sheetnames
 
         for ws_index in xrange(len(ws_names)):
             df = get_data_frame(serial_df_path, ws_index, use_period_range)
@@ -301,7 +302,7 @@ def _check_index(index1, index2):
     """Check two time indexes are equal."""
 
     for date1, date2 in zip(index1, index2):
-        if not date1 == date2:
+        if not normalize_value(date1) == normalize_value(date2):
             return False
 
     return True
@@ -333,11 +334,15 @@ def compare_period_ranges(pr1, pr2):
     Returns:
         Bool: True when period ranges are equal or False otherwise.
     """
-
+    print(type(pr1[0]), type(pr2[0]))
+    print(type(pr1[-1]), type(pr2[-1]))
     try:
-        assert pr1.freq == pr2.freq, "Different frequency"
-        assert pr1[0] == pr2[0], "Different initial date"
-        assert pr1[-1] == pr2[-1], "Different final date"
+        assert normalize_value(pr1.freq) == normalize_value(
+            pr2.freq), "Different frequency"
+        assert normalize_value(pr1[0]) == normalize_value(
+            pr2[0]), "Different initial date"
+        assert normalize_value(
+            pr1[-1]) == normalize_value(pr2[-1]), "Different final date"
 
         return True
 

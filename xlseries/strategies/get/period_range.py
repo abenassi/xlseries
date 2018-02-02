@@ -17,6 +17,7 @@ from openpyxl.utils import column_index_from_string
 import pandas as pd
 
 import xlseries.utils.strategies_helpers
+from xlseries.utils.xl_methods import normalize_value, normalize_time_value
 
 
 class BaseGetPeriodRangesStrategy(object):
@@ -74,7 +75,12 @@ class GetPeriodRangesSingleFrequency(BaseGetPeriodRangesStrategy):
             raise Exception("Series alignment must be 'vertical' or " +
                             "'horizontal', not " + repr(alignment))
 
-        return [pd.date_range(start, end, freq=cls._convert_freq(freq))]
+        print(start, end)
+        return [pd.date_range(
+            normalize_time_value(start),
+            normalize_time_value(end),
+            freq=cls._convert_freq(freq)
+        )]
 
 
 class GetPeriodRangesMultifrequency(BaseGetPeriodRangesStrategy):
@@ -147,8 +153,13 @@ class GetPeriodRangesMultifrequency(BaseGetPeriodRangesStrategy):
             raise Exception("Series alignment must be 'vertical' or " +
                             "'horizontal', not " + repr(alignment))
 
-        return [pd.date_range(starts[f], ends[f], freq=cls._convert_freq(f))
-                for f in starts]
+        return [
+            pd.date_range(
+                normalize_time_value(starts[f]),
+                normalize_time_value(ends[f]),
+                freq=cls._convert_freq(f))
+            for f in starts
+        ]
 
 
 def get_strategies():

@@ -231,7 +231,7 @@ class BaseCleanTiStrategy(object):
                 next_time = cls._get_time_value(ws, time_header_coord,
                                                 f_row=row + 1)
                 col = cls._time_header_cell(ws, time_header_coord).column
-                write_time_cell = ws.cell(coordinate=col + unicode(row))
+                write_time_cell = ws[col + unicode(row)]
 
                 yield (curr_time, next_time, write_time_cell)
 
@@ -527,7 +527,7 @@ class BaseSingleColumn():
         col = unicode(f_col or ws[time_header_coord].column)
         row = unicode(f_row or ws[time_header_coord].row)
 
-        return ws.cell(coordinate=col + row).value
+        return ws[col + row].value
 
 
 class BaseMultipleColumns():
@@ -552,7 +552,7 @@ class BaseMultipleColumns():
         for coord in time_header_coord:
             col = unicode(f_col or ws[coord].column)
             row = unicode(f_row or ws[coord].row)
-            value = ws.cell(coordinate=col + row).value
+            value = ws[col + row].value
 
             msg = "there shouldn't be time values in multicolumn!"
             assert type(value) != datetime.datetime, msg

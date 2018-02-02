@@ -48,7 +48,7 @@ class BaseXlSeriesScraper(object):
         self.ws_name = ws_name
 
         if self.ws_name:
-            self.ws = self.wb.get_sheet_by_name(self.ws_name)
+            self.ws = self.wb[self.ws_name]
         else:
             self.ws = self.wb.active
 
