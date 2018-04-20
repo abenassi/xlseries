@@ -1,4 +1,4 @@
-.PHONY: clean-pyc clean-build docs clean
+.PHONY: clean-pyc clean-build docs clean dist
 
 init:
 	pip install -r requirements.txt
@@ -60,9 +60,8 @@ docs:
 	$(MAKE) -C docs html
 	open docs/_build/html/index.html
 
-release: clean ## package and upload a release
-	python setup.py sdist upload
-	python setup.py bdist_wheel upload
+release: dist ## package and upload a release
+	twine upload dist/*
 
 dist: clean ## builds source and wheel package
 	python setup.py sdist
@@ -72,8 +71,7 @@ dist: clean ## builds source and wheel package
 install: clean ## install the package to the active Python's site-packages
 	python setup.py install
 
-pypi: ## register the package to PyPi get travis ready to deploy to pip
-	make dist
+pypi: dist ## register the package to PyPi get travis ready to deploy to pip
 	twine upload dist/*
 	python travis_pypi_setup.py
 
