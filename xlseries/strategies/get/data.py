@@ -139,12 +139,12 @@ class BaseGetDataStrategy(object):
 
         if alignment == "vertical":
             col = ws[header_coord].column
-            for row in xrange(ini, end + 1):
+            for row in range(ini, end + 1):
                 yield (ws[col + unicode(row)].value, row)
 
         elif alignment == "horizontal":
             row = ws[header_coord].row
-            for col in xrange(ini, end + 1):
+            for col in range(ini, end + 1):
                 yield (ws.cell(column=col, row=row).value, col)
 
         else:
@@ -155,12 +155,12 @@ class BaseGetDataStrategy(object):
     def _time_index_iterator(cls, ws, alignment, time_header_coord, ini, end):
 
         if alignment == "vertical":
-            for row in xrange(ini, end + 1):
+            for row in range(ini, end + 1):
                 col = cls._time_header_cell(ws, time_header_coord).column
                 yield ws[col + unicode(row)].value
 
         elif alignment == "horizontal":
-            for col in xrange(ini, end + 1):
+            for col in range(ini, end + 1):
                 row = cls._time_header_cell(ws, time_header_coord).row
                 yield ws.cell(column=col, row=row).value
 

@@ -225,7 +225,7 @@ class BaseCleanTiStrategy(object):
 
         if alignment == "vertical":
             end = end or cls._get_row_boundary(ws, time_header_coord, ini)
-            for row in xrange(ini, end + 1):
+            for row in range(ini, end + 1):
                 curr_time = cls._get_time_value(ws, time_header_coord,
                                                 f_row=row)
                 next_time = cls._get_time_value(ws, time_header_coord,
@@ -237,7 +237,7 @@ class BaseCleanTiStrategy(object):
 
         elif alignment == "horizontal":
             end = end or cls._get_column_boundary(ws, time_header_coord, ini)
-            for col in xrange(ini, end + 1):
+            for col in range(ini, end + 1):
                 curr_time = cls._get_time_value(ws, time_header_coord,
                                                 f_col=get_column_letter(col))
                 next_time = cls._get_time_value(

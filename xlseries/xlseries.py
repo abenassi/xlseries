@@ -9,6 +9,8 @@ DataFrames. This is the only module that the user should use in the normal use
 case.
 """
 
+from __future__ import print_function
+
 from openpyxl import load_workbook, Workbook
 import imp
 import os

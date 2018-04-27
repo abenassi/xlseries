@@ -47,7 +47,7 @@ Installation:
 
     pip install yappi
 """
-
+from __future__ import print_function
 from __future__ import unicode_literals
 import os
 from pycallgraph import PyCallGraph
@@ -102,7 +102,7 @@ def _generate_name_output(ini, end=None, pre="profiling_case_", post=".png"):
     """
     if end:
         pre = "profiling_cases_"
-        fname = pre + "-".join([str(i) for i in xrange(ini, end + 1)]) + post
+        fname = pre + "-".join([str(i) for i in range(ini, end + 1)]) + post
     else:
         fname = pre + str(ini) + post
 
@@ -119,7 +119,7 @@ def single_analysis(ini, end=None, config=None):
     """
     end = end or ini
 
-    for num in xrange(ini, end + 1):
+    for num in range(ini, end + 1):
         # graphviz = GephiOutput()
         graphviz = GraphvizOutput()
         graphviz.output_file = _generate_name_output(num)
@@ -163,7 +163,7 @@ def single_analysis_with_yappi(ini, end=None):
     import yappi
     end = end or ini
 
-    for num in xrange(ini, end + 1):
+    for num in range(ini, end + 1):
 
         print("Running test case number", num, "in a single analysis.")
         yappi.set_clock_type('cpu')
@@ -189,7 +189,7 @@ def group_analysis(ini, end, config=None):
     graphviz.output_file = _generate_name_output(ini, end)
 
     with PyCallGraph(output=graphviz, config=config):
-        for num in xrange(ini, end + 1):
+        for num in range(ini, end + 1):
             print("Running test case number", num, "in a group analysis.")
             _run_test_case(num)
 
@@ -206,7 +206,7 @@ def group_analysis_with_yappi(ini, end):
     yappi.set_clock_type('cpu')
     yappi.start(builtins=True)
 
-    for num in xrange(ini, end + 1):
+    for num in range(ini, end + 1):
         print("Running test case number", num, "in a group analysis.")
         _run_test_case(num)
 

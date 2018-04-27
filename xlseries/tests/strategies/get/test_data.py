@@ -54,7 +54,7 @@ class MissingsTestCase(unittest.TestCase):
         ws["A7"] = arrow.get(2015, 6, 22).datetime
         ws["A8"] = arrow.get(2015, 6, 23).datetime
 
-        values = range(8)
+        values = list(range(8))
         frequency = "D"
         time_header_coord = "A1"
         ini_row = 1
@@ -84,7 +84,7 @@ class MissingsTestCase(unittest.TestCase):
         ws["G1"] = arrow.get(2015, 6, 22).datetime
         ws["H1"] = arrow.get(2015, 6, 23).datetime
 
-        values = range(8)
+        values = list(range(8))
         frequency = "D"
         time_header_coord = "A1"
         ini_col = 1

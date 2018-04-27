@@ -794,11 +794,11 @@ class Parameters(object):
             return None
 
         elif not isinstance(param_value, list) and num_series:
-            param_list = [param_value for i in xrange(num_series)]
+            param_list = [param_value for i in range(num_series)]
 
         elif (isinstance(param_value, list) and len(param_value) == 1 and
                 num_series):
-            param_list = [param_value[0] for i in xrange(num_series)]
+            param_list = [param_value[0] for i in range(num_series)]
 
         else:
             param_list = param_value
@@ -828,18 +828,18 @@ class Parameters(object):
             return cls._apply_to_all("", time_header_coord, num_series,
                                      params, valid_values)
         else:
-            return [time_header_coord for i in xrange(num_series)]
+            return [time_header_coord for i in range(num_series)]
 
     @classmethod
     def _apply_to_all_missing_value(cls, missing_value, num_series):
         """Creates list from single parameter repeating it for every series."""
 
         if not isinstance(missing_value, list):
-            return [[missing_value] for i in xrange(num_series)]
+            return [[missing_value] for i in range(num_series)]
 
         elif (isinstance(missing_value, list) and
               (len(missing_value) == 0 or not isinstance(missing_value[0], list))):
-            return [missing_value for i in xrange(num_series)]
+            return [missing_value for i in range(num_series)]
 
         else:
             msg = "If missing values are specified for every single " + \

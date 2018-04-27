@@ -8,6 +8,8 @@ This module contains the highest level strategies used by `xlseries` to parse
 time data series from excel files into Pandas DataFrames.
 """
 
+from __future__ import print_function
+
 from pprint import pprint
 import pandas as pd
 import numpy as np
@@ -205,7 +207,7 @@ Last attempt was:
         else:
             time_indexes_ends = {}
             time_indexes = set()
-            for i_series in xrange(len(params.time_header_coord)):
+            for i_series in range(len(params.time_header_coord)):
 
                 # avoid cleaning the same time index twice
                 time_header_coord = params["time_header_coord"][i_series]
@@ -225,7 +227,7 @@ Last attempt was:
                         time_header_coord]
 
         # 2. Clean data values
-        for i_series in xrange(len(params.headers_coord)):
+        for i_series in range(len(params.headers_coord)):
             cls._clean_values(ws)
 
     @classmethod
@@ -241,7 +243,7 @@ Last attempt was:
                                          "period_range": period_range}
 
         # 2. Get name (column) and values of each data series
-        for i_series in xrange(len(params.headers_coord)):
+        for i_series in range(len(params.headers_coord)):
 
             # iterate strategies looking for someone that accepts it
             params_series = params[i_series]

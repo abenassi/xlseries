@@ -7,6 +7,8 @@ xl_methods
 Useful methods for excel operations and related manipulations.
 """
 
+from __future__ import print_function
+
 from openpyxl import Workbook
 from openpyxl.utils import column_index_from_string
 import xlrd
@@ -171,8 +173,8 @@ def open_xls_as_xlsx(filename, data_only=True):
 
         ws = wb.create_sheet(title=ws_old.name)
 
-        for row in xrange(0, nrows):
-            for col in xrange(0, ncols):
+        for row in range(0, nrows):
+            for col in range(0, ncols):
                 ws.cell(row=row + 1, column=col + 1).value = ws_old.cell_value(
                     row, col)
 

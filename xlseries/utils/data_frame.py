@@ -6,7 +6,7 @@ data_frame
 
 Auxiliar methods to load and manipulate data frames.
 """
-
+from __future__ import print_function
 from __future__ import unicode_literals
 import pandas as pd
 from openpyxl import load_workbook
@@ -47,7 +47,7 @@ def get_data_frames(serial_df_path, use_period_range=True):
         wb = load_workbook(serial_df_path, read_only=True)
         ws_names = wb.sheetnames
 
-        for ws_index in xrange(len(ws_names)):
+        for ws_index in range(len(ws_names)):
             df = get_data_frame(serial_df_path, ws_index, use_period_range)
             dfs.append(df)
 

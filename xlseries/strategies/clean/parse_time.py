@@ -12,6 +12,7 @@ The preconditions of all the strategies is that the strings passed to them must
 be time values, otherwise an exception will be raised.
 """
 
+from __future__ import print_function
 from __future__ import unicode_literals
 from pprint import pprint
 import arrow
@@ -207,10 +208,10 @@ class BaseParseTimeStrategy(object):
         year, month, day = self._fill_parse_date_holes(result, last_time)
 
         # check date make sense
-        if day not in range(1, 32):
+        if day not in list(range(1, 32)):
             raise DayOutOfRange(curr_time, result)
 
-        if month not in range(1, 13):
+        if month not in list(range(1, 13)):
             raise MonthOutOfRange(curr_time, result)
 
         return arrow.get(year, month, day)
