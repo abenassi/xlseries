@@ -20,10 +20,12 @@ import datetime
 import parsley
 import collections
 from unidecode import unidecode
+import sys
 
 from xlseries.utils.time_manipulation import increment_time
 import xlseries.utils.strategies_helpers
 
+PYTHON2 = sys.version_info[0] == 2
 
 # EXCEPTIONS
 class NoPossibleTimeValue(ValueError):
@@ -160,7 +162,9 @@ class BaseParseTimeStrategy(object):
         elif isinstance(curr_time, datetime.datetime):
             RV = arrow.get(curr_time)
 
-        elif isinstance(curr_time, str) or isinstance(curr_time, int):
+        elif (isinstance(curr_time, str) or
+            isinstance(curr_time, int) or
+            (PYTHON2 and isinstance(curr_time, long))):
             RV = self._parse_time(params, unicode(curr_time), last_time,
                                   next_time)
         elif isinstance(curr_time, float):
