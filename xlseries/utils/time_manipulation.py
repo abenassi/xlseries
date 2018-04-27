@@ -33,7 +33,7 @@ def increment_time(time, num, freq):
         freq: Type or frequency of time units.
     """
     # check correct time type
-    if type(time) == datetime.datetime:
+    if isinstance(time, datetime.datetime):
         time = arrow.get(time)
 
     freqs = {"S": "seconds",

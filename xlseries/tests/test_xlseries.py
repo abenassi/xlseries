@@ -57,9 +57,9 @@ class TestXlSeriesWithAllParameters(unittest.TestCase):
         series = XlSeries(test_wb)
         test_dfs = series.get_data_frames(params)
 
-        if type(test_dfs) != list:
+        if not isinstance(test_dfs, list):
             test_dfs = [test_dfs]
-        if type(exp_dfs) != list:
+        if not isinstance(exp_dfs, list):
             exp_dfs = [exp_dfs]
 
         for test_df, exp_df in zip(test_dfs, exp_dfs):
@@ -129,9 +129,9 @@ class TestXlSeriesWithoutSomeParameters(unittest.TestCase):
         test_dfs = series.get_data_frames(params, safe_mode=safe_mode)
 
         # get them always into a list
-        if type(test_dfs) != list:
+        if not isinstance(test_dfs, list):
             test_dfs = [test_dfs]
-        if type(exp_dfs) != list:
+        if not isinstance(exp_dfs, list):
             exp_dfs = [exp_dfs]
 
         for test_df, exp_df in zip(test_dfs, exp_dfs):

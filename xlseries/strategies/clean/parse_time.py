@@ -111,7 +111,7 @@ class BaseParseTimeStrategy(object):
                 input.
         """
         # import pdb; pdb.set_trace()
-        if type(curr_time) == unicode or type(curr_time) == str:
+        if isinstance(curr_time, unicode) or isinstance(curr_time, str):
             curr_time = unidecode(curr_time).strip()
 
         if cls._already_time_value(curr_time):
@@ -123,10 +123,10 @@ class BaseParseTimeStrategy(object):
             if not cls._possible_time_value(curr_time):
                 raise NoPossibleTimeValue(curr_time)
 
-            if not (type(last_time) == arrow.Arrow or last_time is None):
+            if not (isinstance(last_time, arrow.Arrow) or last_time is None):
                 raise NoTimeValue(last_time)
 
-            if type(curr_time) == float:
+            if isinstance(curr_time, float):
                 float_to_uni = cls._accepts(params, unicode(curr_time),
                                             last_time, next_time)
                 float_to_int = cls._accepts(params, unicode(int(curr_time)),
@@ -149,21 +149,21 @@ class BaseParseTimeStrategy(object):
         Returns:
             An arrow.Arrow time value.
         """
-        if type(curr_time) == unicode:
+        if isinstance(curr_time, unicode):
             curr_time = unidecode(curr_time).strip()
 
         # time format is correct
-        if type(curr_time) == arrow.Arrow:
+        if isinstance(curr_time, arrow.Arrow):
             RV = curr_time
 
-        elif type(curr_time) == datetime.datetime:
+        elif isinstance(curr_time, datetime.datetime):
             RV = arrow.get(curr_time)
 
-        elif (type(curr_time) == str or type(curr_time) == int or
-              type(curr_time) == long):
+        elif (isinstance(curr_time, str) or isinstance(curr_time, int) or
+              isinstance(curr_time, long)):
             RV = self._parse_time(params, unicode(curr_time), last_time,
                                   next_time)
-        elif type(curr_time) == float:
+        elif isinstance(curr_time, float):
             try:
                 RV = self._parse_time(params, unicode(int(curr_time)),
                                       last_time, next_time)
@@ -171,12 +171,12 @@ class BaseParseTimeStrategy(object):
                 RV = self._parse_time(params, unicode(curr_time),
                                       last_time, next_time)
         else:
-            assert type(curr_time) == unicode, "Current is not unicode."
+            assert isinstance(curr_time, unicode), "Current is not unicode."
 
             time_value = self._parse_time(params, curr_time,
                                           last_time, next_time)
 
-            if not type(time_value) == arrow.Arrow:
+            if not isinstance(time_value, arrow.Arrow):
                 raise NoTimeValue(time_value, last_time, next_time)
 
             RV = time_value
@@ -222,7 +222,7 @@ class BaseParseTimeStrategy(object):
         if not dob_year:
             return None
 
-        if type(dob_year) == str or type(dob_year) == unicode:
+        if isinstance(dob_year, str) or isinstance(dob_year, unicode):
             if len(dob_year) == 4:
                 return int(dob_year)
             else:
@@ -233,7 +233,7 @@ class BaseParseTimeStrategy(object):
     @classmethod
     def _already_time_value(cls, value):
         """Check if a value is already of a time value type."""
-        return (type(value) == arrow.Arrow or type(value) == datetime.datetime)
+        return (isinstance(value, arrow.Arrow) or isinstance(value, datetime.datetime))
 
     @classmethod
     def _possible_time_value(cls, value):
@@ -311,7 +311,7 @@ class ParseSimpleTime(BaseParseTimeStrategy):
                                              next_time):
                     time_value = None
 
-                if not type(time_value) == arrow.Arrow:
+                if not isinstance(time_value, arrow.Arrow):
                     raise NoTimeValue(time_value, last_time, next_time)
 
                 return time_value
@@ -335,7 +335,7 @@ class ParseSimpleTime(BaseParseTimeStrategy):
             else:
                 break
 
-        if not type(time_value) == arrow.Arrow:
+        if not isinstance(time_value, arrow.Arrow):
             raise NoTimeValue(time_value, last_time, next_time)
 
         return time_value
@@ -457,7 +457,7 @@ class BaseComposedQuarter():
         replacements["I"] = "1"
 
         # replace strings and convert to int
-        if type(quarter_number) != int:
+        if not isinstance(quarter_number, int):
             quarter_number = unicode(quarter_number)
             for orig, new in replacements.items():
                 quarter_number = quarter_number.replace(orig, new)
@@ -745,7 +745,7 @@ class BaseComposedSemester():
         replacements["I"] = "1"
 
         # replace strings and convert to int
-        if type(semester_number) != int:
+        if not isinstance(semester_number, int):
             semester_number = unicode(semester_number)
             for orig, new in replacements.items():
                 semester_number = semester_number.replace(orig, new)

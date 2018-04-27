@@ -120,9 +120,9 @@ class ParameterDiscovery(BaseXlSeriesScraper):
                     dfs = cls._get_data(ws_temp, params_attempt)
 
                     # don't return a list with only one element
-                    if type(dfs) == list and len(dfs) == 1:
+                    if isinstance(dfs, list) and len(dfs) == 1:
                         dfs = dfs[0]
-                    if (type(params_attempt) == list and
+                    if (isinstance(params_attempt, list) and
                             len(params_attempt) == 1):
                         params_attempt = params_attempt[0]
 
@@ -261,7 +261,7 @@ Last attempt was:
                 raise Exception(msg)
 
             if (params_series["time_multicolumn"] and
-                    type(params_series["time_header_coord"]) == list):
+                    isinstance(params_series["time_header_coord"], list)):
                 time_header_coord = params_series["time_header_coord"][0]
             else:
                 time_header_coord = params_series["time_header_coord"]
@@ -494,7 +494,7 @@ Last attempt was:
             assert end_row and end_row > ini_row, msg
 
             # if time is multicolumn, pass only the first column
-            if params.time_multicolumn and type(time_header_coord) == list:
+            if params.time_multicolumn and isinstance(time_header_coord, list):
                 time_header_coord_single = time_header_coord[0]
             else:
                 time_header_coord_single = time_header_coord

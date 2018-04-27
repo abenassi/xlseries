@@ -191,7 +191,7 @@ class BaseCleanTiStrategy(object):
     @classmethod
     def _estimate_end(cls, alignment, last_cell, start, time_alignment):
         if alignment == "vertical":
-            while (type(last_cell.value) != datetime.datetime and
+            while (not isinstance(last_cell.value, datetime.datetime) and
                     last_cell.row > start):
                 last_cell = last_cell.offset(row=-1)
 
@@ -203,7 +203,7 @@ class BaseCleanTiStrategy(object):
             return end
 
         else:
-            while (type(last_cell.value) != datetime.datetime and
+            while (not isinstance(last_cell.value, datetime.datetime) and
                     last_cell.column > start):
                 # print type(last_cell.value), last_cell.value, last_cell.row,
                 # last_cell.column, type(last_cell.offset(row=2).value),
@@ -266,7 +266,7 @@ class BaseCleanTiStrategy(object):
     @classmethod
     def _time_header_cell(cls, ws, time_header_coord):
         """Returns the column where clean time index shouls be written."""
-        if type(time_header_coord) == list:
+        if isinstance(time_header_coord, list):
             return ws[time_header_coord[0]]
         else:
             return ws[time_header_coord]
@@ -294,7 +294,7 @@ class BaseCleanTiStrategy(object):
             try:
                 time_value = self.time_parser.parse_time(params, curr_time,
                                                          last_time, next_time)
-                assert type(time_value) == arrow.Arrow, msg
+                assert isinstance(time_value, arrow.Arrow), msg
 
                 return time_value
 
@@ -311,7 +311,7 @@ class BaseCleanTiStrategy(object):
                 time_value = self.time_parser.parse_time(params, curr_time,
                                                          last_time, next_time)
 
-                assert type(time_value) == arrow.Arrow, msg
+                assert isinstance(time_value, arrow.Arrow), msg
 
                 return time_value
 
@@ -328,9 +328,9 @@ class BaseCleanTiStrategy(object):
             return curr_time
 
         exp_time = increment_time(last_time, 1, freq)
-        assert type(exp_time) == arrow.Arrow
-        assert type(last_time) == arrow.Arrow or not last_time
-        assert type(curr_time) == arrow.Arrow
+        assert isinstance(exp_time, arrow.Arrow)
+        assert isinstance(last_time, arrow.Arrow) or not last_time
+        assert isinstance(curr_time, arrow.Arrow)
 
         # everything is ok!
         if exp_time == curr_time:
@@ -522,7 +522,7 @@ class BaseSingleColumn():
     @classmethod
     def _get_time_value(cls, ws, time_header_coord, f_row=None, f_col=None):
         """Returns the time value corresponding a certain series and row."""
-        assert type(time_header_coord) != list, "Time header should be a str."
+        assert not isinstance(time_header_coord, list), "Time header should be a str."
 
         col = unicode(f_col or ws[time_header_coord].column)
         row = unicode(f_row or ws[time_header_coord].row)
@@ -545,7 +545,7 @@ class BaseMultipleColumns():
 
         Concatenate all the values of the time header columns in a unique
         string."""
-        assert type(time_header_coord) == list, "Time header should be a list."
+        assert isinstance(time_header_coord, list), "Time header should be a list."
 
         time_value_list = []
 
@@ -555,7 +555,7 @@ class BaseMultipleColumns():
             value = ws[col + row].value
 
             msg = "there shouldn't be time values in multicolumn!"
-            assert type(value) != datetime.datetime, msg
+            assert not isinstance(value, datetime.datetime), msg
 
             if value:
                 time_value_list.append(cls._safe_unicode(value))
@@ -590,7 +590,7 @@ class BaseOffsetTi():
         base_cond = BaseCleanTiStrategy._must_be_time_value(value,
                                                             next_time,
                                                             last_time)
-        return base_cond and type(value) != float
+        return base_cond and not isinstance(value, float)
 
 
 class BaseNoOffsetTi():

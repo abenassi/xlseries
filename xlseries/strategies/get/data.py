@@ -82,7 +82,7 @@ class BaseGetDataStrategy(object):
                 msg = " ".join(["Composed is not list",
                                 repr(type(composed_headers_coord)),
                                 repr(composed_headers_coord)])
-                assert type(composed_headers_coord) == list, msg
+                assert isinstance(composed_headers_coord, list), msg
 
                 name = " ".join([unidecode(ws[coord].value).strip() for
                                  coord in composed_headers_coord] + [name])
@@ -90,7 +90,7 @@ class BaseGetDataStrategy(object):
             if context:
                 msg = " ".join(["Context is not list", repr(type(context)),
                                 repr(context)])
-                assert type(context) == list, msg
+                assert isinstance(context, list), msg
 
                 name = " - ".join([header_context.strip() for
                                    header_context in context] + [name])
@@ -171,7 +171,7 @@ class BaseGetDataStrategy(object):
     @classmethod
     def _time_header_cell(cls, ws, time_header_coord):
         """Returns the column where clean time index shouls be written."""
-        if type(time_header_coord) == list:
+        if isinstance(time_header_coord, list):
             return ws[time_header_coord[0]]
         else:
             return ws[time_header_coord]
@@ -358,12 +358,12 @@ class BaseNonContinuous():
             raise Exception("Series alignment must be 'vertical' or " +
                             "'horizontal', not " + repr(params["alignment"]))
 
-        return value is not None and type(time_value) == datetime.datetime
+        return value is not None and isinstance(time_value, datetime.datetime)
 
     @classmethod
     def _handle_new_value(cls, values, value, missings, missing_value,
                           blank_rows):
-        if ((type(value) == str or type(value) == unicode) and
+        if ((isinstance(value, str) or isinstance(value, unicode)) and
                 value.strip() == ""):
             value = None
 

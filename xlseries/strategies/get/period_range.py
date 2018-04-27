@@ -97,7 +97,7 @@ class GetPeriodRangesMultifrequency(BaseGetPeriodRangesStrategy):
         starts = {f: None for f in freq}
         ends = {f: None for f in freq}
 
-        if type(time_header_coord) == list:
+        if isinstance(time_header_coord, list):
             th_coord = time_header_coord[0]
         else:
             th_coord = time_header_coord

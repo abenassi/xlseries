@@ -286,7 +286,7 @@ def compare_cells_ws(ws1, ws2):
                 value1 = normalize_value(cell1.value)
                 value2 = normalize_value(cell2.value)
 
-            if type(value1) == float and type(value2) == float:
+            if isinstance(value1, float) and isinstance(value2, float):
                 assert approx_equal(cell1.value, cell2.value, 0.00001), msg
             else:
                 assert value1 == value2, msg
@@ -298,13 +298,13 @@ def normalize_value(value):
     """Strip spaces if the value is a string, convert None to empty string or
     let it pass otherwise."""
 
-    if type(value) == unicode or type(value) == str:
+    if isinstance(value, unicode) or isinstance(value, str):
         return value.strip()
     elif value is None:
         return ""
-    elif type(value) is datetime.datetime:
+    elif isinstance(value, datetime.datetime):
         return value.replace(tzinfo=None)
-    elif type(value) is pandas.Timestamp:
+    elif isinstance(value, pandas.Timestamp):
         return value.tz_localize(None)
     else:
         return value
@@ -314,9 +314,9 @@ def normalize_time_value(value):
     """Strip spaces if the value is a string, convert None to empty string or
     let it pass otherwise."""
 
-    if type(value) is datetime.datetime:
+    if isinstance(value, datetime.datetime):
         return value.replace(tzinfo=None)
-    elif type(value) is pandas.Timestamp:
+    elif isinstance(value, pandas.Timestamp):
         return value.tz_localize(None)
     else:
         return value
@@ -327,7 +327,7 @@ def _safe_str(value):
     if not value:
         RV = str(value)
 
-    elif type(value) == str or type(value) == unicode:
+    elif isinstance(value, str) or isinstance(value, unicode):
         RV = value.encode("utf-8")
 
     else:

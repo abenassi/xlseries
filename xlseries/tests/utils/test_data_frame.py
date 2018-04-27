@@ -40,7 +40,7 @@ class XlMethodsTest(unittest.TestCase):
                             "." + file_format)
         dfs = func(path)
 
-        if type(dfs) == list:
+        if isinstance(dfs, list):
             for df in dfs:
                 self.assertEqual(type(df), pd.DataFrame)
         else:

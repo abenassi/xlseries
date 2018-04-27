@@ -28,7 +28,7 @@ def approx_equal(a, b, tolerance=0.00001):
     if a == b:
         RV = True
 
-    elif type(a) == unicode and type(b) == unicode:
+    elif isinstance(a, unicode) and isinstance(b, unicode):
         RV = a == b
 
     elif (not a) and (not b):

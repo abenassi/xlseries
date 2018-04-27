@@ -40,7 +40,7 @@ class XlSeries(object):
                 Workbook object.
         """
         self.xl_path_or_wb = xl_path_or_wb
-        if type(xl_path_or_wb) == Workbook:
+        if isinstance(xl_path_or_wb, Workbook):
             self.wb = xl_path_or_wb
         else:
             self.wb = self._load_wb(xl_path_or_wb)
@@ -126,7 +126,7 @@ class XlSeries(object):
                 dfs, params = scraper_obj.get_data_frames(safe_mode)
                 self.params[ws_name] = params
 
-                if type(dfs) == list and len(dfs) == 1:
+                if isinstance(dfs, list) and len(dfs) == 1:
                     return dfs[0]
                 else:
                     return dfs
@@ -175,7 +175,7 @@ class XlSeries(object):
         """Open excel file with system's default program."""
 
         # save workbook if no path to excel file was given
-        if type(self.xl_path_or_wb) == Workbook:
+        if isinstance(self.xl_path_or_wb, Workbook):
             filename = "temp_xl_file.xlsx"
             self.xl_path_or_wb.save(filename)
             path = filename

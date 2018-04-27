@@ -175,14 +175,14 @@ class Parameters(object):
     def _get_params_dict(cls, params_input):
         """Return the user input parameters as a dictionary, if possible."""
 
-        if type(params_input) == dict:
+        if isinstance(params_input, dict):
             return deepcopy(params_input)
 
-        elif (type(params_input) == Parameters or
+        elif (isinstance(params_input, Parameters) or
               unicode(type(params_input)) == cls.TYPE_PARAMETERS):
             return params_input.__dict__
 
-        elif ((type(params_input) == str or type(params_input) == unicode) and
+        elif ((isinstance(params_input, str) or isinstance(params_input, unicode)) and
               params_input[-5:] == ".json"):
             with open(params_input) as f:
                 return json.load(f)
@@ -205,7 +205,7 @@ class Parameters(object):
         cls._check_has_critical(params_dict, cls.CRITICAL, cls.VALID_VALUES)
 
         # curate frequency capitalization and translate
-        if type(params_dict["frequency"]) == list:
+        if isinstance(params_dict["frequency"], list):
             params_dict["frequency"] = [
                 cls.FREQ_TRANSLATION.get(i.upper(), i.upper()) for i in
                 params_dict["frequency"]
@@ -271,7 +271,7 @@ class Parameters(object):
 
     def __getitem__(self, item):
 
-        if type(item) == int:
+        if isinstance(item, int):
             return self.get_series_params(item)
 
         else:
@@ -420,7 +420,7 @@ class Parameters(object):
         num_series = len(self)
 
         for param_name in self:
-            if (type(self[param_name]) == list and
+            if (isinstance(self[param_name], list) and
                     len(self[param_name]) == num_series):
                 del self[param_name][index]
 
@@ -480,7 +480,7 @@ class Parameters(object):
                 continue
 
             # param value may be passed as unique value or as a complete list
-            if type(param_value) == list:
+            if isinstance(param_value, list):
                 iter_param_values = param_value
             else:
                 iter_param_values = [param_value]
@@ -492,7 +492,7 @@ class Parameters(object):
                                                valid_values[param_name])
 
                 elif param_name == "context":
-                    if not type(param_value) == dict:
+                    if not isinstance(param_value, dict):
                         raise InvalidParameter(param_name, value,
                                                valid_values[param_name])
                     else:
@@ -529,7 +529,7 @@ class Parameters(object):
             return True
 
         for valid_value in valid_values:
-            if type(valid_value) == type and type(value) == valid_value:
+            if isinstance(valid_value, type) and isinstance(value, valid_value):
                 return True
 
             elif value == valid_value:
@@ -561,7 +561,7 @@ class Parameters(object):
     def _unpack_header_ranges(cls, coord_param):
 
         if (not coord_param or len(coord_param) == 0 or
-                (type(coord_param) != list and coord_param.lower() == "none")):
+                (not isinstance(coord_param, list) and coord_param.lower() == "none")):
             return None
 
         return list(cls._unpack_header_ranges_generator(coord_param))
@@ -569,7 +569,7 @@ class Parameters(object):
     @classmethod
     def _unpack_header_ranges_generator(cls, coord_param):
 
-        if type(coord_param) == str or type(coord_param) == unicode:
+        if isinstance(coord_param, str) or isinstance(coord_param, unicode):
             if "-" not in coord_param and ":" not in coord_param:
                 yield coord_param.upper()
             else:
@@ -598,9 +598,9 @@ class Parameters(object):
                     raise InvalidParameter("headers_coord", coord_param,
                                            cls.VALID_VALUES["header_coord"])
 
-        elif type(coord_param) == list:
+        elif isinstance(coord_param, list):
             for elem in coord_param:
-                if type(elem) == list:
+                if isinstance(elem, list):
                     yield list(cls._unpack_header_ranges_generator(elem))
                 else:
                     for unpacked in cls._unpack_header_ranges_generator(elem):
@@ -691,12 +691,12 @@ class Parameters(object):
 
         # check data starts is consistent with headers coordinates
         ws = Workbook().active
-        if type(params_def["data_starts"]) == list:
+        if isinstance(params_def["data_starts"], list):
             data_starts = params_def["data_starts"][0]
         else:
             data_starts = params_def["data_starts"]
 
-        if type(params_def["headers_coord"]) == list:
+        if isinstance(params_def["headers_coord"], list):
             rows = [ws[coord].row for coord in params_def["headers_coord"]]
             cols = [column_index_from_string(ws[coord].column)
                     for coord in params_def["headers_coord"]]
@@ -741,10 +741,10 @@ class Parameters(object):
         else:
             tch = time_header_coord
 
-        if (type(tch) == list and
+        if (isinstance(tch, list) and
                 len(tch) != num_series):
             return True
-        elif (type(tch) == list and
+        elif (isinstance(tch, list) and
                 len(tch) == num_series and
                 consecutive_cells(tch)):
             return True
@@ -761,7 +761,7 @@ class Parameters(object):
         allowed."""
         # import pdb; pdb.set_trace()
         ws = Workbook().active
-        if type(headers_coord) != list or len(headers_coord) <= 1:
+        if not isinstance(headers_coord, list) or len(headers_coord) <= 1:
             return None
 
         if ((len(headers_coord) < 4 and consecutive_cells(headers_coord)) or
@@ -793,10 +793,10 @@ class Parameters(object):
         if (param_value is None and valid_values and None not in valid_values):
             return None
 
-        elif not type(param_value) == list and num_series:
+        elif not isinstance(param_value, list) and num_series:
             param_list = [param_value for i in xrange(num_series)]
 
-        elif (type(param_value) == list and len(param_value) == 1 and
+        elif (isinstance(param_value, list) and len(param_value) == 1 and
                 num_series):
             param_list = [param_value[0] for i in xrange(num_series)]
 
@@ -810,21 +810,21 @@ class Parameters(object):
                                   valid_values=None):
         """Creates list from single parameter repeating it for every series."""
 
-        if (type(time_header_coord) == list and
-                type(time_header_coord[0]) == list):
+        if (isinstance(time_header_coord, list) and
+                isinstance(time_header_coord[0], list)):
             if len(time_header_coord) == num_series:
                 return time_header_coord
             else:
                 raise ValueError("time_header_coord list of lists has to be" +
                                  " of " + unicode(num_series) + " length.")
 
-        elif type(params["time_multicolumn"]) == list:
+        elif isinstance(params["time_multicolumn"], list):
             time_multicolumn = params["time_multicolumn"][0]
 
         else:
             time_multicolumn = params["time_multicolumn"]
 
-        if (not type(time_header_coord) == list or not time_multicolumn):
+        if (not isinstance(time_header_coord, list) or not time_multicolumn):
             return cls._apply_to_all("", time_header_coord, num_series,
                                      params, valid_values)
         else:
@@ -834,11 +834,11 @@ class Parameters(object):
     def _apply_to_all_missing_value(cls, missing_value, num_series):
         """Creates list from single parameter repeating it for every series."""
 
-        if not type(missing_value) == list:
+        if not isinstance(missing_value, list):
             return [[missing_value] for i in xrange(num_series)]
 
-        elif (type(missing_value) == list and
-              (len(missing_value) == 0 or type(missing_value[0]) != list)):
+        elif (isinstance(missing_value, list) and
+              (len(missing_value) == 0 or not isinstance(missing_value[0], list))):
             return [missing_value for i in xrange(num_series)]
 
         else:
@@ -854,7 +854,7 @@ class Parameters(object):
 
         num_series = None
         for param_name, param_value in params.items():
-            if type(param_value) == list and param_name != "missing_value":
+            if isinstance(param_value, list) and param_name != "missing_value":
                 if not num_series or len(param_value) > num_series:
                     num_series = len(param_value)
 
@@ -872,7 +872,7 @@ class Parameters(object):
         if self._is_repeated(self[param_name]):
             return (param_name in self.USE_DEFAULT and
                     self.DEFAULT_VALUES[param_name] == self[param_name][0])
-        elif not type(param_name) == list:
+        elif not isinstance(param_name, list):
             return (param_name in self.USE_DEFAULT and
                     self.DEFAULT_VALUES[param_name] == self[param_name])
         else:
@@ -880,7 +880,7 @@ class Parameters(object):
 
     @classmethod
     def _is_repeated(cls, param_value):
-        if not type(param_value) == list:
+        if not isinstance(param_value, list):
             return False
 
         return all(i == param_value[0] for i in param_value)
@@ -888,7 +888,7 @@ class Parameters(object):
     def _valid_param_list(self, param_name, param_value, num_series):
         """Return True if param_value is a valid list of parameters for
         param_name."""
-        return (type(param_value) == list and
+        return (isinstance(param_value, list) and
                 len(param_value) == num_series and
                 all(self._valid_param_value(param,
                                             self.VALID_VALUES[param_name])
@@ -901,7 +901,7 @@ class Parameters(object):
 
     def _no_differences(self, param):
         """Return True if param is the same for all the series."""
-        if type(self[param]) == list and type(self[param][0]) != list:
+        if isinstance(self[param], list) and not isinstance(self[param][0], list):
             return len(set(self[param])) == 1
         else:
             return True
