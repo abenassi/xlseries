@@ -393,7 +393,7 @@ class ParseSimpleTime(BaseParseTimeStrategy):
             A possible time format for a given time string value.
         """
 
-        reps = map(len, str_value.split("-"))
+        reps = list(map(len, str_value.split("-")))
         assert len(reps) == 3, "There is no 3 date elements in " + str_value
 
         for order in ["D-M-Y", "M-D-Y", "Y-M-D"]:
