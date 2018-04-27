@@ -63,7 +63,7 @@ class TestXlSeriesWithAllParameters(unittest.TestCase):
             exp_dfs = [exp_dfs]
 
         for test_df, exp_df in zip(test_dfs, exp_dfs):
-            print test_df.columns, exp_df.columns
+            print(test_df.columns, exp_df.columns)
             self.assertTrue(compare_data_frames(test_df, exp_df))
 
     # @unittest.skip("skip")

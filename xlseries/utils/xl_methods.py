@@ -356,15 +356,15 @@ def print_xl_range(ws, cells_range="A1:E10", width=15):
                 value = value.ljust(width)
 
             # print new value
-            print "| " + value,
+            print("| " + value, end=' ')
 
         # print last border of the row
-        print "| "
+        print("| ")
 
         # print the separator between rows
         for cell in row:
-            print "| " + "-" * (width),
-        print "| "
+            print("| " + "-" * (width), end=' ')
+        print("| ")
 
 if __name__ == '__main__':
     import doctest

@@ -167,7 +167,7 @@ Last attempt was:
                 return unique_results[0]
 
             else:
-                print "There is more than one result with given parameters."
+                print("There is more than one result with given parameters.")
                 dfs = [res[0] for res in unique_results]
                 params = [res[1] for res in unique_results]
                 return (dfs, params_attempt)

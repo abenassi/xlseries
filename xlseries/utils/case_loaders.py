@@ -32,7 +32,7 @@ def check_case_exp_result(case_num, dfs):
     for df, exp_df in zip(dfs, load_expected_case(case_num)):
         compare_data_frames(df, exp_df)
 
-    print "OK"
+    print("OK")
 
 
 def load_original_case(case_num=1, special_case=None, **loader_args):

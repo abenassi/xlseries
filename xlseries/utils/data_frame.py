@@ -317,7 +317,7 @@ def _check_values(cols, df1, df2):
         for value1, value2 in zip(df1[col], df2[col]):
             # print value1, value2, value2/value1-1
             if not approx_equal(value1, value2, 0.0001):
-                print value1, "and", value2, "not approx_equal"
+                print(value1, "and", value2, "not approx_equal")
                 RV = False
                 break
 
@@ -345,5 +345,5 @@ def compare_period_ranges(pr1, pr2):
         return True
 
     except Exception as inst:
-        print inst
+        print(inst)
         return False

@@ -111,12 +111,12 @@ class XlSeries(object):
             if len(ws_names) > 1:
                 msg = "There are {} worksheets: {}\nThe first {} will be " + \
                     "analyzed"
-                print msg.format(len(ws_names),
+                print(msg.format(len(ws_names),
                                  str([name.encode("utf-8")
                                       for name in ws_names]),
-                                 ws_name.encode("utf-8"))
-                print "Remember you can choose a different one passing a " + \
-                    "ws_name keyword argument."
+                                 ws_name.encode("utf-8")))
+                print("Remember you can choose a different one passing a " + \
+                    "ws_name keyword argument.")
         else:
             ws_name = self._sanitize_ws_name(ws_name, ws_names)
 

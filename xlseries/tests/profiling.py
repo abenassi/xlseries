@@ -124,7 +124,7 @@ def single_analysis(ini, end=None, config=None):
         graphviz = GraphvizOutput()
         graphviz.output_file = _generate_name_output(num)
 
-        print "Running test case number", num, "in a single analysis."
+        print("Running test case number", num, "in a single analysis.")
         with PyCallGraph(output=graphviz, config=config):
             _run_test_case(num)
 
@@ -147,7 +147,7 @@ def single_analysis_external_file(xl_path, params, ws_name=None, config=None):
     graphviz = GraphvizOutput()
     graphviz.output_file = _generate_name_output(filename)
 
-    print "Running profiling analysis on", filename
+    print("Running profiling analysis on", filename)
     with PyCallGraph(output=graphviz, config=config):
         _run_xlseries(xl_path, params, ws_name)
 
@@ -165,7 +165,7 @@ def single_analysis_with_yappi(ini, end=None):
 
     for num in xrange(ini, end + 1):
 
-        print "Running test case number", num, "in a single analysis."
+        print("Running test case number", num, "in a single analysis.")
         yappi.set_clock_type('cpu')
         yappi.start(builtins=True)
 
@@ -190,7 +190,7 @@ def group_analysis(ini, end, config=None):
 
     with PyCallGraph(output=graphviz, config=config):
         for num in xrange(ini, end + 1):
-            print "Running test case number", num, "in a group analysis."
+            print("Running test case number", num, "in a group analysis.")
             _run_test_case(num)
 
 
@@ -207,7 +207,7 @@ def group_analysis_with_yappi(ini, end):
     yappi.start(builtins=True)
 
     for num in xrange(ini, end + 1):
-        print "Running test case number", num, "in a group analysis."
+        print("Running test case number", num, "in a group analysis.")
         _run_test_case(num)
 
     yappi.stop()
