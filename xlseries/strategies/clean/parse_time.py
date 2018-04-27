@@ -495,7 +495,7 @@ class ParseComposedQuarter1(BaseComposedQuarter, BasePEG):
     >>> for str_date in orig:
     ...     new = time_parser.parse_time(params, str_date, last)
     ...     last = new
-    ...     print new
+    ...     print(new)
     1986-01-01T00:00:00+00:00
     1986-04-01T00:00:00+00:00
     1986-07-01T00:00:00+00:00
@@ -528,7 +528,7 @@ class ParseComposedQuarter2(BasePEG, BaseComposedQuarter):
     """Parse quarterly dates from strings composed by substrings with date
     info of the structure showed in the example.
 
-    >>> orig = [u"2° Trim 07",
+    >>> orig = ["2° Trim 07",
     ...         "u' 3 Trim 07 2'",
     ...         "4° Trim 07 ",
     ...         "1° Trim 08 "]
@@ -537,7 +537,7 @@ class ParseComposedQuarter2(BasePEG, BaseComposedQuarter):
     >>> for str_date in orig:
     ...     new = time_parser.parse_time({}, str_date, last)
     ...     last = new
-    ...     print new
+    ...     print(new)
     2007-04-01T00:00:00+00:00
     2007-07-01T00:00:00+00:00
     2007-10-01T00:00:00+00:00
@@ -573,7 +573,7 @@ class ParseComposedQuarter3(BasePEG, BaseComposedQuarter):
     >>> for str_date in orig:
     ...     new = time_parser.parse_time({}, str_date, last)
     ...     last = new
-    ...     print new
+    ...     print(new)
     2001-07-01T00:00:00+00:00
     2001-10-01T00:00:00+00:00
     2002-01-01T00:00:00+00:00
@@ -612,7 +612,7 @@ class ParseComposedYearQuarter1(BasePEG, BaseComposedQuarter):
     >>> for str_date in orig:
     ...     new = time_parser.parse_time(params, str_date, last)
     ...     last = new
-    ...     print new
+    ...     print(new)
     2008-01-01T00:00:00+00:00
     2008-01-01T00:00:00+00:00
     2008-04-01T00:00:00+00:00
@@ -663,7 +663,7 @@ class ParseComposedQuarterYear1(ParseComposedYearQuarter1):
     >>> for str_date in orig:
     ...     new = time_parser.parse_time(params, str_date, last)
     ...     last = new
-    ...     print new
+    ...     print(new)
     2003-01-01T00:00:00+00:00
     2003-04-01T00:00:00+00:00
     2003-07-01T00:00:00+00:00
@@ -774,7 +774,7 @@ class ParseComposedSemester(BasePEG, BaseComposedSemester):
     >>> for str_date in orig:
     ...     new = time_parser.parse_time({}, str_date, last)
     ...     last = new
-    ...     print new
+    ...     print(new)
     2003-01-01T00:00:00+00:00
     2003-07-01T00:00:00+00:00
     2004-01-01T00:00:00+00:00
@@ -858,7 +858,7 @@ class ParseComposedMonth1(BasePEG, BaseComposedMonth):
     >>> for str_date in orig:
     ...     new = time_parser.parse_time(params, str_date, last)
     ...     last = new
-    ...     print new
+    ...     print(new)
     1991-01-01T00:00:00+00:00
     1991-02-01T00:00:00+00:00
     1991-03-01T00:00:00+00:00
@@ -909,7 +909,7 @@ class ParseComposedMonth2(BasePEG, BaseComposedMonth):
     >>> for str_date in orig:
     ...     new = time_parser.parse_time(params, str_date, last)
     ...     last = new
-    ...     print new
+    ...     print(new)
     1991-01-01T00:00:00+00:00
     1991-01-01T00:00:00+00:00
     1991-02-01T00:00:00+00:00
@@ -972,7 +972,7 @@ class ParseComposedYear1(BasePEG, BaseComposedYear):
     >>> for str_date in orig:
     ...     new = time_parser.parse_time(params, str_date, last)
     ...     last = new
-    ...     print new
+    ...     print(new)
     1995-01-01T00:00:00+00:00
     1996-01-01T00:00:00+00:00
     1997-01-01T00:00:00+00:00
@@ -1010,7 +1010,7 @@ class ParseComposedYear2(BasePEG, BaseComposedYear):
     >>> for str_date in orig:
     ...     new = time_parser.parse_time(params, str_date, last)
     ...     last = new
-    ...     print new
+    ...     print(new)
     1995-01-01T00:00:00+00:00
     1996-01-01T00:00:00+00:00
     1997-01-01T00:00:00+00:00
@@ -1043,3 +1043,4 @@ if __name__ == '__main__':
     import doctest
     doctest.testmod()
     pprint(sorted(xlseries.utils.strategies_helpers.get_strategies_names()))
+

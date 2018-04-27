@@ -240,7 +240,7 @@ def xl_coordinates_range(start, end=None):
             in a range. This are yielded row by row.
 
     >>> for coord in xl_coordinates_range("A1", "B2"):
-    ...     print coord
+    ...     print(coord)
     A1
     B1
     A2
@@ -369,3 +369,4 @@ def print_xl_range(ws, cells_range="A1:E10", width=15):
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
+
