@@ -12,10 +12,10 @@ import os
 from openpyxl import load_workbook
 
 from xlseries.strategies.discover.parameters import Parameters
-from data_frame import get_data_frames, compare_data_frames
-from path_finders import get_orig_cases_dir
-from path_finders import get_param_cases_dir
-from path_finders import get_exp_cases_dir
+from .data_frame import get_data_frames, compare_data_frames
+from .path_finders import get_orig_cases_dir
+from .path_finders import get_param_cases_dir
+from .path_finders import get_exp_cases_dir
 
 
 def check_case_exp_result(case_num, dfs):

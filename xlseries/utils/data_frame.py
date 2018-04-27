@@ -15,9 +15,9 @@ import arrow
 import glob
 import string
 
-from time_manipulation import infer_freq
-from comparing import approx_equal
-from xl_methods import normalize_value
+from .time_manipulation import infer_freq
+from .comparing import approx_equal
+from .xl_methods import normalize_value
 
 
 class NoSerializedDataFrameFound(Exception):

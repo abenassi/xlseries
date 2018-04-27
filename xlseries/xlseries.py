@@ -15,11 +15,11 @@ import os
 import platform
 from unidecode import unidecode
 
-from strategies import strategies
-from utils.xl_methods import make_wb_copy
-from strategies.discover.parameters import Parameters
-from utils.xl_methods import open_xls_as_xlsx
-from utils.path_finders import get_package_dir
+from .strategies import strategies
+from .utils.xl_methods import make_wb_copy
+from .strategies.discover.parameters import Parameters
+from .utils.xl_methods import open_xls_as_xlsx
+from .utils.path_finders import get_package_dir
 
 import warnings
 warnings.filterwarnings("ignore")

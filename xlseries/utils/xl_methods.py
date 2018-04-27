@@ -13,7 +13,7 @@ import xlrd
 import datetime
 import pytz
 import pandas
-from comparing import approx_equal
+from .comparing import approx_equal
 
 
 def common_row_or_column(coords_list):
