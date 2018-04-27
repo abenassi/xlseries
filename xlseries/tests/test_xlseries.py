@@ -50,7 +50,7 @@ class TestXlSeriesWithAllParameters(unittest.TestCase):
         exp_dfs = load_expected_case(case_num, special_case)
 
         if specific_params:
-            for specific_param, value in specific_params.iteritems():
+            for specific_param, value in specific_params.items():
                 params[specific_param] = value
 
         # get dfs from the strategy
@@ -120,7 +120,7 @@ class TestXlSeriesWithoutSomeParameters(unittest.TestCase):
 
         params.remove_non_critical()
         if specific_params:
-            for specific_param, value in specific_params.iteritems():
+            for specific_param, value in specific_params.items():
                 params[specific_param] = value
 
         # change safe_mode to True, for complete test in safe_mode (very slow)

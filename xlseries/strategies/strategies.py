@@ -281,7 +281,7 @@ Last attempt was:
 
         # 3. Build data frames
         dfs = []
-        for df_inputs in dfs_dict.values():
+        for df_inputs in list(dfs_dict.values()):
 
             period_range = df_inputs["period_range"]
             columns = df_inputs["columns"]
@@ -346,7 +346,7 @@ Last attempt was:
                 missings_dict, params.DEFAULT_VALUES, params.LIKELINESS_ORDER):
             new_params = copy.deepcopy(params)
 
-            for param_name, param_value in combination.iteritems():
+            for param_name, param_value in combination.items():
                 new_params[param_name] = param_value
 
             msg = repr(new_params) + \

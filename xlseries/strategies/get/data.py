@@ -107,7 +107,7 @@ class BaseGetDataStrategy(object):
 
         values_dict = collections.OrderedDict()
         for value, index in iter_values:
-            new_value = self._handle_new_value(values_dict.values(), value,
+            new_value = self._handle_new_value(list(values_dict.values()), value,
                                                p["missings"],
                                                p["missing_value"],
                                                p["blank_rows"])
@@ -122,7 +122,7 @@ class BaseGetDataStrategy(object):
         # it doesn't work with multifrequency series
         if (p["missings"] and "Implicit" in p["missing_value"] and
                 len(p["frequency"]) == 1):
-            values = values_dict.values()[0]
+            values = list(values_dict.values())[0]
             values = self._fill_implicit_missings(ws,
                                                   values,
                                                   p["frequency"],
@@ -132,7 +132,7 @@ class BaseGetDataStrategy(object):
                                                   p["alignment"])
             return [values]
 
-        return values_dict.values()
+        return list(values_dict.values())
 
     @classmethod
     def _values_iterator(cls, ws, alignment, header_coord, ini, end):

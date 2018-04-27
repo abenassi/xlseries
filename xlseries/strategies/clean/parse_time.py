@@ -459,7 +459,7 @@ class BaseComposedQuarter():
         # replace strings and convert to int
         if type(quarter_number) != int:
             quarter_number = unicode(quarter_number)
-            for orig, new in replacements.iteritems():
+            for orig, new in replacements.items():
                 quarter_number = quarter_number.replace(orig, new)
             quarter_number = int(quarter_number.strip())
 
@@ -747,7 +747,7 @@ class BaseComposedSemester():
         # replace strings and convert to int
         if type(semester_number) != int:
             semester_number = unicode(semester_number)
-            for orig, new in replacements.iteritems():
+            for orig, new in replacements.items():
                 semester_number = semester_number.replace(orig, new)
             semester_number = int(semester_number.strip())
 

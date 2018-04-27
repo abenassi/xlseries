@@ -252,7 +252,7 @@ class Parameters(object):
                 params_def["headers_coord"])
 
         # apply single provided parameters to all series
-        for param_name in params_def.keys():
+        for param_name in list(params_def.keys()):
             params_def[param_name] = cls._apply_to_all(
                 param_name, params_def[param_name], num_series, params_def,
                 cls.VALID_VALUES[param_name])
@@ -331,7 +331,7 @@ class Parameters(object):
 
         series_params = Parameters().__dict__
 
-        for param_name in series_params.keys():
+        for param_name in list(series_params.keys()):
             if self[param_name] is not None:
                 series_params[param_name] = self[param_name][i_series]
 
@@ -428,13 +428,13 @@ class Parameters(object):
     def get_critical_params_template(cls):
         """Return a template dictionary of critical params."""
         return {param: value for param, value in
-                cls.CRITICAL.iteritems() if
+                cls.CRITICAL.items() if
                 param in cls.CRITICAL}
 
     @classmethod
     def get_complete_params_template(cls):
         """Return a template dictionary of critical params."""
-        return dict(cls.CRITICAL.items() + cls.DEFAULT_VALUES.items())
+        return dict(list(cls.CRITICAL.items()) + list(cls.DEFAULT_VALUES.items()))
 
     def compact_repr(self):
         """Return a dict of the parameters in their compact representation.
@@ -473,7 +473,7 @@ class Parameters(object):
     def _validate_parameters(cls, params_dict, valid_values):
         """Check that all values of the parameters are valid."""
 
-        for param_name, param_value in params_dict.iteritems():
+        for param_name, param_value in params_dict.items():
 
             # if a parameter is not provided, its validity cannot be checked
             if param_value is None:
@@ -496,7 +496,7 @@ class Parameters(object):
                         raise InvalidParameter(param_name, value,
                                                valid_values[param_name])
                     else:
-                        for context_value in param_value.values():
+                        for context_value in list(param_value.values()):
                             if not cls._valid_param_value(
                                     context_value, valid_values[param_name]):
                                 raise InvalidParameter(param_name,
@@ -649,10 +649,10 @@ class Parameters(object):
         """
 
         # unpack context ranges first
-        for context_name, context_coords in context.iteritems():
+        for context_name, context_coords in context.items():
             context[context_name] = cls._unpack_header_ranges(context_coords)
 
-        ordered_context = sorted(context.iteritems(),
+        ordered_context = sorted(iter(context.items()),
                                  key=lambda tup: common_row_or_column(tup[1]))
 
         new_context = [[] for hc in headers_coord]
@@ -853,7 +853,7 @@ class Parameters(object):
         """Count number of series present in parameters."""
 
         num_series = None
-        for param_name, param_value in params.iteritems():
+        for param_name, param_value in params.items():
             if type(param_value) == list and param_name != "missing_value":
                 if not num_series or len(param_value) > num_series:
                     num_series = len(param_value)
