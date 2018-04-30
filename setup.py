@@ -20,7 +20,7 @@ with open('PYPI_LONG_DESCRIPTION.rst') as readme_file:
 
 setup(
     name='xlseries',
-    version='0.1.26',
+    version='0.2.0',
     description="Python package to scrape time series data from excel files.",
     long_description=readme,
     author="Agustin Benassi",
@@ -48,8 +48,8 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
         'Natural Language :: English',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.5',
         'Topic :: Office/Business'
     ],
     test_suite='nose.collector',
