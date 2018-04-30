@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""
+parameters
+
+This module contains the parameters object used by ParameterDiscovery strategy
+and all the secondary ones used for it.
+"""
+
 import json
 import pprint
 from openpyxl import Workbook
@@ -8,13 +15,6 @@ from copy import deepcopy
 
 from xlseries.utils.xl_methods import xl_coordinates_range, consecutive_cells
 from xlseries.utils.xl_methods import common_row_or_column, coord_in_scope
-
-"""
-parameters
-
-This module contains the parameters object used by ParameterDiscovery strategy
-and all the secondary ones used for it.
-"""
 
 
 # EXCEPTIONS
@@ -652,8 +652,10 @@ class Parameters(object):
         for context_name, context_coords in context.items():
             context[context_name] = cls._unpack_header_ranges(context_coords)
 
-        ordered_context = sorted(iter(context.items()),
-                                 key=lambda tup: common_row_or_column(tup[1]))
+        ordered_context = sorted(
+            iter(context.items()),
+            key=lambda tup: len(tup[1]), reverse=True
+        )
 
         new_context = [[] for hc in headers_coord]
         for hc_context, header_coord in zip(new_context, headers_coord):
