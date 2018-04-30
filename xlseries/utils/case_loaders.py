@@ -7,8 +7,6 @@ case_loaders
 Auxiliar methods to quickly load an integration case file.
 """
 
-from __future__ import print_function
-from __future__ import unicode_literals
 import os
 from openpyxl import load_workbook
 
@@ -105,6 +103,5 @@ def load_expected_case(case_num=1, special_case=None):
 
 
 def _gen_filename(case_num=1, special_case="", file_format="xlsx"):
-        special_case = special_case or ""
-        return "test_case{}{}.{}".format(case_num, special_case, file_format)
-
+    special_case = special_case or ""
+    return "test_case{}{}.{}".format(case_num, special_case, file_format)

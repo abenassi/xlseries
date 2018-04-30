@@ -7,7 +7,6 @@ comparing
 Auxiliar methods to compare approximate values.
 """
 
-from __future__ import unicode_literals
 import numpy as np
 
 
@@ -28,7 +27,7 @@ def approx_equal(a, b, tolerance=0.00001):
     if a == b:
         RV = True
 
-    elif isinstance(a, unicode) and isinstance(b, unicode):
+    elif isinstance(a, str) and isinstance(b, str):
         RV = a == b
 
     elif (not a) and (not b):

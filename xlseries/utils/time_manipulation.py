@@ -7,7 +7,6 @@ time_manipulation
 Small useful time related methods.
 """
 
-from __future__ import unicode_literals
 import arrow
 import datetime
 from .comparing import approx_equal
@@ -19,8 +18,8 @@ class InvalidTimeFrequency(Exception):
 
     def __init__(self, time, frequency):
         msg = " ".join(["Frequency is invalid for incrementing time.\n",
-                        "Time:", unicode(time),
-                        "Frequency:", unicode(frequency)])
+                        "Time:", str(time),
+                        "Frequency:", str(frequency)])
         super(InvalidTimeFrequency, self).__init__(msg)
 
 

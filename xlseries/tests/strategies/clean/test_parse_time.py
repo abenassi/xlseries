@@ -6,7 +6,6 @@ test_parse_time
 
 Tests for `parse_time` module.
 """
-from __future__ import unicode_literals
 import unittest
 import nose
 import arrow
@@ -195,9 +194,9 @@ class ParseComposedTimeTest(unittest.TestCase):
             strategy: Strategy to parse the case.
         """
         if not external:
-            case = "test_case" + unicode(case_num)
+            case = "test_case" + str(case_num)
         else:
-            case = "external_case" + unicode(case_num)
+            case = "external_case" + str(case_num)
 
         with open(os.path.join(abs_path("original"),
                                "parse_time.json")) as f:

@@ -11,7 +11,6 @@ Be aware that every class in this namespace whose name doesn't start with
 looking for accepting or refusing certain input.
 """
 
-from __future__ import unicode_literals
 from pprint import pprint
 from openpyxl.utils import column_index_from_string
 import pandas as pd

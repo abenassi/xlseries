@@ -12,8 +12,6 @@ The preconditions of all the strategies is that the strings passed to them must
 be time values, otherwise an exception will be raised.
 """
 
-from __future__ import print_function
-from __future__ import unicode_literals
 from pprint import pprint
 import arrow
 import datetime
@@ -28,12 +26,14 @@ import xlseries.utils.strategies_helpers
 PYTHON2 = sys.version_info[0] == 2
 
 # EXCEPTIONS
+
+
 class NoPossibleTimeValue(ValueError):
 
     """Raised if the value is not a possible time value."""
 
     def __init__(self, value):
-        msg = " ".join([unicode(type(value)), unicode(value),
+        msg = " ".join([str(type(value)), str(value),
                         "is not a possible time value."])
         super(NoPossibleTimeValue, self).__init__(msg)
 
@@ -46,7 +46,7 @@ class TimeIsNotComposed(ValueError):
     False."""
 
     def __init__(self, value):
-        msg = " ".join([unicode(type(value)), unicode(value),
+        msg = " ".join([str(type(value)), str(value),
                         "is not a composed time, time_composed should be set"
                         "False."])
         super(TimeIsNotComposed, self).__init__(msg)
@@ -57,12 +57,12 @@ class NoTimeValue(ValueError):
     """Raised if the value is not an arrow.Arrow time value."""
 
     def __init__(self, value, last_time=None, next_time=None):
-        msg = " ".join([unicode(type(value)), unicode(value),
+        msg = " ".join([str(type(value)), str(value),
                         "is not an arrow.Arrow time value."])
         if last_time:
-            msg += "\nLast:" + unicode(last_time)
+            msg += "\nLast:" + str(last_time)
         if next_time:
-            msg += "\nNext:" + unicode(next_time)
+            msg += "\nNext:" + str(next_time)
 
         super(NoTimeValue, self).__init__(msg)
 
@@ -73,8 +73,8 @@ class BaseDateMemberOutOfRange(ValueError):
 
     def __init__(self, curr_time, grammar_result):
         msg = " ".join(["Time value doesn't make sense.",
-                        unicode(curr_time), "has been converted into",
-                        unicode(grammar_result)])
+                        str(curr_time), "has been converted into",
+                        str(grammar_result)])
         super(BaseDateMemberOutOfRange, self).__init__(msg)
 
 
@@ -114,7 +114,7 @@ class BaseParseTimeStrategy(object):
                 input.
         """
         # import pdb; pdb.set_trace()
-        if isinstance(curr_time, unicode) or isinstance(curr_time, str):
+        if isinstance(curr_time, str) or isinstance(curr_time, str):
             curr_time = unidecode(curr_time).strip()
 
         if cls._already_time_value(curr_time):
@@ -130,14 +130,14 @@ class BaseParseTimeStrategy(object):
                 raise NoTimeValue(last_time)
 
             if isinstance(curr_time, float):
-                float_to_uni = cls._accepts(params, unicode(curr_time),
+                float_to_uni = cls._accepts(params, str(curr_time),
                                             last_time, next_time)
-                float_to_int = cls._accepts(params, unicode(int(curr_time)),
+                float_to_int = cls._accepts(params, str(int(curr_time)),
                                             last_time, next_time)
                 # print float_to_uni, float_to_int
                 return float_to_uni or float_to_int
             else:
-                return cls._accepts(params, unicode(curr_time), last_time,
+                return cls._accepts(params, str(curr_time), last_time,
                                     next_time)
 
     def parse_time(self, params, curr_time, last_time=None, next_time=None):
@@ -152,7 +152,7 @@ class BaseParseTimeStrategy(object):
         Returns:
             An arrow.Arrow time value.
         """
-        if isinstance(curr_time, unicode):
+        if isinstance(curr_time, str):
             curr_time = unidecode(curr_time).strip()
 
         # time format is correct
@@ -163,19 +163,19 @@ class BaseParseTimeStrategy(object):
             RV = arrow.get(curr_time)
 
         elif (isinstance(curr_time, str) or
-            isinstance(curr_time, int) or
-            (PYTHON2 and isinstance(curr_time, long))):
-            RV = self._parse_time(params, unicode(curr_time), last_time,
+              isinstance(curr_time, int) or
+              (PYTHON2 and isinstance(curr_time, long))):
+            RV = self._parse_time(params, str(curr_time), last_time,
                                   next_time)
         elif isinstance(curr_time, float):
             try:
-                RV = self._parse_time(params, unicode(int(curr_time)),
+                RV = self._parse_time(params, str(int(curr_time)),
                                       last_time, next_time)
             except:
-                RV = self._parse_time(params, unicode(curr_time),
+                RV = self._parse_time(params, str(curr_time),
                                       last_time, next_time)
         else:
-            assert isinstance(curr_time, unicode), "Current is not unicode."
+            assert isinstance(curr_time, str), "Current is not unicode."
 
             time_value = self._parse_time(params, curr_time,
                                           last_time, next_time)
@@ -226,7 +226,7 @@ class BaseParseTimeStrategy(object):
         if not dob_year:
             return None
 
-        if isinstance(dob_year, str) or isinstance(dob_year, unicode):
+        if isinstance(dob_year, str) or isinstance(dob_year, str):
             if len(dob_year) == 4:
                 return int(dob_year)
             else:
@@ -462,7 +462,7 @@ class BaseComposedQuarter():
 
         # replace strings and convert to int
         if not isinstance(quarter_number, int):
-            quarter_number = unicode(quarter_number)
+            quarter_number = str(quarter_number)
             for orig, new in replacements.items():
                 quarter_number = quarter_number.replace(orig, new)
             quarter_number = int(quarter_number.strip())
@@ -750,7 +750,7 @@ class BaseComposedSemester():
 
         # replace strings and convert to int
         if not isinstance(semester_number, int):
-            semester_number = unicode(semester_number)
+            semester_number = str(semester_number)
             for orig, new in replacements.items():
                 semester_number = semester_number.replace(orig, new)
             semester_number = int(semester_number.strip())
@@ -1047,4 +1047,3 @@ if __name__ == '__main__':
     import doctest
     doctest.testmod()
     pprint(sorted(xlseries.utils.strategies_helpers.get_strategies_names()))
-

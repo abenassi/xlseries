@@ -7,7 +7,6 @@ test_data_frame
 Tests for `data_frame` utils module.
 """
 
-from __future__ import unicode_literals
 import unittest
 import nose
 import os
@@ -36,7 +35,7 @@ class XlMethodsTest(unittest.TestCase):
         """
 
         base_dir = os.path.join(os.path.dirname(__file__), directory)
-        path = os.path.join(base_dir, "test_case" + unicode(case_num) +
+        path = os.path.join(base_dir, "test_case" + str(case_num) +
                             "." + file_format)
         dfs = func(path)
 

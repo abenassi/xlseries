@@ -13,7 +13,6 @@ Rather import the module in which the Class is defined and use it like
 automatically taken by "get_strategies" and exposed to the user.
 """
 
-from __future__ import unicode_literals
 from pprint import pprint
 import arrow
 import datetime
@@ -76,7 +75,7 @@ class BaseGetDataStrategy(object):
             name = series_names
 
         else:
-            name = unidecode(unicode(ws[header_coord].value)).strip()
+            name = unidecode(str(ws[header_coord].value)).strip()
 
             if composed_headers_coord:
                 msg = " ".join(["Composed is not list",
@@ -140,7 +139,7 @@ class BaseGetDataStrategy(object):
         if alignment == "vertical":
             col = ws[header_coord].column
             for row in range(ini, end + 1):
-                yield (ws[col + unicode(row)].value, row)
+                yield (ws[col + str(row)].value, row)
 
         elif alignment == "horizontal":
             row = ws[header_coord].row
@@ -157,7 +156,7 @@ class BaseGetDataStrategy(object):
         if alignment == "vertical":
             for row in range(ini, end + 1):
                 col = cls._time_header_cell(ws, time_header_coord).column
-                yield ws[col + unicode(row)].value
+                yield ws[col + str(row)].value
 
         elif alignment == "horizontal":
             for col in range(ini, end + 1):
@@ -306,7 +305,7 @@ class BaseContinuous():
             return None
 
         if missings:
-            if isinstance(value, str) or isinstance(value, unicode):
+            if isinstance(value, str) or isinstance(value, str):
                 value = value.strip()
 
             if value not in missing_value:
@@ -316,7 +315,7 @@ class BaseContinuous():
                     return float(value)
                 except:
                     # print args_without_values
-                    raise Exception("Value is not valid " + unicode(value))
+                    raise Exception("Value is not valid " + str(value))
             else:
                 return np.nan
         else:
@@ -346,7 +345,7 @@ class BaseNonContinuous():
 
         if params["alignment"] == "vertical":
             time_col = ws[time_header_coord].column
-            time_coord = time_col + unicode(index + params["time_alignment"])
+            time_coord = time_col + str(index + params["time_alignment"])
             time_value = ws[time_coord].value
 
         elif params["alignment"] == "horizontal":
@@ -363,7 +362,7 @@ class BaseNonContinuous():
     @classmethod
     def _handle_new_value(cls, values, value, missings, missing_value,
                           blank_rows):
-        if ((isinstance(value, str) or isinstance(value, unicode)) and
+        if ((isinstance(value, str) or isinstance(value, str)) and
                 value.strip() == ""):
             value = None
 

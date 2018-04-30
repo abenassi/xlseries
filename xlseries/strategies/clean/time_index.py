@@ -34,9 +34,9 @@ class BaseProgressionError(ValueError):
     """Raised when the progression of a time value is wrong."""
 
     def get_msg(self, curr_time, exp_time, last_time):
-        return " ".join(["Last:", unicode(last_time),
-                         "\nExpected:", unicode(exp_time),
-                         "\nCurrent:", unicode(curr_time)])
+        return " ".join(["Last:", str(last_time),
+                         "\nExpected:", str(exp_time),
+                         "\nCurrent:", str(curr_time)])
 
 
 class TimeValueGoingBackwards(BaseProgressionError):
@@ -85,8 +85,8 @@ class SameTimeValue(ValueError):
     """Raised if the value is the same as the last one."""
 
     def __init__(self, value, last_value):
-        msg = " ".join(["Current value", unicode(value),
-                        "is the same as the last value", unicode(last_value)])
+        msg = " ".join(["Current value", str(value),
+                        "is the same as the last value", str(last_value)])
         super(SameTimeValue, self).__init__(msg)
 
 
@@ -186,7 +186,7 @@ class BaseCleanTiStrategy(object):
 
     @classmethod
     def _must_be_time_value(cls, value, next_time, last_time):
-        return ((value is not None) and (len(unicode(value).strip()) > 0))
+        return ((value is not None) and (len(str(value).strip()) > 0))
 
     @classmethod
     def _estimate_end(cls, alignment, last_cell, start, time_alignment):
@@ -231,7 +231,7 @@ class BaseCleanTiStrategy(object):
                 next_time = cls._get_time_value(ws, time_header_coord,
                                                 f_row=row + 1)
                 col = cls._time_header_cell(ws, time_header_coord).column
-                write_time_cell = ws[col + unicode(row)]
+                write_time_cell = ws[col + str(row)]
 
                 yield (curr_time, next_time, write_time_cell)
 
@@ -522,10 +522,11 @@ class BaseSingleColumn():
     @classmethod
     def _get_time_value(cls, ws, time_header_coord, f_row=None, f_col=None):
         """Returns the time value corresponding a certain series and row."""
-        assert not isinstance(time_header_coord, list), "Time header should be a str."
+        assert not isinstance(
+            time_header_coord, list), "Time header should be a str."
 
-        col = unicode(f_col or ws[time_header_coord].column)
-        row = unicode(f_row or ws[time_header_coord].row)
+        col = str(f_col or ws[time_header_coord].column)
+        row = str(f_row or ws[time_header_coord].row)
 
         return ws[col + row].value
 
@@ -545,20 +546,21 @@ class BaseMultipleColumns():
 
         Concatenate all the values of the time header columns in a unique
         string."""
-        assert isinstance(time_header_coord, list), "Time header should be a list."
+        assert isinstance(time_header_coord,
+                          list), "Time header should be a list."
 
         time_value_list = []
 
         for coord in time_header_coord:
-            col = unicode(f_col or ws[coord].column)
-            row = unicode(f_row or ws[coord].row)
+            col = str(f_col or ws[coord].column)
+            row = str(f_row or ws[coord].row)
             value = ws[col + row].value
 
             msg = "there shouldn't be time values in multicolumn!"
             assert not isinstance(value, datetime.datetime), msg
 
             if value:
-                time_value_list.append(cls._safe_unicode(value))
+                time_value_list.append(cls._safe_str(value))
 
         time_value = " ".join(time_value_list)
 
@@ -568,12 +570,12 @@ class BaseMultipleColumns():
             return None
 
     @classmethod
-    def _safe_unicode(cls, value):
+    def _safe_str(cls, value):
         """Check if the value is a number before make it unicode."""
         try:
-            return unicode(int(value))
+            return str(int(value))
         except:
-            return unicode(value)
+            return str(value)
 
 
 class BaseOffsetTi():

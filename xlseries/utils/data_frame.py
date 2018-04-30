@@ -6,8 +6,6 @@ data_frame
 
 Auxiliar methods to load and manipulate data frames.
 """
-from __future__ import print_function
-from __future__ import unicode_literals
 import pandas as pd
 from openpyxl import load_workbook
 import os
@@ -275,7 +273,7 @@ def compare_data_frames(df1, df2):
 
 def _diff_msg(msg, elem1, elem2):
     """Creates a message for elements that differ in an assertion."""
-    return msg + ": " + unicode(elem1) + " != " + unicode(elem2)
+    return msg + ": " + str(elem1) + " != " + str(elem2)
 
 
 def _check_columns(cols1, cols2):

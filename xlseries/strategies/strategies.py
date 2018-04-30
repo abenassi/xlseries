@@ -565,7 +565,7 @@ Last attempt was:
         if index <= 1:
             return name
         else:
-            return name + "." + unicode(index)
+            return name + "." + str(index)
 
 
 def get_strategies():

@@ -7,8 +7,6 @@ test_xlseries
 Tests for `xlseries` module.
 """
 
-from __future__ import print_function
-
 import unittest
 import nose
 from functools import wraps

@@ -7,8 +7,6 @@ xl_methods
 Useful methods for excel operations and related manipulations.
 """
 
-from __future__ import print_function
-
 from openpyxl import Workbook
 from openpyxl.utils import column_index_from_string
 import xlrd
@@ -153,7 +151,7 @@ def open_xls_as_xlsx(filename, data_only=True):
     Returns:
         Workbook: An openpyxl.Workbook.
     """
-    assert filename[-4:] == ".xls", unicode(filename) + " is not an .xls file."
+    assert filename[-4:] == ".xls", str(filename) + " is not an .xls file."
 
     wb_old = xlrd.open_workbook(filename)
     # TODO: data_only attribute must be changed because is deprecated
@@ -200,7 +198,7 @@ def make_wb_copy(wb):
         ws_copy = wb_copy.create_sheet(title=ws.title)
         for row in ws.rows:
             for cell in row:
-                cell_copy = ws_copy[cell.column + unicode(cell.row)]
+                cell_copy = ws_copy[cell.column + str(cell.row)]
                 cell_copy.value = cell.value
 
     return wb_copy
@@ -224,7 +222,7 @@ def make_ws_copy(ws):
     ws_copy = wb_copy.create_sheet(title=ws.title)
     for row in ws.rows:
         for cell in row:
-            cell_copy = ws_copy[cell.column + unicode(cell.row)]
+            cell_copy = ws_copy[cell.column + str(cell.row)]
             cell_copy.value = cell.value
 
     return ws_copy
@@ -300,7 +298,7 @@ def normalize_value(value):
     """Strip spaces if the value is a string, convert None to empty string or
     let it pass otherwise."""
 
-    if isinstance(value, unicode) or isinstance(value, str):
+    if isinstance(value, str):
         return value.strip()
     elif value is None:
         return ""
@@ -329,7 +327,7 @@ def _safe_str(value):
     if not value:
         RV = str(value)
 
-    elif isinstance(value, str) or isinstance(value, unicode):
+    elif isinstance(value, str):
         RV = value.encode("utf-8")
 
     else:
@@ -349,7 +347,7 @@ def print_xl_range(ws, cells_range="A1:E10", width=15):
     for row in ws[cells_range]:
 
         for cell in row:
-            value = unicode(cell.coordinate) + ": " + unicode(cell.value)
+            value = str(cell.coordinate) + ": " + str(cell.value)
 
             # fix length of value representation
             if len(value) > width:
@@ -371,4 +369,3 @@ def print_xl_range(ws, cells_range="A1:E10", width=15):
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
-

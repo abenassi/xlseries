@@ -62,10 +62,10 @@ class Parameters(object):
         "alignment": [u"vertical", u"horizontal"],
 
         # headers
-        "series_names": [str, unicode, None],
-        "headers_coord": [str, unicode],
-        "composed_headers_coord": [list, str, unicode, None],
-        "context": [dict, list, str, unicode, None],
+        "series_names": [str, str, None],
+        "headers_coord": [str, str],
+        "composed_headers_coord": [list, str, str, None],
+        "context": [dict, list, str, str, None],
 
         # data
         "data_starts": [int],
@@ -78,7 +78,7 @@ class Parameters(object):
         # time
         "time_alignment": [-1, 0, 1],
         "time_multicolumn": [True, False],
-        "time_header_coord": [str, unicode, list],
+        "time_header_coord": [str, str, list],
         "time_composed": [True, False],
         "frequency": ["A", "S", "Q", "M", "W", "D"]
     }
@@ -179,10 +179,10 @@ class Parameters(object):
             return deepcopy(params_input)
 
         elif (isinstance(params_input, Parameters) or
-              unicode(type(params_input)) == cls.TYPE_PARAMETERS):
+              str(type(params_input)) == cls.TYPE_PARAMETERS):
             return params_input.__dict__
 
-        elif ((isinstance(params_input, str) or isinstance(params_input, unicode)) and
+        elif ((isinstance(params_input, str) or isinstance(params_input, str)) and
               params_input[-5:] == ".json"):
             with open(params_input) as f:
                 return json.load(f)
@@ -569,7 +569,7 @@ class Parameters(object):
     @classmethod
     def _unpack_header_ranges_generator(cls, coord_param):
 
-        if isinstance(coord_param, str) or isinstance(coord_param, unicode):
+        if isinstance(coord_param, str) or isinstance(coord_param, str):
             if "-" not in coord_param and ":" not in coord_param:
                 yield coord_param.upper()
             else:
@@ -816,7 +816,7 @@ class Parameters(object):
                 return time_header_coord
             else:
                 raise ValueError("time_header_coord list of lists has to be" +
-                                 " of " + unicode(num_series) + " length.")
+                                 " of " + str(num_series) + " length.")
 
         elif isinstance(params["time_multicolumn"], list):
             time_multicolumn = params["time_multicolumn"][0]
@@ -843,7 +843,7 @@ class Parameters(object):
 
         else:
             msg = "If missing values are specified for every single " + \
-                "series, you must specify them for the " + unicode(num_series)
+                "series, you must specify them for the " + str(num_series)
             assert len(missing_value) == num_series, msg
             return missing_value
 

@@ -7,7 +7,6 @@ path_finders
 Auxiliar methods to quickly find a directory in the package.
 """
 
-from __future__ import unicode_literals
 import os
 import sys
 import inspect
@@ -55,7 +54,7 @@ def get_param_cases_path(case_num=None):
 
     # if a case number is provided, return full path to the file
     else:
-        file_name = "test_case" + unicode(case_num) + ".json"
+        file_name = "test_case" + str(case_num) + ".json"
         return os.path.join(base_dir, file_name)
 
 
@@ -82,7 +81,7 @@ def get_orig_cases_path(case_num=None):
 
     # if a case number is provided, return full path to the file
     else:
-        file_name = "test_case" + unicode(case_num) + ".xlsx"
+        file_name = "test_case" + str(case_num) + ".xlsx"
         return os.path.join(base_dir, file_name)
 
 
@@ -109,7 +108,7 @@ def get_exp_cases_path(case_num=None):
 
     # if a case number is provided, return full path to the file
     else:
-        file_name = "test_case" + unicode(case_num) + ".xlsx"
+        file_name = "test_case" + str(case_num) + ".xlsx"
         return os.path.join(base_dir, file_name)
 
 
@@ -135,7 +134,7 @@ def get_screenshot_cases_path(case_num=None):
 
     # if a case number is provided, return full path to the file
     else:
-        file_name = "test_case" + unicode(case_num) + ".png"
+        file_name = "test_case" + str(case_num) + ".png"
         return os.path.join(base_dir, file_name)
 
 
