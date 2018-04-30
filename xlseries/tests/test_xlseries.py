@@ -62,7 +62,10 @@ class TestXlSeriesWithAllParameters(unittest.TestCase):
         if not isinstance(exp_dfs, list):
             exp_dfs = [exp_dfs]
 
-        for test_df, exp_df in zip(test_dfs, exp_dfs):
+        for test_df, exp_df in zip(
+            sorted(test_dfs, key=lambda x: len(x) + len(x.index)),
+            sorted(exp_dfs, key=lambda x: len(x) + len(x.index))
+        ):
             print(test_df.columns, exp_df.columns)
             self.assertTrue(compare_data_frames(test_df, exp_df))
 
@@ -134,7 +137,10 @@ class TestXlSeriesWithoutSomeParameters(unittest.TestCase):
         if not isinstance(exp_dfs, list):
             exp_dfs = [exp_dfs]
 
-        for test_df, exp_df in zip(test_dfs, exp_dfs):
+        for test_df, exp_df in zip(
+            sorted(test_dfs, key=lambda x: len(x) + len(x.index)),
+            sorted(exp_dfs, key=lambda x: len(x) + len(x.index))
+        ):
             self.assertTrue(compare_data_frames(test_df, exp_df))
 
     # @unittest.skip("skip")
