@@ -403,8 +403,8 @@ class Parameters(object):
         """Remove series whose headers are None values in the worksheet."""
 
         removed = 0
-        for index, (header_coord, composed_hc) in enumerate(zip(
-                self.headers_coord, self.composed_headers_coord)):
+        for index, (header_coord, composed_hc) in list(enumerate(zip(
+                self.headers_coord, self.composed_headers_coord))):
 
             not_header = not ws[header_coord].value
             not_composed_headers = (not composed_hc or

@@ -553,6 +553,7 @@ class BaseMultipleColumns():
 
         time_value_list = []
 
+        # print(time_header_coord)
         for coord in time_header_coord:
             col = str(f_col or ws[coord].column)
             row = str(f_row or ws[coord].row)
@@ -561,7 +562,7 @@ class BaseMultipleColumns():
             msg = "there shouldn't be time values in multicolumn!"
             assert not isinstance(value, datetime.datetime), msg
 
-            if value:
+            if value and value != "None":
                 time_value_list.append(cls._safe_str(value))
 
         time_value = " ".join(time_value_list)
