@@ -453,9 +453,11 @@ class BaseAccepts():
     def _base_cond(cls, ws, params):
         """Check that all base classes accept the input."""
         for base in cls.__bases__:
-            if (base is not BaseCleanTiStrategy and
+            if (
+                base is not BaseCleanTiStrategy and
                 base is not cls and
-                    not base._accepts(ws, params)):
+                (hasattr(base, "_accepts") and not base._accepts(ws, params))
+            ):
                 return False
         return True
 

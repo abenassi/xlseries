@@ -201,8 +201,10 @@ class BaseAccepts():
     def _base_cond(cls, ws, params):
         """Check that all base classes accept the input."""
         for base in cls.__bases__:
-            if (base is not BaseGetDataStrategy and
-                    not base._accepts(ws, params)):
+            if (
+                base is not BaseGetDataStrategy and
+                (hasattr(base, "_accepts") and not base._accepts(ws, params))
+            ):
                 return False
         return True
 
