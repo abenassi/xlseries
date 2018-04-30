@@ -273,8 +273,8 @@ def compare_cells_ws(ws1, ws2):
     for row1, row2 in zip(ws1.rows, ws2.rows):
         for cell1, cell2 in zip(row1, row2):
 
-            msg = "".join([_safe_str(cell1.value), " != ",
-                           _safe_str(cell2.value), "\nrow: ",
+            msg = "".join([str(cell1.value), " != ",
+                           str(cell2.value), "\nrow: ",
                            str(cell1.row),
                            " column: ", str(cell1.column)])
 
@@ -322,20 +322,6 @@ def normalize_time_value(value):
         return value
 
 
-def _safe_str(value):
-
-    if not value:
-        RV = str(value)
-
-    elif isinstance(value, str):
-        RV = value.encode("utf-8")
-
-    else:
-        RV = str(value)
-
-    return RV
-
-
 def print_xl_range(ws, cells_range="A1:E10", width=15):
     """Print a representation of an excel cells range.
 
@@ -365,6 +351,7 @@ def print_xl_range(ws, cells_range="A1:E10", width=15):
         for cell in row:
             print("| " + "-" * (width), end=' ')
         print("| ")
+
 
 if __name__ == '__main__':
     import doctest

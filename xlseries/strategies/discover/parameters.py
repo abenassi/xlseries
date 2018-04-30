@@ -659,7 +659,7 @@ class Parameters(object):
         for hc_context, header_coord in zip(new_context, headers_coord):
             for context_item in ordered_context:
                 if coord_in_scope(header_coord, context_item[1]):
-                    hc_context.append(context_item[0].decode("utf-8"))
+                    hc_context.append(context_item[0])
 
         return new_context
 
