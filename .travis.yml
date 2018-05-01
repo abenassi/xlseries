@@ -2,7 +2,7 @@
 after_success: coveralls
 deploy:
   true:
-    python: 3.5
+    python: 3.6
     repo: abenassi/xlseries
     tags: true
   distributions: sdist bdist_wheel
@@ -17,8 +17,8 @@ install:
 language: python
 matrix:
   allow_failures:
-  - python: '3.4'
-  - python: '3.5'
+  - python: 3.4
+  - python: 3.5
 os:
 - linux
 python:
