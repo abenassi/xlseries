@@ -176,7 +176,7 @@ Some of the best institutions that collect and organize data are:
 
 * [FRED (Federal Reserve Economic Data)](http://research.stlouisfed.org/fred2/): Excel Add-In, website search, entire database downloadable.
 * [World Bank](http://data.worldbank.org/): API, python library, stata library, website search, entire database downloadable.
-* [OECD](http://stats.oecd.org/): API, webiste search.
+* [OECD](http://stats.oecd.org/): API, website search.
 
 ### Some common problems using data in developing countries (and in others too!)
 
@@ -265,7 +265,7 @@ The following parameters can be guessed by the package, but only if they **don't
 
 * **alignment**: "Vertical", "Horizontal" - *Alignment of the series in the spreadsheet.*
 * **time_multicolumn**: true (True), false (False) - *Indicates if a data series has a time index expressed in multiple columns that must be composed.*
-* **time_composed**: true (True), false (False) - *Indicates if a data series has a time index that has to be composed (not a straight forward date string) because some information about current date is taken from previous cells. Typically when year is only stated a the first quarter while the other three have only the quarter number.*
+* **time_composed**: true (True), false (False) - *Indicates if a data series has a time index that has to be composed (not a straight forward date string) because some information about current date is taken from previous cells. Typically when year is only stated at the first quarter while the other three have only the quarter number.*
 * **time_alignment**: 0, -1, +1 - *0: Time index run parallel to data, -1: Time value is right before data value cell, +1: Time value is right after data value cell.*
 * **continuity**: true (True), false (False) - *Indicates if a data series is interrupted by strings that are not data.*
 * **blank_rows**: true (True), false (False) - *Indicates if a data series is interrupted by blank rows.*
