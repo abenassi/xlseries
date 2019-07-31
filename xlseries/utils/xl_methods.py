@@ -7,6 +7,7 @@ xl_methods
 Useful methods for excel operations and related manipulations.
 """
 
+from __future__ import print_function
 from openpyxl import Workbook
 from openpyxl.utils import column_index_from_string
 import xlrd
