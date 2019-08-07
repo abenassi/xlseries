@@ -117,8 +117,8 @@ class XlSeries(object):
                                  str([name.encode("utf-8")
                                       for name in ws_names]),
                                  ws_name.encode("utf-8")))
-                print("Remember you can choose a different one passing a " + \
-                    "ws_name keyword argument.")
+                print("Remember you can choose a different one passing a " +
+                      "ws_name keyword argument.")
         else:
             ws_name = self._sanitize_ws_name(ws_name, ws_names)
 
@@ -140,13 +140,13 @@ class XlSeries(object):
         if ws_name_orig in ws_names:
             return ws_name_orig
 
-        elif unicode(ws_name_orig) in ws_names:
-            return unicode(ws_name_orig)
+        elif str(ws_name_orig) in ws_names:
+            return str(ws_name_orig)
 
         # check other ws names that may match
         else:
             for ws_name in ws_names:
-                if unicode(ws_name_orig).strip() == unicode(ws_name).strip():
+                if str(ws_name_orig).strip() == str(ws_name).strip():
                     return ws_name
 
             for ws_name in ws_names:
