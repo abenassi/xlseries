@@ -47,6 +47,7 @@ class XlSeries(object):
         else:
             self.wb = self._load_wb(xl_path_or_wb)
         self.params = {}
+        # print("XlSeries init!!!")
 
     @staticmethod
     def _load_wb(xl_path):

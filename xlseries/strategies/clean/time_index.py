@@ -306,6 +306,7 @@ class BaseCleanTiStrategy(object):
         # import pdb; pdb.set_trace()
         # if last parser doesn't work (or there is None), search again
         for strategy in parse_time_strategies.get_strategies():
+            # print("Considering strategy....: {}".format(strategy))
             if strategy.accepts(params, curr_time, last_time, next_time):
                 self.time_parser = strategy()
                 time_value = self.time_parser.parse_time(params, curr_time,
@@ -313,6 +314,7 @@ class BaseCleanTiStrategy(object):
 
                 assert isinstance(time_value, arrow.Arrow), msg
 
+                # print("Selected strategy: {}".format(strategy))
                 return time_value
 
         raise ParseTimeImplementationError(curr_time, last_time, next_time,

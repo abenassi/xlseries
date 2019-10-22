@@ -185,6 +185,14 @@
         "arrow.get(2004, 1, 1)",
         "arrow.get(2004, 7, 1)",
         "arrow.get(2005, 1, 1)"
+    ],
+
+    "external_case12": [
+        "arrow.get(1963, 7, 1)",
+        "arrow.get(1963, 10, 1)",
+        "arrow.get(1964, 1, 1)",
+        "arrow.get(1964, 4, 1)",
+        "arrow.get(1964, 7, 1)"
     ]
 
 }

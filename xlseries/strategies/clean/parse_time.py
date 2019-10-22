@@ -10,6 +10,11 @@ string in advance (yearly, quarterly, monthly..)
 
 The preconditions of all the strategies is that the strings passed to them must
 be time values, otherwise an exception will be raised.
+
+IMPORTANT!! Strategies are considered in alphabetical order... so you should
+use the numbers for similar strategies, if you need a particular strategy to
+be considered first. Remember to change numbers in the test_parse_time.py file
+as well.
 """
 
 from pprint import pprint
@@ -532,12 +537,50 @@ class ParseComposedQuarter2(BasePEG, BaseComposedQuarter):
     """Parse quarterly dates from strings composed by substrings with date
     info of the structure showed in the example.
 
+    >>> orig = ["III.1963",
+    ...         "IV.1963",
+    ...         "I.1964",
+    ...         "II.1964",
+    ...         "III.1964"]
+    >>> last = None
+    >>> time_parser = ParseComposedQuarter2()
+    >>> for str_date in orig:
+    ...     new = time_parser.parse_time({}, str_date, last)
+    ...     last = new
+    ...     print(new)
+    1963-07-01T00:00:00+00:00
+    1963-10-01T00:00:00+00:00
+    1964-01-01T00:00:00+00:00
+    1964-04-01T00:00:00+00:00
+    1964-07-01T00:00:00+00:00
+    """
+
+    @classmethod
+    def make_parsley_grammar(cls):
+        """Return a parsley parsing expression grammar."""
+        return parsley.makeGrammar("""
+                separator = anything:x ?(x in "-/.T ")
+                not_digit = anything:x ?(x not in "0123456789-/. ")
+                ref = ws '(' digit{1, 3} ')' ws | '*'
+
+                q = <not_digit*>:q -> q
+                y = <digit{4}>:y -> y
+
+                date = ws ref? q:q separator* y:y ref? ws anything{0, 3} -> (int(y), q_to_m(q), 1)
+                """, {"q_to_m": cls._quarter_num_to_month})
+
+
+class ParseComposedQuarter3(BasePEG, BaseComposedQuarter):
+
+    """Parse quarterly dates from strings composed by substrings with date
+    info of the structure showed in the example.
+
     >>> orig = ["2° Trim 07",
     ...         "u' 3 Trim 07 2'",
     ...         "4° Trim 07 ",
     ...         "1° Trim 08 "]
     >>> last = None
-    >>> time_parser = ParseComposedQuarter2()
+    >>> time_parser = ParseComposedQuarter3()
     >>> for str_date in orig:
     ...     new = time_parser.parse_time({}, str_date, last)
     ...     last = new
@@ -563,7 +606,7 @@ class ParseComposedQuarter2(BasePEG, BaseComposedQuarter):
                       "dob_year": cls._dob_year_to_four})
 
 
-class ParseComposedQuarter3(BasePEG, BaseComposedQuarter):
+class ParseComposedQuarter4(BasePEG, BaseComposedQuarter):
 
     """Parse quarterly dates from strings composed by substrings with date
     info of the structure showed in the example.
@@ -573,7 +616,7 @@ class ParseComposedQuarter3(BasePEG, BaseComposedQuarter):
     ...         "I 02",
     ...         "II 02"]
     >>> last = None
-    >>> time_parser = ParseComposedQuarter3()
+    >>> time_parser = ParseComposedQuarter4()
     >>> for str_date in orig:
     ...     new = time_parser.parse_time({}, str_date, last)
     ...     last = new
@@ -1039,8 +1082,9 @@ def get_strategies():
     """Return all the concrete strategies available in this module.
 
     This method avoid to return base classes and exceptions."""
-
-    return xlseries.utils.strategies_helpers.get_strategies()
+    strategies = xlseries.utils.strategies_helpers.get_strategies()
+    # print(strategies)
+    return strategies
 
 
 if __name__ == '__main__':

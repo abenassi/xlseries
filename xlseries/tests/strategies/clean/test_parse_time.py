@@ -23,6 +23,7 @@ from xlseries.strategies.clean.parse_time import ParseComposedQuarterYear1
 from xlseries.strategies.clean.parse_time import ParseComposedQuarter1
 from xlseries.strategies.clean.parse_time import ParseComposedQuarter2
 from xlseries.strategies.clean.parse_time import ParseComposedQuarter3
+from xlseries.strategies.clean.parse_time import ParseComposedQuarter4
 from xlseries.strategies.clean.parse_time import ParseComposedSemester
 from xlseries.strategies.clean.parse_time import ParseComposedMonth1
 from xlseries.strategies.clean.parse_time import ParseComposedMonth2
@@ -117,7 +118,7 @@ class ParseSimpleTimeTest(unittest.TestCase):
         last = arrow.get(2013, 10, 1).datetime
 
         with self.assertRaises(parsley.ParseError):
-            ParseComposedQuarter2().parse_time({}, no_time, last)
+            ParseComposedQuarter3().parse_time({}, no_time, last)
 
     def test_time_make_sense(self):
 
@@ -230,7 +231,7 @@ class ParseComposedTimeTest(unittest.TestCase):
     # @unittest.skip("skip")
     def test_parse_time_case4(self, case_num):
         """Parse a list of time values using _parse_time method."""
-        self.run_parse_time_case(case_num, ParseComposedQuarter2)
+        self.run_parse_time_case(case_num, ParseComposedQuarter3)
 
     @load_case_number()
     # @unittest.skip("skip")
@@ -296,37 +297,43 @@ class ParseComposedTimeTest(unittest.TestCase):
     # @unittest.skip("skip")
     def test_parse_time_external_case6(self, case_num):
         """Parse a list of time values from external case 6."""
-        self.run_parse_time_case(case_num, ParseComposedQuarter3, True)
+        self.run_parse_time_case(case_num, ParseComposedQuarter4, True)
 
     @load_case_number()
     # @unittest.skip("skip")
     def test_parse_time_external_case7(self, case_num):
         """Parse a list of time values from external case 7."""
-        self.run_parse_time_case(case_num, ParseComposedQuarter3, True)
+        self.run_parse_time_case(case_num, ParseComposedQuarter4, True)
 
     @load_case_number()
     # @unittest.skip("skip")
     def test_parse_time_external_case8(self, case_num):
         """Parse a list of time values from external case 8."""
-        self.run_parse_time_case(case_num, ParseComposedQuarter3, True)
+        self.run_parse_time_case(case_num, ParseComposedQuarter4, True)
 
     @load_case_number()
     # @unittest.skip("skip")
     def test_parse_time_external_case9(self, case_num):
         """Parse a list of time values from external case 9."""
-        self.run_parse_time_case(case_num, ParseComposedQuarter3, True)
+        self.run_parse_time_case(case_num, ParseComposedQuarter4, True)
 
     @load_case_number()
     # @unittest.skip("skip")
     def test_parse_time_external_case10(self, case_num):
-        """Parse a list of time values from external case 9."""
+        """Parse a list of time values from external case 10."""
         self.run_parse_time_case(case_num, ParseComposedYear2, True)
 
     @load_case_number()
     # @unittest.skip("skip")
     def test_parse_time_external_case11(self, case_num):
-        """Parse a list of time values from external case 9."""
+        """Parse a list of time values from external case 11."""
         self.run_parse_time_case(case_num, ParseComposedSemester, True)
+
+    @load_case_number()
+    # @unittest.skip("skip")
+    def test_parse_time_external_case12(self, case_num):
+        """Parse a list of time values from external case 12."""
+        self.run_parse_time_case(case_num, ParseComposedQuarter2, True)
 
 
 if __name__ == '__main__':
