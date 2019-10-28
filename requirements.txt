@@ -19,3 +19,5 @@ PyYAML==5.1.2
 six==1.12.0
 Unidecode==0.4.21
 xlrd==1.0.0
+decimal
+math
