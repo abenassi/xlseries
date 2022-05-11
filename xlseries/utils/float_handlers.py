@@ -9,10 +9,10 @@ unnecessary decimals due to precission issues.
 
 import decimal
 import math
-​
+
 import numpy as np
-​
-​
+
+
 
 
 def significant_figures(serie):
@@ -23,23 +23,23 @@ def significant_figures(serie):
     has a 2 significant figures value and another with 3 significant figures,
     series will have 3 significant figures.
     """
-​
+
     figures = 0
     serie = [x for x in serie if not np.isnan(x)]
     for value in serie:
         figure = infer_decimals(value)
         figures = max(figures, -figure)
-​
+
     return figures
-​
-​
+
+
 
 
 def truncate(number, digits) -> float:
     stepper = 10.0 ** digits
     return math.trunc(stepper * number) / stepper
-​
-​
+
+
 
 
 def infer_decimals(value):
