@@ -20,7 +20,7 @@ with open('PYPI_LONG_DESCRIPTION.rst') as readme_file:
 
 setup(
     name='xlseries',
-    version='0.2.5',
+    version='0.2.6',
     description="Python package to scrape time series data from excel files.",
     long_description=readme,
     author="Agustin Benassi",
@@ -28,7 +28,7 @@ setup(
     maintainer="Agustin Benassi",
     maintainer_email='agusbenassi@gmail.com',
     url='https://github.com/abenassi/xlseries',
-    download_url='https://github.com/abenassi/xlseries/archive/master.zip',
+    download_url='https://github.com/abenassi/xlseries/archive/0.2.6.tar.gz',
     packages=[
         'xlseries',
         'xlseries.strategies',
